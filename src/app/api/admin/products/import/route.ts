@@ -2,6 +2,7 @@ import { revalidatePath } from 'next/cache'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
 import { importWooCommerceBatch } from '@/lib/import/run-woocommerce-import'
+import type { WooCommerceProductRow } from '@/lib/import/woocommerce-csv'
 import { importBatchSchema } from '@/schemas/import-schema'
 
 export const maxDuration = 300
@@ -37,16 +38,25 @@ export async function POST(request: Request) {
   }
 
   try {
-    const rows = parsed.data.rows.map((row) => ({
-      ...row,
+    const rows: WooCommerceProductRow[] = parsed.data.rows.map((row) => ({
+      wooId: row.wooId,
+      name: row.name,
+      slug: row.slug,
       description: row.description ?? null,
       shortDescription: row.shortDescription ?? null,
       sku: row.sku ?? null,
       gtin: row.gtin ?? null,
+      price: row.price,
       originalPrice: row.originalPrice ?? null,
+      stock: row.stock,
+      active: row.active,
       brandName: row.brandName ?? null,
+      categoryNames: row.categoryNames,
+      images: row.images,
       metaTitle: row.metaTitle ?? null,
       metaDescription: row.metaDescription ?? null,
+      productType: row.productType,
+      variationCount: row.variationCount,
     }))
 
     const result = await importWooCommerceBatch(rows, {

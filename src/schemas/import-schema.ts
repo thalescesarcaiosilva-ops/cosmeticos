@@ -22,8 +22,8 @@ const wooProductRowSchema = z.object({
   ),
   metaTitle: z.string().max(70).nullable().optional(),
   metaDescription: z.string().max(160).nullable().optional(),
-  productType: z.enum(['simple', 'variable']).optional(),
-  variationCount: z.number().int().min(0).optional(),
+  productType: z.enum(['simple', 'variable']).default('simple'),
+  variationCount: z.number().int().min(0).default(0),
 })
 
 export const importBatchSchema = z.object({
