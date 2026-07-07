@@ -28,9 +28,9 @@ export function CategoryGrid({ items }: CategoryGridProps) {
           <li key={item.id} className="shrink-0 sm:shrink">
             <Link
               href={`/colecoes/${item.slug}`}
-              className="group flex w-[5.5rem] flex-col items-center gap-2 sm:w-24"
+              className="group flex w-[6rem] flex-col items-center gap-2 sm:w-32"
             >
-              <div className="relative size-[4.5rem] overflow-hidden rounded-full bg-[#e8f1f8] ring-1 ring-border/40 transition-transform duration-300 group-hover:scale-105 sm:size-20">
+              <div className="relative size-[4.5rem] overflow-hidden rounded-full bg-[#e8f1f8] ring-1 ring-border/40 transition-transform duration-300 group-hover:scale-105 sm:size-25">
                 {item.imageUrl ? (
                   <Image
                     src={item.imageUrl}

@@ -84,9 +84,7 @@ export const updateStoreProfileSchema = z.object({
   return_policy_notes: optionalText(2000),
   seo_handling_days_min: z.number().int().min(0).max(30).optional(),
   seo_handling_days_max: z.number().int().min(0).max(30).optional(),
-  google_analytics_id: optionalText(50),
-  google_tag_manager_id: optionalText(50),
-  microsoft_clarity_id: optionalText(50),
+  head_scripts: optionalText(50000),
 })
 
 export type StoreOpeningHoursSlot = z.infer<typeof storeOpeningHoursSlotSchema>

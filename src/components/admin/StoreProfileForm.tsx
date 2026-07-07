@@ -37,9 +37,7 @@ type StoreProfileFormData = {
   return_policy_notes: string | null
   seo_handling_days_min: number
   seo_handling_days_max: number
-  google_analytics_id: string | null
-  google_tag_manager_id: string | null
-  microsoft_clarity_id: string | null
+  head_scripts: string | null
   _storeProfileColumnsAvailable?: boolean
   policyPages?: PolicyPage[]
 }
@@ -168,8 +166,10 @@ export function StoreProfileForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {migrationNeeded && (
         <Alert type="info">
-          Aplique a migration <code className="text-xs">202507020002_store_profile_merchant.sql</code>{' '}
-          no Supabase para habilitar todos os campos (devoluções, horários, analytics).
+          Aplique as migrations{' '}
+          <code className="text-xs">202507020002_store_profile_merchant.sql</code> e{' '}
+          <code className="text-xs">202507070001_head_scripts.sql</code>{' '}
+          no Supabase para habilitar todos os campos (devoluções, horários, scripts no head).
         </Alert>
       )}
       {error && <Alert type="error">{error}</Alert>}
@@ -464,31 +464,32 @@ export function StoreProfileForm() {
       )}
 
       {tab === 'analytics' && (
-        <Card title="Tags de analytics">
+        <Card title="Scripts no &lt;head&gt;">
           <p className="mb-4 text-sm text-text-secondary">
-            IDs inseridos aqui são carregados em todas as páginas da loja (não no admin).
+            Cole aqui os trechos HTML de analytics (Google Tag, GTM, Meta Pixel, Clarity, etc.).
+            Eles são injetados no <code className="text-xs">&lt;head&gt;</code> de todas as páginas da
+            loja — não no painel admin.
           </p>
-          <div className="grid gap-4 md:grid-cols-2">
-            <Input
-              label="Google Tag (GT-… ou G-…)"
-              value={form.google_tag_manager_id ?? ''}
-              onChange={(e) => updateField('google_tag_manager_id', e.target.value || null)}
-              placeholder="GT-KT9KBDG4"
-            />
-            <Input
-              label="Google Analytics (G-…)"
-              value={form.google_analytics_id ?? ''}
-              onChange={(e) => updateField('google_analytics_id', e.target.value || null)}
-              placeholder="G-XXXXXXXXXX"
-            />
-            <Input
-              label="Microsoft Clarity"
-              value={form.microsoft_clarity_id ?? ''}
-              onChange={(e) => updateField('microsoft_clarity_id', e.target.value || null)}
-              placeholder="x4w2tvq4u6"
-              className="md:col-span-2"
-            />
-          </div>
+          <Textarea
+            label="Scripts HTML"
+            value={form.head_scripts ?? ''}
+            onChange={(e) => updateField('head_scripts', e.target.value || null)}
+            rows={14}
+            className="font-mono text-xs leading-relaxed"
+            placeholder={`<!-- Google Tag Manager -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>`}
+          />
+          <p className="mt-3 text-xs text-text-muted">
+            Aceita tags <code>&lt;script&gt;</code>, <code>&lt;meta&gt;</code>,{' '}
+            <code>&lt;link&gt;</code> e <code>&lt;style&gt;</code>. Cole exatamente como o provedor
+            fornece.
+          </p>
         </Card>
       )}
 

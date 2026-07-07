@@ -29,9 +29,7 @@ const EMPTY: StoreProfile = {
   return_policy_notes: null,
   seo_handling_days_min: 1,
   seo_handling_days_max: 2,
-  google_analytics_id: null,
-  google_tag_manager_id: null,
-  microsoft_clarity_id: null,
+  head_scripts: null,
 }
 
 export async function getPublicStoreProfile(): Promise<StoreProfile> {

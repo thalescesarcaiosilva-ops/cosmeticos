@@ -71,6 +71,7 @@ export async function PATCH(request: Request) {
 
   revalidateTag('site-layout', 'max')
   revalidatePath('/', 'layout')
+  revalidatePath('/fale-conosco')
 
   const message = paymentConfigSkipped
     ? 'Configurações salvas parcialmente. Execute supabase/migrations/202507010003_payment_methods_config.sql no Supabase para salvar formas de pagamento com ícone.'

@@ -6,6 +6,7 @@ import { PaymentIconsRow } from '@/components/payment/PaymentIconsRow'
 import type { FooterData } from '@/lib/layout/get-footer-data'
 
 type FooterProps = {
+  className?: string
   footerData: FooterData
 }
 
@@ -241,7 +242,7 @@ function FooterTrustStrip({ footerData }: { footerData: FooterData }) {
   )
 }
 
-export function Footer({ footerData }: FooterProps) {
+export function Footer({ className, footerData }: FooterProps) {
   const year = new Date().getFullYear()
   const { contact, legal, brand, menus, socialLinks } = footerData
 
@@ -266,7 +267,7 @@ export function Footer({ footerData }: FooterProps) {
   ].filter(Boolean)
 
   return (
-    <footer className="mt-auto border-t border-border bg-surface text-text-secondary">
+    <footer className={`mt-auto border-t border-border bg-surface text-text-secondary ${className ?? ''}`}>
       <div className="mx-auto max-w-[1200px] px-4 py-10 md:px-6 md:py-12">
         {(showBrand || showMenus || showContact) && (
           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">

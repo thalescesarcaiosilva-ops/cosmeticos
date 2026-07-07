@@ -4,16 +4,14 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
   IconCart,
-  IconChevronLeft,
-  IconChevronDown,
   IconCustomer,
   IconHeart,
   IconHelp,
   IconMenu,
   IconPhone,
-  IconWhatsapp,
 } from '@/components/icons/DotIcons'
 import type {
+  ContactPageLink,
   HelpLink,
   MenuCategory,
   PhoneContact,
@@ -22,8 +20,8 @@ import type {
 } from '@/types/layout'
 import { useCart } from '@/providers/CartProvider'
 import { useFavorites } from '@/providers/FavoritesProvider'
+import { MobileNavDrawer } from './MobileNavDrawer'
 import { SearchBar } from './SearchBar'
-import { ShippingPromoBar } from './ShippingPromoBar'
 import { StoreLogoMark } from './StoreLogo'
 
 type SiteHeaderProps = {
@@ -32,6 +30,7 @@ type SiteHeaderProps = {
   menuCategories: MenuCategory[]
   phone: PhoneContact
   helpLink: HelpLink
+  contactPage: ContactPageLink
   socialLinks: SocialLink[]
   overlay?: boolean
 }
@@ -42,6 +41,7 @@ export function SiteHeader({
   menuCategories,
   phone,
   helpLink,
+  contactPage,
   socialLinks,
   overlay = false,
 }: SiteHeaderProps) {
@@ -61,7 +61,6 @@ export function SiteHeader({
 
   return (
     <>
-      <ShippingPromoBar className="md:hidden" overlay={overlay} />
 
       <div className="header-container">
         <header className="header mx-auto max-w-[1200px] px-4 md:px-6">
@@ -176,58 +175,12 @@ export function SiteHeader({
         </header>
       </div>
 
-      {mobileMenuOpen && (
-        <>
-          <button
-            type="button"
-            className="fixed inset-0 z-[60] bg-black/40 md:hidden"
-            onClick={() => setMobileMenuOpen(false)}
-            aria-label="Fechar menu"
-          />
-          <aside
-            className="fixed inset-y-0 left-0 z-[70] flex w-[min(100%,340px)] flex-col bg-surface shadow-2xl md:hidden"
-            aria-label="Menu principal"
-          >
-            <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-              <button
-                type="button"
-                className="flex size-10 items-center justify-center text-brand"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label="Voltar"
-              >
-                <IconChevronLeft className="size-7" />
-              </button>
-              <Link
-                href="/conta"
-                className="flex items-center gap-2 rounded-full bg-brand px-4 py-2.5 text-sm font-bold text-white transition-opacity duration-[400ms] hover:opacity-95"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <IconCustomer className="size-5" />
-                Minha conta
-              </Link>
-            </div>
-
-            <nav className="flex-1 overflow-y-auto">
-              <ul>
-                {menuCategories.map((category) => (
-                  <li key={category.id} className="border-b border-border/80">
-                    <Link
-                      href={category.href}
-                      className="flex items-center justify-between px-4 py-4 text-[14px] font-bold text-text-primary transition-colors hover:bg-surface-muted"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <span>{category.label}</span>
-                      {category.hasDropdown && (
-                        <IconChevronDown className="size-4 text-text-muted" />
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </aside>
-        </>
-      )}
+      <MobileNavDrawer
+        open={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        menuCategories={menuCategories}
+        contactPage={contactPage}
+      />
     </>
   )
 }

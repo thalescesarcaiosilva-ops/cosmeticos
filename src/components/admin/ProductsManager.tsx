@@ -35,33 +35,93 @@ const emptyForm = {
   media_ids: [] as string[],
 }
 
+type ProductVariationForm = {
+  id?: string
+  name: string
+  sku: string
+  price: string
+  stock: string
+  media_id: string | null
+  active: boolean
+}
+
+type ProductListResponse = {
+  items: Product[]
+  total: number
+  page: number
+  pageSize: number
+  totalPages: number
+}
+
 export function ProductsManager() {
   const [products, setProducts] = useState<Product[]>([])
+  const [page, setPage] = useState(1)
+  const [pageSize] = useState(20)
+  const [totalPages, setTotalPages] = useState(1)
+  const [totalProducts, setTotalProducts] = useState(0)
+  const [search, setSearch] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
   const [brands, setBrands] = useState<Brand[]>([])
   const [form, setForm] = useState(emptyForm)
+  const [variations, setVariations] = useState<ProductVariationForm[]>([])
   const [editingId, setEditingId] = useState<string | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [showMediaPicker, setShowMediaPicker] = useState(false)
+  const [variationMediaPickerIndex, setVariationMediaPickerIndex] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
   const load = useCallback(async () => {
+    const params = new URLSearchParams({
+      page: String(page),
+      pageSize: String(pageSize),
+    })
+    if (search.trim()) params.set('q', search.trim())
+
     const [productsRes, categoriesRes, brandsRes] = await Promise.all([
-      fetchApi<Product[]>('/api/admin/products'),
+      fetchApi<ProductListResponse>(`/api/admin/products?${params.toString()}`),
       fetchApi<Category[]>('/api/admin/categories'),
       fetchApi<Brand[]>('/api/admin/brands'),
     ])
-    setProducts(productsRes.data ?? [])
+
+    const list = productsRes.data
+    setProducts(list?.items ?? [])
+    setTotalPages(list?.totalPages ?? 1)
+    setTotalProducts(list?.total ?? 0)
     setCategories((categoriesRes.data ?? []).filter((c) => c.active))
     setBrands((brandsRes.data ?? []).filter((b) => b.active))
-  }, [])
+  }, [page, pageSize, search])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     load()
   }, [load])
 
-  function startEdit(p: Product) {
+  async function loadVariations(productId: string): Promise<ProductVariationForm[]> {
+    const { data } = await fetchApi<
+      Array<{
+        id: string
+        name: string
+        sku: string | null
+        price: number
+        stock: number
+        media_id: string | null
+        active: boolean
+      }>
+    >(`/api/admin/products/${productId}/variations`)
+
+    return (data ?? []).map((variation) => ({
+      id: variation.id,
+      name: variation.name,
+      sku: variation.sku ?? '',
+      price: String(variation.price),
+      stock: String(variation.stock),
+      media_id: variation.media_id,
+      active: variation.active,
+    }))
+  }
+
+  async function startEdit(p: Product) {
     setEditingId(p.id)
     setForm({
       name: p.name,
@@ -82,6 +142,8 @@ export function ProductsManager() {
           ?.sort((a, b) => a.sort_order - b.sort_order)
           .map((pi) => pi.media.id) ?? [],
     })
+    const loadedVariations = await loadVariations(p.id)
+    setVariations(loadedVariations)
     setShowForm(true)
   }
 
@@ -90,6 +152,8 @@ export function ProductsManager() {
     setForm(emptyForm)
     setShowForm(false)
     setShowMediaPicker(false)
+    setVariationMediaPickerIndex(null)
+    setVariations([])
     setError(null)
   }
 
@@ -134,18 +198,54 @@ export function ProductsManager() {
 
     setLoading(true)
     const url = editingId ? `/api/admin/products/${editingId}` : '/api/admin/products'
-    const { error: apiError } = await fetchApi(url, {
+    const { data: savedProduct, error: apiError } = await fetchApi<Product>(url, {
       method: editingId ? 'PATCH' : 'POST',
       body: JSON.stringify(parsed.data),
     })
-    setLoading(false)
 
     if (apiError) {
+      setLoading(false)
       setError(apiError)
       return
     }
 
+    const productId = editingId ?? savedProduct?.id
+    if (productId) {
+      const normalizedVariations = variations
+        .map((variation, index) => ({
+          name: variation.name.trim(),
+          sku: variation.sku.trim() || null,
+          price: Number.parseFloat(variation.price),
+          stock: Number.parseInt(variation.stock, 10),
+          media_id: variation.media_id,
+          active: variation.active,
+          sort_order: index,
+        }))
+        .filter(
+          (variation) =>
+            variation.name &&
+            Number.isFinite(variation.price) &&
+            variation.price > 0 &&
+            Number.isInteger(variation.stock) &&
+            variation.stock >= 0
+        )
+
+      const { error: variationError } = await fetchApi(`/api/admin/products/${productId}/variations`, {
+        method: 'PUT',
+        body: JSON.stringify({ variations: normalizedVariations }),
+      })
+
+      if (variationError) {
+        setLoading(false)
+        setError(variationError)
+        return
+      }
+    }
+
+    setLoading(false)
+
     cancelForm()
+    setPage(1)
     load()
   }
 
@@ -155,13 +255,53 @@ export function ProductsManager() {
     load()
   }
 
+  function addVariation() {
+    setVariations((current) => [
+      ...current,
+      {
+        name: '',
+        sku: '',
+        price: '',
+        stock: '0',
+        media_id: null,
+        active: true,
+      },
+    ])
+  }
+
+  function updateVariation(index: number, patch: Partial<ProductVariationForm>) {
+    setVariations((current) => current.map((item, i) => (i === index ? { ...item, ...patch } : item)))
+  }
+
+  function removeVariation(index: number) {
+    setVariations((current) => current.filter((_, i) => i !== index))
+    if (variationMediaPickerIndex === index) setVariationMediaPickerIndex(null)
+  }
+
   return (
     <div className="space-y-6">
       <ProductCsvImport onComplete={load} />
 
       <div className="flex justify-end">
+        <Input
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value)
+            setPage(1)
+          }}
+          placeholder="Buscar produto por nome..."
+          className="mr-3 w-[320px]"
+        />
         {!showForm && (
-          <Button type="button" onClick={() => setShowForm(true)}>
+          <Button
+            type="button"
+            onClick={() => {
+              setEditingId(null)
+              setForm(emptyForm)
+              setVariations([])
+              setShowForm(true)
+            }}
+          >
             Novo produto
           </Button>
         )}
@@ -291,6 +431,87 @@ export function ProductsManager() {
               )}
             </fieldset>
 
+            <fieldset className="space-y-3 rounded-lg border border-border p-4">
+              <div className="flex items-center justify-between">
+                <legend className="text-sm font-medium">Variações do produto</legend>
+                <Button type="button" variant="secondary" onClick={addVariation}>
+                  Adicionar variação
+                </Button>
+              </div>
+              {variations.length === 0 ? (
+                <p className="text-sm text-text-muted">
+                  Sem variações. Se este produto tiver tamanho/cor/modelos, cadastre aqui.
+                </p>
+              ) : (
+                <div className="space-y-3">
+                  {variations.map((variation, index) => (
+                    <div key={variation.id ?? `new-${index}`} className="rounded-md border border-border p-3">
+                      <div className="grid gap-3 md:grid-cols-2">
+                        <Input
+                          label="Nome da variação"
+                          value={variation.name}
+                          onChange={(e) => updateVariation(index, { name: e.target.value })}
+                          placeholder="Ex.: Azul 2 lugares"
+                        />
+                        <Input
+                          label="SKU da variação"
+                          value={variation.sku}
+                          onChange={(e) => updateVariation(index, { sku: e.target.value })}
+                        />
+                        <Input
+                          label="Preço da variação"
+                          type="number"
+                          step="0.01"
+                          value={variation.price}
+                          onChange={(e) => updateVariation(index, { price: e.target.value })}
+                        />
+                        <Input
+                          label="Estoque da variação"
+                          type="number"
+                          value={variation.stock}
+                          onChange={(e) => updateVariation(index, { stock: e.target.value })}
+                        />
+                      </div>
+
+                      <div className="mt-3 flex flex-wrap items-center gap-3">
+                        <label className="flex items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            checked={variation.active}
+                            onChange={(e) => updateVariation(index, { active: e.target.checked })}
+                          />
+                          Variação ativa
+                        </label>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={() =>
+                            setVariationMediaPickerIndex((current) => (current === index ? null : index))
+                          }
+                        >
+                          {variationMediaPickerIndex === index ? 'Fechar imagens' : 'Imagem da variação'}
+                        </Button>
+                        <Button type="button" variant="danger" onClick={() => removeVariation(index)}>
+                          Remover variação
+                        </Button>
+                      </div>
+
+                      {variationMediaPickerIndex === index && (
+                        <div className="mt-3 rounded-md border border-border p-3">
+                          <MediaLibrary
+                            selectable
+                            bucket={DEFAULT_PRODUCT_MEDIA_BUCKET}
+                            selectedIds={variation.media_id ? [variation.media_id] : []}
+                            onSelect={(ids) => updateVariation(index, { media_id: ids[0] ?? null })}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </fieldset>
+
             <div className="grid gap-4 border-t border-border pt-4 sm:grid-cols-2">
               <Input
                 label="Meta title (SEO)"
@@ -328,6 +549,9 @@ export function ProductsManager() {
       )}
 
       <div className="overflow-x-auto rounded-lg border border-border bg-surface">
+        <div className="border-b border-border px-4 py-2 text-sm text-text-secondary">
+          {totalProducts} produto(s) encontrado(s)
+        </div>
         <table className="w-full text-sm">
           <thead className="border-b border-border bg-surface-muted">
             <tr>
@@ -373,6 +597,31 @@ export function ProductsManager() {
           </tbody>
         </table>
       </div>
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-text-secondary">
+            Página {page} de {totalPages}
+          </p>
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+              disabled={page <= 1}
+            >
+              Anterior
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
+              disabled={page >= totalPages}
+            >
+              Próxima
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

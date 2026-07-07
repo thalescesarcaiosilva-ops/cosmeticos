@@ -29,7 +29,7 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
     >
       <Link
         href={`/produto/${line.slug}`}
-        className="relative size-20 shrink-0 overflow-hidden rounded-lg border border-border bg-surface-muted sm:size-24"
+        className="relative size-20 shrink-0 overflow-hidden rounded-lg border border-border sm:size-24"
       >
         {line.imageUrl ? (
           <Image

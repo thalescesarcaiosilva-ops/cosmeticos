@@ -60,6 +60,7 @@ export type MenuItemRow = {
   label: string
   slug: string
   href: string
+  parent_id?: string | null
   has_dropdown: boolean
   sort_order: number
 }

@@ -3,14 +3,19 @@ import { ProductBuyPanel } from '@/components/product/ProductBuyPanel'
 import { ProductDetailTabs } from '@/components/product/ProductDetailTabs'
 import { ProductGallery } from '@/components/product/ProductGallery'
 import { ProductGalleryMeta } from '@/components/product/ProductGalleryMeta'
+import { ProductRatingStars } from '@/components/product/ProductRatingStars'
 import { ProductRelatedCarousel } from '@/components/product/ProductRelatedCarousel'
+import { ProductReviewsSection } from '@/components/product/ProductReviewsSection'
 import { FavoriteButton } from '@/components/product/FavoriteButton'
 import { calcDiscountPercent } from '@/lib/products/format'
+import type { ApprovedProductReview } from '@/lib/products/reviews'
 import type { CheckoutPaymentSettings, InstallmentDisplay, PaymentMethodIcon, PaymentSettings } from '@/types/payment'
 import type { ProductCardData, ProductDetail } from '@/types/product'
 
 type ProductPageViewProps = {
   product: ProductDetail
+  reviewSummary: { average: number; count: number }
+  approvedReviews: ApprovedProductReview[]
   paymentSettings: PaymentSettings
   checkoutSettings: CheckoutPaymentSettings
   paymentIcons: PaymentMethodIcon[]
@@ -20,6 +25,8 @@ type ProductPageViewProps = {
 
 export function ProductPageView({
   product,
+  reviewSummary,
+  approvedReviews,
   paymentSettings,
   checkoutSettings,
   paymentIcons,
@@ -58,6 +65,7 @@ export function ProductPageView({
               </h1>
               <FavoriteButton productId={product.id} variant="product" />
             </div>
+            <ProductRatingStars average={reviewSummary.average} count={reviewSummary.count} />
 
             {product.brandName && (
               <p className="mt-3 text-sm font-bold uppercase tracking-wide text-text-secondary">
@@ -79,6 +87,7 @@ export function ProductPageView({
       </div>
 
       <ProductDetailTabs description={product.description} />
+      <ProductReviewsSection productSlug={product.slug} reviews={approvedReviews} />
 
       <ProductRelatedCarousel
         products={relatedProducts}

@@ -2,6 +2,7 @@ import {
   applyInstallmentTemplate,
   splitInstallmentTemplate,
 } from '@/lib/payment/format-installment'
+import { calcInstallmentTotal } from '@/lib/payment/installment-rates'
 import { formatCurrency } from '@/lib/products/format'
 import type { InstallmentDisplay, PaymentSettings } from '@/types/payment'
 
@@ -18,23 +19,15 @@ export function calcInstallmentDisplay(
 
   if (count < 1) count = 1
 
-  const interestFree = count <= settings.interestFreeInstallments
-
-  let value: number
-  if (interestFree || settings.monthlyInterestRate <= 0) {
-    value = price / count
-  } else {
-    const totalWithInterest = price * (1 + (settings.monthlyInterestRate / 100) * count)
-    value = totalWithInterest / count
-  }
+  const { installmentValue, interestFree } = calcInstallmentTotal(price, count, settings)
 
   const template = interestFree
     ? settings.installmentTextInterestFree
     : settings.installmentTextWithInterest
 
-  const label = applyInstallmentTemplate(template, count, value)
+  const label = applyInstallmentTemplate(template, count, installmentValue)
 
-  return { count, value, interestFree, template, label }
+  return { count, value: installmentValue, interestFree, template, label }
 }
 
 export function formatInstallmentTemplate(

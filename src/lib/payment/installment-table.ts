@@ -1,4 +1,5 @@
 import { applyInstallmentTemplate } from '@/lib/payment/format-installment'
+import { calcInstallmentTotal } from '@/lib/payment/installment-rates'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import type { InstallmentDisplay, PaymentSettings } from '@/types/payment'
 
@@ -7,6 +8,7 @@ export type InstallmentTableRow = {
   installmentValue: number
   total: number
   interestFree: boolean
+  monthlyRate: number
   label: string
 }
 
@@ -21,17 +23,11 @@ export function buildInstallmentTable(
   const maxCount = Math.min(settings.maxInstallments, Math.max(1, maxByMin))
 
   for (let count = 1; count <= maxCount; count++) {
-    const interestFree = count <= settings.interestFreeInstallments
-    let total: number
-    let installmentValue: number
-
-    if (interestFree || settings.monthlyInterestRate <= 0) {
-      total = price
-      installmentValue = price / count
-    } else {
-      total = price * (1 + (settings.monthlyInterestRate / 100) * count)
-      installmentValue = total / count
-    }
+    const { total, installmentValue, interestFree, monthlyRate } = calcInstallmentTotal(
+      price,
+      count,
+      settings
+    )
 
     const template = interestFree
       ? settings.installmentTextInterestFree
@@ -44,6 +40,7 @@ export function buildInstallmentTable(
       installmentValue,
       total,
       interestFree,
+      monthlyRate,
       label,
     })
   }

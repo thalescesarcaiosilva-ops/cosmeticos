@@ -58,7 +58,7 @@ const POLICY_LINK_COLUMNS = 'id, label, href, sort_order'
 
 const SOCIAL_LINK_COLUMNS = 'id, type, href, label, display, sort_order'
 
-const MENU_ITEM_COLUMNS = 'id, label, slug, href, has_dropdown, sort_order'
+const MENU_ITEM_COLUMNS = 'id, label, slug, href, parent_id, has_dropdown, sort_order'
 
 const FOOTER_PAGE_COLUMNS = 'id, slug, title, page_type, sort_order, show_in_footer'
 

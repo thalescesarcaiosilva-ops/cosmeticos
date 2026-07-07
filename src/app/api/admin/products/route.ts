@@ -19,25 +19,51 @@ async function requireAdmin() {
 }
 
 function pickProductFields(data: ReturnType<typeof createProductSchema.parse>) {
-  const { category_ids: _c, media_ids: _m, ...fields } = data
+  const fields = { ...data }
+  delete fields.category_ids
+  delete fields.media_ids
   return fields
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   const auth = await requireAdmin()
   if (auth instanceof Response) return auth
 
+  const searchParams = new URL(request.url).searchParams
+  const query = searchParams.get('q')?.trim() ?? ''
+  const page = Math.max(1, Number.parseInt(searchParams.get('page') ?? '1', 10) || 1)
+  const pageSize = Math.min(
+    100,
+    Math.max(1, Number.parseInt(searchParams.get('pageSize') ?? '20', 10) || 20)
+  )
+  const from = (page - 1) * pageSize
+  const to = from + pageSize - 1
+
   const supabase = await createClient()
-  const { data, error } = await supabase
+  let dbQuery = supabase
     .from('products')
-    .select(PRODUCT_SELECT)
+    .select(PRODUCT_SELECT, { count: 'exact' })
     .order('created_at', { ascending: false })
+    .range(from, to)
+
+  if (query) {
+    dbQuery = dbQuery.ilike('name', `%${query}%`)
+  }
+
+  const { data, error, count } = await dbQuery
 
   if (error) {
     return jsonError('Não foi possível carregar os produtos', 500)
   }
 
-  return jsonSuccess(data ?? [])
+  const total = count ?? 0
+  return jsonSuccess({
+    items: data ?? [],
+    total,
+    page,
+    pageSize,
+    totalPages: total > 0 ? Math.ceil(total / pageSize) : 1,
+  })
 }
 
 export async function POST(request: Request) {

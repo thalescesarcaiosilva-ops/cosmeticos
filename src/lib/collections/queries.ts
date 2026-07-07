@@ -266,8 +266,47 @@ export async function getCollectionFilterMeta(categoryId: string): Promise<Colle
   }
 }
 
+export type CollectionCarouselItem = {
+  id: string
+  name: string
+  slug: string
+  imageUrl: string | null
+}
+
+export type CollectionsForCarouselOptions = {
+  slugs?: string[]
+}
+
+function mapCollectionCarouselRow(row: Record<string, unknown>): CollectionCarouselItem {
+  return {
+    id: row.id as string,
+    name: row.name as string,
+    slug: row.slug as string,
+    imageUrl:
+      (row.image_url as string | null) ??
+      (row.seal_image_url as string | null | undefined) ??
+      null,
+  }
+}
+
+function filterCollectionsBySlugs(
+  items: CollectionCarouselItem[],
+  slugs?: string[]
+): CollectionCarouselItem[] {
+  if (!slugs?.length) return items
+
+  const allowed = new Set(slugs)
+  const order = new Map(slugs.map((slug, index) => [slug, index]))
+
+  return items
+    .filter((item) => allowed.has(item.slug))
+    .sort((a, b) => (order.get(a.slug) ?? 999) - (order.get(b.slug) ?? 999))
+}
+
 /** Lista pública de coleções com selo (home e carrosséis). */
-export async function getCollectionsForCarousel() {
+export async function getCollectionsForCarousel(
+  options?: CollectionsForCarouselOptions
+): Promise<CollectionCarouselItem[]> {
   const supabase = createPublicClient()
   const full = await supabase
     .from('categories')
@@ -276,12 +315,10 @@ export async function getCollectionsForCarousel() {
     .order('sort_order', { ascending: true })
 
   if (!full.error && full.data) {
-    return full.data.map((row) => ({
-      id: row.id as string,
-      name: row.name as string,
-      slug: row.slug as string,
-      imageUrl: row.image_url as string | null,
-    }))
+    return filterCollectionsBySlugs(
+      full.data.map((row) => mapCollectionCarouselRow(row as Record<string, unknown>)),
+      options?.slugs
+    )
   }
 
   const legacy = await supabase
@@ -290,10 +327,8 @@ export async function getCollectionsForCarousel() {
     .eq('active', true)
     .order('sort_order', { ascending: true })
 
-  return (legacy.data ?? []).map((row) => ({
-    id: row.id as string,
-    name: row.name as string,
-    slug: row.slug as string,
-    imageUrl: (row.image_url as string | null) ?? (row.seal_image_url as string | null),
-  }))
+  return filterCollectionsBySlugs(
+    (legacy.data ?? []).map((row) => mapCollectionCarouselRow(row as Record<string, unknown>)),
+    options?.slugs
+  )
 }

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import type {
+  ContactPageLink,
   HelpLink,
   MenuCategory,
   PhoneContact,
@@ -15,16 +16,18 @@ import { SiteHeader } from './SiteHeader'
 import { TopBar } from './TopBar'
 
 type ShopHeaderProps = {
+  className?: string
   storeName: string
   logo: StoreLogo
   policyLinks: PolicyLink[]
   menuCategories: MenuCategory[]
   phone: PhoneContact
   helpLink: HelpLink
+  contactPage: ContactPageLink
   socialLinks: SocialLink[]
 }
 
-export function ShopHeader(props: ShopHeaderProps) {
+export function ShopHeader({ className, ...props }: ShopHeaderProps) {
   const pathname = usePathname()
   const headerRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -68,11 +71,11 @@ export function ShopHeader(props: ShopHeaderProps) {
     <div
       ref={headerRef}
       data-header-mode={overlay ? 'overlay' : 'solid'}
-      className={`shop-header sticky top-0 z-50 transition-[background-color,box-shadow,border-color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
+      className={`shop-header sticky top-0 z-50 overflow-visible transition-[background-color,box-shadow,border-color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
         overlay
           ? 'border-b border-white/10 bg-black/45 text-white backdrop-blur-md'
-          : 'border-b border-border bg-surface text-text-primary shadow-[rgb(239,239,239)_0px_1px_2px_0px]'
-      }`}
+          : 'border-b border-border bg-surface text-text-primary shadow-[rgba(74,32,42,0.08)_0px_1px_2px_0px]'
+      } ${className ?? ''}`}
     >
       <TopBar
         storeName={props.storeName}

@@ -49,7 +49,9 @@ export function ProductCsvImport({ onComplete }: ProductCsvImportProps) {
       const text = await file.text()
       const parsed = parseWooCommerceCsv(text)
       if (parsed.length === 0) {
-        setError('Nenhum produto simples publicado encontrado no CSV')
+        setError(
+          'Nenhum produto publicado encontrado no CSV. Verifique se o status é publish/publicado e se há preço válido.'
+        )
         return
       }
       setRows(parsed)
@@ -126,7 +128,8 @@ export function ProductCsvImport({ onComplete }: ProductCsvImportProps) {
     <Card title="Importar produtos (WooCommerce CSV)">
       <div className="space-y-4">
         <p className="text-sm text-text-secondary">
-          Exporte produtos no WooCommerce (Products → Export). O importador cria categorias e
+          Exporte produtos no WooCommerce (Products → Export). Aceita produtos simples e
+          variáveis (preço e estoque das variações são agregados). O importador cria categorias e
           marcas ausentes, baixa imagens para o Supabase Storage (WebP otimizado) e atualiza
           produtos existentes pelo ID WooCommerce ou slug.
         </p>
@@ -155,6 +158,9 @@ export function ProductCsvImport({ onComplete }: ProductCsvImportProps) {
           <div className="rounded-lg border border-border bg-surface-muted p-4 text-sm">
             <p className="font-medium text-text-primary">{summary.total} produtos prontos</p>
             <ul className="mt-2 space-y-1 text-text-secondary">
+              <li>
+                {summary.simple} simples · {summary.variable} variáveis
+              </li>
               <li>{summary.categories} categorias (criadas automaticamente se faltarem)</li>
               <li>{summary.brands} marcas distintas</li>
               <li>{summary.withImages} produtos com imagens para baixar</li>

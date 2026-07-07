@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
 import { Jost } from 'next/font/google'
+import { headers } from 'next/headers'
+import { HeadScripts } from '@/components/seo/HeadScripts'
+import { buildFaviconIcons } from '@/lib/seo/build-metadata-icons'
 import { getSeoSettings } from '@/lib/seo/get-seo-settings'
 import { getSiteUrl } from '@/lib/seo/site-url'
+import { getPublicStoreProfile } from '@/lib/store-profile/public'
 import './globals.css'
 
 export const revalidate = 60
@@ -32,23 +36,29 @@ export async function generateMetadata(): Promise<Metadata> {
       description: seo.description,
       ...(seo.ogImageUrl ? { images: [{ url: seo.ogImageUrl, alt: seo.siteName }] } : {}),
     },
-    ...(seo.faviconUrl
-      ? {
-          icons: {
-            icon: seo.faviconUrl,
-            shortcut: seo.faviconUrl,
-            apple: seo.faviconUrl,
-          },
-        }
-      : {}),
+    twitter: {
+      card: seo.ogImageUrl ? 'summary_large_image' : 'summary',
+      title: seo.defaultTitle,
+      description: seo.description,
+      ...(seo.ogImageUrl ? { images: [seo.ogImageUrl] } : {}),
+    },
+    ...buildFaviconIcons(seo.faviconUrl),
   }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const headersList = await headers()
+  const pathname = headersList.get('x-pathname') ?? ''
+  const isAdmin = pathname.startsWith('/admin')
+  const headScripts = !isAdmin ? (await getPublicStoreProfile()).head_scripts : null
+
   return (
     <html lang="pt-BR" className={`${jost.variable} h-full antialiased`}>
+      <head>
+        <HeadScripts html={headScripts} />
+      </head>
       <body className="min-h-full">{children}</body>
     </html>
   )

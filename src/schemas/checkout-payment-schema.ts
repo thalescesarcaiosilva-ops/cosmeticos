@@ -8,12 +8,12 @@ const cpfSchema = z
   .refine((v) => v.length === 11, 'CPF inválido')
 
 export const checkoutCustomerSchema = z.object({
-  name: z.string().trim().min(2).max(120),
-  email: z.string().trim().email().max(200),
+  name: z.string().trim().min(2, 'Informe seu nome completo').max(120, 'Nome muito longo'),
+  email: z.string().trim().email('Informe um e-mail válido').max(200, 'E-mail muito longo'),
   phone: z
     .string()
     .transform((v) => v.replace(/\D/g, ''))
-    .refine((v) => v.length >= 10 && v.length <= 11, 'Telefone inválido'),
+    .refine((v) => v.length >= 10 && v.length <= 11, 'Informe um celular com DDD (10 ou 11 dígitos)'),
 })
 
 export const checkoutShippingAddressSchema = createAddressSchema.omit({

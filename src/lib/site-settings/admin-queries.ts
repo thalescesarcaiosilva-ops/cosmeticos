@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { SITE_SETTINGS_ID } from '@/lib/layout/queries'
 import { DEFAULT_PAYMENT_SETTINGS, type PaymentMethod } from '@/types/payment'
+import { parseInstallmentInterestRates, serializeInstallmentInterestRates } from '@/lib/payment/installment-rates'
 import { parseCheckoutPaymentConfig } from '@/lib/payment/queries'
 import { parsePaymentMethods } from '@/lib/payment/parse-payment-methods'
 
@@ -30,8 +31,15 @@ export const INSTALLMENT_SITE_SETTINGS_COLUMNS = [
   'installment_interest_free',
   'installment_min_value',
   'installment_interest_rate',
+  'installment_interest_rates',
   'installment_text_free',
   'installment_text_interest',
+].join(', ')
+
+export const CONTACT_PAGE_SETTINGS_COLUMNS = [
+  'contact_page_title',
+  'contact_page_intro',
+  'contact_page_support_topics',
 ].join(', ')
 
 export const PAYMENT_METHODS_ONLY_COLUMNS = [
@@ -117,8 +125,15 @@ const INSTALLMENT_KEYS = [
   'installment_interest_free',
   'installment_min_value',
   'installment_interest_rate',
+  'installment_interest_rates',
   'installment_text_free',
   'installment_text_interest',
+] as const
+
+const CONTACT_PAGE_KEYS = [
+  'contact_page_title',
+  'contact_page_intro',
+  'contact_page_support_topics',
 ] as const
 
 const PAYMENT_METHOD_KEYS = [
@@ -216,8 +231,12 @@ export type AdminSiteSettings = {
   installment_interest_free: number
   installment_min_value: number
   installment_interest_rate: number
+  installment_interest_rates: Record<number, number>
   installment_text_free: string
   installment_text_interest: string
+  contact_page_title: string
+  contact_page_intro: string | null
+  contact_page_support_topics: Array<{ title: string; description: string }>
   payment_methods_config: PaymentMethod[]
   payment_checkout_config: {
     pixEnabled: boolean
@@ -255,6 +274,7 @@ function withPaymentDefaults(row: Record<string, unknown>): AdminSiteSettings {
     installment_interest_rate: Number(
       row.installment_interest_rate ?? DEFAULT_PAYMENT_SETTINGS.monthlyInterestRate
     ),
+    installment_interest_rates: parseInstallmentInterestRates(row.installment_interest_rates),
     installment_text_free:
       (row.installment_text_free as string) ?? DEFAULT_PAYMENT_SETTINGS.installmentTextInterestFree,
     installment_text_interest:
@@ -262,6 +282,11 @@ function withPaymentDefaults(row: Record<string, unknown>): AdminSiteSettings {
       DEFAULT_PAYMENT_SETTINGS.installmentTextWithInterest,
     payment_methods_config: parsePaymentMethods(row),
     payment_checkout_config: parseCheckoutPaymentConfig(row.payment_checkout_config),
+    contact_page_title: (row.contact_page_title as string) ?? 'Central de Atendimento',
+    contact_page_intro: (row.contact_page_intro as string | null) ?? null,
+    contact_page_support_topics: Array.isArray(row.contact_page_support_topics)
+      ? (row.contact_page_support_topics as Array<{ title: string; description: string }>)
+      : [],
     _paymentColumnsAvailable: Boolean(row._paymentColumnsAvailable),
     _seoColumnsAvailable: Boolean(row._seoColumnsAvailable),
   }
@@ -328,6 +353,11 @@ export async function fetchAdminSiteSettings(
     paymentColumnsAvailable = true
   }
 
+  const contactPageRow = await fetchOptionalColumns(supabase, CONTACT_PAGE_SETTINGS_COLUMNS)
+  if (contactPageRow) {
+    Object.assign(row, contactPageRow)
+  }
+
   const paymentMethodsRow = await fetchOptionalColumns(supabase, PAYMENT_METHODS_ONLY_COLUMNS)
   if (paymentMethodsRow) {
     Object.assign(row, paymentMethodsRow)
@@ -351,6 +381,8 @@ export function splitSettingsUpdate(payload: Record<string, unknown>) {
   for (const [key, value] of Object.entries(payload)) {
     if ((PAYMENT_KEYS as readonly string[]).includes(key)) {
       payment[key] = value
+    } else if ((CONTACT_PAGE_KEYS as readonly string[]).includes(key)) {
+      base[key] = value
     } else {
       base[key] = value
     }

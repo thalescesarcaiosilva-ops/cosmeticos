@@ -29,9 +29,7 @@ export type StoreProfile = {
   return_policy_notes: string | null
   seo_handling_days_min: number
   seo_handling_days_max: number
-  google_analytics_id: string | null
-  google_tag_manager_id: string | null
-  microsoft_clarity_id: string | null
+  head_scripts: string | null
   _storeProfileColumnsAvailable?: boolean
 }
 
@@ -62,9 +60,7 @@ export const STORE_PROFILE_COLUMNS = [
   'return_policy_notes',
   'seo_handling_days_min',
   'seo_handling_days_max',
-  'google_analytics_id',
-  'google_tag_manager_id',
-  'microsoft_clarity_id',
+  'head_scripts',
 ].join(', ')
 
 const LEGACY_COLUMNS = [
@@ -138,12 +134,7 @@ function mapRow(row: Record<string, unknown>, columnsAvailable: boolean): StoreP
       typeof row.return_policy_notes === 'string' ? row.return_policy_notes : null,
     seo_handling_days_min: Number(row.seo_handling_days_min ?? 1),
     seo_handling_days_max: Number(row.seo_handling_days_max ?? 2),
-    google_analytics_id:
-      typeof row.google_analytics_id === 'string' ? row.google_analytics_id : null,
-    google_tag_manager_id:
-      typeof row.google_tag_manager_id === 'string' ? row.google_tag_manager_id : null,
-    microsoft_clarity_id:
-      typeof row.microsoft_clarity_id === 'string' ? row.microsoft_clarity_id : null,
+    head_scripts: typeof row.head_scripts === 'string' ? row.head_scripts : null,
     _storeProfileColumnsAvailable: columnsAvailable,
   }
 }

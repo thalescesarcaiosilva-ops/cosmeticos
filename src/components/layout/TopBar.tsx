@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import type { PolicyLink, SocialLink } from '@/types/layout'
 import { IconWhatsapp } from '@/components/icons/DotIcons'
-import { ShippingPromoBar } from '@/components/layout/ShippingPromoBar'
 import { SocialIcon } from './SocialIcon'
 
 type TopBarProps = {
@@ -23,7 +22,7 @@ export function TopBar({ storeName, policyLinks, socialLinks, overlay = false }:
           : 'border-border/70 bg-surface-strong text-text-secondary'
       }`}
     >
-      <ShippingPromoBar className="hidden md:flex" overlay={overlay} />
+      
 
       <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-3 px-4 py-2 md:px-6">
         <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden md:gap-2">

@@ -2,13 +2,18 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { MediaSelectField } from '@/components/admin/MediaSelectField'
+import {
+  InstallmentRatesEditor,
+  SupportTopicsEditor,
+} from '@/components/admin/InstallmentRatesEditor'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { fetchApi } from '@/lib/api/fetch-api'
+import { MediaSelectField } from '@/components/admin/MediaSelectField'
+import { serializeInstallmentInterestRates } from '@/lib/payment/installment-rates'
 import { normalizePaymentMethodsForSave, serializePaymentMethodsConfig, slugifyPaymentMethod } from '@/lib/payment/parse-payment-methods'
 import { updateSiteSettingsSchema } from '@/schemas/site-settings-schema'
 import {
@@ -35,8 +40,12 @@ type SiteSettings = {
   installment_interest_free: number
   installment_min_value: number
   installment_interest_rate: number
+  installment_interest_rates: Record<number, number>
   installment_text_free: string
   installment_text_interest: string
+  contact_page_title: string
+  contact_page_intro: string
+  contact_page_support_topics: Array<{ title: string; description: string }>
   payment_methods_config: PaymentMethod[]
   payment_checkout_config: {
     pixEnabled: boolean
@@ -83,6 +92,7 @@ export function SiteSettingsForm() {
             Number(data.installment_min_value) || DEFAULT_PAYMENT_SETTINGS.minInstallmentValue,
           installment_interest_rate:
             Number(data.installment_interest_rate) ?? DEFAULT_PAYMENT_SETTINGS.monthlyInterestRate,
+          installment_interest_rates: data.installment_interest_rates ?? {},
           installment_text_free:
             data.installment_text_free ?? DEFAULT_PAYMENT_SETTINGS.installmentTextInterestFree,
           installment_text_interest:
@@ -90,6 +100,9 @@ export function SiteSettingsForm() {
           payment_methods_config: data.payment_methods_config ?? [],
           payment_checkout_config:
             data.payment_checkout_config ?? DEFAULT_CHECKOUT_PAYMENT_SETTINGS,
+          contact_page_title: data.contact_page_title ?? 'Central de Atendimento',
+          contact_page_intro: data.contact_page_intro ?? '',
+          contact_page_support_topics: data.contact_page_support_topics ?? [],
         })
       }
     })
@@ -169,6 +182,7 @@ export function SiteSettingsForm() {
     const parsed = updateSiteSettingsSchema.safeParse({
       ...form,
       payment_methods_config: serializePaymentMethodsConfig(normalizedPaymentMethods),
+      installment_interest_rates: serializeInstallmentInterestRates(form.installment_interest_rates),
     })
     if (!parsed.success) {
       setError(parsed.error.issues[0]?.message ?? 'Dados inválidos')
@@ -208,8 +222,12 @@ export function SiteSettingsForm() {
         installment_interest_free: data.installment_interest_free,
         installment_min_value: data.installment_min_value,
         installment_interest_rate: data.installment_interest_rate,
+        installment_interest_rates: data.installment_interest_rates ?? {},
         installment_text_free: data.installment_text_free,
         installment_text_interest: data.installment_text_interest,
+        contact_page_title: data.contact_page_title ?? 'Central de Atendimento',
+        contact_page_intro: data.contact_page_intro ?? '',
+        contact_page_support_topics: data.contact_page_support_topics ?? [],
         payment_methods_config: data.payment_methods_config ?? [],
         payment_checkout_config:
           data.payment_checkout_config ?? DEFAULT_CHECKOUT_PAYMENT_SETTINGS,
@@ -412,6 +430,48 @@ export function SiteSettingsForm() {
                 placeholder="{count}x de {value} com juros"
               />
             </div>
+            <div className="sm:col-span-2 border-t border-border pt-4">
+              <p className="mb-3 text-sm font-semibold text-text-primary">
+                Taxas por parcela (opcional)
+              </p>
+              <InstallmentRatesEditor
+                maxInstallments={form.installment_max}
+                interestFreeInstallments={form.installment_interest_free}
+                defaultRate={form.installment_interest_rate}
+                rates={form.installment_interest_rates}
+                onChange={(rates) => setForm({ ...form, installment_interest_rates: rates })}
+              />
+            </div>
+          </div>
+        </Card>
+
+        <Card title="Página de contato / suporte">
+          <p className="mb-4 text-sm text-text-secondary">
+            Conteúdo exibido em{' '}
+            <Link href="/fale-conosco" className="text-brand hover:underline" target="_blank">
+              /fale-conosco
+            </Link>
+            . Canais (telefone, e-mail, endereço) vêm do perfil da loja e rodapé.
+          </p>
+          <div className="grid gap-4">
+            <Input
+              label="Título da página"
+              value={form.contact_page_title}
+              onChange={(e) => setForm({ ...form, contact_page_title: e.target.value })}
+              maxLength={100}
+            />
+            <Textarea
+              label="Texto introdutório"
+              value={form.contact_page_intro}
+              onChange={(e) => setForm({ ...form, contact_page_intro: e.target.value })}
+              rows={4}
+              placeholder="Estamos aqui para ajudar com pedidos, produtos e parcerias."
+              maxLength={2000}
+            />
+            <SupportTopicsEditor
+              topics={form.contact_page_support_topics}
+              onChange={(topics) => setForm({ ...form, contact_page_support_topics: topics })}
+            />
           </div>
         </Card>
 

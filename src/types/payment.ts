@@ -27,6 +27,8 @@ export type PaymentSettings = {
   interestFreeInstallments: number
   minInstallmentValue: number
   monthlyInterestRate: number
+  /** Taxa mensal (%) por número de parcelas — ex.: { 6: 1.99, 12: 3.49 } */
+  installmentInterestRates: Record<number, number>
   installmentTextInterestFree: string
   installmentTextWithInterest: string
   paymentMethods: PaymentMethod[]
@@ -45,10 +47,31 @@ export const DEFAULT_PAYMENT_SETTINGS: PaymentSettings = {
   interestFreeInstallments: 5,
   minInstallmentValue: 5,
   monthlyInterestRate: 0,
+  installmentInterestRates: {},
   installmentTextInterestFree: '{count}x de {value} sem juros',
   installmentTextWithInterest: '{count}x de {value} com juros',
   paymentMethods: [],
 }
+
+export type ContactSupportTopic = {
+  title: string
+  description: string
+}
+
+export const DEFAULT_CONTACT_SUPPORT_TOPICS: ContactSupportTopic[] = [
+  {
+    title: 'Pedidos e entregas',
+    description: 'Acompanhe prazos, alterações de endereço e status do seu pedido.',
+  },
+  {
+    title: 'Produtos e estoque',
+    description: 'Tire dúvidas sobre disponibilidade, composição e indicações de uso.',
+  },
+  {
+    title: 'Trocas e devoluções',
+    description: 'Saiba como solicitar troca ou devolução conforme nossa política.',
+  },
+]
 
 export type CheckoutPaymentSettings = {
   pixEnabled: boolean

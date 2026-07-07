@@ -1,6 +1,6 @@
 'use client'
 
-import { Clock, Mail, MapPin, Phone, Send } from 'lucide-react'
+import { Clock, Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-react'
 import { useState } from 'react'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
@@ -88,7 +88,7 @@ export function ContactPageView({ data }: ContactFormProps) {
 
     setFeedback({
       type: 'success',
-      message: message ?? 'Mensagem enviada com sucesso!',
+      message: message ?? 'Mensagem enviada com sucesso! Responderemos em breve.',
     })
     setForm({ name: '', email: '', phone: '', subject: '', message: '', website: '' })
   }
@@ -99,18 +99,35 @@ export function ContactPageView({ data }: ContactFormProps) {
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-10 md:px-6 md:py-14">
       <header className="mb-10 max-w-3xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">Atendimento</p>
-        <h1 className="mt-2 text-3xl font-bold text-logo md:text-4xl">Fale Conosco</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">Suporte</p>
+        <h1 className="mt-2 text-3xl font-bold text-logo md:text-4xl">{data.pageTitle}</h1>
         {data.intro && (
           <p className="mt-4 text-base leading-relaxed text-text-secondary">{data.intro}</p>
         )}
       </header>
 
+      {data.supportTopics.length > 0 && (
+        <section className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {data.supportTopics.map((topic) => (
+            <article
+              key={topic.title}
+              className="rounded-lg border border-border bg-surface p-5 shadow-sm transition-shadow hover:shadow-md"
+            >
+              <div className="mb-3 flex size-9 items-center justify-center rounded-full bg-brand/10 text-brand">
+                <MessageCircle className="size-4" aria-hidden />
+              </div>
+              <h2 className="text-base font-semibold text-text-primary">{topic.title}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-text-secondary">{topic.description}</p>
+            </article>
+          ))}
+        </section>
+      )}
+
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] lg:gap-10">
         <section className="rounded-lg border border-border bg-surface p-6 shadow-sm md:p-8">
           <h2 className="text-xl font-bold text-logo">Canais de Atendimento</h2>
           <p className="mt-2 text-sm text-text-secondary">
-            Entre em contato direto através das nossas informações oficiais ou nos faça uma visita.
+            Entre em contato direto pelos canais oficiais ou visite nossa loja.
           </p>
 
           <div className="mt-8 space-y-6">
@@ -191,7 +208,7 @@ export function ContactPageView({ data }: ContactFormProps) {
         <section className="rounded-lg border border-border bg-surface p-6 shadow-sm md:p-8">
           <h2 className="text-xl font-bold text-logo">Envie uma Mensagem</h2>
           <p className="mt-2 text-sm text-text-secondary">
-            Preencha os campos abaixo e responderemos o mais breve possível.
+            Descreva sua dúvida ou solicitação. Nossa equipe responde em horário comercial.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
@@ -207,6 +224,7 @@ export function ContactPageView({ data }: ContactFormProps) {
                 error={errors.name}
                 autoComplete="name"
                 required
+                maxLength={200}
               />
               <Input
                 label="Seu e-mail *"
@@ -218,6 +236,7 @@ export function ContactPageView({ data }: ContactFormProps) {
                 error={errors.email}
                 autoComplete="email"
                 required
+                maxLength={200}
               />
             </div>
 
@@ -230,6 +249,7 @@ export function ContactPageView({ data }: ContactFormProps) {
               placeholder="Ex: (27) 98865-3033"
               error={errors.phone}
               autoComplete="tel"
+              maxLength={30}
             />
 
             <Input
@@ -240,6 +260,7 @@ export function ContactPageView({ data }: ContactFormProps) {
               placeholder="Ex: Dúvida sobre entrega"
               error={errors.subject}
               required
+              maxLength={200}
             />
 
             <Textarea
@@ -251,6 +272,7 @@ export function ContactPageView({ data }: ContactFormProps) {
               rows={6}
               error={errors.message}
               required
+              maxLength={5000}
             />
 
             <input

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -16,9 +16,14 @@ type PayoutPublicConfig = {
 type PayoutCardFormProps = {
   total: number
   disabled?: boolean
+  showSubmitButton?: boolean
   onSuccess: (result: { orderId: string; paid: boolean; guestAccessToken?: string | null }) => void
   onError: (message: string) => void
   buildPayload: (cardHash: string, installments: number) => Record<string, unknown>
+}
+
+export type PayoutCardFormHandle = {
+  submit: () => Promise<void>
 }
 
 function onlyDigits(value: string): string {
@@ -95,14 +100,12 @@ async function tokenizeCard(
   return hash
 }
 
-export function PayoutCardForm({
-  total,
-  disabled,
-  onSuccess,
-  onError,
-  buildPayload,
-}: PayoutCardFormProps) {
-  const [config, setConfig] = useState<PayoutPublicConfig | null>(null)
+export const PayoutCardForm = forwardRef<PayoutCardFormHandle, PayoutCardFormProps>(
+  function PayoutCardForm(
+    { total, disabled, showSubmitButton = true, onSuccess, onError, buildPayload },
+    ref
+  ) {
+    const [config, setConfig] = useState<PayoutPublicConfig | null>(null)
   const [configError, setConfigError] = useState<string | null>(null)
   const [installments, setInstallments] = useState<InstallmentTableRow[]>([])
   const [selectedInstallments, setSelectedInstallments] = useState(1)
@@ -152,7 +155,7 @@ export function PayoutCardForm({
     loadInstallments()
   }, [total])
 
-  async function handleSubmit() {
+    async function handleSubmit() {
     onError('')
     setSubmitting(true)
 
@@ -198,79 +201,86 @@ export function PayoutCardForm({
     }
   }
 
-  if (configError) {
-    return <Alert type="error">{configError}</Alert>
-  }
+    useImperativeHandle(ref, () => ({
+      submit: handleSubmit,
+    }))
 
-  return (
-    <div className="space-y-4">
-      <Input
-        label="Número do cartão"
-        value={number}
-        onChange={(e) => setNumber(formatCardNumber(e.target.value))}
-        placeholder="0000 0000 0000 0000"
-        autoComplete="cc-number"
-        inputMode="numeric"
-        required
-      />
-      <Input
-        label="Nome impresso no cartão"
-        value={holderName}
-        onChange={(e) => setHolderName(e.target.value)}
-        placeholder="Como está no cartão"
-        autoComplete="cc-name"
-        required
-      />
-      <div className="grid gap-4 sm:grid-cols-2">
+    if (configError) {
+      return <Alert type="error">{configError}</Alert>
+    }
+
+    return (
+      <div className="space-y-4">
         <Input
-          label="Validade"
-          value={expiry}
-          onChange={(e) => setExpiry(formatExpiry(e.target.value))}
-          placeholder="MM/AA"
-          autoComplete="cc-exp"
+          label="Número"
+          value={number}
+          onChange={(e) => setNumber(formatCardNumber(e.target.value))}
+          placeholder="0000 0000 0000 0000"
+          autoComplete="cc-number"
           inputMode="numeric"
           required
         />
         <Input
-          label="CVV"
-          value={cvv}
-          onChange={(e) => setCvv(onlyDigits(e.target.value).slice(0, 4))}
-          placeholder="123"
-          autoComplete="cc-csc"
-          inputMode="numeric"
+          label="Nome do titular"
+          value={holderName}
+          onChange={(e) => setHolderName(e.target.value)}
+          placeholder="Nome impresso no cartão"
+          autoComplete="cc-name"
           required
         />
-      </div>
-
-      {installments.length > 0 && (
-        <div className="space-y-2">
-          <label htmlFor="checkout-installments" className="block text-sm font-medium text-text-primary">
-            Parcelas
-          </label>
-          <select
-            id="checkout-installments"
-            value={selectedInstallments}
-            onChange={(e) => setSelectedInstallments(Number(e.target.value))}
-            className="w-full rounded-md border border-border bg-surface px-3 py-2.5 text-sm text-text-primary focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-          >
-            {installments.map((row) => (
-              <option key={row.count} value={row.count}>
-                {row.label} — total {formatCurrency(row.total)}
-              </option>
-            ))}
-          </select>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Input
+            label="Data de validade"
+            value={expiry}
+            onChange={(e) => setExpiry(formatExpiry(e.target.value))}
+            placeholder="MM/AA"
+            autoComplete="cc-exp"
+            inputMode="numeric"
+            required
+          />
+          <Input
+            label="CVV"
+            value={cvv}
+            onChange={(e) => setCvv(onlyDigits(e.target.value).slice(0, 4))}
+            placeholder="000"
+            autoComplete="cc-csc"
+            inputMode="numeric"
+            required
+          />
         </div>
-      )}
 
-      <Button
-        type="button"
-        className="w-full rounded-md uppercase tracking-wide"
-        loading={submitting}
-        disabled={disabled || submitting || !config?.publicKey}
-        onClick={handleSubmit}
-      >
-        Pagar {formatCurrency(total)}
-      </Button>
-    </div>
-  )
-}
+        {installments.length > 0 && (
+          <div className="space-y-2">
+            <label htmlFor="checkout-installments" className="block text-sm font-medium text-text-primary">
+              Parcelas
+            </label>
+            <select
+              id="checkout-installments"
+              value={selectedInstallments}
+              onChange={(e) => setSelectedInstallments(Number(e.target.value))}
+              className="w-full rounded-md border border-border bg-surface px-3 py-2.5 text-sm text-text-primary focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+            >
+              {installments.map((row) => (
+                <option key={row.count} value={row.count}>
+                  {row.label} - total {formatCurrency(row.total)}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {showSubmitButton && (
+          <Button
+            type="button"
+            className="w-full rounded-md uppercase tracking-wide"
+            loading={submitting}
+            disabled={disabled || submitting || !config?.publicKey}
+            onClick={handleSubmit}
+          >
+            Pagar {formatCurrency(total)}
+          </Button>
+        )}
+      </div>
+    )
+  }
+)

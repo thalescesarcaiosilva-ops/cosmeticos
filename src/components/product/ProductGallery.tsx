@@ -85,7 +85,7 @@ export function ProductGallery({ images, productName, discountPercent }: Product
       <div className="relative min-w-0 flex-1">
         <div className="relative aspect-square overflow-hidden rounded-sm border border-border">
           {discountPercent != null && (
-            <span className="absolute left-3 top-3 z-10 rounded-sm border border-[#f57c00] bg-surface px-2.5 py-1 text-[12px] font-bold text-[#f57c00]">
+            <span className="absolute left-3 top-3 z-10 rounded-sm border border-claret bg-surface px-2.5 py-1 text-[12px] font-bold text-claret">
               -{discountPercent}%
             </span>
           )}
@@ -97,7 +97,7 @@ export function ProductGallery({ images, productName, discountPercent }: Product
                 onClick={() =>
                   setActiveIndex((i) => (i === 0 ? images.length - 1 : i - 1))
                 }
-                className="absolute left-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-sm border border-border bg-surface/95 text-text-primary shadow-[rgb(239,239,239)_0px_1px_2px_0px] transition-opacity duration-[400ms] hover:opacity-80"
+                className="absolute left-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-sm border border-border bg-surface/95 text-text-primary shadow-[rgba(74,32,42,0.08)_0px_1px_2px_0px] transition-opacity duration-[400ms] hover:opacity-80"
                 aria-label="Imagem anterior"
               >
                 <IconChevronLeft className="size-5" />
@@ -107,7 +107,7 @@ export function ProductGallery({ images, productName, discountPercent }: Product
                 onClick={() =>
                   setActiveIndex((i) => (i === images.length - 1 ? 0 : i + 1))
                 }
-                className="absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-sm border border-border bg-surface/95 text-text-primary shadow-[rgb(239,239,239)_0px_1px_2px_0px] transition-opacity duration-[400ms] hover:opacity-80"
+                className="absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-sm border border-border bg-surface/95 text-text-primary shadow-[rgba(74,32,42,0.08)_0px_1px_2px_0px] transition-opacity duration-[400ms] hover:opacity-80"
                 aria-label="Próxima imagem"
               >
                 <IconChevronLeft className="size-5 rotate-180" />

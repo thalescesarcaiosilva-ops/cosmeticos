@@ -66,7 +66,7 @@ export function ProductCard({ product, installment }: ProductCardProps) {
                 {formatCurrency(product.originalPrice!)}
               </p>
             )}
-            <p className="text-base font-bold text-brand md:text-lg">
+            <p className="text-base font-bold text-brand md:text-lg ">
               {formatCurrency(product.price)}
             </p>
             <InstallmentLine display={installment ?? null} />

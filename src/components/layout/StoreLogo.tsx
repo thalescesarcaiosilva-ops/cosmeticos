@@ -25,7 +25,7 @@ export function StoreLogoMark({
         <img
           src={logo.imageUrl}
           alt={storeName}
-          className={`h-9 w-auto max-w-[180px] object-contain transition-[filter,opacity] duration-[400ms] md:h-11 ${
+          className={`w-auto max-w-[120px] object-contain transition-[filter,opacity] duration-[400ms]  ${
             variant === 'light' ? 'brightness-0 invert' : ''
           }`}
         />

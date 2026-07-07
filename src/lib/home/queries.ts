@@ -1,4 +1,7 @@
-import { getCollectionsForCarousel } from '@/lib/collections/queries'
+import {
+  getCollectionsForCarousel,
+  type CollectionsForCarouselOptions,
+} from '@/lib/collections/queries'
 import { getProductsForCards } from '@/lib/products/queries'
 import type { ProductCardData } from '@/types/product'
 
@@ -12,8 +15,10 @@ export type HomeCategorySection = {
 
 const PRODUCTS_PER_CATEGORY = 12
 
-export async function getHomeCategorySections(): Promise<HomeCategorySection[]> {
-  const collections = await getCollectionsForCarousel()
+export async function getHomeCategorySections(
+  options?: CollectionsForCarouselOptions
+): Promise<HomeCategorySection[]> {
+  const collections = await getCollectionsForCarousel(options)
 
   return Promise.all(
     collections.map(async (collection) => ({

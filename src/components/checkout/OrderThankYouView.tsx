@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { CheckCircle2, CreditCard, Package, ReceiptText } from 'lucide-react'
 import { CheckoutPixPanel } from '@/components/checkout/CheckoutPixPanel'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
@@ -49,6 +50,10 @@ const STATUS_LABEL: Record<string, string> = {
 const PAYMENT_METHOD_LABEL: Record<string, string> = {
   pix: 'Pix',
   credit_card: 'Cartão de crédito',
+}
+
+function shortOrderId(value: string) {
+  return value.length > 8 ? `${value.slice(0, 8)}...` : value
 }
 
 export function OrderThankYouView({
@@ -114,7 +119,7 @@ export function OrderThankYouView({
   if (loading && !order) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-center">
-        <p className="text-text-secondary">Carregando pedido…</p>
+        <p className="text-text-secondary">Carregando pedido...</p>
       </div>
     )
   }
@@ -137,23 +142,29 @@ export function OrderThankYouView({
   const isPixPending = isPending && order.payment_method === 'pix' && order.pix_qr_code
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-10 md:py-14">
-      <div className="rounded-lg border border-border bg-surface p-6 md:p-8">
-        <p className="text-sm font-medium uppercase tracking-wide text-brand">
-          {isPaid ? 'Obrigado!' : isPending ? 'Quase lá' : 'Pedido registrado'}
-        </p>
-        <h1 className="mt-2 text-2xl font-bold text-text-primary md:text-3xl">
-          {isPaid
-            ? 'Seu pagamento foi confirmado'
-            : isPending
-              ? 'Aguardando confirmação do pagamento'
-              : 'Status do pedido'}
-        </h1>
-        <p className="mt-3 text-sm text-text-secondary">
-          Pedido <span className="font-mono text-text-primary">{order.id.slice(0, 8)}…</span>
-          {' · '}
-          {STATUS_LABEL[order.status] ?? order.status}
-        </p>
+    <div className="mx-auto max-w-3xl px-4 py-10 md:py-14">
+      <div className="rounded-2xl border border-border bg-surface p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)] md:p-8">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 inline-flex size-10 items-center justify-center rounded-full bg-success/10 text-success">
+            <CheckCircle2 className="size-5" aria-hidden />
+          </span>
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+              {isPaid ? 'Compra finalizada' : isPending ? 'Pedido recebido' : 'Pedido registrado'}
+            </p>
+            <h1 className="mt-1 text-2xl font-bold text-text-primary md:text-3xl">
+              {isPaid
+                ? 'Obrigado pela sua compra'
+                : isPending
+                  ? 'Estamos aguardando a confirmacao do pagamento'
+                  : 'Acompanhe o status do seu pedido'}
+            </h1>
+            <p className="mt-2 text-sm text-text-secondary">
+              Numero do pedido{' '}
+              <span className="font-mono font-semibold text-text-primary">{shortOrderId(order.id)}</span>
+            </p>
+          </div>
+        </div>
 
         {isPending && !isPixPending && (
           <div className="mt-6">
@@ -178,36 +189,64 @@ export function OrderThankYouView({
           </div>
         )}
 
-        <dl className="mt-6 space-y-2 text-sm">
-          <div className="flex justify-between gap-4">
-            <dt className="text-text-secondary">Total</dt>
-            <dd className="font-bold text-brand tabular-nums">{formatCurrency(order.total)}</dd>
+        <div className="mt-6 grid gap-3 md:grid-cols-2">
+          <div className="rounded-xl border border-border bg-surface-muted/30 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">Status</p>
+            <p className="mt-2 text-sm font-semibold text-text-primary">
+              {STATUS_LABEL[order.status] ?? order.status}
+            </p>
           </div>
-          {Number(order.discount_amount ?? 0) > 0 && (
-            <div className="flex justify-between gap-4 text-success">
-              <dt>Desconto Pix</dt>
-              <dd className="tabular-nums">− {formatCurrency(Number(order.discount_amount))}</dd>
+          <div className="rounded-xl border border-border bg-surface-muted/30 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">Pagamento</p>
+            <p className="mt-2 text-sm font-semibold text-text-primary">
+              {order.payment_method
+                ? PAYMENT_METHOD_LABEL[order.payment_method] ?? order.payment_method
+                : 'Nao informado'}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-xl border border-border p-4">
+          <dl className="space-y-2 text-sm">
+            <div className="flex items-center justify-between gap-4">
+              <dt className="inline-flex items-center gap-2 text-text-secondary">
+                <ReceiptText className="size-4" aria-hidden />
+                Total
+              </dt>
+              <dd className="font-bold tabular-nums text-brand">{formatCurrency(order.total)}</dd>
             </div>
-          )}
-          {order.shipping_method_name && (
-            <div className="flex justify-between gap-4">
-              <dt className="text-text-secondary">Frete</dt>
-              <dd className="text-text-primary">{order.shipping_method_name}</dd>
-            </div>
-          )}
-          {order.payment_method && (
-            <div className="flex justify-between gap-4">
-              <dt className="text-text-secondary">Pagamento</dt>
-              <dd className="text-text-primary">
-                {PAYMENT_METHOD_LABEL[order.payment_method] ?? order.payment_method}
-              </dd>
-            </div>
-          )}
-        </dl>
+            {Number(order.discount_amount ?? 0) > 0 && (
+              <div className="flex items-center justify-between gap-4 text-success">
+                <dt>Desconto Pix</dt>
+                <dd className="tabular-nums">- {formatCurrency(Number(order.discount_amount))}</dd>
+              </div>
+            )}
+            {order.shipping_method_name && (
+              <div className="flex items-center justify-between gap-4">
+                <dt className="inline-flex items-center gap-2 text-text-secondary">
+                  <Package className="size-4" aria-hidden />
+                  Frete
+                </dt>
+                <dd className="text-text-primary">{order.shipping_method_name}</dd>
+              </div>
+            )}
+            {order.payment_method && (
+              <div className="flex items-center justify-between gap-4">
+                <dt className="inline-flex items-center gap-2 text-text-secondary">
+                  <CreditCard className="size-4" aria-hidden />
+                  Metodo
+                </dt>
+                <dd className="text-text-primary">
+                  {PAYMENT_METHOD_LABEL[order.payment_method] ?? order.payment_method}
+                </dd>
+              </div>
+            )}
+          </dl>
+        </div>
 
         {order.order_items?.length > 0 && (
           <div className="mt-6 border-t border-border pt-6">
-            <h2 className="text-sm font-semibold text-text-primary">Itens</h2>
+            <h2 className="text-sm font-semibold text-text-primary">Itens do pedido</h2>
             <ul className="mt-3 space-y-2 text-sm text-text-secondary">
               {order.order_items.map((item) => (
                 <li key={item.id} className="flex justify-between gap-4">

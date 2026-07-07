@@ -133,13 +133,13 @@ export function ShippingCalculator({
               placeholder="Digite seu CEP"
               inputMode="numeric"
               aria-label="CEP para cálculo de frete"
-              className="w-full rounded-lg border border-border bg-surface py-3 pl-4 pr-28 text-sm text-text-primary placeholder:text-text-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+              className="w-full border border-border bg-surface py-3 pl-4 pr-28 text-sm text-text-primary placeholder:text-text-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
             />
             <button
               type="button"
               onClick={calculate}
               disabled={loading}
-              className="absolute right-1 top-1 bottom-1 rounded-md bg-surface-muted px-4 text-sm font-semibold text-text-primary transition-colors hover:bg-border disabled:opacity-60"
+              className="absolute right-1 top-1 bottom-1 border-border px-4 text-sm font-semibold text-text-primary "
             >
               {loading ? '...' : 'Calcular'}
             </button>
@@ -178,7 +178,7 @@ export function ShippingCalculator({
       {error && <Alert type="error">{error}</Alert>}
 
       {isProduct && (
-        <p className="rounded-lg bg-surface-muted px-4 py-3 text-xs leading-relaxed text-text-muted">
+        <p style={{ color: 'black' }} className="rounded-lg bg-surface-muted px-4 py-3 text-xs leading-relaxed">
           Os prazos de entrega começam a contar a partir do faturamento do pedido e podem variar de
           acordo com a quantidade de produtos no carrinho.
         </p>

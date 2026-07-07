@@ -49,7 +49,7 @@ export function ProductPricingBlock({
         </div>
       )}
 
-      <p className="text-[30px] font-bold leading-none tracking-tight text-text-primary md:text-[36px]">
+      <p className="text-[30px] font-bold leading-none tracking-tight md:text-[36px] text-brand">
         {formatCurrency(price)}
       </p>
 

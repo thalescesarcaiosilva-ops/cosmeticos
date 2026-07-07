@@ -23,6 +23,23 @@ export type ProductImage = {
   media: MediaAsset
 }
 
+export type ProductVariation = {
+  id: string
+  product_id: string
+  name: string
+  sku: string | null
+  price: number
+  stock: number
+  media_id: string | null
+  sort_order: number
+  active: boolean
+  media?: {
+    id: string
+    public_url: string
+    alt_text: string | null
+  } | null
+}
+
 export type ProductCategoryRef = {
   category_id: string
   categories: {
@@ -51,6 +68,7 @@ export type Product = {
   brand?: Brand | null
   product_categories?: ProductCategoryRef[]
   product_images?: ProductImage[]
+  product_variations?: ProductVariation[]
   created_at: string
   updated_at: string
 }
@@ -72,4 +90,6 @@ export type ProductDetail = Product & {
   categorySlugs: string[]
   brandName: string | null
   brandSlug: string | null
+  ratingAverage?: number
+  ratingCount?: number
 }

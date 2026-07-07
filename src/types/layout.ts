@@ -17,12 +17,24 @@ export type PhoneContact = {
   href: string
 }
 
+export type MenuCategoryChild = {
+  id: string
+  label: string
+  href: string
+}
+
 export type MenuCategory = {
   id: string
   label: string
   href: string
   slug: string
   hasDropdown?: boolean
+  children?: MenuCategoryChild[]
+}
+
+export type ContactPageLink = {
+  label: string
+  href: string
 }
 
 export type HelpLink = {
@@ -41,5 +53,6 @@ export type SiteLayoutData = {
   socialLinks: SocialLink[]
   phone: PhoneContact
   helpLink: HelpLink
+  contactPage: ContactPageLink
   menuCategories: MenuCategory[]
 }

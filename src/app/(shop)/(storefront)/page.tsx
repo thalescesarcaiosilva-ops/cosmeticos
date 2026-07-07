@@ -3,6 +3,7 @@ import { CategoryGrid } from '@/components/collection/CategoryGrid'
 import { HomeBannerCarousel } from '@/components/home/HomeBannerCarousel'
 import { ProductCarouselSection } from '@/components/home/ProductCarouselSection'
 import { getHomeBannersPublic, splitBannersByDevice } from '@/lib/banners/queries'
+import { HOME_CATEGORY_SLUGS } from '@/lib/home/config'
 import { getCollectionsForCarousel } from '@/lib/collections/queries'
 import { getHomeCategorySections } from '@/lib/home/queries'
 import { buildInstallmentMap } from '@/lib/payment/build-installment-map'
@@ -22,10 +23,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
+  const homeCategoryOptions =
+    HOME_CATEGORY_SLUGS.length > 0 ? { slugs: HOME_CATEGORY_SLUGS } : undefined
+
   const [banners, collections, categorySections, paymentSettings] = await Promise.all([
     getHomeBannersPublic(),
-    getCollectionsForCarousel(),
-    getHomeCategorySections(),
+    getCollectionsForCarousel(homeCategoryOptions),
+    getHomeCategorySections(homeCategoryOptions),
     getPaymentSettings(),
   ])
 

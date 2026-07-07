@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createPublicClient } from '@/lib/supabase/public'
 import { SITE_SETTINGS_ID } from '@/lib/layout/queries'
 import { buildPaymentMethodIcons } from '@/lib/payment/build-payment-method-icons'
+import { parseInstallmentInterestRates } from '@/lib/payment/installment-rates'
 import { parsePaymentMethods } from '@/lib/payment/parse-payment-methods'
 import {
   DEFAULT_CHECKOUT_PAYMENT_SETTINGS,
@@ -16,6 +17,7 @@ export const PAYMENT_COLUMNS = `
   installment_interest_free,
   installment_min_value,
   installment_interest_rate,
+  installment_interest_rates,
   installment_text_free,
   installment_text_interest,
   payment_methods_config,
@@ -28,6 +30,7 @@ type PaymentRow = {
   installment_interest_free: number | null
   installment_min_value: number | null
   installment_interest_rate: number | null
+  installment_interest_rates?: unknown
   installment_text_free: string | null
   installment_text_interest: string | null
   payment_methods_config?: unknown
@@ -48,6 +51,7 @@ function mapPaymentSettings(row: PaymentRow | null): PaymentSettings {
     monthlyInterestRate: Number(
       row.installment_interest_rate ?? DEFAULT_PAYMENT_SETTINGS.monthlyInterestRate
     ),
+    installmentInterestRates: parseInstallmentInterestRates(row.installment_interest_rates),
     installmentTextInterestFree:
       row.installment_text_free ?? DEFAULT_PAYMENT_SETTINGS.installmentTextInterestFree,
     installmentTextWithInterest:

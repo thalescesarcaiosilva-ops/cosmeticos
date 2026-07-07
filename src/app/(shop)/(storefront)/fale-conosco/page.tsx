@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const storeName = data.storeName || 'Loja'
 
   return buildPageMetadata({
-    title: `Fale Conosco | ${storeName}`,
+    title: `${data.pageTitle} | ${storeName}`,
     description:
       data.intro ??
       'Entre em contato conosco. Tire dúvidas sobre pedidos, produtos e atendimento.',

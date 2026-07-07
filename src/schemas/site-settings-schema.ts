@@ -31,6 +31,15 @@ const paymentCheckoutConfigSchema = z.object({
   cardEnabled: z.boolean().optional(),
 })
 
+const installmentInterestRatesSchema = z
+  .record(z.string(), z.number().min(0).max(100))
+  .optional()
+
+const contactSupportTopicSchema = z.object({
+  title: z.string().trim().min(1).max(80),
+  description: z.string().trim().min(1).max(300),
+})
+
 export const updateSiteSettingsSchema = z.object({
   store_name: z.string().min(1).max(100).optional(),
   logo_image_url: optionalUrl,
@@ -56,8 +65,20 @@ export const updateSiteSettingsSchema = z.object({
   installment_interest_free: z.number().int().min(1).max(24).optional(),
   installment_min_value: z.number().positive().max(99999).optional(),
   installment_interest_rate: z.number().min(0).max(100).optional(),
+  installment_interest_rates: installmentInterestRatesSchema,
   installment_text_free: z.string().min(1).max(120).optional(),
   installment_text_interest: z.string().min(1).max(120).optional(),
+  contact_page_title: z.string().min(1).max(100).optional(),
+  contact_page_intro: z
+    .string()
+    .max(2000)
+    .optional()
+    .nullable()
+    .transform((value) => {
+      if (value == null || value.trim() === '') return null
+      return value.trim()
+    }),
+  contact_page_support_topics: z.array(contactSupportTopicSchema).max(12).optional(),
   payment_methods_config: z.array(paymentMethodConfigSchema).max(20).optional(),
   payment_checkout_config: paymentCheckoutConfigSchema.optional(),
 })
