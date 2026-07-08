@@ -5,6 +5,7 @@ import type { StoreProfile } from '@/lib/store-profile/queries'
 import { absoluteUrl } from '@/lib/seo/site-url'
 import {
   buildMerchantReturnPolicy,
+  buildShippingServiceJsonLd,
   organizationId,
 } from '@/lib/seo/json-ld/merchant-schemas'
 
@@ -119,6 +120,8 @@ export function buildStoreJsonLd({
   if (returnPolicy) {
     store.hasMerchantReturnPolicy = returnPolicy
   }
+
+  store.hasShippingService = buildShippingServiceJsonLd()
 
   return store
 }

@@ -150,7 +150,7 @@ function FooterContactColumn({ contact }: { contact: FooterData['contact'] }) {
         {contact.address && (
           <div className="flex gap-3">
             <MapPin className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
-            <p className="whitespace-pre-line leading-relaxed text-text-secondary">
+            <p className="leading-relaxed text-text-secondary">
               {contact.address}
             </p>
           </div>

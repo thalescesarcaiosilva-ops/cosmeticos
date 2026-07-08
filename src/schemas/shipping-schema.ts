@@ -3,6 +3,9 @@ import { z } from 'zod'
 const cepRuleSchema = z.object({
   prefixes: z.array(z.string().min(1).max(5).regex(/^\d+$/)).min(1).max(20),
   price: z.number().min(0).max(99999),
+  estimated_days_min: z.number().int().min(0).max(90).optional().nullable(),
+  estimated_days_max: z.number().int().min(0).max(90).optional().nullable(),
+  region_label: z.string().min(1).max(80).optional().nullable(),
 })
 
 export const shippingQuoteSchema = z.object({

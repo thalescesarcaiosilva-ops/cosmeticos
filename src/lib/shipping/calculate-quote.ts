@@ -24,20 +24,23 @@ function formatDeliveryLabel(min: number | null, max: number | null): string {
   return 'Prazo a combinar'
 }
 
-function resolvePrice(method: ShippingRow, cep: string): number {
+function resolveRule(method: ShippingRow, cep: string): CepRule | null {
   const rules = Array.isArray(method.cep_rules) ? method.cep_rules : []
   for (const rule of rules) {
     if (!Array.isArray(rule.prefixes)) continue
     const match = rule.prefixes.some((prefix) => cep.startsWith(prefix))
-    if (match) return Number(rule.price)
+    if (match) return rule
   }
-  return Number(method.base_price)
+  return null
 }
 
 function mapQuoteLine(method: ShippingRow, cep: string, subtotal: number): ShippingQuoteLine {
-  let price = resolvePrice(method, cep)
+  const matchedRule = resolveRule(method, cep)
+  let price = matchedRule ? Number(matchedRule.price) : Number(method.base_price)
   const freeAbove = method.free_above != null ? Number(method.free_above) : null
   const isFree = freeAbove != null && subtotal >= freeAbove
+  const minDays = matchedRule?.estimated_days_min ?? method.estimated_days_min
+  const maxDays = matchedRule?.estimated_days_max ?? method.estimated_days_max
 
   if (isFree) price = 0
 
@@ -47,7 +50,7 @@ function mapQuoteLine(method: ShippingRow, cep: string, subtotal: number): Shipp
     description: method.description,
     price,
     isFree,
-    deliveryLabel: formatDeliveryLabel(method.estimated_days_min, method.estimated_days_max),
+    deliveryLabel: formatDeliveryLabel(minDays, maxDays),
   }
 }
 

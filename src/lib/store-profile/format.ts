@@ -89,7 +89,12 @@ function formatDayRange(days: string[]): string {
 }
 
 function formatHour(time: string): string {
-  return time.replace(':', '') + 'h'
+  const normalized = time.trim()
+  if (!normalized) return ''
+  if (/^\d{2}:\d{2}$/.test(normalized)) {
+    return `${normalized}h`
+  }
+  return normalized
 }
 
 export function formatOpeningHoursLong(slots: StoreOpeningHoursSlot[]): string | null {
@@ -116,27 +121,28 @@ export function formatStoreAddressInline(
     | 'store_postal_code'
   >
 ): string | null {
-  const streetPart = [
-    profile.store_street,
-    profile.store_street_number,
-    profile.store_complement,
-  ]
-    .filter(Boolean)
-    .join(', ')
-
-  const cityPart =
-    profile.store_city && profile.store_state
-      ? `${profile.store_city} - ${profile.store_state}`
-      : profile.store_city
-
-  const parts = [
-    streetPart,
-    profile.store_neighborhood,
-    cityPart,
-    profile.store_postal_code ? `CEP: ${profile.store_postal_code}` : null,
+  const streetParts = [
+    profile.store_street?.trim(),
+    profile.store_street_number?.trim(),
+    profile.store_complement?.trim(),
   ].filter(Boolean)
 
-  return parts.length > 0 ? parts.join(' - ') : null
+  const neighborhood = profile.store_neighborhood?.trim()
+  const cityState =
+    profile.store_city?.trim() && profile.store_state?.trim()
+      ? `${profile.store_city.trim()}/${profile.store_state.trim()}`
+      : (profile.store_city?.trim() ?? null)
+
+  const parts = [
+    streetParts.length > 0 ? streetParts.join(', ') : null,
+    neighborhood,
+    cityState,
+    profile.store_postal_code?.trim()
+      ? `CEP ${profile.store_postal_code.trim()}`
+      : null,
+  ].filter(Boolean)
+
+  return parts.length > 0 ? parts.join(', ') : null
 }
 
 export function formatPhoneDisplay(areaCode: string, number: string): string | null {

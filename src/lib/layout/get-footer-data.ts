@@ -7,7 +7,7 @@ import {
 import {
   formatOpeningHoursLong,
   formatPhoneDisplay,
-  formatStoreAddress,
+  formatStoreAddressInline,
 } from '@/lib/store-profile/format'
 import { getStoreProfile } from '@/lib/store-profile/queries'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
@@ -156,7 +156,7 @@ export async function getFooterData(): Promise<FooterData> {
     ? configuredPaymentText.replace('{count}', String(installmentFree))
     : null
 
-  const profileAddress = storeProfile ? formatStoreAddress(storeProfile) : null
+  const profileAddress = storeProfile ? formatStoreAddressInline(storeProfile) : null
   const profileHours = storeProfile
     ? formatOpeningHoursLong(storeProfile.store_opening_hours)
     : null

@@ -1,6 +1,9 @@
 export type CepRule = {
   prefixes: string[]
   price: number
+  estimated_days_min?: number | null
+  estimated_days_max?: number | null
+  region_label?: string | null
 }
 
 export type ShippingMethod = {
