@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Jost } from 'next/font/google'
+import { Fraunces, IBM_Plex_Mono, Jost } from 'next/font/google'
 import { headers } from 'next/headers'
 import { HeadScripts } from '@/components/seo/HeadScripts'
 import { buildFaviconIcons } from '@/lib/seo/build-metadata-icons'
@@ -14,6 +14,21 @@ const jost = Jost({
   variable: '--font-jost',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
+})
+
+const fraunces = Fraunces({
+  variable: '--font-fraunces',
+  subsets: ['latin'],
+  weight: ['300', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+})
+
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: '--font-ibm-plex-mono',
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  display: 'swap',
 })
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -55,7 +70,10 @@ export default async function RootLayout({
   const headScripts = !isAdmin ? (await getPublicStoreProfile()).head_scripts : null
 
   return (
-    <html lang="pt-BR" className={`${jost.variable} h-full antialiased`}>
+    <html
+      lang="pt-BR"
+      className={`${jost.variable} ${fraunces.variable} ${ibmPlexMono.variable} h-full antialiased`}
+    >
       <head>
         <HeadScripts html={headScripts} />
       </head>

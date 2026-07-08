@@ -60,6 +60,19 @@
   --color-nav: var(--color-nav-bg);
   --color-nav-text: var(--color-nav-text);
   --font-sans: var(--font-jost), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-fraunces), "Fraunces", Georgia, serif;
+  --font-mono: var(--font-ibm-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Paleta institucional (páginas "Quem somos" / história da loja) */
+  --color-cream: #fbf3ef;
+  --color-plum: #3b1530;
+  --color-plum2: #5b2249;
+  --color-rose: #c1577a;
+  --color-rosed: #a63f62;
+  --color-sage: #7c9473;
+  --color-saged: #5f7857;
+  --color-gold: #b8934a;
+  --color-ink: #2b1f26;
 }
 
 body {
@@ -111,3 +124,46 @@ body {
 .product-grid {
   @apply grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4;
 }
+.swatch { border-radius: 9999px; box-shadow: 0 8px 24px -8px rgba(59,21,48,0.35); }
+ 
+  .label-card {
+    background: #FFFDFB;
+    border: 1.5px solid rgba(59,21,48,0.18);
+    box-shadow: 0 22px 50px -20px rgba(59,21,48,0.30);
+  }
+  .label-row {
+    border-bottom: 1px dashed rgba(59,21,48,0.22);
+  }
+  .label-row:last-child { border-bottom: none; }
+ 
+  .seal {
+    border: 1.5px solid #B8934A;
+  }
+  .seal::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px dashed rgba(184,147,74,0.6);
+    border-radius: 9999px;
+  }
+ 
+  .barcode span {
+    display: inline-block;
+    width: 2px;
+    background: #3B1530;
+    margin-right: 3px;
+  }
+ 
+  @media (prefers-reduced-motion: no-preference) {
+    .float-slow { animation: floaty 7s ease-in-out infinite; }
+    .float-slower { animation: floaty 9s ease-in-out infinite 1s; }
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-14px); }
+    }
+  }
+ 
+  .focus-ring:focus-visible {
+    outline: 2px solid #B8934A;
+    outline-offset: 3px;
+  }

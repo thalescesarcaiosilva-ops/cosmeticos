@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { CategoryGrid } from '@/components/collection/CategoryGrid'
 import { HomeBannerCarousel } from '@/components/home/HomeBannerCarousel'
+import { NewsletterSection } from '@/components/home/NewsletterSection'
 import { ProductCarouselSection } from '@/components/home/ProductCarouselSection'
+import { StoreAboutSection } from '@/components/home/StoreAboutSection'
 import { getHomeBannersPublic, splitBannersByDevice } from '@/lib/banners/queries'
 import { HOME_CATEGORY_SLUGS } from '@/lib/home/config'
 import { getCollectionsForCarousel } from '@/lib/collections/queries'
@@ -48,6 +50,8 @@ export default async function HomePage() {
           <CategoryGrid items={collections} />
         </section>
 
+        <StoreAboutSection />
+
         {categorySections.map((section) => (
           <ProductCarouselSection
             key={section.id}
@@ -58,23 +62,7 @@ export default async function HomePage() {
           />
         ))}
 
-        <section className="rounded-lg bg-surface-muted px-6 py-10 text-center">
-          <h2 className="mb-2 text-xl font-bold">Clube de Ofertas</h2>
-          <p className="mb-4 text-sm text-text-secondary">
-            Cadastre-se e receba novidades e ofertas exclusivas.
-          </p>
-          <form className="mx-auto flex max-w-md flex-col gap-3 sm:flex-row">
-            <input
-              type="email"
-              placeholder="Seu e-mail"
-              className="flex-1 rounded-full border border-border px-4 py-2.5 text-sm"
-              aria-label="E-mail para newsletter"
-            />
-            <button type="submit" className="btn-primary">
-              Cadastrar
-            </button>
-          </form>
-        </section>
+        <NewsletterSection />
       </div>
     </>
   )

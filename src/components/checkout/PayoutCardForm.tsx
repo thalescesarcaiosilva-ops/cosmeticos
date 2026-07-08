@@ -46,8 +46,8 @@ async function tokenizeCard(
   card: {
     number: string
     holderName: string
-    expirationMonth: string
-    expirationYear: string
+    expirationMonth: number
+    expirationYear: number
     cvv: string
   }
 ): Promise<string> {
@@ -70,34 +70,51 @@ async function tokenizeCard(
   })
 
   const text = await res.text()
-  let json: Record<string, unknown> = {}
+  let json: unknown = null
   if (text) {
     try {
-      json = JSON.parse(text) as Record<string, unknown>
+      json = JSON.parse(text)
     } catch {
-      json = { raw: text }
+      json = text
     }
   }
 
   if (!res.ok) {
-    const message =
-      typeof json.message === 'string'
-        ? json.message
-        : 'Não foi possível validar o cartão'
+    const message = extractTokenizeError(json)
     throw new Error(message)
   }
 
-  const hash =
-    (typeof json.hash === 'string' && json.hash) ||
-    (typeof json.token === 'string' && json.token) ||
-    (typeof json.card_hash === 'string' && json.card_hash) ||
-    null
-
+  const hash = extractCardHash(json)
   if (!hash) {
     throw new Error('Token do cartão inválido')
   }
 
   return hash
+}
+
+function extractCardHash(json: unknown): string | null {
+  if (typeof json === 'string' && json.trim().length > 0) {
+    return json.trim()
+  }
+  if (json && typeof json === 'object') {
+    const record = json as Record<string, unknown>
+    const candidate = record.hash ?? record.token ?? record.card_hash
+    if (typeof candidate === 'string' && candidate.trim().length > 0) {
+      return candidate.trim()
+    }
+  }
+  return null
+}
+
+function extractTokenizeError(json: unknown): string {
+  if (json && typeof json === 'object') {
+    const message = (json as Record<string, unknown>).message
+    if (typeof message === 'string' && message.trim()) return message
+    if (Array.isArray(message) && message.length > 0) {
+      return message.map((m) => String(m)).join('. ')
+    }
+  }
+  return 'Não foi possível validar o cartão'
 }
 
 export const PayoutCardForm = forwardRef<PayoutCardFormHandle, PayoutCardFormProps>(
@@ -169,11 +186,17 @@ export const PayoutCardForm = forwardRef<PayoutCardFormHandle, PayoutCardFormPro
         throw new Error('Validade do cartão inválida')
       }
 
+      const expirationMonth = Number(expiryDigits.slice(0, 2))
+      const expirationYear = 2000 + Number(expiryDigits.slice(2))
+      if (expirationMonth < 1 || expirationMonth > 12) {
+        throw new Error('Mês de validade inválido')
+      }
+
       const cardHash = await tokenizeCard(config, {
         number,
         holderName,
-        expirationMonth: expiryDigits.slice(0, 2),
-        expirationYear: expiryDigits.length === 4 ? `20${expiryDigits.slice(2)}` : expiryDigits.slice(2),
+        expirationMonth,
+        expirationYear,
         cvv,
       })
 
