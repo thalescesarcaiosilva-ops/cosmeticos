@@ -72,8 +72,24 @@ body {
   overflow-x: hidden;
 }
 
+@media (min-width: 768px) {
+  .shop-header[data-header-mode='overlay'] .header-action {
+    color: #ffffff;
+  }
+
+  .shop-header[data-header-mode='overlay'] .header-action:hover {
+    opacity: 0.88;
+  }
+}
+
 .shop-header[data-header-mode='solid'] .header-action {
   color: var(--color-brand-primary);
+}
+
+@media (min-width: 768px) {
+  .home-hero-banner {
+    margin-top: calc(-1 * var(--shop-header-height));
+  }
 }
 
 @media (max-width: 767px) {

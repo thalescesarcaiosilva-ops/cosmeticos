@@ -46,10 +46,6 @@ export function HomeBannerCarousel({ banners, className = '' }: HomeBannerCarous
         {banners.map((banner, slideIndex) => {
           const alt = banner.alt_text?.trim() || banner.title || 'Banner promocional'
           const isFirst = slideIndex === 0
-          const aspectStyle =
-            banner.width && banner.height
-              ? { aspectRatio: `${banner.width} / ${banner.height}` }
-              : undefined
 
           const image = (
             <Image
@@ -61,8 +57,7 @@ export function HomeBannerCarousel({ banners, className = '' }: HomeBannerCarous
               quality={80}
               priority={isFirst}
               fetchPriority={isFirst ? 'high' : 'auto'}
-              className="block h-full w-full object-cover"
-              style={aspectStyle}
+              className="block h-auto w-full object-contain md:h-full md:object-cover"
             />
           )
 
@@ -70,7 +65,6 @@ export function HomeBannerCarousel({ banners, className = '' }: HomeBannerCarous
             <div
               key={banner.id}
               className="relative w-full shrink-0"
-              style={aspectStyle ?? { aspectRatio: '21 / 9' }}
               aria-hidden={slideIndex !== index}
             >
               {image}
@@ -82,7 +76,6 @@ export function HomeBannerCarousel({ banners, className = '' }: HomeBannerCarous
               key={banner.id}
               href={banner.link_href}
               className="relative block w-full shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-              style={aspectStyle ?? { aspectRatio: '21 / 9' }}
               aria-label={alt}
               tabIndex={slideIndex === index ? 0 : -1}
             >

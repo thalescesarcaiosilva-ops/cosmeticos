@@ -39,7 +39,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <HomeBannerCarousel banners={desktopBanners} className="hidden md:block" />
+      <HomeBannerCarousel banners={desktopBanners} className="home-hero-banner hidden md:block" />
       <HomeBannerCarousel banners={mobileBanners} className="md:hidden" />
 
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
