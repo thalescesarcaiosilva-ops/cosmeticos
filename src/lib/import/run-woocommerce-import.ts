@@ -1,5 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { downloadRemoteImage, optimizeProductImage } from '@/lib/import/product-image-import'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import type { WooCommerceProductRow } from '@/lib/import/woocommerce-csv'
 import { syncProductRelations } from '@/lib/products/queries'
 import { slugify } from '@/lib/products/format'
@@ -305,6 +306,7 @@ async function importProductImage(
   if (uploadError) throw new Error(uploadError.message)
 
   const { data: urlData } = admin.storage.from('product-images').getPublicUrl(storagePath)
+  const normalizedPublicUrl = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
   const filename = sourceUrl.split('/').pop()?.split('?')[0] ?? 'import.webp'
 
   const { data, error } = await admin
@@ -313,7 +315,7 @@ async function importProductImage(
       filename: filename.slice(0, 255),
       storage_path: storagePath,
       bucket: 'product-images',
-      public_url: urlData.publicUrl,
+      public_url: normalizedPublicUrl,
       mime_type: optimized.mimeType,
       size_bytes: optimized.size,
       alt_text: altText.slice(0, 255) || null,

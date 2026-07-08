@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { createCategorySchema } from '@/schemas/category-schema'
 
 const CATEGORY_COLUMNS =
@@ -15,8 +16,10 @@ function mapAdminCategory(row: Record<string, unknown>) {
     id: row.id,
     name: row.name,
     slug: row.slug,
-    image_url: (row.image_url as string | null) ?? (row.seal_image_url as string | null) ?? null,
-    banner_image_url: row.banner_image_url,
+    image_url: toSiteMediaUrl(
+      (row.image_url as string | null) ?? (row.seal_image_url as string | null) ?? null
+    ),
+    banner_image_url: toSiteMediaUrl(row.banner_image_url as string | null),
     page_title: row.page_title,
     description: row.description,
     sort_order: row.sort_order,

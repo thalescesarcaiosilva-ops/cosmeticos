@@ -1,3 +1,5 @@
+import { toSiteMediaUrl } from '@/lib/media/public-url'
+
 export type PrimaryProductImage = {
   url: string | null
   alt: string | null
@@ -45,8 +47,10 @@ export function getPrimaryProductImage(
     if (!item || typeof item !== 'object' || !('media' in item)) continue
     const media = readMedia(item.media)
     if (media?.public_url) {
+      const normalizedUrl = toSiteMediaUrl(media.public_url)
+      if (!normalizedUrl) continue
       return {
-        url: media.public_url,
+        url: normalizedUrl,
         alt: media.alt_text ?? fallbackAlt ?? null,
       }
     }

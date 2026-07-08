@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { updateFooterAssetSchema } from '@/schemas/footer-asset-schema'
 
 const FOOTER_ASSET_COLUMNS =
@@ -55,7 +56,13 @@ export async function PATCH(request: Request, context: RouteContext) {
 
   revalidateTag('site-layout', 'max')
 
-  return jsonSuccess(data, 'Ícone atualizado')
+  return jsonSuccess(
+    {
+      ...data,
+      image_url: toSiteMediaUrl(data.image_url) ?? data.image_url,
+    },
+    'Ícone atualizado'
+  )
 }
 
 export async function DELETE(_request: Request, context: RouteContext) {

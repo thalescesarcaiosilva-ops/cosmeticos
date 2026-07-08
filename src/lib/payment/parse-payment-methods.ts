@@ -3,6 +3,7 @@ import {
   PAYMENT_METHOD_SUGGESTIONS,
   type PaymentMethod,
 } from '@/types/payment'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 
 type PaymentMethodsRow = {
   payment_methods_config?: unknown
@@ -43,7 +44,7 @@ export function parsePaymentMethodImages(raw: unknown): Record<string, string> {
   const images: Record<string, string> = {}
   for (const [key, value] of Object.entries(raw)) {
     if (typeof value === 'string' && value.trim()) {
-      images[key.trim()] = value.trim()
+      images[key.trim()] = toSiteMediaUrl(value.trim()) ?? value.trim()
     }
   }
   return images
@@ -54,7 +55,7 @@ function readImageUrl(item: Record<string, unknown>): string | null {
     typeof item.imageUrl === 'string' && item.imageUrl.trim() ? item.imageUrl.trim() : null
   const snake =
     typeof item.image_url === 'string' && item.image_url.trim() ? item.image_url.trim() : null
-  return camel ?? snake
+  return toSiteMediaUrl(camel ?? snake)
 }
 
 function parseConfigArray(raw: unknown): PaymentMethod[] {
@@ -101,7 +102,7 @@ function mergeMethodImages(
 ): PaymentMethod[] {
   return methods.map((method) => ({
     ...method,
-    imageUrl: method.imageUrl || imageMap[method.id] || null,
+    imageUrl: toSiteMediaUrl(method.imageUrl || imageMap[method.id] || null),
   }))
 }
 
@@ -128,7 +129,7 @@ export function normalizePaymentMethodsForSave(methods: PaymentMethod[]): Paymen
       .map((method) => ({
         id: method.id.trim() || slugifyPaymentMethod(method.label),
         label: method.label.trim(),
-        imageUrl: method.imageUrl?.trim() || null,
+        imageUrl: toSiteMediaUrl(method.imageUrl?.trim() || null),
       }))
   )
 }

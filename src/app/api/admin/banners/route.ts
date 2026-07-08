@@ -1,8 +1,9 @@
 import { revalidatePath } from 'next/cache'
-import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { BANNER_COLUMNS, getAdminHomeBanners } from '@/lib/banners/queries'
 import { isAllowedBannerMime, optimizeBannerImage } from '@/lib/image/optimize-banner'
 import { createBannerSchema } from '@/schemas/banner-schema'
@@ -25,8 +26,8 @@ export async function GET() {
   const auth = await requireAdmin()
   if (auth instanceof Response) return auth
 
-  const admin = createAdminClient()
-  const data = await getAdminHomeBanners(admin)
+  const supabase = await createClient()
+  const data = await getAdminHomeBanners(supabase)
   return jsonSuccess(data)
 }
 
@@ -72,7 +73,15 @@ export async function POST(request: Request) {
   }
 
   const storagePath = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${optimized.extension}`
-  const admin = createAdminClient()
+  let admin: ReturnType<typeof createAdminClient>
+  try {
+    admin = createAdminClient()
+  } catch {
+    return jsonError(
+      'Configuração ausente no deploy: SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY.',
+      503
+    )
+  }
 
   const { error: uploadError } = await admin.storage
     .from('banners')
@@ -92,6 +101,7 @@ export async function POST(request: Request) {
   }
 
   const { data: urlData } = admin.storage.from('banners').getPublicUrl(storagePath)
+  const normalizedPublicUrl = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
 
   const supabase = await createClient()
   const { count } = await supabase
@@ -104,7 +114,7 @@ export async function POST(request: Request) {
       title: meta.data.title?.trim() || 'Banner',
       alt_text: meta.data.alt_text?.trim() || null,
       link_href: meta.data.link_href?.trim() || null,
-      image_url: urlData.publicUrl,
+      image_url: normalizedPublicUrl,
       storage_path: storagePath,
       width: optimized.width,
       height: optimized.height,

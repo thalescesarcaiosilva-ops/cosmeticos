@@ -2,9 +2,25 @@ import { z } from 'zod'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { upsertProductVariationsSchema } from '@/schemas/product-variation-schema'
 
 const paramsSchema = z.object({ id: z.string().uuid() })
+
+function normalizeVariationMedia(media: unknown) {
+  const entry = Array.isArray(media) ? media[0] : media
+  if (!entry || typeof entry !== 'object') return null
+  const url =
+    'public_url' in entry && typeof entry.public_url === 'string'
+      ? toSiteMediaUrl(entry.public_url) ?? entry.public_url
+      : null
+  if (!url) return null
+
+  return {
+    ...entry,
+    public_url: url,
+  }
+}
 
 async function requireAdmin() {
   try {
@@ -43,7 +59,12 @@ export async function GET(
     return jsonError('Não foi possível carregar variações', 500)
   }
 
-  return jsonSuccess(data ?? [])
+  return jsonSuccess(
+    (data ?? []).map((variation) => ({
+      ...variation,
+      media: normalizeVariationMedia(variation.media),
+    }))
+  )
 }
 
 export async function PUT(

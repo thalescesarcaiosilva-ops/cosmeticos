@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { createFooterAssetSchema } from '@/schemas/footer-asset-schema'
 
 const FOOTER_ASSET_COLUMNS =
@@ -47,7 +48,12 @@ export async function GET(request: Request) {
     )
   }
 
-  return jsonSuccess(data ?? [])
+  return jsonSuccess(
+    (data ?? []).map((asset) => ({
+      ...asset,
+      image_url: toSiteMediaUrl(asset.image_url) ?? asset.image_url,
+    }))
+  )
 }
 
 export async function POST(request: Request) {
@@ -79,5 +85,12 @@ export async function POST(request: Request) {
 
   revalidateTag('site-layout', 'max')
 
-  return jsonSuccess(data, 'Ícone adicionado', 201)
+  return jsonSuccess(
+    {
+      ...data,
+      image_url: toSiteMediaUrl(data.image_url) ?? data.image_url,
+    },
+    'Ícone adicionado',
+    201
+  )
 }

@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import type { HomeBanner, HomeBannerPublic } from '@/types/home-banner'
 import type { BannerDeviceTarget } from '@/schemas/banner-schema'
 
@@ -21,7 +22,8 @@ function mapPublicBanner(row: Record<string, unknown>): HomeBannerPublic {
     title: row.title as string,
     alt_text: (row.alt_text as string | null) ?? null,
     link_href: (row.link_href as string | null) ?? null,
-    image_url: row.image_url as string,
+    image_url:
+      toSiteMediaUrl(row.image_url as string | null) ?? (row.image_url as string),
     width: (row.width as number | null) ?? null,
     height: (row.height as number | null) ?? null,
     device_target: (row.device_target as BannerDeviceTarget | undefined) ?? 'both',
@@ -76,6 +78,7 @@ export async function getAdminHomeBanners(
   if (!full.error && full.data) {
     return full.data.map((row) => ({
       ...(row as HomeBanner),
+      image_url: toSiteMediaUrl((row as HomeBanner).image_url) ?? (row as HomeBanner).image_url,
       device_target: (row.device_target as BannerDeviceTarget | undefined) ?? 'both',
     }))
   }
@@ -89,6 +92,9 @@ export async function getAdminHomeBanners(
   if (legacy.error || !legacy.data) return []
   return legacy.data.map((row) => ({
     ...(row as Omit<HomeBanner, 'device_target'>),
+    image_url:
+      toSiteMediaUrl((row as Omit<HomeBanner, 'device_target'>).image_url) ??
+      (row as Omit<HomeBanner, 'device_target'>).image_url,
     device_target: 'both' as const,
   }))
 }

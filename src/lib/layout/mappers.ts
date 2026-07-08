@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import type { LayoutQueryResult } from '@/types/database-layout'
 import type { SiteLayoutData, SocialLink } from '@/types/layout'
 
@@ -39,7 +40,7 @@ export function mapToSiteLayoutData(result: LayoutQueryResult): SiteLayoutData {
   return {
     storeName: settings.store_name,
     logo: {
-      imageUrl: settings.logo_image_url ?? null,
+      imageUrl: toSiteMediaUrl(settings.logo_image_url ?? null),
     },
     policyLinks: policyLinks.map((link) => ({
       label: link.label,

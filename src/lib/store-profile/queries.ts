@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { SITE_SETTINGS_ID } from '@/lib/layout/queries'
 import type { StoreOpeningHoursSlot } from '@/schemas/store-profile-schema'
 
@@ -92,7 +93,10 @@ function mapRow(row: Record<string, unknown>, columnsAvailable: boolean): StoreP
     company_legal_name:
       typeof row.company_legal_name === 'string' ? row.company_legal_name : null,
     cnpj: typeof row.cnpj === 'string' ? row.cnpj : null,
-    logo_image_url: typeof row.logo_image_url === 'string' ? row.logo_image_url : null,
+    logo_image_url:
+      typeof row.logo_image_url === 'string'
+        ? toSiteMediaUrl(row.logo_image_url)
+        : null,
     store_description:
       typeof row.store_description === 'string' ? row.store_description : null,
     contact_email: typeof row.contact_email === 'string' ? row.contact_email : null,

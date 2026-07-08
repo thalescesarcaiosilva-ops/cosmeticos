@@ -1,4 +1,5 @@
 import { createPublicClient } from '@/lib/supabase/public'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { mapProductCard, PRODUCT_SELECT } from '@/lib/products/queries'
 import type { CollectionFiltersInput } from '@/schemas/category-schema'
 import type {
@@ -49,8 +50,8 @@ function mapCollection(row: Record<string, unknown>): CollectionDetail {
     slug: row.slug as string,
     pageTitle: (row.page_title as string | null) ?? (row.name as string),
     description: (row.description as string | null) ?? null,
-    bannerImageUrl: (row.banner_image_url as string | null) ?? null,
-    imageUrl,
+    bannerImageUrl: toSiteMediaUrl((row.banner_image_url as string | null) ?? null),
+    imageUrl: toSiteMediaUrl(imageUrl),
   }
 }
 
@@ -283,9 +284,11 @@ function mapCollectionCarouselRow(row: Record<string, unknown>): CollectionCarou
     name: row.name as string,
     slug: row.slug as string,
     imageUrl:
-      (row.image_url as string | null) ??
-      (row.seal_image_url as string | null | undefined) ??
-      null,
+      toSiteMediaUrl(
+        (row.image_url as string | null) ??
+          (row.seal_image_url as string | null | undefined) ??
+          null
+      ),
   }
 }
 

@@ -12,6 +12,7 @@ import { DEFAULT_PRODUCT_MEDIA_BUCKET } from '@/lib/media/buckets'
 import { ProductCsvImport } from '@/components/admin/ProductCsvImport'
 import { ProductImageOrder } from '@/components/admin/ProductImageOrder'
 import { fetchApi } from '@/lib/api/fetch-api'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { slugify } from '@/lib/products/format'
 import { createProductSchema, updateProductSchema } from '@/schemas/product-schema'
 import type { Brand, Product } from '@/types/product'
@@ -565,13 +566,14 @@ export function ProductsManager() {
           <tbody>
             {products.map((p) => {
               const thumb = p.product_images?.sort((a, b) => a.sort_order - b.sort_order)[0]?.media
+              const thumbUrl = toSiteMediaUrl(thumb?.public_url ?? null)
               return (
                 <tr key={p.id} className="border-b border-border last:border-0">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
-                      {thumb?.public_url && (
+                      {thumbUrl && (
                         <div className="relative size-10 shrink-0 overflow-hidden rounded border border-border">
-                          <Image src={thumb.public_url} alt="" fill sizes="40px" className="object-contain" />
+                          <Image src={thumbUrl} alt="" fill sizes="40px" className="object-contain" />
                         </div>
                       )}
                       <div>

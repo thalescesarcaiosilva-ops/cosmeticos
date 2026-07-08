@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import type {
   FooterPageRow,
   MenuItemRow,
@@ -110,6 +111,16 @@ export async function getSiteSettings(
     if (!paymentMethods.error && paymentMethods.data) {
       Object.assign(row, paymentMethods.data)
     }
+  }
+
+  if (typeof row.logo_image_url === 'string') {
+    row.logo_image_url = toSiteMediaUrl(row.logo_image_url)
+  }
+  if (typeof row.seo_og_image_url === 'string') {
+    row.seo_og_image_url = toSiteMediaUrl(row.seo_og_image_url)
+  }
+  if (typeof row.favicon_url === 'string') {
+    row.favicon_url = toSiteMediaUrl(row.favicon_url)
   }
 
   return row as unknown as SiteSettingsRow
@@ -260,5 +271,8 @@ export async function getFooterAssets(
     throw new LayoutQueryError('footer_assets', error)
   }
 
-  return data ?? []
+  return (data ?? []).map((asset) => ({
+    ...asset,
+    image_url: toSiteMediaUrl(asset.image_url) ?? asset.image_url,
+  }))
 }

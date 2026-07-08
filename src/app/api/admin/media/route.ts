@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import {
   DEFAULT_PRODUCT_MEDIA_BUCKET,
   isMediaBucket,
@@ -29,6 +30,13 @@ async function requireAdmin() {
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
 const MAX_SIZE = 5 * 1024 * 1024
+
+function normalizeMediaAssetUrls<T extends { public_url: string | null }>(items: T[]): T[] {
+  return items.map((item) => ({
+    ...item,
+    public_url: toSiteMediaUrl(item.public_url) ?? item.public_url,
+  }))
+}
 
 function resolveBucket(raw: FormDataEntryValue | null): MediaBucket {
   if (typeof raw === 'string' && isMediaBucket(raw)) return raw
@@ -70,7 +78,7 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     error: false,
-    data: data ?? [],
+    data: normalizeMediaAssetUrls(data ?? []),
     meta: { page, limit, total, totalPages },
   })
 }
@@ -122,6 +130,7 @@ export async function POST(request: Request) {
   }
 
   const { data: urlData } = admin.storage.from(bucket).getPublicUrl(storagePath)
+  const normalizedPublicUrl = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
 
   const { data, error } = await admin
     .from('media_assets')
@@ -129,7 +138,7 @@ export async function POST(request: Request) {
       filename: file.name,
       storage_path: storagePath,
       bucket,
-      public_url: urlData.publicUrl,
+      public_url: normalizedPublicUrl,
       mime_type: file.type,
       size_bytes: file.size,
       alt_text: typeof altText === 'string' && altText.trim() ? altText.trim() : null,
@@ -143,5 +152,12 @@ export async function POST(request: Request) {
     return jsonError('Não foi possível registrar a mídia', 400)
   }
 
-  return jsonSuccess(data, 'Imagem enviada', 201)
+  return jsonSuccess(
+    {
+      ...data,
+      public_url: toSiteMediaUrl(data.public_url) ?? data.public_url,
+    },
+    'Imagem enviada',
+    201
+  )
 }

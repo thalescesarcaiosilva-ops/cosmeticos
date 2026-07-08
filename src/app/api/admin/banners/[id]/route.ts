@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { BANNER_COLUMNS } from '@/lib/banners/queries'
 import { isAllowedBannerMime, optimizeBannerImage } from '@/lib/image/optimize-banner'
 import { updateBannerSchema } from '@/schemas/banner-schema'
@@ -147,7 +148,15 @@ async function patchWithImage(id: string, formData: FormData) {
   }
 
   const storagePath = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${optimized.extension}`
-  const admin = createAdminClient()
+  let admin: ReturnType<typeof createAdminClient>
+  try {
+    admin = createAdminClient()
+  } catch {
+    return jsonError(
+      'Configuração ausente no deploy: SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY.',
+      503
+    )
+  }
 
   const { error: uploadError } = await admin.storage
     .from('banners')
@@ -161,10 +170,11 @@ async function patchWithImage(id: string, formData: FormData) {
   }
 
   const { data: urlData } = admin.storage.from('banners').getPublicUrl(storagePath)
+  const normalizedPublicUrl = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
 
   const updatePayload = {
     ...meta.data,
-    image_url: urlData.publicUrl,
+    image_url: normalizedPublicUrl,
     storage_path: storagePath,
     width: optimized.width,
     height: optimized.height,
@@ -218,8 +228,12 @@ export async function DELETE(
   }
 
   if (existing.storage_path) {
-    const admin = createAdminClient()
-    await admin.storage.from('banners').remove([existing.storage_path])
+    try {
+      const admin = createAdminClient()
+      await admin.storage.from('banners').remove([existing.storage_path])
+    } catch {
+      // Não bloqueia remoção do registro caso service role não esteja disponível.
+    }
   }
 
   revalidatePath('/')
