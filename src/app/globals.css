@@ -72,12 +72,14 @@ body {
   overflow-x: hidden;
 }
 
-.shop-header[data-header-mode='overlay'] .header-action {
-  color: #ffffff;
-}
+@media (min-width: 768px) {
+  .shop-header[data-header-mode='overlay'] .header-action {
+    color: #ffffff;
+  }
 
-.shop-header[data-header-mode='overlay'] .header-action:hover {
-  opacity: 0.88;
+  .shop-header[data-header-mode='overlay'] .header-action:hover {
+    opacity: 0.88;
+  }
 }
 
 .shop-header[data-header-mode='solid'] .header-action {

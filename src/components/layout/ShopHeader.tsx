@@ -31,9 +31,19 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
   const pathname = usePathname()
   const headerRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(false)
 
   const isHome = pathname === '/'
-  const overlay = isHome && !scrolled
+  // Overlay transparente só no desktop; no mobile o header fica sempre sólido.
+  const overlay = isHome && !scrolled && isDesktop
+
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 768px)')
+    const syncViewport = () => setIsDesktop(media.matches)
+    syncViewport()
+    media.addEventListener('change', syncViewport)
+    return () => media.removeEventListener('change', syncViewport)
+  }, [])
 
   useEffect(() => {
     function onScroll() {
@@ -71,10 +81,10 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
     <div
       ref={headerRef}
       data-header-mode={overlay ? 'overlay' : 'solid'}
-      className={`shop-header sticky top-0 z-50 overflow-visible transition-[background-color,box-shadow,border-color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
+      className={`shop-header sticky top-0 z-50 overflow-visible border-b border-border bg-surface text-text-primary shadow-[rgba(74,32,42,0.08)_0px_1px_2px_0px] transition-[background-color,box-shadow,border-color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
         overlay
-          ? 'border-b border-white/10 bg-transparent text-white md:bg-black/45 md:backdrop-blur-md'
-          : 'border-b border-border bg-surface text-text-primary shadow-[rgba(74,32,42,0.08)_0px_1px_2px_0px]'
+          ? 'md:border-white/10 md:bg-black/45 md:text-white md:shadow-none md:backdrop-blur-md'
+          : ''
       } ${className ?? ''}`}
     >
       <TopBar
