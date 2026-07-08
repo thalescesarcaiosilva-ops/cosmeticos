@@ -48,7 +48,7 @@ export type StoreContent = {
       eyebrow: string
       title: string
       paragraphs: string[]
-      imageUrl: string | null
+      imageUrl: 'public/loja.jpg' | null
       imageAlt: string
       cta: CtaLink
     }
@@ -89,7 +89,7 @@ export type StoreContent = {
       enabled: boolean
       eyebrow: string
       title: string
-      imageUrl: string | null
+      imageUrl: 'public/loja.jpg' | null
       imageAlt: string
       caption: string
     }
