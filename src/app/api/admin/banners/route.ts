@@ -8,6 +8,9 @@ import { BANNER_COLUMNS, getAdminHomeBanners } from '@/lib/banners/queries'
 import { isAllowedBannerMime, optimizeBannerImage } from '@/lib/image/optimize-banner'
 import { createBannerSchema } from '@/schemas/banner-schema'
 
+const BANNER_COLUMNS_INSERT_LEGACY =
+  'id, title, alt_text, link_href, image_url, storage_path, width, height, file_size, sort_order, active, created_at'
+
 async function requireAdmin() {
   try {
     return await requireAdminUser()
@@ -26,9 +29,20 @@ export async function GET() {
   const auth = await requireAdmin()
   if (auth instanceof Response) return auth
 
-  const supabase = await createClient()
-  const data = await getAdminHomeBanners(supabase)
-  return jsonSuccess(data)
+  let client
+  try {
+    client = createAdminClient()
+  } catch {
+    client = await createClient()
+  }
+
+  try {
+    const data = await getAdminHomeBanners(client)
+    return jsonSuccess(data)
+  } catch (e) {
+    console.error('[banners/list]', e instanceof Error ? e.message : e)
+    return jsonError('Não foi possível carregar os banners', 500)
+  }
 }
 
 export async function POST(request: Request) {
@@ -103,34 +117,54 @@ export async function POST(request: Request) {
   const { data: urlData } = admin.storage.from('banners').getPublicUrl(storagePath)
   const normalizedPublicUrl = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
 
-  const supabase = await createClient()
-  const { count } = await supabase
+  const { count } = await admin
     .from('home_banners')
     .select('id', { count: 'exact', head: true })
 
-  const { data, error } = await supabase
+  const insertPayload = {
+    title: meta.data.title?.trim() || 'Banner',
+    alt_text: meta.data.alt_text?.trim() || null,
+    link_href: meta.data.link_href?.trim() || null,
+    image_url: normalizedPublicUrl,
+    storage_path: storagePath,
+    width: optimized.width,
+    height: optimized.height,
+    file_size: optimized.size,
+    sort_order: count ?? 0,
+    active: meta.data.active ?? true,
+    device_target: meta.data.device_target ?? 'both',
+  }
+
+  let inserted = await admin
     .from('home_banners')
-    .insert({
-      title: meta.data.title?.trim() || 'Banner',
-      alt_text: meta.data.alt_text?.trim() || null,
-      link_href: meta.data.link_href?.trim() || null,
-      image_url: normalizedPublicUrl,
-      storage_path: storagePath,
-      width: optimized.width,
-      height: optimized.height,
-      file_size: optimized.size,
-      sort_order: count ?? 0,
-      active: meta.data.active ?? true,
-      device_target: meta.data.device_target ?? 'both',
-    })
+    .insert(insertPayload)
     .select(BANNER_COLUMNS)
     .single()
 
-  if (error || !data) {
+  if (inserted.error) {
+    console.error('[banners/insert]', inserted.error.message)
+    const missingDeviceTarget = /device_target/i.test(inserted.error.message)
+    if (missingDeviceTarget) {
+      const legacyPayload = { ...insertPayload }
+      delete (legacyPayload as { device_target?: string }).device_target
+      inserted = await admin
+        .from('home_banners')
+        .insert(legacyPayload)
+        .select(BANNER_COLUMNS_INSERT_LEGACY)
+        .single()
+    }
+  }
+
+  if (inserted.error || !inserted.data) {
     await admin.storage.from('banners').remove([storagePath])
-    return jsonError('Não foi possível registrar o banner', 400)
+    return jsonError(
+      inserted.error?.message
+        ? `Não foi possível registrar o banner: ${inserted.error.message}`
+        : 'Não foi possível registrar o banner',
+      400
+    )
   }
 
   revalidatePath('/')
-  return jsonSuccess(data, 'Banner adicionado', 201)
+  return jsonSuccess(inserted.data, 'Banner adicionado', 201)
 }
