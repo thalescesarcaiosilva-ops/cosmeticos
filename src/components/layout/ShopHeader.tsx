@@ -73,7 +73,7 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
       data-header-mode={overlay ? 'overlay' : 'solid'}
       className={`shop-header sticky top-0 z-50 overflow-visible transition-[background-color,box-shadow,border-color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
         overlay
-          ? 'border-b border-white/10 bg-black/45 text-white backdrop-blur-md'
+          ? 'border-b border-white/10 bg-transparent text-white md:bg-black/45 md:backdrop-blur-md'
           : 'border-b border-border bg-surface text-text-primary shadow-[rgba(74,32,42,0.08)_0px_1px_2px_0px]'
       } ${className ?? ''}`}
     >

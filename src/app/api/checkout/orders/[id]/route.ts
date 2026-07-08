@@ -8,7 +8,7 @@ import {
 import { createAdminClient } from '@/lib/supabase/admin'
 
 const ORDER_COLUMNS =
-  'id, status, payment_status, payment_method, total, subtotal, shipping_price, discount_amount, shipping_method_name, pix_qr_code, pix_expiration, created_at'
+  'id, status, payment_status, payment_method, customer_email, total, subtotal, shipping_price, discount_amount, shipping_method_name, pix_qr_code, pix_expiration, created_at'
 
 const ORDER_ITEM_COLUMNS =
   'id, product_id, quantity, unit_price, subtotal, products(name, slug)'

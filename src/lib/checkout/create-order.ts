@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendOrderConfirmationEmail } from '@/lib/email/order-confirmation'
 import type { CheckoutCustomerInput, CheckoutShippingAddressInput } from '@/schemas/checkout-payment-schema'
 
 export type CheckoutOrderResult = {
@@ -96,6 +97,40 @@ export async function confirmCheckoutPayment(params: {
     p_payment_method: params.paymentMethod ?? null,
     p_payout_transaction_id: params.transactionId ?? null,
   })
+
+  const { data: order } = await admin
+    .from('orders')
+    .select('id, status, payment_status, customer_email, customer_name, total, shipping_method_name, payment_method, created_at')
+    .eq('id', params.orderId)
+    .maybeSingle()
+
+  if (!order) return
+
+  const isPaid = order.status === 'confirmed' || order.payment_status === 'paid'
+  if (!isPaid) return
+  if (!order.customer_email?.trim()) return
+
+  const dedupe = await recordWebhookEvent({
+    eventId: `order-confirm-email:${order.id}`,
+    orderId: order.id,
+    payload: { source: 'confirm_checkout_payment', orderId: order.id },
+  }).catch(() => true)
+
+  if (!dedupe) return
+
+  const sent = await sendOrderConfirmationEmail({
+    orderId: order.id,
+    customerEmail: order.customer_email,
+    customerName: order.customer_name,
+    total: Number(order.total ?? 0),
+    shippingMethodName: order.shipping_method_name,
+    paymentMethod: order.payment_method,
+    createdAt: order.created_at,
+  })
+
+  if (!sent.ok && process.env.NODE_ENV !== 'production') {
+    console.error('[order-confirmation-email]', sent.reason)
+  }
 }
 
 export async function findOrderById(orderId: string) {

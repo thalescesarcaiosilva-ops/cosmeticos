@@ -28,6 +28,7 @@ type OrderDetail = {
   status: string
   payment_status: string
   payment_method: string | null
+  customer_email: string | null
   total: number
   subtotal: number | null
   shipping_price: number | null
@@ -85,23 +86,31 @@ export function OrderThankYouView({
       if (!active) return
       setLoading(false)
       if (apiError || !data) {
-        setError(apiError ?? 'Pedido não encontrado')
+        if (!order) setError(apiError ?? 'Pedido não encontrado')
         return
       }
       setOrder(data)
-      if (data.status === 'confirmed' || data.payment_status === 'paid') {
-        clearGuestOrderToken(orderId)
-      }
     }
 
     load()
-    const interval = setInterval(load, 4000)
+    const interval = setInterval(() => {
+      const current = order
+      const alreadyPaid = current?.status === 'confirmed' || current?.payment_status === 'paid'
+      if (!alreadyPaid) {
+        load()
+      }
+    }, 4000)
 
     return () => {
       active = false
       clearInterval(interval)
+      const current = order
+      const alreadyPaid = current?.status === 'confirmed' || current?.payment_status === 'paid'
+      if (alreadyPaid) {
+        clearGuestOrderToken(orderId)
+      }
     }
-  }, [orderId])
+  }, [orderId, order])
 
   async function refreshPaymentStatus() {
     setPolling(true)
@@ -163,6 +172,12 @@ export function OrderThankYouView({
               Numero do pedido{' '}
               <span className="font-mono font-semibold text-text-primary">{shortOrderId(order.id)}</span>
             </p>
+            {order.customer_email && (
+              <p className="mt-1 text-sm text-text-secondary">
+                Este pedido foi vinculado ao e-mail{' '}
+                <span className="font-semibold text-text-primary">{order.customer_email}</span>.
+              </p>
+            )}
           </div>
         </div>
 

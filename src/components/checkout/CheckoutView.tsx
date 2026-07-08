@@ -539,6 +539,10 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
           </div>
         )}
 
+        <div className="mt-6 xl:hidden">
+          <CheckoutOrderSummary {...summaryProps} />
+        </div>
+
         <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_320px] xl:items-start">
           <div className="space-y-6">
             <CheckoutPanel title="Identificação">
@@ -873,10 +877,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
               </div>
             </CheckoutPanel>
-          </div>
-
-          <div className="xl:hidden">
-            <CheckoutOrderSummary {...summaryProps} />
           </div>
 
           <div className="hidden xl:block">

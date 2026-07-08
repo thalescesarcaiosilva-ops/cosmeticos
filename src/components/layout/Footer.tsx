@@ -117,7 +117,7 @@ function FooterMenusSection({ menus }: { menus: FooterData['menus'] }) {
   if (visibleMenus.length === 0) return null
 
   return (
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
       {visibleMenus.map((menu) => (
         <div key={menu.id}>
           <h3 className="mb-4 text-sm font-semibold text-text-primary">{menu.title}</h3>

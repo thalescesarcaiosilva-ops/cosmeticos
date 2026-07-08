@@ -96,7 +96,7 @@ export function CheckoutPixPanel({
           <img
             src={displayImage}
             alt="QR Code Pix"
-            className="size-56 rounded-md border border-border bg-white p-2"
+            className="h-auto w-full max-w-[280px] rounded-md border border-border bg-white p-2"
           />
         </div>
       )}
@@ -107,7 +107,7 @@ export function CheckoutPixPanel({
             Pix copia e cola
           </p>
           <div className="flex gap-2">
-            <code className="min-w-0 flex-1 overflow-x-auto rounded-md border border-border bg-surface px-3 py-2 text-xs text-text-primary">
+            <code className="min-w-0 flex-1 break-all whitespace-pre-wrap rounded-md border border-border bg-surface px-3 py-2 text-xs text-text-primary">
               {qrCode}
             </code>
             <Button type="button" variant="secondary" onClick={handleCopy} aria-label="Copiar código Pix">

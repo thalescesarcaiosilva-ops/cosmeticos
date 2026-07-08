@@ -35,7 +35,7 @@ export function HomeBannerCarousel({ banners, className = '' }: HomeBannerCarous
 
   return (
     <section
-      className={`relative w-full overflow-hidden bg-surface-muted ${className}`}
+      className={`relative w-full overflow-hidden bg-transparent ${className}`}
       aria-label="Destaques da loja"
       aria-roledescription="carrossel"
     >
@@ -61,7 +61,7 @@ export function HomeBannerCarousel({ banners, className = '' }: HomeBannerCarous
               quality={80}
               priority={isFirst}
               fetchPriority={isFirst ? 'high' : 'auto'}
-              className="h-auto w-full object-cover"
+              className="block h-full w-full object-cover"
               style={aspectStyle}
             />
           )
