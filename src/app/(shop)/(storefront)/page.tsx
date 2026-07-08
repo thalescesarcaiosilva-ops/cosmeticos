@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Fragment } from 'react'
 import { CategoryGrid } from '@/components/collection/CategoryGrid'
 import { HomeBannerCarousel } from '@/components/home/HomeBannerCarousel'
 import { NewsletterSection } from '@/components/home/NewsletterSection'
@@ -50,16 +51,16 @@ export default async function HomePage() {
           <CategoryGrid items={collections} />
         </section>
 
-        <StoreAboutSection />
-
         {categorySections.map((section) => (
-          <ProductCarouselSection
-            key={section.id}
-            title={section.name}
-            viewAllHref={`/colecoes/${section.slug}`}
-            products={section.products}
-            installments={installments}
-          />
+          <Fragment key={section.id}>
+            <ProductCarouselSection
+              title={section.name}
+              viewAllHref={`/colecoes/${section.slug}`}
+              products={section.products}
+              installments={installments}
+            />
+            {section.slug === 'cuidados-capilares' && <StoreAboutSection />}
+          </Fragment>
         ))}
 
         <NewsletterSection />

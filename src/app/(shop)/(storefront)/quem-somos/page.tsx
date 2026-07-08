@@ -6,7 +6,7 @@ import { buildPageMetadata } from '@/lib/seo/metadata'
 export function generateMetadata(): Metadata {
   return buildPageMetadata({
     title: 'Quem somos | Batista Cosméticos',
-    description: storeContent.about.hero.description,
+    description: storeContent.about.sobre.paragraphs[0],
     path: '/quem-somos',
   })
 }

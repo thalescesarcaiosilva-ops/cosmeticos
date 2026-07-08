@@ -23,13 +23,6 @@ export type StoreInfoRow = {
   value: string
 }
 
-export type OfferingCard = {
-  /** Cor do marcador: 'rose' | 'gold' | 'sage' (paleta institucional). */
-  accent: 'rose' | 'gold' | 'sage'
-  title: string
-  description: string
-}
-
 export type OpeningHoursRow = {
   label: string
   value: string
@@ -48,7 +41,7 @@ export type StoreContent = {
       eyebrow: string
       title: string
       paragraphs: string[]
-      imageUrl: '../public/loja.png' | null
+      imageUrl: string | null
       imageAlt: string
       cta: CtaLink
     }
@@ -64,32 +57,18 @@ export type StoreContent = {
   }
 
   about: {
-    hero: {
-      eyebrow: string
-      titleLead: string
-      titleAccent: string
-      description: string
-      primaryCta: CtaLink
-      secondaryCta: CtaLink
-    }
-    essence: {
+    /** Texto institucional "Sobre Nós" (topo da página Quem somos). */
+    sobre: {
       eyebrow: string
       title: string
-      /** Aceita <strong> simples? Não — texto puro. Use paragraphs separados. */
       paragraphs: string[]
-    }
-    offerings: {
-      eyebrow: string
-      title: string
-      cards: OfferingCard[]
-      values: string[]
     }
     /** Seção dedicada à foto da loja na página Quem somos. */
     storeImage: {
       enabled: boolean
       eyebrow: string
       title: string
-      imageUrl: '../public/loja.png' | null
+      imageUrl: string | null
       imageAlt: string
       caption: string
     }
@@ -123,8 +102,8 @@ export const storeContent: StoreContent = {
         'Somos uma loja especializada em cosméticos, skincare, maquiagem e higiene pessoal, com produtos selecionados para oferecer qualidade, variedade e preços acessíveis.',
         'Da escolha da fórmula certa ao atendimento no pós-venda, estamos ao seu lado em cada etapa da sua rotina de beleza.',
       ],
-      imageUrl: '../public/loja.png',
-      imageAlt: 'Fachada da Batista Cosméticos',
+      imageUrl: '/loja.png',
+      imageAlt: 'Interior da Batista Cosméticos',
       cta: { label: 'Conheça nossa história', href: '/quem-somos' },
     },
     newsletter: {
@@ -140,53 +119,22 @@ export const storeContent: StoreContent = {
   },
 
   about: {
-    hero: {
+    sobre: {
       eyebrow: 'Quem somos',
-      titleLead: 'Beleza é sinônimo',
-      titleAccent: 'de cuidado.',
-      description:
-        'Somos uma loja especializada em cosméticos, produtos de skincare, maquiagem e itens de higiene pessoal, sempre selecionados para oferecer qualidade, variedade e preços acessíveis.',
-      primaryCta: { label: 'Falar no WhatsApp', href: 'https://wa.me/5599921290000' },
-      secondaryCta: { label: 'Ver horários e endereço', href: '#informacoes' },
-    },
-    essence: {
-      eyebrow: 'Nossa essência',
-      title: 'Cuidado que começa antes do produto chegar até você.',
+      title: 'Sobre Nós',
       paragraphs: [
-        'Na Batista Cosméticos, cada item da nossa vitrine passa por uma seleção cuidadosa antes de chegar até a sua casa. Acreditamos que cuidar da beleza é, acima de tudo, cuidar de si — por isso reunimos skincare, maquiagem e higiene pessoal em um só lugar, com a curadoria de quem entende do assunto.',
-        'Trabalhamos para que comprar cosméticos online seja simples, seguro e agradável, sem abrir mão da qualidade nem do preço justo. Da escolha da fórmula certa ao atendimento no pós-venda, estamos ao seu lado em cada etapa.',
+        'A Batista Cosméticos nasceu com o propósito de tornar o cuidado pessoal mais acessível, prático e confiável para todos. Fundada por Eduardo Batista Prado Lessa, a loja foi criada a partir da visão de oferecer produtos de qualidade com preços justos, sem complicar a experiência de compra.',
+        'Somos especializados em cosméticos, produtos de skincare, maquiagem e itens de higiene pessoal, sempre selecionados com atenção aos detalhes. Cada produto disponível em nossa loja passa por uma curadoria criteriosa, garantindo que você tenha acesso a itens que realmente entregam qualidade, segurança e bons resultados no dia a dia.',
+        'Acreditamos que cuidar da beleza é também cuidar de si. Por isso, buscamos reunir em um só lugar tudo o que você precisa para sua rotina de autocuidado, com variedade, praticidade e confiança. Nosso compromisso é facilitar sua escolha, oferecendo opções que atendam diferentes necessidades e perfis.',
+        'Trabalhamos constantemente para que sua experiência de compra seja simples, segura e transparente. Desde a navegação no site até o atendimento pós-venda, cada etapa é pensada para garantir comodidade e satisfação. Valorizamos o relacionamento com nossos clientes e buscamos oferecer um atendimento ágil, claro e eficiente.',
+        'Mais do que vender produtos, queremos fazer parte da sua rotina, oferecendo soluções que contribuem para o seu bem-estar e autoestima. A Batista Cosméticos é o seu espaço de confiança para cuidar da beleza com praticidade e qualidade.',
       ],
-    },
-    offerings: {
-      eyebrow: 'O que oferecemos',
-      title: 'Três frentes de cuidado, um único endereço.',
-      cards: [
-        {
-          accent: 'rose',
-          title: 'Skincare',
-          description:
-            'Produtos para todas as etapas da rotina de pele, escolhidos por qualidade e resultado real.',
-        },
-        {
-          accent: 'gold',
-          title: 'Maquiagem',
-          description:
-            'Variedade de tons e acabamentos para todo tipo de pele, momento e estilo.',
-        },
-        {
-          accent: 'sage',
-          title: 'Higiene pessoal',
-          description:
-            'Itens essenciais do dia a dia, com a mesma atenção à qualidade dos demais produtos.',
-        },
-      ],
-      values: ['Qualidade', 'Variedade', 'Preços acessíveis', 'Atendimento próximo'],
     },
     storeImage: {
       enabled: true,
       eyebrow: 'Nossa loja',
       title: 'Um espaço pensado para a sua experiência de beleza.',
-      imageUrl: null,
+      imageUrl: '/loja.png',
       imageAlt: 'Interior da Batista Cosméticos',
       caption: 'Venha nos visitar e conhecer pessoalmente nossa curadoria de produtos.',
     },

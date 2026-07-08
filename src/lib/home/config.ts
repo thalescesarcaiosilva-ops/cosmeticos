@@ -8,6 +8,5 @@ export const HOME_CATEGORY_SLUGS: string[] = [
     'mamae-e-bebe',
     'cuidados-capilares',
     'maquiagem',
-    'higiene-pessoal',
     'protecao-solar'
 ]

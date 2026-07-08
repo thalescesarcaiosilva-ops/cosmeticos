@@ -1,147 +1,35 @@
-import Link from 'next/link'
 import { storeContent } from '@/lib/store-content/content'
 import { StoreImageFrame } from '@/components/store-content/StoreImageFrame'
 
-const ACCENT_DOT: Record<'rose' | 'gold' | 'sage', { ring: string; dot: string }> = {
-  rose: { ring: 'bg-rose/15', dot: 'bg-rose' },
-  gold: { ring: 'bg-gold/15', dot: 'bg-gold' },
-  sage: { ring: 'bg-sage/15', dot: 'bg-sage' },
-}
-
 const BARCODE_BARS = [100, 60, 80, 40, 100, 50, 90, 30, 70, 100, 45, 85, 60, 95, 35, 75, 55, 100]
-
-function CtaButton({ href, children, variant }: { href: string; children: React.ReactNode; variant: 'solid' | 'link' }) {
-  const isInternal = href.startsWith('/') || href.startsWith('#')
-  const className =
-    variant === 'solid'
-      ? 'focus-ring inline-flex items-center rounded-full bg-rose px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-rosed'
-      : 'focus-ring inline-flex items-center border-b border-plum/40 pb-0.5 text-sm font-medium text-plum transition-colors hover:border-plum'
-
-  if (isInternal) {
-    return (
-      <Link href={href} className={className}>
-        {children}
-      </Link>
-    )
-  }
-  return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
-      {children}
-    </a>
-  )
-}
 
 export function AboutView() {
   const { about } = storeContent
-  const { hero, essence, offerings, storeImage, info } = about
+  const { sobre, storeImage, info } = about
 
   return (
     <div className="bg-cream text-ink">
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-6 pb-28 pt-16 md:grid-cols-2 md:px-10 md:pb-36 md:pt-24">
-          <div className="relative z-10">
-            <p className="mb-5 font-mono text-xs uppercase tracking-[0.3em] text-rosed">
-              {hero.eyebrow}
-            </p>
-            <h1 className="font-display text-[2.6rem] font-medium leading-[1.08] text-plum sm:text-6xl">
-              {hero.titleLead} <span className="italic text-rosed">{hero.titleAccent}</span>
-            </h1>
-            <p className="mt-7 max-w-md text-[1.05rem] leading-relaxed text-ink/80">
-              {hero.description}
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-4">
-              <CtaButton href={hero.primaryCta.href} variant="solid">
-                {hero.primaryCta.label}
-              </CtaButton>
-              <CtaButton href={hero.secondaryCta.href} variant="link">
-                {hero.secondaryCta.label}
-              </CtaButton>
-            </div>
-          </div>
-
-          <div className="relative h-72 md:h-96" aria-hidden="true">
-            <div className="swatch float-slow absolute right-10 top-2 size-32 bg-rose md:size-40" />
-            <div className="swatch float-slower absolute bottom-6 right-32 size-24 bg-sage md:size-28" />
-            <div className="swatch float-slow absolute bottom-0 right-0 size-20 bg-gold md:size-24" />
-            <div className="swatch float-slower absolute right-56 top-24 hidden size-14 bg-plum2 md:block" />
-          </div>
-        </div>
-
-        <svg
-          className="absolute -bottom-1 left-0 w-full text-white"
-          viewBox="0 0 1440 80"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path fill="currentColor" d="M0,40 C360,90 1080,0 1440,40 L1440,80 L0,80 Z" />
-        </svg>
-      </section>
-
-      {/* ESSÊNCIA */}
-      <section id="historia" className="bg-white">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 py-20 md:grid-cols-5 md:px-10 md:py-28">
-          <div className="md:col-span-2">
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-sage">
-              {essence.eyebrow}
-            </p>
-            <h2 className="font-display text-3xl leading-tight text-plum md:text-4xl">
-              {essence.title}
-            </h2>
-          </div>
-          <div className="space-y-5 leading-relaxed text-ink/80 md:col-span-3">
-            {essence.paragraphs.map((paragraph, i) => (
+      {/* SOBRE NÓS */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-4xl px-6 py-16 md:px-10 md:py-24">
+          <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-rosed">
+            {sobre.eyebrow}
+          </p>
+          <h1 className="font-display text-4xl font-medium leading-tight text-plum md:text-5xl">
+            {sobre.title}
+          </h1>
+          <div className="mt-8 space-y-5 text-[1.02rem] leading-relaxed text-ink/80">
+            {sobre.paragraphs.map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
             ))}
           </div>
         </div>
       </section>
 
-      {/* O QUE OFERECEMOS */}
-      <section id="cuidamos" className="bg-cream">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:px-10 md:py-28">
-          <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-rosed">
-            {offerings.eyebrow}
-          </p>
-          <h2 className="max-w-xl font-display text-3xl leading-tight text-plum md:text-4xl">
-            {offerings.title}
-          </h2>
-
-          <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {offerings.cards.map((card) => {
-              const accent = ACCENT_DOT[card.accent]
-              return (
-                <div
-                  key={card.title}
-                  className="rounded-2xl border border-plum/10 bg-white p-8 transition-transform hover:-translate-y-1"
-                >
-                  <div className={`mb-6 flex size-11 items-center justify-center rounded-full ${accent.ring}`}>
-                    <span className={`size-3.5 rounded-full ${accent.dot}`} />
-                  </div>
-                  <h3 className="mb-2 font-display text-xl text-plum">{card.title}</h3>
-                  <p className="text-sm leading-relaxed text-ink/70">{card.description}</p>
-                </div>
-              )
-            })}
-          </div>
-
-          {offerings.values.length > 0 && (
-            <div className="mt-16 flex flex-wrap items-center gap-x-3 gap-y-3 font-mono text-xs uppercase tracking-[0.2em] text-plum/70">
-              {offerings.values.map((value, i) => (
-                <span key={value} className="flex items-center gap-3">
-                  {i > 0 && <span className="text-gold">•</span>}
-                  {value}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* FOTO DA LOJA */}
       {storeImage.enabled && (
-        <section className="bg-white">
-          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-20 md:grid-cols-2 md:px-10 md:py-28">
+        <section className="bg-cream">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-16 md:grid-cols-2 md:px-10 md:py-24">
             <div>
               <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-sage">
                 {storeImage.eyebrow}
@@ -155,14 +43,15 @@ export function AboutView() {
               imageUrl={storeImage.imageUrl}
               alt={storeImage.imageAlt}
               className="aspect-[4/3] w-full"
+              priority
             />
           </div>
         </section>
       )}
 
       {/* INFORMAÇÕES / RÓTULO */}
-      <section id="informacoes" className="bg-cream">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:px-10 md:py-28">
+      <section id="informacoes" className="bg-white">
+        <div className="mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-24">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-sage">
             {info.eyebrow}
           </p>
@@ -214,7 +103,7 @@ export function AboutView() {
 
             {/* Horário + visita */}
             <div className="space-y-6 lg:col-span-2">
-              <div className="rounded-2xl bg-white p-8">
+              <div className="rounded-2xl bg-cream p-8">
                 <h3 className="mb-5 font-display text-xl text-plum">{info.hoursTitle}</h3>
                 <ul className="space-y-3 text-sm">
                   {info.hours.map((row, i) => (
