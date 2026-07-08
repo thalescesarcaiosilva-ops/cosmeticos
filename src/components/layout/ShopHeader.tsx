@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import type {
   ContactPageLink,
@@ -30,30 +30,6 @@ type ShopHeaderProps = {
 export function ShopHeader({ className, ...props }: ShopHeaderProps) {
   const pathname = usePathname()
   const headerRef = useRef<HTMLDivElement>(null)
-  const [scrolled, setScrolled] = useState(false)
-  const [isDesktop, setIsDesktop] = useState(false)
-
-  const isHome = pathname === '/'
-  // Overlay transparente só no desktop; no mobile o header fica sempre sólido.
-  const overlay = isHome && !scrolled && isDesktop
-
-  useEffect(() => {
-    const media = window.matchMedia('(min-width: 768px)')
-    const syncViewport = () => setIsDesktop(media.matches)
-    syncViewport()
-    media.addEventListener('change', syncViewport)
-    return () => media.removeEventListener('change', syncViewport)
-  }, [])
-
-  useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 16)
-    }
-
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [pathname])
 
   useEffect(() => {
     const node = headerRef.current
@@ -75,26 +51,28 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
       window.removeEventListener('resize', syncHeaderHeight)
       document.documentElement.style.removeProperty('--shop-header-height')
     }
-  }, [pathname, scrolled, overlay])
+  }, [pathname])
 
   return (
-    <div
-      ref={headerRef}
-      data-header-mode={overlay ? 'overlay' : 'solid'}
-      className={`shop-header sticky top-0 z-50 overflow-visible border-b border-border bg-surface text-text-primary shadow-[rgba(74,32,42,0.08)_0px_1px_2px_0px] transition-[background-color,box-shadow,border-color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
-        overlay
-          ? 'md:border-white/10 md:bg-black/45 md:text-white md:shadow-none md:backdrop-blur-md'
-          : ''
-      } ${className ?? ''}`}
-    >
-      <TopBar
-        storeName={props.storeName}
-        policyLinks={props.policyLinks}
-        socialLinks={props.socialLinks}
-        overlay={overlay}
+    <>
+      <div
+        ref={headerRef}
+        data-header-mode="solid"
+        className={`shop-header fixed inset-x-0 top-0 z-50 overflow-visible border-b border-border bg-surface text-text-primary shadow-[rgba(74,32,42,0.08)_0px_1px_2px_0px] ${className ?? ''}`}
+      >
+        <TopBar
+          storeName={props.storeName}
+          policyLinks={props.policyLinks}
+          socialLinks={props.socialLinks}
+        />
+        <SiteHeader {...props} />
+        <MainNav categories={props.menuCategories} className="hidden md:block" />
+      </div>
+      <div
+        aria-hidden="true"
+        className="shop-header-spacer shrink-0"
+        style={{ height: 'var(--shop-header-height)' }}
       />
-      <SiteHeader {...props} overlay={overlay} />
-      <MainNav categories={props.menuCategories} overlay={overlay} className="hidden md:block" />
-    </div>
+    </>
   )
 }
