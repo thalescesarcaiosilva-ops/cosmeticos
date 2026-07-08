@@ -158,13 +158,32 @@ async function patchWithImage(id: string, formData: FormData) {
     return jsonError('Banner não encontrado', 404)
   }
 
-  let optimized
+  const raw = Buffer.from(await file.arrayBuffer())
+
+  type BannerUpload = {
+    buffer: Buffer
+    width: number | null
+    height: number | null
+    size: number
+    mimeType: string
+    extension: string
+  }
+
+  let optimized: BannerUpload
   try {
-    const raw = Buffer.from(await file.arrayBuffer())
     optimized = await optimizeBannerImage(raw)
   } catch (e) {
-    const message = e instanceof Error ? e.message : 'Falha ao otimizar a imagem'
-    return jsonError(message, 400)
+    console.error('[banners/optimize]', e instanceof Error ? e.message : e)
+    const fallbackExt =
+      file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg'
+    optimized = {
+      buffer: raw,
+      width: null,
+      height: null,
+      size: raw.byteLength,
+      mimeType: file.type,
+      extension: fallbackExt,
+    }
   }
 
   const storagePath = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${optimized.extension}`

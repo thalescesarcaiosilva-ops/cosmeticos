@@ -1,4 +1,14 @@
-import sharp from 'sharp'
+type SharpFactory = Awaited<typeof import('sharp')>['default']
+
+let sharpModule: SharpFactory | null = null
+
+async function getSharp(): Promise<SharpFactory> {
+  if (!sharpModule) {
+    const mod = await import('sharp')
+    sharpModule = mod.default ?? (mod as unknown as SharpFactory)
+  }
+  return sharpModule
+}
 
 const MAX_WIDTH = 1920
 const MAX_HEIGHT = 720
@@ -24,6 +34,7 @@ export async function optimizeBannerImage(file: Buffer): Promise<OptimizedBanner
     throw new Error('Imagem muito grande. Máximo 8 MB antes da otimização.')
   }
 
+  const sharp = await getSharp()
   const image = sharp(file, { failOn: 'none' })
   const metadata = await image.metadata()
 
