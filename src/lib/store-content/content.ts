@@ -48,7 +48,7 @@ export type StoreContent = {
       eyebrow: string
       title: string
       paragraphs: string[]
-      imageUrl: 'public/loja.jpg' | null
+      imageUrl: '../public/loja.png' | null
       imageAlt: string
       cta: CtaLink
     }
@@ -89,7 +89,7 @@ export type StoreContent = {
       enabled: boolean
       eyebrow: string
       title: string
-      imageUrl: 'public/loja.jpg' | null
+      imageUrl: '../public/loja.png' | null
       imageAlt: string
       caption: string
     }
@@ -123,7 +123,7 @@ export const storeContent: StoreContent = {
         'Somos uma loja especializada em cosméticos, skincare, maquiagem e higiene pessoal, com produtos selecionados para oferecer qualidade, variedade e preços acessíveis.',
         'Da escolha da fórmula certa ao atendimento no pós-venda, estamos ao seu lado em cada etapa da sua rotina de beleza.',
       ],
-      imageUrl: null,
+      imageUrl: '../public/loja.png',
       imageAlt: 'Fachada da Batista Cosméticos',
       cta: { label: 'Conheça nossa história', href: '/quem-somos' },
     },
@@ -198,7 +198,6 @@ export const storeContent: StoreContent = {
         subtitle: 'Ficha da loja',
         sealText: 'cuida\nde você',
         rows: [
-          { label: 'Nome fantasia', value: 'Batista Cosméticos' },
           { label: 'Razão social', value: 'Eduardo Batista Prado Lessa' },
           { label: 'CNPJ', value: '67.834.759/0001-40' },
           { label: 'E-mail', value: 'atendimento@batistacosmeticos.com.br' },
