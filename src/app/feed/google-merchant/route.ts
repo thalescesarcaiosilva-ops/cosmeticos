@@ -1,4 +1,5 @@
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
+import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { getPrimaryProductImage, readBrandName } from '@/lib/products/product-images'
 import { absoluteUrl } from '@/lib/seo/site-url'
 
@@ -41,7 +42,8 @@ export async function GET() {
     .order('updated_at', { ascending: false })
 
   const items = (products ?? []).map((row) => {
-    const imageUrl = getPrimaryProductImage(row.product_images, row.name).url ?? ''
+    const imageUrl =
+      toAbsoluteSiteMediaUrl(getPrimaryProductImage(row.product_images, row.name).url) ?? ''
     const link = absoluteUrl(`/produto/${row.slug}`) ?? ''
     const brand = readBrandName(row.brand)
     const description = stripHtml(row.description ?? row.name).slice(0, 5000)

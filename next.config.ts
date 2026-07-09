@@ -16,7 +16,7 @@ function siteRemotePattern(): RemotePattern | null {
     return {
       protocol: protocol.replace(':', '') === 'http' ? 'http' : 'https',
       hostname,
-      pathname: '/storage/v1/object/public/**',
+      pathname: '/storage/**',
     }
   } catch {
     return null
@@ -36,6 +36,8 @@ if (sitePattern) remotePatterns.push(sitePattern)
 
 const nextConfig: NextConfig = {
   images: {
+    // URLs diretas (/storage/..., /loja.png) — sem proxy /_next/image
+    unoptimized: true,
     qualities: [75, 80],
     remotePatterns,
   },

@@ -2,6 +2,7 @@ import type { FooterData } from '@/lib/layout/get-footer-data'
 import type { SiteLayoutData } from '@/types/layout'
 import type { MerchantSeoContext } from '@/lib/seo/get-merchant-seo-context'
 import type { StoreProfile } from '@/lib/store-profile/queries'
+import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { absoluteUrl } from '@/lib/seo/site-url'
 import {
   buildMerchantReturnPolicy,
@@ -78,7 +79,7 @@ export function buildStoreJsonLd({
     url: siteUrl,
   }
 
-  const image = profile.logo_image_url || layout.logo.imageUrl
+  const image = toAbsoluteSiteMediaUrl(profile.logo_image_url || layout.logo.imageUrl)
   if (image) {
     store.image = image
     store.logo = image

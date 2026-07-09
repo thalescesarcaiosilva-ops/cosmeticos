@@ -1,4 +1,5 @@
 import type { MerchantSeoContext } from '@/lib/seo/get-merchant-seo-context'
+import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { absoluteUrl } from '@/lib/seo/site-url'
 import {
   buildMerchantReturnPolicy,
@@ -22,7 +23,9 @@ export function buildProductJsonLd(
   const url = absoluteUrl(`/produto/${product.slug}`)
   if (!url) return null
 
-  const images = product.images.map((img) => img.url).filter(Boolean)
+  const images = product.images
+    .map((img) => toAbsoluteSiteMediaUrl(img.url))
+    .filter((url): url is string => Boolean(url))
   const description =
     product.meta_description?.trim() ||
     product.description?.trim()?.slice(0, 5000) ||

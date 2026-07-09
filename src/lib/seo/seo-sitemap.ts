@@ -1,3 +1,4 @@
+import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { getPrimaryProductImage } from '@/lib/products/product-images'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
 import { absoluteUrl, getSiteUrl } from '@/lib/seo/site-url'
@@ -112,9 +113,10 @@ async function fetchSupabaseProductUrls(now: Date): Promise<SitemapUrl[]> {
 
   for (const product of data ?? []) {
     const primary = getPrimaryProductImage(product.product_images, product.name)
+    const primaryImageUrl = toAbsoluteSiteMediaUrl(primary.url)
     const images =
-      primary.url != null
-        ? [{ loc: primary.url, ...(primary.alt ? { title: primary.alt } : {}) }]
+      primaryImageUrl != null
+        ? [{ loc: primaryImageUrl, ...(primary.alt ? { title: primary.alt } : {}) }]
         : undefined
 
     urls.push({
