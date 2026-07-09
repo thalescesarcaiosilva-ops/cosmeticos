@@ -91,7 +91,7 @@ export type StoreContent = {
 }
 
 export const storeContent: StoreContent = {
-  whatsappHref: 'https://wa.me/5599921290000',
+  whatsappHref: 'https://wa.me/559992129000',
 
   home: {
     storeAbout: {
