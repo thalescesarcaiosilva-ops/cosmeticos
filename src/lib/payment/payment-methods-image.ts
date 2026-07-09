@@ -6,7 +6,7 @@
  *   2. Defina `imageUrl: '/formas-pagamento.png'`
  */
 export const paymentMethodsImageConfig = {
-  imageUrl: null as string | null,
+  imageUrl: '/pagamento.png',
   alt: 'Formas de pagamento aceitas',
 }
 
