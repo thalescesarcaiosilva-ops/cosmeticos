@@ -3,7 +3,7 @@
 import { ProductPricingBlock } from '@/components/product/ProductPricingBlock'
 import { ProductPurchaseBar } from '@/components/product/ProductPurchaseBar'
 import { ShippingCalculator } from '@/components/shipping/ShippingCalculator'
-import type { CheckoutPaymentSettings, PaymentMethodIcon, PaymentSettings } from '@/types/payment'
+import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 
 type ProductBuyPanelProps = {
   productId: string
@@ -12,7 +12,6 @@ type ProductBuyPanelProps = {
   originalPrice: number | null
   paymentSettings: PaymentSettings
   checkoutSettings: CheckoutPaymentSettings
-  paymentIcons: PaymentMethodIcon[]
 }
 
 export function ProductBuyPanel({
@@ -22,7 +21,6 @@ export function ProductBuyPanel({
   originalPrice,
   paymentSettings,
   checkoutSettings,
-  paymentIcons,
 }: ProductBuyPanelProps) {
   return (
     <div className="space-y-6">
@@ -31,7 +29,6 @@ export function ProductBuyPanel({
         originalPrice={originalPrice}
         paymentSettings={paymentSettings}
         checkoutSettings={checkoutSettings}
-        paymentIcons={paymentIcons}
       />
 
       <ProductPurchaseBar productId={productId} stock={stock} />

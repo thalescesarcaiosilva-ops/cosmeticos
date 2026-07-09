@@ -1,14 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
-import { createPublicClient } from '@/lib/supabase/public'
 import { SITE_SETTINGS_ID } from '@/lib/layout/queries'
-import { buildPaymentMethodIcons } from '@/lib/payment/build-payment-method-icons'
 import { parseInstallmentInterestRates } from '@/lib/payment/installment-rates'
 import { parsePaymentMethods } from '@/lib/payment/parse-payment-methods'
 import {
   DEFAULT_CHECKOUT_PAYMENT_SETTINGS,
   DEFAULT_PAYMENT_SETTINGS,
   type CheckoutPaymentSettings,
-  type PaymentMethodIcon,
   type PaymentSettings,
 } from '@/types/payment'
 
@@ -70,20 +67,6 @@ export async function getPaymentSettings(): Promise<PaymentSettings> {
 
   if (error || !data) return DEFAULT_PAYMENT_SETTINGS
   return mapPaymentSettings(data as PaymentRow)
-}
-
-export async function getPaymentIcons(): Promise<PaymentMethodIcon[]> {
-  const supabase = createPublicClient()
-  const { data, error } = await supabase
-    .from('site_settings')
-    .select('payment_methods_config, payment_methods, payment_method_images')
-    .eq('id', SITE_SETTINGS_ID)
-    .maybeSingle()
-
-  if (error || !data) return []
-
-  const settings = mapPaymentSettings(data as PaymentRow)
-  return buildPaymentMethodIcons(settings.paymentMethods)
 }
 
 function parseCheckoutPaymentConfig(raw: unknown): CheckoutPaymentSettings {

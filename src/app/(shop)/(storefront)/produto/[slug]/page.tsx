@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { ProductPageView } from '@/components/product/ProductPageView'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { buildInstallmentMap } from '@/lib/payment/build-installment-map'
-import { getCheckoutPaymentSettings, getPaymentIcons } from '@/lib/payment/queries'
+import { getCheckoutPaymentSettings } from '@/lib/payment/queries'
 import { getPaymentSettings } from '@/lib/payment/queries'
 import { getProductBySlug, getRelatedProducts } from '@/lib/products/queries'
 import { buildReviewSummary, getApprovedProductReviews } from '@/lib/products/reviews'
@@ -37,11 +37,9 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params
-  const [product, paymentSettings, paymentIcons, checkoutSettings, merchantContext] =
-    await Promise.all([
+  const [product, paymentSettings, checkoutSettings, merchantContext] = await Promise.all([
     getProductBySlug(slug),
     getPaymentSettings(),
-    getPaymentIcons(),
     getCheckoutPaymentSettings(),
     getMerchantSeoContext(),
   ])
@@ -83,7 +81,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
         approvedReviews={approvedReviews}
         paymentSettings={paymentSettings}
         checkoutSettings={checkoutSettings}
-        paymentIcons={paymentIcons}
         relatedProducts={relatedProducts}
         relatedInstallments={relatedInstallments}
       />

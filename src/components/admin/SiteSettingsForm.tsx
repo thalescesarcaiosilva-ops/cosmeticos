@@ -14,13 +14,10 @@ import { Textarea } from '@/components/ui/Textarea'
 import { fetchApi } from '@/lib/api/fetch-api'
 import { MediaSelectField } from '@/components/admin/MediaSelectField'
 import { serializeInstallmentInterestRates } from '@/lib/payment/installment-rates'
-import { normalizePaymentMethodsForSave, serializePaymentMethodsConfig, slugifyPaymentMethod } from '@/lib/payment/parse-payment-methods'
 import { updateSiteSettingsSchema } from '@/schemas/site-settings-schema'
 import {
   DEFAULT_CHECKOUT_PAYMENT_SETTINGS,
   DEFAULT_PAYMENT_SETTINGS,
-  PAYMENT_METHOD_SUGGESTIONS,
-  type PaymentMethod,
 } from '@/types/payment'
 
 type SiteSettings = {
@@ -46,7 +43,6 @@ type SiteSettings = {
   contact_page_title: string
   contact_page_intro: string
   contact_page_support_topics: Array<{ title: string; description: string }>
-  payment_methods_config: PaymentMethod[]
   payment_checkout_config: {
     pixEnabled: boolean
     pixDiscount: number
@@ -97,7 +93,6 @@ export function SiteSettingsForm() {
             data.installment_text_free ?? DEFAULT_PAYMENT_SETTINGS.installmentTextInterestFree,
           installment_text_interest:
             data.installment_text_interest ?? DEFAULT_PAYMENT_SETTINGS.installmentTextWithInterest,
-          payment_methods_config: data.payment_methods_config ?? [],
           payment_checkout_config:
             data.payment_checkout_config ?? DEFAULT_CHECKOUT_PAYMENT_SETTINGS,
           contact_page_title: data.contact_page_title ?? 'Central de Atendimento',
@@ -107,56 +102,6 @@ export function SiteSettingsForm() {
       }
     })
   }, [])
-
-  function addPaymentMethod(label = '') {
-    if (!form) return
-    const nextLabel = label.trim()
-    setForm({
-      ...form,
-      payment_methods_config: [
-        ...form.payment_methods_config,
-        {
-          id: nextLabel ? slugifyPaymentMethod(nextLabel) : `pagamento-${Date.now()}`,
-          label: nextLabel,
-          imageUrl: null,
-        },
-      ],
-    })
-  }
-
-  function addSuggestedPaymentMethod(id: string, label: string) {
-    if (!form) return
-    if (form.payment_methods_config.some((method) => method.id === id)) return
-    setForm({
-      ...form,
-      payment_methods_config: [
-        ...form.payment_methods_config,
-        { id, label, imageUrl: null },
-      ],
-    })
-  }
-
-  function updatePaymentMethod(index: number, patch: Partial<PaymentMethod>) {
-    if (!form) return
-    const next = [...form.payment_methods_config]
-    const current = next[index]
-    if (!current) return
-
-    const updated = { ...current, ...patch }
-    if (patch.label !== undefined && !patch.id) {
-      updated.id = slugifyPaymentMethod(updated.label) || current.id
-    }
-    next[index] = updated
-    setForm({ ...form, payment_methods_config: next })
-  }
-
-  function removePaymentMethod(index: number) {
-    if (!form) return
-    setForm({
-      ...form,
-      payment_methods_config: form.payment_methods_config.filter((_, i) => i !== index),
-    })
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -169,19 +114,8 @@ export function SiteSettingsForm() {
       return
     }
 
-    const methodsMissingLabel = form.payment_methods_config.filter(
-      (method) => method.imageUrl?.trim() && !method.label.trim()
-    )
-    if (methodsMissingLabel.length > 0) {
-      setError('Preencha o nome de todas as formas de pagamento que têm ícone.')
-      return
-    }
-
-    const normalizedPaymentMethods = normalizePaymentMethodsForSave(form.payment_methods_config)
-
     const parsed = updateSiteSettingsSchema.safeParse({
       ...form,
-      payment_methods_config: serializePaymentMethodsConfig(normalizedPaymentMethods),
       installment_interest_rates: serializeInstallmentInterestRates(form.installment_interest_rates),
     })
     if (!parsed.success) {
@@ -228,7 +162,6 @@ export function SiteSettingsForm() {
         contact_page_title: data.contact_page_title ?? 'Central de Atendimento',
         contact_page_intro: data.contact_page_intro ?? '',
         contact_page_support_topics: data.contact_page_support_topics ?? [],
-        payment_methods_config: data.payment_methods_config ?? [],
         payment_checkout_config:
           data.payment_checkout_config ?? DEFAULT_CHECKOUT_PAYMENT_SETTINGS,
       })
@@ -534,75 +467,18 @@ export function SiteSettingsForm() {
           </div>
         </Card>
 
-        <Card title="Formas de pagamento aceitas">
-          <p className="mb-4 text-sm text-text-secondary">
-            Adicione, edite ou remova formas de pagamento e envie o ícone de cada uma. Os ícones
-            aparecem no rodapé, na página de produto e no modal de parcelamento.
+        <Card title="Formas de pagamento">
+          <p className="text-sm leading-relaxed text-text-secondary">
+            A loja usa uma <strong>imagem única</strong> com todas as bandeiras e métodos aceitos.
+            Ela aparece no rodapé, na página de produto, no checkout e no modal de parcelamento.
           </p>
-
-          {form.payment_methods_config.length === 0 ? (
-            <p className="mb-4 text-sm text-text-muted">Nenhuma forma de pagamento cadastrada.</p>
-          ) : (
-            <div className="mb-4 space-y-4">
-              {form.payment_methods_config.map((method, index) => (
-                <div
-                  key={`${method.id}-${index}`}
-                  className="rounded-lg border border-border bg-surface-muted/40 p-4"
-                >
-                  <div className="mb-3 flex items-start justify-between gap-3">
-                    <Input
-                      label="Nome da forma de pagamento"
-                      value={method.label}
-                      onChange={(e) => updatePaymentMethod(index, { label: e.target.value })}
-                      placeholder="Ex.: Visa, Pix, PicPay"
-                    />
-                    <Button
-                      type="button"
-                      variant="danger"
-                      className="mt-6 shrink-0"
-                      onClick={() => removePaymentMethod(index)}
-                    >
-                      Remover
-                    </Button>
-                  </div>
-                  <MediaSelectField
-                    label="Ícone"
-                    value={method.imageUrl}
-                    onChange={(url) => updatePaymentMethod(index, { imageUrl: url })}
-                    hint="PNG ou SVG com fundo transparente, ideal 120×40 px."
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="secondary" onClick={() => addPaymentMethod()}>
-              Adicionar forma de pagamento
-            </Button>
-          </div>
-
-          <div className="mt-4">
-            <p className="mb-2 text-xs font-medium text-text-secondary">Adicionar rapidamente:</p>
-            <div className="flex flex-wrap gap-2">
-              {PAYMENT_METHOD_SUGGESTIONS.map((suggestion) => {
-                const alreadyAdded = form.payment_methods_config.some(
-                  (method) => method.id === suggestion.id
-                )
-                return (
-                  <Button
-                    key={suggestion.id}
-                    type="button"
-                    variant="ghost"
-                    disabled={alreadyAdded}
-                    onClick={() => addSuggestedPaymentMethod(suggestion.id, suggestion.label)}
-                  >
-                    + {suggestion.label}
-                  </Button>
-                )
-              })}
-            </div>
-          </div>
+          <p className="mt-3 text-sm text-text-secondary">
+            Para alterar, edite o arquivo{' '}
+            <code className="rounded bg-surface-muted px-1.5 py-0.5 text-xs">
+              src/lib/payment/payment-methods-image.ts
+            </code>{' '}
+            e coloque a imagem em <code className="text-xs">public/</code>.
+          </p>
         </Card>
 
         <Button type="submit" loading={loading}>

@@ -4,12 +4,6 @@ export type PaymentMethod = {
   imageUrl: string | null
 }
 
-export type PaymentMethodIcon = {
-  id: string
-  label: string
-  imageUrl: string
-}
-
 /** Sugestões rápidas ao adicionar formas de pagamento no admin */
 export const PAYMENT_METHOD_SUGGESTIONS: { id: string; label: string }[] = [
   { id: 'visa', label: 'Visa' },

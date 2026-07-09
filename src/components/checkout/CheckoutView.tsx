@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { CreditCard, QrCode } from 'lucide-react'
 import { CheckoutOrderSummary } from '@/components/checkout/CheckoutOrderSummary'
 import { CheckoutPanel } from '@/components/checkout/CheckoutPanel'
-import { CheckoutPaymentBrands } from '@/components/checkout/CheckoutPaymentBrands'
+import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
 import { CheckoutPixPanel } from '@/components/checkout/CheckoutPixPanel'
 import { PayoutCardForm, type PayoutCardFormHandle } from '@/components/checkout/PayoutCardForm'
 import { CheckoutSecurityBadges } from '@/components/checkout/CheckoutSecurityBadges'
@@ -35,7 +35,7 @@ import {
 import { formatCurrency } from '@/lib/products/format'
 import { useCartSync } from '@/hooks/useCartSync'
 import { useCart } from '@/providers/CartProvider'
-import type { CheckoutPaymentSettings, PaymentMethod, PaymentSettings } from '@/types/payment'
+import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 import type { StoreLogo } from '@/types/layout'
 import type { ShippingQuoteLine } from '@/types/shipping'
 
@@ -118,7 +118,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const [submitting, setSubmitting] = useState(false)
 
   const [paymentConfig, setPaymentConfig] = useState<CheckoutPaymentSettings | null>(null)
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([])
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodChoice>('pix')
   const [cpf, setCpf] = useState('')
   const [pixResult, setPixResult] = useState<{
@@ -143,20 +142,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const pixDiscountAmount =
     paymentMethod === 'pix' ? calcPixDiscountAmount(subtotal, shippingPrice, pixDiscountPercent) : 0
   const total = Math.max(subtotal + shippingPrice - pixDiscountAmount, 0)
-
-  const cardBrands = useMemo(
-    () =>
-      paymentMethods.filter((method) => {
-        const id = method.id.toLowerCase()
-        return id !== 'pix' && id !== 'boleto'
-      }),
-    [paymentMethods]
-  )
-
-  const pixBrand = useMemo(
-    () => paymentMethods.find((method) => method.id.toLowerCase().includes('pix')) ?? null,
-    [paymentMethods]
-  )
 
   useEffect(() => {
     async function loadProfile() {
@@ -202,10 +187,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
         } else if (data.checkout.cardEnabled) {
           setPaymentMethod('card')
         }
-      }
-
-      if (data?.installments?.paymentMethods) {
-        setPaymentMethods(data.installments.paymentMethods)
       }
     }
 
@@ -788,9 +769,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                         </button>
                         {paymentMethod === 'card' && (
                           <div className="space-y-4 border-t border-border px-4 pb-4 pt-3">
-                            {cardBrands.length > 0 && (
-                              <CheckoutPaymentBrands methods={cardBrands} variant="card" />
-                            )}
                             <PayoutCardForm
                               ref={cardFormRef}
                               total={total}
@@ -843,11 +821,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                               )}
                             </span>
                           </span>
-                          {pixBrand?.imageUrl ? (
-                            <CheckoutPaymentBrands methods={[pixBrand]} variant="pix" />
-                          ) : (
-                            <QrCode className="size-5 shrink-0 text-text-muted" aria-hidden />
-                          )}
+                          <QrCode className="size-5 shrink-0 text-text-muted" aria-hidden />
                         </button>
                         {paymentMethod === 'pix' && (
                           <div className="border-t border-border px-4 pb-4 pt-3">
@@ -882,6 +856,10 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
           <div className="hidden xl:block">
             <CheckoutOrderSummary {...summaryProps} />
           </div>
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <PaymentMethodsImage size="lg" />
         </div>
 
         <CheckoutSecurityBadges />

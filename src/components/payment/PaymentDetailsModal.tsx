@@ -1,18 +1,18 @@
 'use client'
 
 import { useState, type ReactNode } from 'react'
-import { PaymentIconsRow } from '@/components/payment/PaymentIconsRow'
+import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
 import { Modal } from '@/components/ui/Modal'
 import { formatCurrency } from '@/lib/products/format'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import { buildInstallmentTable } from '@/lib/payment/installment-table'
-import type { CheckoutPaymentSettings, PaymentMethodIcon, PaymentSettings } from '@/types/payment'
+import { hasPaymentMethodsImage } from '@/lib/payment/payment-methods-image'
+import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 
 type PaymentDetailsTriggerProps = {
   price: number
   paymentSettings: PaymentSettings
   checkoutSettings?: CheckoutPaymentSettings
-  paymentIcons: PaymentMethodIcon[]
   layout?: 'default' | 'product'
   triggerContent?: ReactNode
 }
@@ -21,7 +21,6 @@ export function PaymentDetailsTrigger({
   price,
   paymentSettings,
   checkoutSettings,
-  paymentIcons,
   layout = 'default',
   triggerContent,
 }: PaymentDetailsTriggerProps) {
@@ -30,7 +29,7 @@ export function PaymentDetailsTrigger({
   const installmentDisplay = calcInstallmentDisplay(price, paymentSettings)
   const cardEnabled = checkoutSettings?.cardEnabled !== false
   const showInstallmentTable = cardEnabled && rows.length > 0 && installmentDisplay != null
-  const showPaymentIcons = paymentIcons.length > 0
+  const showPaymentIcons = hasPaymentMethodsImage()
 
   if (!showInstallmentTable && !showPaymentIcons) return null
 
@@ -117,7 +116,7 @@ export function PaymentDetailsTrigger({
               <h3 className="mb-3 text-sm font-bold text-text-primary">
                 Formas de pagamento aceitas
               </h3>
-              <PaymentIconsRow icons={paymentIcons} size="md" />
+              <PaymentMethodsImage size="md" />
             </div>
           )}
         </div>

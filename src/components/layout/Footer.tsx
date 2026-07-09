@@ -2,7 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 import { SocialIcon } from '@/components/layout/SocialIcon'
-import { PaymentIconsRow } from '@/components/payment/PaymentIconsRow'
+import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
+import { hasPaymentMethodsImage } from '@/lib/payment/payment-methods-image'
 import type { FooterData } from '@/lib/layout/get-footer-data'
 
 type FooterProps = {
@@ -194,7 +195,7 @@ function FooterTrustStrip({ footerData }: { footerData: FooterData }) {
   const showSecurity =
     footerData.securityAssets.length > 0 || Boolean(legal.securityText)
   const showPayment =
-    footerData.paymentMethodIcons.length > 0 || Boolean(footerData.paymentText)
+    hasPaymentMethodsImage() || Boolean(footerData.paymentText)
 
   if (!showSecurity && !showPayment) return null
 
@@ -232,9 +233,7 @@ function FooterTrustStrip({ footerData }: { footerData: FooterData }) {
             {footerData.paymentText && (
               <p className="mb-4 text-xs text-text-secondary">{footerData.paymentText}</p>
             )}
-            {footerData.paymentMethodIcons.length > 0 && (
-              <PaymentIconsRow icons={footerData.paymentMethodIcons} size="sm" />
-            )}
+            {hasPaymentMethodsImage() && <PaymentMethodsImage size="sm" />}
           </div>
         )}
       </div>

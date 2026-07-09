@@ -4,14 +4,13 @@ import { CreditCard, ChevronRight } from 'lucide-react'
 import { PaymentDetailsTrigger } from '@/components/payment/PaymentDetailsModal'
 import { calcDiscountPercent, formatCurrency } from '@/lib/products/format'
 import { buildProductPaymentSummary } from '@/lib/payment/product-payment-summary'
-import type { CheckoutPaymentSettings, PaymentMethodIcon, PaymentSettings } from '@/types/payment'
+import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 
 type ProductPricingBlockProps = {
   price: number
   originalPrice: number | null
   paymentSettings: PaymentSettings
   checkoutSettings: CheckoutPaymentSettings
-  paymentIcons: PaymentMethodIcon[]
 }
 
 function PixMark({ className }: { className?: string }) {
@@ -28,7 +27,6 @@ export function ProductPricingBlock({
   originalPrice,
   paymentSettings,
   checkoutSettings,
-  paymentIcons,
 }: ProductPricingBlockProps) {
   const hasDiscount = originalPrice != null && originalPrice > price
   const discount = calcDiscountPercent(price, originalPrice)
@@ -63,7 +61,6 @@ export function ProductPricingBlock({
         price={price}
         paymentSettings={paymentSettings}
         checkoutSettings={checkoutSettings}
-        paymentIcons={paymentIcons}
         layout="product"
         triggerContent={
           <span className="flex w-full items-center gap-3">

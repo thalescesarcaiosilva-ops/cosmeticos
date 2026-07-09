@@ -9,7 +9,7 @@ import { ProductReviewsSection } from '@/components/product/ProductReviewsSectio
 import { FavoriteButton } from '@/components/product/FavoriteButton'
 import { calcDiscountPercent } from '@/lib/products/format'
 import type { ApprovedProductReview } from '@/lib/products/reviews'
-import type { CheckoutPaymentSettings, InstallmentDisplay, PaymentMethodIcon, PaymentSettings } from '@/types/payment'
+import type { CheckoutPaymentSettings, InstallmentDisplay, PaymentSettings } from '@/types/payment'
 import type { ProductCardData, ProductDetail } from '@/types/product'
 
 type ProductPageViewProps = {
@@ -18,7 +18,6 @@ type ProductPageViewProps = {
   approvedReviews: ApprovedProductReview[]
   paymentSettings: PaymentSettings
   checkoutSettings: CheckoutPaymentSettings
-  paymentIcons: PaymentMethodIcon[]
   relatedProducts: ProductCardData[]
   relatedInstallments: Map<string, InstallmentDisplay | null>
 }
@@ -29,7 +28,6 @@ export function ProductPageView({
   approvedReviews,
   paymentSettings,
   checkoutSettings,
-  paymentIcons,
   relatedProducts,
   relatedInstallments,
 }: ProductPageViewProps) {
@@ -81,7 +79,6 @@ export function ProductPageView({
             originalPrice={product.original_price}
             paymentSettings={paymentSettings}
             checkoutSettings={checkoutSettings}
-            paymentIcons={paymentIcons}
           />
         </div>
       </div>

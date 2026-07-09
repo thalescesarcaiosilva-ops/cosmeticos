@@ -114,7 +114,7 @@ export const storeContent: StoreContent = {
       placeholder: 'Digite seu melhor e-mail',
       buttonLabel: 'Quero receber',
       benefits: ['Ofertas exclusivas', 'Lançamentos em primeira mão', 'Dicas de skincare'],
-      disclaimer: 'Sem spam. Você pode cancelar quando quiser.',
+      disclaimer: 'Você pode cancelar quando quiser.',
     },
   },
 
@@ -149,11 +149,11 @@ export const storeContent: StoreContent = {
           { label: 'Razão social', value: 'Eduardo Batista Prado Lessa' },
           { label: 'CNPJ', value: '67.834.759/0001-40' },
           { label: 'E-mail', value: 'atendimento@batistacosmeticos.com.br' },
-          { label: 'Site', value: 'batistacosmeticos.com' },
+          { label: 'Site', value: 'batistacosmeticos.com.br' },
           { label: 'Telefone', value: '(99) 92129-000' },
           {
             label: 'Endereço',
-            value: 'Av. Octavio Mangabeira, 6929 – Loja 04\nBoca do Rio, Salvador – BA\nCEP 41706-690',
+            value: 'Av. Octavio Mangabeira, 6929, Loja 04, Boca do Rio, Salvador/BA, CEP 41706-690',
           },
         ],
       },
@@ -164,7 +164,7 @@ export const storeContent: StoreContent = {
         { label: 'Domingo', value: 'Fechado', closed: true },
       ],
       visitTitle: 'Visite a loja',
-      visitAddress: 'Av. Octavio Mangabeira, 6929 – Loja 04\nBoca do Rio, Salvador – BA\nCEP 41706-690',
+      visitAddress: 'Av. Octavio Mangabeira, 6929, Loja 04, Boca do Rio, Salvador/BA, CEP 41706-690',
     },
   },
 }
