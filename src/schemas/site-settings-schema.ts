@@ -1,12 +1,5 @@
 import { z } from 'zod'
-
-const optionalUrl = z
-  .string()
-  .max(500)
-  .optional()
-  .nullable()
-  .transform((v) => (v === '' ? null : v))
-  .pipe(z.union([z.string().url().max(500), z.null()]).optional())
+import { mediaUrlSchema } from '@/lib/media/url-schema'
 
 const paymentMethodImageUrl = z
   .string()
@@ -42,7 +35,7 @@ const contactSupportTopicSchema = z.object({
 
 export const updateSiteSettingsSchema = z.object({
   store_name: z.string().min(1).max(100).optional(),
-  logo_image_url: optionalUrl,
+  logo_image_url: mediaUrlSchema,
   phone_area_code: z.string().max(10).optional(),
   phone_number: z.string().max(20).optional(),
   phone_href: z.string().max(30).optional(),
@@ -59,8 +52,8 @@ export const updateSiteSettingsSchema = z.object({
       if (value == null || value.trim() === '') return null
       return value.trim()
     }),
-  seo_og_image_url: optionalUrl,
-  favicon_url: optionalUrl,
+  seo_og_image_url: mediaUrlSchema,
+  favicon_url: mediaUrlSchema,
   installment_max: z.number().int().min(1).max(24).optional(),
   installment_interest_free: z.number().int().min(1).max(24).optional(),
   installment_min_value: z.number().positive().max(99999).optional(),

@@ -1,12 +1,5 @@
 import { z } from 'zod'
-
-const optionalUrl = z
-  .string()
-  .max(500)
-  .optional()
-  .nullable()
-  .transform((v) => (v === '' ? null : v))
-  .pipe(z.union([z.string().url().max(500), z.null()]).optional())
+import { mediaUrlSchema } from '@/lib/media/url-schema'
 
 const slugSchema = z
   .string()
@@ -17,8 +10,8 @@ const slugSchema = z
 export const createCategorySchema = z.object({
   name: z.string().min(1).max(100),
   slug: slugSchema,
-  image_url: optionalUrl,
-  banner_image_url: optionalUrl,
+  image_url: mediaUrlSchema,
+  banner_image_url: mediaUrlSchema,
   page_title: z.string().max(200).optional().nullable(),
   description: z.string().max(5000).optional().nullable(),
   sort_order: z.number().int().optional(),

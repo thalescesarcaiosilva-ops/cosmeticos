@@ -50,7 +50,15 @@ export function toAbsoluteSiteMediaUrl(url: string | null | undefined): string |
   }
 
   if (normalized.startsWith('/')) {
-    return absoluteUrl(normalized) ?? normalized
+    const siteUrl = getSiteUrl()
+    if (siteUrl) return absoluteUrl(normalized, siteUrl) ?? normalized
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/+$/, '')
+    if (supabaseUrl && normalized.startsWith(STORAGE_PUBLIC_PREFIX)) {
+      return `${supabaseUrl}${normalized}`
+    }
+
+    return normalized
   }
 
   const siteUrl = getSiteUrl()

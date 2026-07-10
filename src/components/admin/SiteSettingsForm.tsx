@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { fetchApi } from '@/lib/api/fetch-api'
 import { MediaSelectField } from '@/components/admin/MediaSelectField'
+import { parseLocaleDecimal } from '@/lib/numbers/parse-locale-decimal'
 import { serializeInstallmentInterestRates } from '@/lib/payment/installment-rates'
 import { updateSiteSettingsSchema } from '@/schemas/site-settings-schema'
 import {
@@ -330,15 +331,14 @@ export function SiteSettingsForm() {
               }
             />
             <Input
-              label="Taxa mensal com juros (%)"
-              type="number"
-              step="0.01"
-              min={0}
-              value={form.installment_interest_rate}
+              label="Taxa padrão com juros (%)"
+              type="text"
+              inputMode="decimal"
+              value={String(form.installment_interest_rate).replace('.', ',')}
               onChange={(e) =>
                 setForm({
                   ...form,
-                  installment_interest_rate: parseFloat(e.target.value) || 0,
+                  installment_interest_rate: parseLocaleDecimal(e.target.value) || 0,
                 })
               }
             />

@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
+import { parseLocaleDecimal } from '@/lib/numbers/parse-locale-decimal'
 
 type InstallmentRatesEditorProps = {
   maxInstallments: number
@@ -25,7 +26,7 @@ export function InstallmentRatesEditor({
   )
 
   function setRate(count: number, value: string) {
-    const parsed = parseFloat(value)
+    const parsed = parseLocaleDecimal(value)
     const next = { ...rates }
     if (Number.isNaN(parsed) || parsed <= 0) {
       delete next[count]
@@ -46,19 +47,18 @@ export function InstallmentRatesEditor({
   return (
     <div className="space-y-3">
       <p className="text-sm text-text-secondary">
-        Defina taxas mensais específicas por parcela. Parcelas não listadas usam a taxa padrão (
+        Defina taxas específicas por parcela (ex.: 23,40). Parcelas não listadas usam a taxa padrão (
         {defaultRate}%).
       </p>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {chargeableCounts.map((count) => (
           <Input
             key={count}
-            label={`${count}x — taxa mensal (%)`}
-            type="number"
-            step="0.01"
-            min={0}
+            label={`${count}x — taxa (%)`}
+            type="text"
+            inputMode="decimal"
             placeholder={String(defaultRate)}
-            value={rates[count] != null ? String(rates[count]) : ''}
+            value={rates[count] != null ? String(rates[count]).replace('.', ',') : ''}
             onChange={(e) => setRate(count, e.target.value)}
           />
         ))}

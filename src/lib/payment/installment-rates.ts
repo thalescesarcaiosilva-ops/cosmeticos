@@ -1,6 +1,7 @@
+import { parseLocaleDecimal } from '@/lib/numbers/parse-locale-decimal'
 import type { PaymentSettings } from '@/types/payment'
 
-/** Taxa mensal (%) para um número de parcelas — usa mapa customizado ou taxa padrão. */
+/** Taxa de juros (%) para um número de parcelas — usa mapa customizado ou taxa padrão. */
 export function getInstallmentInterestRate(count: number, settings: PaymentSettings): number {
   if (count <= settings.interestFreeInstallments) return 0
 
@@ -28,7 +29,7 @@ export function calcInstallmentTotal(price: number, count: number, settings: Pay
     }
   }
 
-  const total = price * (1 + (monthlyRate / 100) * count)
+  const total = price * (1 + monthlyRate / 100)
   return {
     total,
     installmentValue: total / count,
@@ -37,14 +38,27 @@ export function calcInstallmentTotal(price: number, count: number, settings: Pay
   }
 }
 
+function parseRateValue(value: unknown): number | null {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null
+  }
+
+  if (typeof value === 'string') {
+    const parsed = parseLocaleDecimal(value)
+    return Number.isFinite(parsed) ? parsed : null
+  }
+
+  return null
+}
+
 export function parseInstallmentInterestRates(raw: unknown): Record<number, number> {
   if (!raw || typeof raw !== 'object') return {}
 
   const result: Record<number, number> = {}
   for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
     const count = parseInt(key, 10)
-    const rate = Number(value)
-    if (!Number.isNaN(count) && count >= 1 && count <= 24 && !Number.isNaN(rate) && rate >= 0) {
+    const rate = parseRateValue(value)
+    if (!Number.isNaN(count) && count >= 1 && count <= 24 && rate != null && rate >= 0) {
       result[count] = Math.round(rate * 100) / 100
     }
   }

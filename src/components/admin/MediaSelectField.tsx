@@ -6,6 +6,7 @@ import { MediaLibrary } from '@/components/admin/MediaLibrary'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { DEFAULT_SITE_MEDIA_BUCKET, type MediaBucket } from '@/lib/media/buckets'
+import { toSiteMediaUrl } from '@/lib/media/public-url'
 import type { MediaAsset } from '@/types/product'
 
 type MediaSelectFieldProps = {
@@ -29,7 +30,7 @@ export function MediaSelectField({
 
   function applySelection() {
     if (!pickedAsset?.public_url) return
-    onChange(pickedAsset.public_url)
+    onChange(toSiteMediaUrl(pickedAsset.public_url) ?? pickedAsset.public_url)
     setOpen(false)
     setSelectedMediaId([])
     setPickedAsset(null)
@@ -88,8 +89,15 @@ export function MediaSelectField({
       <Input
         label="Ou cole a URL da imagem"
         value={value ?? ''}
-        onChange={(e) => onChange(e.target.value || null)}
-        placeholder="https://..."
+        onChange={(e) => {
+          const raw = e.target.value.trim()
+          if (!raw) {
+            onChange(null)
+            return
+          }
+          onChange(toSiteMediaUrl(raw) ?? raw)
+        }}
+        placeholder="https://... ou /storage/v1/object/public/..."
       />
     </div>
   )
