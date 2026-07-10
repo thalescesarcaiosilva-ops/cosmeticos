@@ -6,6 +6,7 @@ import { buildInstallmentMap } from '@/lib/payment/build-installment-map'
 import { getCheckoutPaymentSettings } from '@/lib/payment/queries'
 import { getPaymentSettings } from '@/lib/payment/queries'
 import { getProductBySlug, getRelatedProducts } from '@/lib/products/queries'
+import { getBuyTogetherBundles } from '@/lib/products/buy-together-queries'
 import { buildReviewSummary, getApprovedProductReviews } from '@/lib/products/reviews'
 import { buildBreadcrumbJsonLd } from '@/lib/seo/json-ld/breadcrumb'
 import { buildProductJsonLd } from '@/lib/seo/json-ld/product'
@@ -49,7 +50,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const categoryIds =
     product.product_categories?.map((pc) => pc.category_id).filter(Boolean) ?? []
 
-  const relatedProducts = await getRelatedProducts(product.id, categoryIds)
+  const [relatedProducts, buyTogetherBundles] = await Promise.all([
+    getRelatedProducts(product.id, categoryIds),
+    getBuyTogetherBundles(product.id, categoryIds),
+  ])
   const approvedReviews = await getApprovedProductReviews(product.id)
   const reviewSummary = buildReviewSummary(approvedReviews)
 
@@ -83,6 +87,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         checkoutSettings={checkoutSettings}
         relatedProducts={relatedProducts}
         relatedInstallments={relatedInstallments}
+        buyTogetherBundles={buyTogetherBundles}
       />
     </>
   )

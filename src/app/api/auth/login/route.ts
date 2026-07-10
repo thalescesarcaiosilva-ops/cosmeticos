@@ -4,6 +4,7 @@ import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limit'
 import { copyCookies, createRouteHandlerClient } from '@/lib/supabase/route-handler'
 import { sanitizeRedirectPath } from '@/lib/auth/safe-redirect'
+import { mapLoginError } from '@/lib/auth/map-login-error'
 import { loginSchema } from '@/schemas/auth-schema'
 
 function resolveRedirect(role: 'admin' | 'customer', requested: string): string {
@@ -53,9 +54,14 @@ export async function POST(request: NextRequest) {
 
   if (error) {
     if (process.env.NODE_ENV === 'development') {
-      console.error('[auth/login]', error.message)
+      console.error('[auth/login]', error.message, error.code)
     }
-    return jsonError('Email ou senha incorretos', 401)
+    const status =
+      error.message.toLowerCase().includes('rate limit') ||
+      error.message.toLowerCase().includes('too many requests')
+        ? 429
+        : 401
+    return jsonError(mapLoginError(error), status)
   }
 
   if (!data.user) {

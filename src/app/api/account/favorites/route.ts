@@ -11,11 +11,11 @@ import { favoriteActionSchema, favoriteSyncSchema } from '@/schemas/favorites-sc
 export async function GET() {
   const user = await getSessionUser()
   if (!user) {
-    return jsonError('Não autorizado', 401, 'UNAUTHORIZED')
+    return jsonSuccess({ loggedIn: false, productIds: [] as string[] })
   }
 
   const productIds = await getFavoriteProductIds(user.id)
-  return jsonSuccess({ productIds })
+  return jsonSuccess({ loggedIn: true, productIds })
 }
 
 export async function POST(request: Request) {

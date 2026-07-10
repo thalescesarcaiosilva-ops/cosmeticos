@@ -135,7 +135,8 @@ export async function getProductsForCards(options?: {
 export async function getRelatedProducts(
   productId: string,
   categoryIds: string[],
-  limit = 8
+  limit = 8,
+  options?: { inStockOnly?: boolean }
 ): Promise<ProductCardData[]> {
   if (categoryIds.length === 0) return []
 
@@ -150,11 +151,17 @@ export async function getRelatedProducts(
   const relatedIds = [...new Set(links?.map((l) => l.product_id) ?? [])]
   if (relatedIds.length === 0) return []
 
-  const { data, error } = await supabase
+  let query = supabase
     .from('products')
     .select(PRODUCT_SELECT)
     .in('id', relatedIds.slice(0, limit * 2))
     .eq('active', true)
+
+  if (options?.inStockOnly) {
+    query = query.gt('stock', 0)
+  }
+
+  const { data, error } = await query
     .order('created_at', { ascending: false })
     .limit(limit)
 

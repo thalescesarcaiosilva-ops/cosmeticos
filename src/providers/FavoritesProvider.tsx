@@ -39,7 +39,20 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
 
       try {
         const res = await fetch('/api/account/favorites')
-        if (res.status === 401) {
+        const json = (await res.json()) as {
+          error?: boolean
+          data?: { loggedIn?: boolean; productIds?: string[] }
+        }
+
+        if (json.error || !json.data) {
+          if (!cancelled) {
+            setFavoriteIds(new Set(localIds))
+            setHydrated(true)
+          }
+          return
+        }
+
+        if (!json.data.loggedIn) {
           if (!cancelled) {
             setFavoriteIds(new Set(localIds))
             setIsLoggedIn(false)
@@ -48,20 +61,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
           return
         }
 
-        const json = (await res.json()) as {
-          error?: boolean
-          data?: { productIds?: string[] }
-        }
-
-        if (json.error || !json.data?.productIds) {
-          if (!cancelled) {
-            setFavoriteIds(new Set(localIds))
-            setHydrated(true)
-          }
-          return
-        }
-
-        let serverIds = json.data.productIds
+        let serverIds = json.data.productIds ?? []
 
         if (localIds.length > 0) {
           const syncRes = await fetch('/api/account/favorites', {
