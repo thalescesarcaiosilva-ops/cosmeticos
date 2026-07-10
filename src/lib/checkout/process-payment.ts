@@ -29,6 +29,11 @@ import { assertOrderAccess, OrderAccessError } from '@/lib/checkout/order-access
 type CheckoutInput = {
   shippingMethodId: string
   items: Array<{ product_id: string; quantity: number }>
+  bundlePairs?: Array<{
+    primary_product_id: string
+    companion_product_id: string
+    discount_percent: number
+  }>
   document: string
   customer: CheckoutCustomerInput
   shippingAddress: CheckoutShippingAddressInput
@@ -115,13 +120,16 @@ async function attachTransactionToOrder(params: {
   }
 }
 
-async function prepareCheckoutLines(items: Array<{ product_id: string; quantity: number }>) {
-  const cart = await syncCartItems({ items })
+async function prepareCheckoutCart(
+  items: Array<{ product_id: string; quantity: number }>,
+  bundlePairs?: CheckoutInput['bundlePairs']
+) {
+  const cart = await syncCartItems({ items, bundle_pairs: bundlePairs })
   const availableLines = cart.lines.filter((line) => line.available && line.quantity > 0)
   if (availableLines.length === 0) {
     throw new CheckoutError('Seu carrinho não possui itens disponíveis', 'EMPTY_CART')
   }
-  return availableLines
+  return { cart, availableLines }
 }
 
 export async function processPixCheckout(params: CheckoutInput) {
@@ -133,7 +141,7 @@ export async function processPixCheckout(params: CheckoutInput) {
     throw new CheckoutError('Pagamento via Pix indisponível', 'PIX_DISABLED')
   }
 
-  const availableLines = await prepareCheckoutLines(params.items)
+  const { cart, availableLines } = await prepareCheckoutCart(params.items, params.bundlePairs)
 
   const order = await createCheckoutOrder({
     shippingMethodId: params.shippingMethodId,
@@ -141,6 +149,7 @@ export async function processPixCheckout(params: CheckoutInput) {
       product_id: line.productId,
       quantity: line.quantity,
     })),
+    discountAmount: cart.bundleDiscountAmount,
     pixDiscountPercent: checkoutSettings.pixDiscount,
     userId: params.userId,
     addressId: params.addressId,
@@ -213,7 +222,7 @@ export async function processCardCheckout(
     throw new CheckoutError('Pagamento via cartão indisponível', 'CARD_DISABLED')
   }
 
-  const availableLines = await prepareCheckoutLines(params.items)
+  const { cart, availableLines } = await prepareCheckoutCart(params.items, params.bundlePairs)
 
   const order = await createCheckoutOrder({
     shippingMethodId: params.shippingMethodId,
@@ -221,6 +230,7 @@ export async function processCardCheckout(
       product_id: line.productId,
       quantity: line.quantity,
     })),
+    discountAmount: cart.bundleDiscountAmount,
     userId: params.userId,
     addressId: params.addressId,
     customer: params.customer,

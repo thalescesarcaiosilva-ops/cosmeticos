@@ -11,6 +11,7 @@ import type { ShippingQuoteLine } from '@/types/shipping'
 type CheckoutOrderSummaryProps = {
   lines: ValidatedCartLine[]
   subtotal: number
+  bundleDiscountAmount?: number
   loading?: boolean
   selectedShipping: ShippingQuoteLine | null
   shippingLoading?: boolean
@@ -25,6 +26,7 @@ type CheckoutOrderSummaryProps = {
 export function CheckoutOrderSummary({
   lines,
   subtotal,
+  bundleDiscountAmount = 0,
   loading = false,
   selectedShipping,
   shippingLoading = false,
@@ -71,6 +73,12 @@ export function CheckoutOrderSummary({
                   : '-'}
             </dd>
           </div>
+          {bundleDiscountAmount > 0 && (
+            <div className="flex justify-between gap-4 text-brand">
+              <dt>Desconto Compre Junto</dt>
+              <dd className="font-medium tabular-nums">- {formatCurrency(bundleDiscountAmount)}</dd>
+            </div>
+          )}
           {discountAmount > 0 && (
             <div className="flex justify-between gap-4 text-success">
               <dt>Desconto Pix</dt>
@@ -143,7 +151,7 @@ export function CheckoutOrderSummary({
                       {line.quantity}x {line.name}
                     </p>
                     <p className="mt-1 text-sm font-semibold tabular-nums text-text-primary">
-                      {formatCurrency(line.lineTotal)}
+                      {formatCurrency(line.displayLineTotal ?? line.lineTotal)}
                     </p>
                   </div>
                 </li>

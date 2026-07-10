@@ -93,7 +93,7 @@ function calcPixDiscountAmount(subtotal: number, shipping: number, percent: numb
 export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const router = useRouter()
   const cardFormRef = useRef<PayoutCardFormHandle>(null)
-  const { items, clearCart } = useCart()
+  const { items, bundlePairs, clearCart } = useCart()
   const { data: cart, loading: cartLoading, error: cartError } = useCartSync()
 
   const [profileLoading, setProfileLoading] = useState(true)
@@ -137,11 +137,14 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
   const selectedShipping = shippingOptions.find((o) => o.methodId === selectedShippingId) ?? null
   const shippingPrice = selectedShipping?.price ?? 0
-  const subtotal = cart?.subtotal ?? 0
+  const merchandiseTotal = cart?.merchandiseTotal ?? cart?.subtotal ?? 0
+  const bundleDiscountAmount = cart?.bundleDiscountAmount ?? 0
   const pixDiscountPercent = paymentConfig?.pixDiscount ?? 0
   const pixDiscountAmount =
-    paymentMethod === 'pix' ? calcPixDiscountAmount(subtotal, shippingPrice, pixDiscountPercent) : 0
-  const total = Math.max(subtotal + shippingPrice - pixDiscountAmount, 0)
+    paymentMethod === 'pix'
+      ? calcPixDiscountAmount(merchandiseTotal, shippingPrice, pixDiscountPercent)
+      : 0
+  const total = Math.max(merchandiseTotal + shippingPrice - pixDiscountAmount, 0)
 
   useEffect(() => {
     async function loadProfile() {
@@ -230,10 +233,10 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
   useEffect(() => {
     const cep = addressForm.zip_code.replace(/\D/g, '')
-    if (cep.length === 8 && subtotal > 0) {
-      loadShipping(cep, subtotal)
+    if (cep.length === 8 && merchandiseTotal > 0) {
+      loadShipping(cep, merchandiseTotal)
     }
-  }, [addressForm.zip_code, subtotal, loadShipping])
+  }, [addressForm.zip_code, merchandiseTotal, loadShipping])
 
   function updateAddressField(field: keyof AddressForm, value: string) {
     if (field === 'zip_code') {
@@ -308,6 +311,11 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       items: items.map((item) => ({
         product_id: item.productId,
         quantity: item.quantity,
+      })),
+      bundle_pairs: bundlePairs.map((pair) => ({
+        primary_product_id: pair.primaryProductId,
+        companion_product_id: pair.companionProductId,
+        discount_percent: pair.discountPercent,
       })),
       ...extra,
     }
@@ -437,7 +445,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     if (!shippingId && !shippingLoading) {
       const cep = addressForm.zip_code.replace(/\D/g, '')
       if (cep.length === 8) {
-        const quoted = await loadShipping(cep, subtotal)
+        const quoted = await loadShipping(cep, merchandiseTotal)
         shippingId = quoted?.methodId ?? null
       }
     }
@@ -474,7 +482,8 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
   const summaryProps = {
     lines: availableLines,
-    subtotal,
+    subtotal: cart?.subtotal ?? 0,
+    bundleDiscountAmount,
     loading: cartLoading,
     selectedShipping,
     shippingLoading,

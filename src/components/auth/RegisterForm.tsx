@@ -33,13 +33,14 @@ export function RegisterForm() {
     }
 
     setLoading(true)
-    const { data, error: apiError } = await fetchApi<{ ok: boolean; needsEmailConfirm?: boolean }>(
-      '/api/auth/register',
-      {
-        method: 'POST',
-        body: JSON.stringify(parsed.data),
-      }
-    )
+    const { data, error: apiError } = await fetchApi<{
+      ok: boolean
+      needsEmailConfirm?: boolean
+      signedIn?: boolean
+    }>('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(parsed.data),
+    })
     setLoading(false)
 
     if (apiError) {
@@ -52,7 +53,14 @@ export function RegisterForm() {
       return
     }
 
-    setSuccess('Conta criada! Redirecionando…')
+    if (data?.signedIn) {
+      setSuccess('Conta criada! Redirecionando…')
+      router.push('/conta')
+      router.refresh()
+      return
+    }
+
+    setSuccess('Conta criada! Faça login para continuar.')
     setTimeout(() => {
       router.push('/conta/login')
       router.refresh()

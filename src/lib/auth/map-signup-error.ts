@@ -2,8 +2,14 @@ import type { AuthError } from '@supabase/supabase-js'
 
 export function isEmailConfirmFailure(error: AuthError): boolean {
   const msg = (error.message ?? '').toLowerCase()
+  const code = (error.code ?? '').toLowerCase()
 
-  if (msg.includes('confirmation email') || msg.includes('email rate limit')) {
+  if (
+    msg.includes('confirmation email') ||
+    msg.includes('email rate limit') ||
+    code.includes('over_email_send_rate_limit') ||
+    code.includes('email_address_invalid')
+  ) {
     return true
   }
 
@@ -13,6 +19,11 @@ export function isEmailConfirmFailure(error: AuthError): boolean {
   }
 
   return false
+}
+
+/** Quando o Supabase falha ao enviar/validar e-mail de confirmação, cria a conta via Admin API. */
+export function shouldFallbackToAdminSignup(error: AuthError): boolean {
+  return isEmailConfirmFailure(error)
 }
 
 export function isDuplicateSignup(user: { identities?: { id: string }[] } | null): boolean {
@@ -45,6 +56,13 @@ export function mapSignUpError(error: AuthError): string {
 
   if (msg.includes('password') && msg.includes('weak')) {
     return 'Senha fraca. Use no mínimo 8 caracteres, com letra maiúscula e número.'
+  }
+
+  if (
+    code.includes('email_address_invalid') ||
+    (msg.includes('email address') && msg.includes('invalid'))
+  ) {
+    return 'Não foi possível validar o e-mail no servidor de confirmação. Tente outro e-mail ou desative a confirmação por e-mail no Supabase.'
   }
 
   if (msg.includes('invalid email')) {

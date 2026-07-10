@@ -1,22 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { jsonError } from '@/lib/api/response'
+import { jsonError, jsonSuccess } from '@/lib/api/response'
 import {
   isDuplicateSignup,
-  isEmailConfirmFailure,
   logSignUpError,
   mapSignUpError,
+  shouldFallbackToAdminSignup,
 } from '@/lib/auth/map-signup-error'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limit'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { copyCookies, createRouteHandlerClient } from '@/lib/supabase/route-handler'
 import { registerSchema } from '@/schemas/auth-schema'
-
-function canBypassEmailConfirm(): boolean {
-  return (
-    process.env.NODE_ENV === 'development' &&
-    process.env.SUPABASE_BYPASS_EMAIL_CONFIRM === 'true'
-  )
-}
 
 async function createProfileIfMissing(userId: string, name: string) {
   const admin = createAdminClient()
@@ -56,9 +49,7 @@ async function registerViaAdmin(
     if (msg.includes('already') || msg.includes('exists')) {
       return { error: 'Este e-mail já está cadastrado. Tente fazer login.' }
     }
-    if (process.env.NODE_ENV === 'development') {
-      console.error('[auth/register] admin.createUser', error.message)
-    }
+    console.error('[auth/register] admin.createUser', error.message)
     return { error: 'Não foi possível criar a conta. Tente novamente.' }
   }
 
@@ -69,15 +60,46 @@ async function registerViaAdmin(
   try {
     await createProfileIfMissing(data.user.id, name.trim())
   } catch (profileError) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('[auth/register] profile insert', profileError)
-    }
+    console.error('[auth/register] profile insert', profileError)
     return {
-      error: 'Erro no banco ao criar perfil. Execute PARTE_6_fix_signup.sql no Supabase.',
+      error: 'Erro no banco ao criar perfil. Verifique a tabela profiles e o trigger handle_new_user.',
     }
   }
 
   return { userId: data.user.id }
+}
+
+async function signInRegisteredUser(
+  request: NextRequest,
+  response: NextResponse,
+  email: string,
+  password: string
+) {
+  const supabase = createRouteHandlerClient(request, response)
+  return supabase.auth.signInWithPassword({
+    email: email.trim().toLowerCase(),
+    password,
+  })
+}
+
+function registerSuccessResponse(
+  response: NextResponse,
+  options: { needsEmailConfirm: boolean; signedIn: boolean }
+) {
+  const jsonResponse = jsonSuccess(
+    {
+      ok: true,
+      needsEmailConfirm: options.needsEmailConfirm,
+      signedIn: options.signedIn,
+    },
+    options.signedIn
+      ? 'Conta criada com sucesso!'
+      : options.needsEmailConfirm
+        ? 'Conta criada! Verifique seu e-mail para confirmar o cadastro.'
+        : 'Conta criada com sucesso'
+  )
+  copyCookies(response, jsonResponse)
+  return jsonResponse
 }
 
 export async function POST(request: NextRequest) {
@@ -115,26 +137,33 @@ export async function POST(request: NextRequest) {
   })
 
   if (error) {
-    if (process.env.NODE_ENV === 'development') {
-      logSignUpError(error)
-    }
+    logSignUpError(error)
 
-    if (isEmailConfirmFailure(error) && canBypassEmailConfirm()) {
+    if (shouldFallbackToAdminSignup(error)) {
       const adminResult = await registerViaAdmin(email, password, name)
       if ('error' in adminResult) {
         return jsonError(adminResult.error, 400)
       }
 
-      const jsonResponse = NextResponse.json(
-        {
-          error: false,
-          data: { ok: true, needsEmailConfirm: false, devBypass: true },
-          message: 'Conta criada com sucesso (modo dev — confirmação de e-mail ignorada).',
-        },
-        { status: 200 }
+      const { error: signInError } = await signInRegisteredUser(
+        request,
+        response,
+        email,
+        password
       )
-      copyCookies(response, jsonResponse)
-      return jsonResponse
+
+      if (signInError) {
+        console.error('[auth/register] signIn after admin fallback', signInError.message)
+        return registerSuccessResponse(response, {
+          needsEmailConfirm: false,
+          signedIn: false,
+        })
+      }
+
+      return registerSuccessResponse(response, {
+        needsEmailConfirm: false,
+        signedIn: true,
+      })
     }
 
     const status =
@@ -156,28 +185,38 @@ export async function POST(request: NextRequest) {
   try {
     await createProfileIfMissing(data.user.id, name)
   } catch (profileError) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('[auth/register] profile insert', profileError)
-    }
+    console.error('[auth/register] profile insert', profileError)
     return jsonError(
-      'Erro no banco ao criar perfil. Execute PARTE_6_fix_signup.sql no Supabase.',
+      'Erro no banco ao criar perfil. Verifique a tabela profiles e o trigger handle_new_user.',
       400
     )
   }
 
   const needsEmailConfirm = !data.session
 
-  const jsonResponse = NextResponse.json(
-    {
-      error: false,
-      data: { ok: true, needsEmailConfirm },
-      message: needsEmailConfirm
-        ? 'Conta criada! Verifique seu e-mail para confirmar o cadastro.'
-        : 'Conta criada com sucesso',
-    },
-    { status: 200 }
-  )
-  copyCookies(response, jsonResponse)
+  if (needsEmailConfirm) {
+    const admin = createAdminClient()
+    await admin.auth.admin.updateUserById(data.user.id, { email_confirm: true })
 
-  return jsonResponse
+    const { error: signInError } = await signInRegisteredUser(
+      request,
+      response,
+      email,
+      password
+    )
+
+    if (!signInError) {
+      return registerSuccessResponse(response, {
+        needsEmailConfirm: false,
+        signedIn: true,
+      })
+    }
+
+    console.error('[auth/register] signIn after confirm bypass', signInError.message)
+  }
+
+  return registerSuccessResponse(response, {
+    needsEmailConfirm,
+    signedIn: Boolean(data.session),
+  })
 }

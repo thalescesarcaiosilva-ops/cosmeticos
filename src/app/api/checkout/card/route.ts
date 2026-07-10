@@ -21,6 +21,7 @@ export async function POST(request: Request) {
   const {
     shipping_method_id,
     items,
+    bundle_pairs,
     document,
     customer,
     shipping_address,
@@ -34,6 +35,7 @@ export async function POST(request: Request) {
     const result = await processCardCheckout({
       shippingMethodId: shipping_method_id,
       items,
+      bundlePairs: bundle_pairs,
       document,
       customer,
       shippingAddress: shipping_address,

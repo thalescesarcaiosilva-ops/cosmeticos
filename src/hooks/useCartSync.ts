@@ -5,7 +5,7 @@ import { useCart } from '@/providers/CartProvider'
 import type { CartSyncResult } from '@/types/cart'
 
 export function useCartSync() {
-  const { items, hydrated, syncValidatedItems } = useCart()
+  const { items, bundlePairs, hydrated, syncValidatedItems } = useCart()
   const [data, setData] = useState<CartSyncResult | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -26,6 +26,11 @@ export function useCartSync() {
           items: items.map((item) => ({
             product_id: item.productId,
             quantity: item.quantity,
+          })),
+          bundle_pairs: bundlePairs.map((pair) => ({
+            primary_product_id: pair.primaryProductId,
+            companion_product_id: pair.companionProductId,
+            discount_percent: pair.discountPercent,
           })),
         }),
       })
@@ -71,12 +76,12 @@ export function useCartSync() {
         setLoading(false)
       }
     }
-  }, [hydrated, items, syncValidatedItems])
+  }, [hydrated, items, bundlePairs, syncValidatedItems])
 
   useEffect(() => {
     if (!hydrated) return
     sync()
-  }, [hydrated, items, sync])
+  }, [hydrated, items, bundlePairs, sync])
 
   return { data, loading: !hydrated || loading, error, refresh: sync }
 }

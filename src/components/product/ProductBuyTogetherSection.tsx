@@ -66,7 +66,7 @@ export function ProductBuyTogetherSection({
   bundles,
   paymentSettings,
 }: ProductBuyTogetherSectionProps) {
-  const { addItem } = useCart()
+  const { addItem, addBundlePair } = useCart()
   const [activeIndex, setActiveIndex] = useState(0)
   const [added, setAdded] = useState(false)
 
@@ -86,6 +86,11 @@ export function ProductBuyTogetherSection({
   }
 
   function handleBuyBoth() {
+    addBundlePair({
+      primaryProductId: primaryProduct.id,
+      companionProductId: bundle.companion.id,
+      discountPercent: bundle.discountPercent,
+    })
     addItem(primaryProduct.id, 1)
     addItem(bundle.companion.id, 1)
     setAdded(true)

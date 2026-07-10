@@ -67,6 +67,11 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
           {!line.available && (
             <p className="mt-2 text-xs font-medium text-badge-discount">Indisponível</p>
           )}
+          {line.available && (line.bundleDiscountAmount ?? 0) > 0 && (
+            <p className="mt-2 text-xs font-medium text-brand">
+              Desconto Compre Junto aplicado
+            </p>
+          )}
           {line.quantityAdjusted && line.available && (
             <p className="mt-2 text-xs text-text-secondary">
               Quantidade ajustada ao estoque ({line.stock} disponíveis)
@@ -94,9 +99,16 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
           )}
 
           <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-2">
-            <p className="text-sm font-bold text-text-primary sm:text-base">
-              {formatCurrency(line.lineTotal)}
-            </p>
+            <div className="text-right">
+              {(line.bundleDiscountAmount ?? 0) > 0 && (
+                <p className="text-xs text-text-muted line-through">
+                  {formatCurrency(line.lineTotal)}
+                </p>
+              )}
+              <p className="text-sm font-bold text-text-primary sm:text-base">
+                {formatCurrency(line.displayLineTotal ?? line.lineTotal)}
+              </p>
+            </div>
             {line.available && (
               <button
                 type="button"

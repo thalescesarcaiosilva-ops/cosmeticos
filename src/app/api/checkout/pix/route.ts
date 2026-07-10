@@ -18,13 +18,15 @@ export async function POST(request: Request) {
     return jsonError('Dados inválidos — verifique CPF, e-mail e endereço', 400)
   }
 
-  const { shipping_method_id, items, document, customer, shipping_address } = parsed.data
+  const { shipping_method_id, items, bundle_pairs, document, customer, shipping_address } =
+    parsed.data
   const userId = await getOptionalSessionUserId()
 
   try {
     const result = await processPixCheckout({
       shippingMethodId: shipping_method_id,
       items,
+      bundlePairs: bundle_pairs,
       document,
       customer,
       shippingAddress: shipping_address,

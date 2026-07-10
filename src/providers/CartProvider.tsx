@@ -7,10 +7,17 @@ import {
   useEffect,
   useMemo,
   useReducer,
+  useState,
   type ReactNode,
 } from 'react'
+import {
+  addStoredCartBundle,
+  pruneStoredCartBundles,
+  readStoredCartBundles,
+  writeStoredCartBundles,
+} from '@/lib/cart/bundle-storage'
 import { readStoredCart, writeStoredCart } from '@/lib/cart/storage'
-import type { StoredCartItem } from '@/types/cart'
+import type { StoredCartBundlePair, StoredCartItem } from '@/types/cart'
 
 type CartState = {
   items: StoredCartItem[]
@@ -85,9 +92,11 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 
 type CartContextValue = {
   items: StoredCartItem[]
+  bundlePairs: StoredCartBundlePair[]
   hydrated: boolean
   itemCount: number
   addItem: (productId: string, quantity?: number) => void
+  addBundlePair: (pair: StoredCartBundlePair) => void
   setQuantity: (productId: string, quantity: number) => void
   removeItem: (productId: string) => void
   clearCart: () => void
@@ -98,14 +107,18 @@ const CartContext = createContext<CartContextValue | null>(null)
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [], hydrated: false })
+  const [bundlePairs, setBundlePairs] = useState<StoredCartBundlePair[]>([])
 
   useEffect(() => {
     dispatch({ type: 'HYDRATE', items: readStoredCart() })
+    setBundlePairs(readStoredCartBundles())
   }, [])
 
   useEffect(() => {
     if (!state.hydrated) return
     writeStoredCart(state.items)
+    pruneStoredCartBundles(state.items.map((item) => item.productId))
+    setBundlePairs(readStoredCartBundles())
   }, [state.items, state.hydrated])
 
   const addItem = useCallback((productId: string, quantity = 1) => {
@@ -116,12 +129,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_QUANTITY', productId, quantity })
   }, [])
 
+  const addBundlePair = useCallback((pair: StoredCartBundlePair) => {
+    addStoredCartBundle(pair)
+    setBundlePairs(readStoredCartBundles())
+  }, [])
+
   const removeItem = useCallback((productId: string) => {
     dispatch({ type: 'REMOVE', productId })
   }, [])
 
   const clearCart = useCallback(() => {
     dispatch({ type: 'CLEAR' })
+    writeStoredCart([])
+    writeStoredCartBundles([])
+    setBundlePairs([])
   }, [])
 
   const syncValidatedItems = useCallback((items: StoredCartItem[]) => {
@@ -136,9 +157,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       items: state.items,
+      bundlePairs,
       hydrated: state.hydrated,
       itemCount,
       addItem,
+      addBundlePair,
       setQuantity,
       removeItem,
       clearCart,
@@ -146,9 +169,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }),
     [
       state.items,
+      bundlePairs,
       state.hydrated,
       itemCount,
       addItem,
+      addBundlePair,
       setQuantity,
       removeItem,
       clearCart,

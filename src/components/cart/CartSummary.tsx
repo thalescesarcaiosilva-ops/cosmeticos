@@ -15,7 +15,8 @@ type CartSummaryProps = {
 export function CartSummary({ data, loading = false }: CartSummaryProps) {
   const [selectedShipping, setSelectedShipping] = useState<ShippingQuoteLine | null>(null)
   const shippingPrice = selectedShipping?.price ?? 0
-  const total = data.subtotal + shippingPrice
+  const merchandiseTotal = data.merchandiseTotal
+  const total = merchandiseTotal + shippingPrice
   const availableLines = data.lines.filter((line) => line.available && line.quantity > 0)
 
   return (
@@ -32,6 +33,15 @@ export function CartSummary({ data, loading = false }: CartSummaryProps) {
               {loading ? '…' : formatCurrency(data.subtotal)}
             </dd>
           </div>
+
+          {data.bundleDiscountAmount > 0 && (
+            <div className="flex justify-between gap-4 text-brand">
+              <dt>Desconto Compre Junto</dt>
+              <dd className="font-semibold tabular-nums">
+                - {loading ? '…' : formatCurrency(data.bundleDiscountAmount)}
+              </dd>
+            </div>
+          )}
 
           {selectedShipping && (
             <div className="flex justify-between gap-4">
@@ -75,8 +85,8 @@ export function CartSummary({ data, loading = false }: CartSummaryProps) {
 
       <div className="rounded-lg border border-border bg-surface p-5">
         <ShippingCalculator
-          key={data.subtotal}
-          subtotal={data.subtotal}
+          key={merchandiseTotal}
+          subtotal={merchandiseTotal}
           onSelect={setSelectedShipping}
         />
       </div>

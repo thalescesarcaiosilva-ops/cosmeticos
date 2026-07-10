@@ -24,6 +24,7 @@ export const checkoutShippingAddressSchema = createAddressSchema.omit({
 export const checkoutBaseSchema = z.object({
   shipping_method_id: z.string().uuid(),
   items: cartSyncSchema.shape.items,
+  bundle_pairs: cartSyncSchema.shape.bundle_pairs,
   document: cpfSchema,
   customer: checkoutCustomerSchema,
   shipping_address: checkoutShippingAddressSchema,
