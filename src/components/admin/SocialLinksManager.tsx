@@ -36,8 +36,15 @@ export function SocialLinksManager() {
   const [loading, setLoading] = useState(false)
 
   const load = useCallback(async () => {
-    const { data } = await fetchApi<Array<SocialLink & { type: string }>>('/api/admin/social-links')
-    setItems((data ?? []).filter((item) => item.type !== 'whatsapp') as SocialLink[])
+    const { data } = await fetchApi<
+      Array<Omit<SocialLink, 'type'> & { type: string }>
+    >('/api/admin/social-links')
+    setItems(
+      (data ?? []).filter(
+        (item): item is SocialLink =>
+          item.type === 'facebook' || item.type === 'instagram'
+      )
+    )
   }, [])
 
   useEffect(() => { load() }, [load])
