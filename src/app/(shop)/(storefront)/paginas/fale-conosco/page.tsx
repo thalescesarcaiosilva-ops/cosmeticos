@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       data.intro ??
       'Entre em contato conosco. Tire dúvidas sobre pedidos, produtos e atendimento.',
-    path: '/fale-conosco',
+    path: '/paginas/fale-conosco',
   })
 }
 

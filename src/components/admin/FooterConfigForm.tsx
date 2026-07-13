@@ -168,7 +168,7 @@ export function FooterConfigForm() {
             label="Link Fale Conosco"
             value={form.contact_page_href}
             onChange={(e) => setForm({ ...form, contact_page_href: e.target.value })}
-            placeholder="/fale-conosco"
+            placeholder="/paginas/fale-conosco"
           />
         </div>
         <p className="mt-3 text-xs text-text-muted">

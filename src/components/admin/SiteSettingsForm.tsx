@@ -381,8 +381,8 @@ export function SiteSettingsForm() {
         <Card title="Página de contato / suporte">
           <p className="mb-4 text-sm text-text-secondary">
             Conteúdo exibido em{' '}
-            <Link href="/fale-conosco" className="text-brand hover:underline" target="_blank">
-              /fale-conosco
+            <Link href="/paginas/fale-conosco" className="text-brand hover:underline" target="_blank">
+              /paginas/fale-conosco
             </Link>
             . Canais (telefone, e-mail, endereço) vêm do perfil da loja e rodapé.
           </p>

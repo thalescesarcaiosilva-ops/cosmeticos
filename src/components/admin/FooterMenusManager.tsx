@@ -195,7 +195,7 @@ export function FooterMenusManager() {
       <p className="text-sm text-text-secondary">
         Crie colunas de menu no rodapé com título, posição e links (texto + URL). Ex.:{' '}
         <code className="text-xs">/paginas/politica-de-privacidade</code> ou{' '}
-        <code className="text-xs">/fale-conosco</code>.
+        <code className="text-xs">/paginas/fale-conosco</code>.
       </p>
 
       {migrationHint && (

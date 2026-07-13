@@ -279,8 +279,37 @@ export function ProductsManager() {
     if (variationMediaPickerIndex === index) setVariationMediaPickerIndex(null)
   }
 
+  const feedUrl = process.env.NEXT_PUBLIC_SITE_URL
+    ? `${process.env.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, '')}/feed/google-merchant`
+    : '/feed/google-merchant'
+
   return (
     <div className="space-y-6">
+      <Card title="Feed do Google Shopping / Merchant Center">
+        <p className="mb-3 text-sm text-text-secondary">
+          Cole este link no Google Merchant Center (Produtos → Feeds → Adicionar feed → Buscar
+          conteúdo → URL programada). Ele inclui automaticamente todos os produtos ativos, com
+          categoria do Google, imagens adicionais, GTIN e categoria da loja.
+        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <code className="flex-1 truncate rounded-md border border-border bg-surface-muted px-3 py-2 text-xs">
+            {feedUrl}
+          </code>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => navigator.clipboard?.writeText(feedUrl)}
+          >
+            Copiar link
+          </Button>
+          <a href={feedUrl} target="_blank" rel="noopener noreferrer">
+            <Button type="button" variant="ghost">
+              Abrir XML
+            </Button>
+          </a>
+        </div>
+      </Card>
+
       <ProductCsvImport onComplete={load} />
 
       <div className="flex justify-end">

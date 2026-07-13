@@ -16,7 +16,7 @@ function emptySiteLayoutData(): SiteLayoutData {
     socialLinks: [],
     phone: { areaCode: '', number: '', display: '', href: '' },
     helpLink: { label: '', href: '' },
-    contactPage: { label: 'Fale Conosco', href: '/fale-conosco' },
+    contactPage: { label: 'Fale Conosco', href: '/paginas/fale-conosco' },
     menuCategories: [],
   }
 }

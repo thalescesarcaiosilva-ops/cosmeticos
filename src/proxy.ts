@@ -8,8 +8,26 @@ const PUBLIC_ACCOUNT_PATHS = [
   '/conta/redefinir-senha',
 ]
 
+/**
+ * URLs institucionais antigas -> novo padrão único (/paginas/*), usado por
+ * todas as páginas institucionais e de políticas da loja. Redirecionamento
+ * permanente (308) para preservar SEO de links e backlinks já indexados.
+ */
+const LEGACY_PAGE_REDIRECTS: Record<string, string> = {
+  '/quem-somos': '/paginas/quem-somos',
+  '/fale-conosco': '/paginas/fale-conosco',
+}
+
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
+
+  const legacyRedirect = LEGACY_PAGE_REDIRECTS[pathname]
+  if (legacyRedirect) {
+    const url = new URL(legacyRedirect, request.url)
+    url.search = request.nextUrl.search
+    return NextResponse.redirect(url, 308)
+  }
+
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set('x-pathname', pathname)
 

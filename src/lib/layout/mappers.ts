@@ -61,7 +61,7 @@ export function mapToSiteLayoutData(result: LayoutQueryResult): SiteLayoutData {
     },
     contactPage: {
       label: settings.contact_page_label?.trim() || 'Fale Conosco',
-      href: settings.contact_page_href?.trim() || '/fale-conosco',
+      href: settings.contact_page_href?.trim() || '/paginas/fale-conosco',
     },
     menuCategories: rootItems.map((item) => {
       const children = (childrenByParent.get(item.id) ?? [])

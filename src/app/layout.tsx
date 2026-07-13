@@ -77,7 +77,18 @@ export default async function RootLayout({
       <head>
         <HeadScripts html={headScripts} />
       </head>
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-N773FLPV"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+            title="Google Tag Manager"
+          />
+        </noscript>
+        {children}
+      </body>
     </html>
   )
 }

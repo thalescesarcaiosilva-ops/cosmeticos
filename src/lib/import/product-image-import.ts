@@ -1,4 +1,5 @@
 import sharp from 'sharp'
+import { isBlockedImageUrl } from '@/lib/import/image-source-policy'
 
 const MAX_WIDTH = 1200
 const MAX_HEIGHT = 1200
@@ -50,6 +51,10 @@ export async function optimizeProductImage(file: Buffer): Promise<OptimizedProdu
 }
 
 export async function downloadRemoteImage(url: string): Promise<Buffer> {
+  if (isBlockedImageUrl(url)) {
+    throw new Error('URL de imagem bloqueada')
+  }
+
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 30000)
 

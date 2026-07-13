@@ -5,7 +5,7 @@
  *
  * Aqui você configura:
  *   1. A seção "Nossa loja" que aparece na HOME (imagem + descrição).
- *   2. A página "Quem somos" (/quem-somos) por completo.
+ *   2. A página "Quem somos" (/paginas/quem-somos) por completo.
  *   3. A newsletter da home.
  *
  * COMO TROCAR AS IMAGENS DA LOJA:
@@ -104,7 +104,7 @@ export const storeContent: StoreContent = {
       ],
       imageUrl: '/loja.png',
       imageAlt: 'Interior da Batista Cosméticos',
-      cta: { label: 'Conheça nossa história', href: '/quem-somos' },
+      cta: { label: 'Conheça nossa história', href: '/paginas/quem-somos' },
     },
     newsletter: {
       eyebrow: 'Clube de Ofertas',

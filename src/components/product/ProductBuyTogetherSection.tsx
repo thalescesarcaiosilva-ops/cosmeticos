@@ -104,12 +104,12 @@ export function ProductBuyTogetherSection({
 
   return (
     <section
-      className="rounded-xl bg-surface-strong p-4"
+      className="rounded-xl bg-brand p-4"
       aria-label="Compre junto"
     >
       <header className="mb-4">
-        <h2 className="text-[17px] font-bold text-text-primary">Compre Junto</h2>
-        <p className="mt-1 text-[13px] leading-snug text-text-secondary">{subtitle}</p>
+        <h2 className="text-[17px] font-bold ">Compre Junto</h2>
+        <p className="mt-1 text-[13px] leading-snug ">{subtitle}</p>
       </header>
 
       <div className="rounded-lg border border-border bg-surface p-4">
@@ -121,7 +121,7 @@ export function ProductBuyTogetherSection({
           />
 
           <div
-            className="flex size-7 shrink-0 items-center justify-center self-center rounded-full border border-border text-sm font-bold text-text-secondary"
+            className="flex size-7 shrink-0 items-center justify-center self-center rounded-full border border-border text-sm font-bold "
             aria-hidden
           >
             +

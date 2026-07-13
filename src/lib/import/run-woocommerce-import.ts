@@ -1,4 +1,8 @@
 import { createAdminClient } from '@/lib/supabase/admin'
+import {
+  filterImportableImages,
+  sourceFilenameFromUrl,
+} from '@/lib/import/image-source-policy'
 import { downloadRemoteImage, optimizeProductImage } from '@/lib/import/product-image-import'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import type { WooCommerceProductRow } from '@/lib/import/woocommerce-csv'
@@ -8,6 +12,8 @@ import { slugify } from '@/lib/products/format'
 export type ImportBatchOptions = {
   updateImages: boolean
   adminUserId: string
+  /** Reutiliza media_assets existentes com o mesmo filename de origem. */
+  reuseExistingMedia?: boolean
 }
 
 export type ImportItemResult = {
@@ -119,9 +125,17 @@ async function importSingleProduct(
 
   const { data: bySlug } = byWooId
     ? { data: null }
-    : await admin.from('products').select('id, slug').eq('slug', row.slug).maybeSingle()
+    : await admin
+        .from('products')
+        .select('id, slug, woocommerce_id')
+        .eq('slug', row.slug)
+        .maybeSingle()
 
-  const existing = byWooId ?? bySlug
+  const existing =
+    byWooId ??
+    (bySlug && (bySlug.woocommerce_id == null || bySlug.woocommerce_id === row.wooId)
+      ? bySlug
+      : null)
   const isNew = !existing
 
   const productPayload = {
@@ -181,15 +195,24 @@ async function importSingleProduct(
 
   await syncProductRelations(productId, categoryIds, undefined)
 
-  let mediaIds: string[] | undefined
+  const importableImages = filterImportableImages(row.images)
+  const shouldImportImages =
+    importableImages.length > 0 && (isNew || options.updateImages)
 
-  if ((isNew || options.updateImages) && row.images.length > 0) {
-    mediaIds = []
-    for (let i = 0; i < row.images.length; i++) {
-      const image = row.images[i]
+  if (shouldImportImages) {
+    const mediaIds: string[] = []
+    for (const image of importableImages) {
       try {
-        const mediaId = await importProductImage(admin, image.url, image.alt || row.name, options.adminUserId)
-        mediaIds.push(mediaId)
+        const mediaId = await importProductImage(
+          admin,
+          image.url,
+          image.alt || row.name,
+          options.adminUserId,
+          options.reuseExistingMedia ?? true
+        )
+        if (!mediaIds.includes(mediaId)) {
+          mediaIds.push(mediaId)
+        }
         batch.imagesImported++
       } catch {
         // Continua importando produto mesmo se uma imagem falhar
@@ -289,8 +312,23 @@ async function importProductImage(
   admin: ReturnType<typeof createAdminClient>,
   sourceUrl: string,
   altText: string,
-  adminUserId: string
+  adminUserId: string,
+  reuseExistingMedia: boolean
 ): Promise<string> {
+  const filename = sourceFilenameFromUrl(sourceUrl).slice(0, 255)
+
+  if (reuseExistingMedia) {
+    const { data: existing } = await admin
+      .from('media_assets')
+      .select('id')
+      .eq('filename', filename)
+      .order('created_at', { ascending: true })
+      .limit(1)
+      .maybeSingle()
+
+    if (existing) return existing.id
+  }
+
   const raw = await downloadRemoteImage(sourceUrl)
   const optimized = await optimizeProductImage(raw)
 
@@ -307,12 +345,11 @@ async function importProductImage(
 
   const { data: urlData } = admin.storage.from('product-images').getPublicUrl(storagePath)
   const normalizedPublicUrl = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
-  const filename = sourceUrl.split('/').pop()?.split('?')[0] ?? 'import.webp'
 
   const { data, error } = await admin
     .from('media_assets')
     .insert({
-      filename: filename.slice(0, 255),
+      filename,
       storage_path: storagePath,
       bucket: 'product-images',
       public_url: normalizedPublicUrl,

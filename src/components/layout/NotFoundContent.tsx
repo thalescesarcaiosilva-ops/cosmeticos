@@ -31,7 +31,7 @@ export function NotFoundContent() {
         </div>
 
         <Link
-          href="/fale-conosco"
+          href="/paginas/fale-conosco"
           className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-brand hover:underline"
         >
           <ArrowLeft className="size-4 rotate-180" aria-hidden />

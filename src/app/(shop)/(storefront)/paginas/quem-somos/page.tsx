@@ -7,7 +7,7 @@ export function generateMetadata(): Metadata {
   return buildPageMetadata({
     title: 'Quem somos | Batista Cosméticos',
     description: storeContent.about.sobre.paragraphs[0],
-    path: '/quem-somos',
+    path: '/paginas/quem-somos',
   })
 }
 

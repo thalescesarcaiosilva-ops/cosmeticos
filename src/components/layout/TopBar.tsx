@@ -19,7 +19,7 @@ export function TopBar({ storeName, policyLinks, socialLinks, overlay = false }:
       className={`border-b text-[12px] font-bold transition-colors duration-[400ms] ${
         overlay
           ? 'border-white/10 bg-transparent text-white/90'
-          : 'border-border/70 bg-surface-strong text-text-secondary'
+          : 'border-border/70 bg-brand text-white'
       }`}
     >
       

@@ -80,7 +80,11 @@ function mergePages(staticPages: SitemapUrl[], dbPages: SitemapUrl[]): SitemapUr
   return Array.from(byPath.values()).sort((a, b) => a.path.localeCompare(b.path))
 }
 
-/** Única URL garantida: a home. Páginas institucionais vêm de footer_pages. */
+/**
+ * URLs garantidas: a home + páginas institucionais fixas (Quem somos, Fale
+ * conosco). As demais páginas institucionais/políticas vêm de footer_pages.
+ * Todas seguem o padrão único de prefixo /paginas/*.
+ */
 export function getStaticSitemapUrls(now = new Date()): SitemapUrl[] {
   return [
     {
@@ -90,7 +94,13 @@ export function getStaticSitemapUrls(now = new Date()): SitemapUrl[] {
       priority: 1,
     },
     {
-      path: '/fale-conosco',
+      path: '/paginas/quem-somos',
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      path: '/paginas/fale-conosco',
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.6,
