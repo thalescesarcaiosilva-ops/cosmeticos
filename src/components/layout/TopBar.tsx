@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import type { PolicyLink, SocialLink } from '@/types/layout'
-import { IconWhatsapp } from '@/components/icons/DotIcons'
 import { SocialIcon } from './SocialIcon'
 
 type TopBarProps = {
@@ -11,9 +10,6 @@ type TopBarProps = {
 }
 
 export function TopBar({ storeName, policyLinks, socialLinks, overlay = false }: TopBarProps) {
-  const whatsapp = socialLinks.find((s) => s.type === 'whatsapp')
-  const socialOnly = socialLinks.filter((s) => s.type !== 'whatsapp')
-
   return (
     <div
       className={`border-b text-[12px] font-bold transition-colors duration-[400ms] ${
@@ -22,8 +18,6 @@ export function TopBar({ storeName, policyLinks, socialLinks, overlay = false }:
           : 'border-border/70 bg-brand text-white'
       }`}
     >
-      
-
       <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-3 px-4 py-2 md:px-6">
         <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden md:gap-2">
           {storeName.trim() && (
@@ -50,24 +44,7 @@ export function TopBar({ storeName, policyLinks, socialLinks, overlay = false }:
         </div>
 
         <div className="flex shrink-0 items-center gap-2.5 md:gap-3">
-          {whatsapp && (
-            <a
-              href={whatsapp.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`hidden items-center gap-1.5 transition-opacity duration-[400ms] hover:opacity-80 sm:flex ${
-                overlay ? 'text-white' : 'text-brand'
-              }`}
-              aria-label={whatsapp.label}
-            >
-              <IconWhatsapp className="size-4 shrink-0" />
-              <span className="whitespace-nowrap font-bold">
-                {whatsapp.display ?? whatsapp.label}
-              </span>
-            </a>
-          )}
-
-          {socialOnly.map((social) => (
+          {socialLinks.map((social) => (
             <a
               key={social.type}
               href={social.href}

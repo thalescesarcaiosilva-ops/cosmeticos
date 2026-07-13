@@ -570,7 +570,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                   />
                   <div className="space-y-1">
                     <label htmlFor="checkout-phone" className="block text-sm font-medium text-text-primary">
-                      Celular / WhatsApp
+                      Celular
                     </label>
                     <div className="flex overflow-hidden rounded-md border border-border bg-surface focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/20">
                       <span className="flex items-center border-r border-border bg-surface px-3 text-xs font-medium text-text-secondary">

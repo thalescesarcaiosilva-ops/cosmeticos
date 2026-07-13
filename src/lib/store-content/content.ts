@@ -31,8 +31,7 @@ export type OpeningHoursRow = {
 }
 
 export type StoreContent = {
-  /** Link do botão "Fale conosco" / WhatsApp usado nos CTAs institucionais. */
-  whatsappHref: string
+
 
   home: {
     /** Seção "Nossa loja" na home: imagem à esquerda, texto à direita. */
@@ -91,7 +90,7 @@ export type StoreContent = {
 }
 
 export const storeContent: StoreContent = {
-  whatsappHref: 'https://wa.me/559992129000',
+
 
   home: {
     storeAbout: {
@@ -150,7 +149,7 @@ export const storeContent: StoreContent = {
           { label: 'CNPJ', value: '67.834.759/0001-40' },
           { label: 'E-mail', value: 'atendimento@batistacosmeticos.com.br' },
           { label: 'Site', value: 'batistacosmeticos.com.br' },
-          { label: 'Telefone', value: '(99) 92129-000' },
+          { label: 'Telefone', value: '(71) 92006-7408' },
           {
             label: 'Endereço',
             value: 'Av. Octavio Mangabeira, 6929, Loja 04, Boca do Rio, Salvador/BA, CEP 41706-690',

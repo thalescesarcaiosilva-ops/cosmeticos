@@ -1,4 +1,5 @@
 import { parseCsv } from '@/lib/csv/parse-csv'
+import { DEFAULT_PRODUCT_STOCK } from '@/lib/products/stock'
 import { slugify } from '@/lib/products/format'
 import type { WooCommerceProductRow } from '@/lib/import/woocommerce-csv'
 
@@ -80,7 +81,7 @@ function parseStock(stockRaw: string, statusRaw: string): number {
   if (!Number.isNaN(parsed) && parsed >= 0) return parsed
   const status = statusRaw.trim().toLowerCase()
   if (status === '0' || status === 'outofstock') return 0
-  return 99
+  return DEFAULT_PRODUCT_STOCK
 }
 
 function parsePtCategories(raw: string): string[] {

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { filterStorefrontSocialLinks } from '@/lib/layout/social-links'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import type { LayoutQueryResult } from '@/types/database-layout'
 import type { SiteLayoutData, SocialLink } from '@/types/layout'
@@ -46,9 +47,9 @@ export function mapToSiteLayoutData(result: LayoutQueryResult): SiteLayoutData {
       label: link.label,
       href: link.href,
     })),
-    socialLinks: socialLinks
-      .map(mapSocialLink)
-      .filter((link): link is SocialLink => link !== null),
+    socialLinks: filterStorefrontSocialLinks(
+      socialLinks.map(mapSocialLink).filter((link): link is SocialLink => link !== null)
+    ),
     phone: {
       areaCode: settings.phone_area_code,
       number: settings.phone_number,

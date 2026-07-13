@@ -10,7 +10,7 @@ import { createSocialLinkSchema, updateSocialLinkSchema } from '@/schemas/social
 
 type SocialLink = {
   id: string
-  type: 'whatsapp' | 'facebook' | 'instagram'
+  type: 'facebook' | 'instagram'
   href: string
   label: string
   display: string | null
@@ -19,7 +19,7 @@ type SocialLink = {
 }
 
 const emptyForm = {
-  type: 'instagram' as 'whatsapp' | 'facebook' | 'instagram',
+  type: 'instagram' as 'facebook' | 'instagram',
   href: '',
   label: '',
   display: '',
@@ -36,8 +36,8 @@ export function SocialLinksManager() {
   const [loading, setLoading] = useState(false)
 
   const load = useCallback(async () => {
-    const { data } = await fetchApi<SocialLink[]>('/api/admin/social-links')
-    setItems(data ?? [])
+    const { data } = await fetchApi<Array<SocialLink & { type: string }>>('/api/admin/social-links')
+    setItems((data ?? []).filter((item) => item.type !== 'whatsapp') as SocialLink[])
   }, [])
 
   useEffect(() => { load() }, [load])
@@ -116,7 +116,6 @@ export function SocialLinksManager() {
                 onChange={(e) => setForm({ ...form, type: e.target.value as SocialLink['type'] })}
                 className="w-full rounded-md border border-border px-3 py-2.5 text-sm"
               >
-                <option value="whatsapp">WhatsApp</option>
                 <option value="facebook">Facebook</option>
                 <option value="instagram">Instagram</option>
               </select>

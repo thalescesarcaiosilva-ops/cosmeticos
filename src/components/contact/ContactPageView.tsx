@@ -94,7 +94,7 @@ export function ContactPageView({ data }: ContactFormProps) {
   }
 
   const phoneLine = data.phoneDisplay
-  const showPhoneBlock = Boolean(phoneLine || data.whatsappHref)
+  const showPhoneBlock = Boolean(phoneLine)
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-10 md:px-6 md:py-14">
@@ -138,28 +138,13 @@ export function ContactPageView({ data }: ContactFormProps) {
             )}
 
             {showPhoneBlock && (
-              <ContactChannel
-                icon={<Phone className="size-5" aria-hidden />}
-                title="Telefone & WhatsApp"
-              >
+              <ContactChannel icon={<Phone className="size-5" aria-hidden />} title="Telefone">
                 {phoneLine && data.phoneHref ? (
                   <a href={data.phoneHref} className="hover:text-brand">
                     {phoneLine}
                   </a>
-                ) : phoneLine ? (
+                ) : (
                   <span>{phoneLine}</span>
-                ) : null}
-                {data.whatsappHref && (
-                  <p className={phoneLine ? 'mt-1' : undefined}>
-                    <a
-                      href={data.whatsappHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-brand"
-                    >
-                      {data.whatsappLabel}
-                    </a>
-                  </p>
                 )}
               </ContactChannel>
             )}

@@ -190,8 +190,8 @@ export function ProductBuyTogetherSection({
                 onClick={() => goTo(index)}
                 className={
                   index === activeIndex
-                    ? 'h-1.5 w-6 rounded-full bg-brand transition-all'
-                    : 'size-1.5 rounded-full bg-text-muted/40 transition-all hover:bg-text-muted/70'
+                    ? 'h-1.5 w-6 rounded-full bg-white transition-all'
+                    : 'size-1.5 rounded-full bg-white/40 transition-all hover:bg-white/70'
                 }
                 aria-label={`Sugestão ${index + 1}`}
                 aria-current={index === activeIndex ? 'true' : undefined}
@@ -205,7 +205,7 @@ export function ProductBuyTogetherSection({
             className="flex size-8 items-center justify-center rounded-full text-white transition-colors hover:bg-surface hover:text-text-primary"
             aria-label="Próxima sugestão"
           >
-            <IconChevronLeft className="size-4 rotate-180 text-white" />
+            <IconChevronLeft className="size-4 rotate-180 text-white" />  
           </button>
         </div>
       )}

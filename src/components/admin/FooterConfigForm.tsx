@@ -12,8 +12,6 @@ import { updateFooterSettingsSchema } from '@/schemas/footer-settings-schema'
 
 type FooterSettings = {
   footer_phone_label: string
-  contact_whatsapp_label: string
-  contact_whatsapp_href: string | null
   contact_page_label: string
   contact_page_href: string
   contact_address_label: string
@@ -39,8 +37,6 @@ export function FooterConfigForm() {
           setMigrationNeeded(data.footer_columns_available === false)
           setForm({
             footer_phone_label: data.footer_phone_label ?? 'Ligue para nós',
-            contact_whatsapp_label: data.contact_whatsapp_label ?? 'WhatsApp',
-            contact_whatsapp_href: data.contact_whatsapp_href ?? '',
             contact_page_label: data.contact_page_label ?? 'Fale Conosco',
             contact_page_href: data.contact_page_href ?? '',
             contact_address_label: data.contact_address_label ?? 'Endereço',
@@ -83,7 +79,8 @@ export function FooterConfigForm() {
 
     const payload = {
       ...form,
-      contact_whatsapp_href: form.contact_whatsapp_href || null,
+      contact_whatsapp_href: null,
+      contact_whatsapp_label: null,
       footer_security_text: form.footer_security_text || null,
       footer_disclaimers: form.footer_disclaimers.filter((d) => d.trim()),
     }
@@ -147,17 +144,6 @@ export function FooterConfigForm() {
             label="Título do endereço"
             value={form.contact_address_label}
             onChange={(e) => setForm({ ...form, contact_address_label: e.target.value })}
-          />
-          <Input
-            label="Texto link WhatsApp"
-            value={form.contact_whatsapp_label}
-            onChange={(e) => setForm({ ...form, contact_whatsapp_label: e.target.value })}
-          />
-          <Input
-            label="URL WhatsApp"
-            value={form.contact_whatsapp_href ?? ''}
-            onChange={(e) => setForm({ ...form, contact_whatsapp_href: e.target.value })}
-            placeholder="https://wa.me/..."
           />
           <Input
             label="Texto Fale Conosco"

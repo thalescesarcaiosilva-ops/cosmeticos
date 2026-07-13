@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { DEFAULT_PRODUCT_STOCK } from '@/lib/products/stock'
 
 const slugSchema = z
   .string()
@@ -21,7 +22,7 @@ export const createProductSchema = z.object({
   description: z.string().max(5000).optional().nullable(),
   price: z.number().positive('Preço deve ser maior que zero').max(999999.99),
   original_price: z.number().positive().max(999999.99).optional().nullable(),
-  stock: z.number().int().min(0),
+  stock: z.number().int().min(0).default(DEFAULT_PRODUCT_STOCK),
   brand_id: z.string().uuid().optional().nullable(),
   sku: z.string().max(50).optional().nullable(),
   gtin: z.string().max(14).optional().nullable(),

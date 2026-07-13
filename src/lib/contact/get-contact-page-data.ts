@@ -1,5 +1,6 @@
 import { getFooterData } from '@/lib/layout/get-footer-data'
 import { getSiteSettings, getSocialLinks, SITE_SETTINGS_ID } from '@/lib/layout/queries'
+import { filterStorefrontSocialLinks } from '@/lib/layout/social-links'
 import {
   formatOpeningHoursLong,
   formatPhoneDisplay,
@@ -22,8 +23,6 @@ export type ContactPageData = {
   address: string | null
   phoneDisplay: string | null
   phoneHref: string | null
-  whatsappHref: string | null
-  whatsappLabel: string
   email: string | null
   businessHours: string | null
   socialLinks: SocialLink[]
@@ -40,6 +39,7 @@ function mapSocial(row: {
 }): SocialLink | null {
   const parsed = socialTypeSchema.safeParse(row.type)
   if (!parsed.success) return null
+  if (parsed.data === 'whatsapp') return null
   return {
     type: parsed.data,
     href: row.href,
@@ -90,8 +90,6 @@ export async function getContactPageData(): Promise<ContactPageData> {
       address: null,
       phoneDisplay: null,
       phoneHref: null,
-      whatsappHref: null,
-      whatsappLabel: 'WhatsApp',
       email: null,
       businessHours: null,
       socialLinks: [],
@@ -122,12 +120,9 @@ export async function getContactPageData(): Promise<ContactPageData> {
     (profile ? formatOpeningHoursLong(profile.store_opening_hours) : null) ??
     footerData.contact.businessHours
 
-  const socialLinks = socialRows
-    .map(mapSocial)
-    .filter((s): s is SocialLink => s !== null)
-    .filter((s) => s.type !== 'whatsapp')
-
-  const whatsappSocial = socialRows.find((s) => s.type === 'whatsapp')
+  const socialLinks = filterStorefrontSocialLinks(
+    socialRows.map(mapSocial).filter((s): s is SocialLink => s !== null)
+  )
 
   return {
     storeName: profile?.store_name ?? settings.store_name ?? '',
@@ -139,9 +134,6 @@ export async function getContactPageData(): Promise<ContactPageData> {
     address,
     phoneDisplay,
     phoneHref: profile?.phone_href?.trim() || settings.phone_href?.trim() || null,
-    whatsappHref:
-      settings.contact_whatsapp_href ?? whatsappSocial?.href ?? null,
-    whatsappLabel: settings.contact_whatsapp_label ?? 'WhatsApp',
     email: profile?.contact_email ?? footerData.contact.email,
     businessHours,
     socialLinks,

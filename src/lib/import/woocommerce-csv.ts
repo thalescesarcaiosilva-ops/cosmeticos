@@ -1,4 +1,5 @@
 import { parseCsv } from '@/lib/csv/parse-csv'
+import { DEFAULT_PRODUCT_STOCK } from '@/lib/products/stock'
 
 export type WooCommerceProductType = 'simple' | 'variable'
 
@@ -101,7 +102,7 @@ function parsePrice(value: string): number | null {
 function parseStock(stockRaw: string, statusRaw: string): number {
   const parsed = parseInt(stockRaw.trim(), 10)
   if (!Number.isNaN(parsed) && parsed >= 0) return parsed
-  return statusRaw.trim().toLowerCase() === 'outofstock' ? 0 : 99
+  return statusRaw.trim().toLowerCase() === 'outofstock' ? 0 : DEFAULT_PRODUCT_STOCK
 }
 
 function rowValue(row: string[], header: string[], column: string): string {

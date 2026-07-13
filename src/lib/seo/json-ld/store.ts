@@ -108,10 +108,7 @@ export function buildStoreJsonLd({
     }))
   }
 
-  const sameAs = [
-    ...footer.socialLinks.map((s) => s.href),
-    ...(footer.contact.whatsappHref ? [footer.contact.whatsappHref] : []),
-  ].filter(Boolean)
+  const sameAs = footer.socialLinks.map((s) => s.href).filter(Boolean)
 
   if (sameAs.length > 0) {
     store.sameAs = sameAs

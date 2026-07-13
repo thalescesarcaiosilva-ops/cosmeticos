@@ -1,3 +1,4 @@
+import { filterStorefrontSocialLinks } from '@/lib/layout/social-links'
 import {
   getFooterAssets,
   getFooterMenus,
@@ -29,7 +30,6 @@ export type FooterContact = {
   businessHours: string | null
   email: string | null
   address: string | null
-  whatsappHref?: string | null
 }
 
 export type FooterLegal = {
@@ -124,10 +124,9 @@ export async function getFooterData(): Promise<FooterData> {
     getStoreProfile(supabase),
   ])
 
-  const socialLinks = socialRows
-    .map(mapSocial)
-    .filter((s): s is SocialLink => s !== null)
-    .filter((s) => s.type !== 'whatsapp')
+  const socialLinks = filterStorefrontSocialLinks(
+    socialRows.map(mapSocial).filter((s): s is SocialLink => s !== null)
+  )
 
   const installmentFree = settings.installment_interest_free ?? 5
 
@@ -150,16 +149,12 @@ export async function getFooterData(): Promise<FooterData> {
 
   const brand = buildBrand(storeProfile, settings)
 
-  const whatsappSocial = socialRows.find((s) => s.type === 'whatsapp')
-
   const contact: FooterContact = {
     phoneDisplay,
     phoneHref,
     businessHours: profileHours ?? settings.business_hours ?? null,
     email: storeProfile?.contact_email ?? settings.contact_email?.trim() ?? null,
     address: profileAddress ?? settings.contact_address?.trim() ?? null,
-    whatsappHref:
-      settings.contact_whatsapp_href ?? whatsappSocial?.href ?? null,
   }
 
   return {

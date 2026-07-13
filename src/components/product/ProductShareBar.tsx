@@ -24,21 +24,10 @@ export function ProductShareBar({ productName, socialLinks }: ProductShareBarPro
     setPageUrl(window.location.href)
   }, [])
 
-  const shareText = encodeURIComponent(productName)
   const shareUrl = encodeURIComponent(pageUrl)
-
-  const whatsapp = socialLinks.find((s) => s.type === 'whatsapp')
   const instagram = socialLinks.find((s) => s.type === 'instagram')
 
   const shareItems = [
-    {
-      key: 'whatsapp',
-      label: 'Compartilhar no WhatsApp',
-      href: pageUrl
-        ? `https://wa.me/?text=${shareText}%20${shareUrl}`
-        : whatsapp?.href,
-      icon: <SocialIcon type="whatsapp" className="size-4" />,
-    },
     {
       key: 'facebook',
       label: 'Compartilhar no Facebook',

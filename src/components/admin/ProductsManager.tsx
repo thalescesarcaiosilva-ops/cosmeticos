@@ -13,6 +13,7 @@ import { ProductCsvImport } from '@/components/admin/ProductCsvImport'
 import { ProductImageOrder } from '@/components/admin/ProductImageOrder'
 import { fetchApi } from '@/lib/api/fetch-api'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
+import { DEFAULT_PRODUCT_STOCK } from '@/lib/products/stock'
 import { slugify } from '@/lib/products/format'
 import { createProductSchema, updateProductSchema } from '@/schemas/product-schema'
 import type { Brand, Product } from '@/types/product'
@@ -25,7 +26,7 @@ const emptyForm = {
   description: '',
   price: '',
   original_price: '',
-  stock: '0',
+  stock: String(DEFAULT_PRODUCT_STOCK),
   brand_id: '',
   sku: '',
   gtin: '',
@@ -263,7 +264,7 @@ export function ProductsManager() {
         name: '',
         sku: '',
         price: '',
-        stock: '0',
+        stock: String(DEFAULT_PRODUCT_STOCK),
         media_id: null,
         active: true,
       },
