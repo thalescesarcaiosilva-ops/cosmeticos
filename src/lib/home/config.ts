@@ -1,12 +1,13 @@
 /**
  * Slugs das categorias exibidas na home (grid + carrosséis de produtos).
  * Ordem do array = ordem de exibição.
- * Deixe vazio para mostrar todas as categorias ativas (ordenadas por sort_order).
+ * Máximo 5 carrosséis de produtos por categoria.
+ * O grid "Compre por categoria" lista todas as categorias ativas (organize imagens no admin).
  */
 export const HOME_CATEGORY_SLUGS: string[] = [
-    'dermocosmeticos',
-    'mamae-e-bebe',
-    'cuidados-capilares',
-    'maquiagem',
-    'protecao-solar'
+  'dermocosmeticos',
+  'cuidados-capilares',
+  'maquiagem',
+  'perfumes-femininos',
+  'perfumes-masculinos',
 ]

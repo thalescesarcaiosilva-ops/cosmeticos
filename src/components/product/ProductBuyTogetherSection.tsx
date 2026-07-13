@@ -104,10 +104,10 @@ export function ProductBuyTogetherSection({
 
   return (
     <section
-      className="rounded-xl bg-brand p-4"
+      className="rounded-lg bg-brand p-4"
       aria-label="Compre junto"
     >
-      <header className="mb-4">
+      <header className="mb-4 text-white">
         <h2 className="text-[17px] font-bold ">Compre Junto</h2>
         <p className="mt-1 text-[13px] leading-snug ">{subtitle}</p>
       </header>
@@ -176,10 +176,10 @@ export function ProductBuyTogetherSection({
           <button
             type="button"
             onClick={() => goTo(activeIndex - 1)}
-            className="flex size-8 items-center justify-center rounded-full text-text-muted transition-colors hover:bg-surface hover:text-text-primary"
+            className="flex size-8 items-center justify-center rounded-full text-white transition-colors hover:bg-surface hover:text-text-primary"
             aria-label="Sugestão anterior"
           >
-            <IconChevronLeft className="size-4" />
+            <IconChevronLeft className="size-4 text-white" />
           </button>
 
           <div className="flex items-center gap-2">
@@ -202,10 +202,10 @@ export function ProductBuyTogetherSection({
           <button
             type="button"
             onClick={() => goTo(activeIndex + 1)}
-            className="flex size-8 items-center justify-center rounded-full text-text-muted transition-colors hover:bg-surface hover:text-text-primary"
+            className="flex size-8 items-center justify-center rounded-full text-white transition-colors hover:bg-surface hover:text-text-primary"
             aria-label="Próxima sugestão"
           >
-            <IconChevronLeft className="size-4 rotate-180" />
+            <IconChevronLeft className="size-4 rotate-180 text-white" />
           </button>
         </div>
       )}

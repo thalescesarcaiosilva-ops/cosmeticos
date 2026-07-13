@@ -26,13 +26,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const homeCategoryOptions =
-    HOME_CATEGORY_SLUGS.length > 0 ? { slugs: HOME_CATEGORY_SLUGS } : undefined
-
   const [banners, collections, categorySections, paymentSettings] = await Promise.all([
     getHomeBannersPublic(),
-    getCollectionsForCarousel(homeCategoryOptions),
-    getHomeCategorySections(homeCategoryOptions),
+    getCollectionsForCarousel(),
+    getHomeCategorySections(
+      HOME_CATEGORY_SLUGS.length > 0 ? { slugs: HOME_CATEGORY_SLUGS } : undefined
+    ),
     getPaymentSettings(),
   ])
 

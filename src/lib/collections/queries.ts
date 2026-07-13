@@ -1,3 +1,7 @@
+import {
+  filterStorefrontCategories,
+  isStorefrontCategoryHidden,
+} from '@/lib/categories/storefront'
 import { createPublicClient } from '@/lib/supabase/public'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { mapProductCard, PRODUCT_SELECT } from '@/lib/products/queries'
@@ -56,6 +60,8 @@ function mapCollection(row: Record<string, unknown>): CollectionDetail {
 }
 
 export async function getCollectionBySlug(slug: string): Promise<CollectionDetail | null> {
+  if (isStorefrontCategoryHidden(slug)) return null
+
   const supabase = createPublicClient()
 
   const full = await supabase
@@ -252,7 +258,7 @@ export async function getCollectionFilterMeta(categoryId: string): Promise<Colle
   const categoryCounts = new Map<string, { id: string; name: string; slug: string; count: number }>()
   for (const link of catLinks ?? []) {
     const cat = readRelatedEntity(link.categories)
-    if (!cat?.active) continue
+    if (!cat?.active || isStorefrontCategoryHidden(cat.slug)) continue
     const existing = categoryCounts.get(cat.id)
     if (existing) existing.count += 1
     else categoryCounts.set(cat.id, { id: cat.id, name: cat.name, slug: cat.slug, count: 1 })
@@ -296,12 +302,14 @@ function filterCollectionsBySlugs(
   items: CollectionCarouselItem[],
   slugs?: string[]
 ): CollectionCarouselItem[] {
-  if (!slugs?.length) return items
+  const visible = filterStorefrontCategories(items)
+
+  if (!slugs?.length) return visible
 
   const allowed = new Set(slugs)
   const order = new Map(slugs.map((slug, index) => [slug, index]))
 
-  return items
+  return visible
     .filter((item) => allowed.has(item.slug))
     .sort((a, b) => (order.get(a.slug) ?? 999) - (order.get(b.slug) ?? 999))
 }

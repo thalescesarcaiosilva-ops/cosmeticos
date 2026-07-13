@@ -146,7 +146,7 @@ async function importSingleProduct(
     price: row.price,
     original_price: row.originalPrice,
     stock: row.stock,
-    sku: row.sku,
+    sku: row.sku || null,
     gtin: row.gtin,
     meta_title: row.metaTitle?.slice(0, 70) ?? null,
     meta_description: row.metaDescription?.slice(0, 160) ?? null,

@@ -67,6 +67,18 @@ const CATEGORY_SLUG_TO_GOOGLE: Record<string, GoogleCategory> = {
     id: 2844,
     path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele > Bloqueadores solares',
   },
+  'perfumes-femininos': {
+    id: 479,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Perfume e colônia',
+  },
+  'perfumes-masculinos': {
+    id: 479,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Perfume e colônia',
+  },
+  perfumes: {
+    id: 479,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Perfume e colônia',
+  },
   shampoo: {
     id: 543615,
     path: 'Saúde e beleza > Cuidados pessoais > Cuidados com os cabelos > Xampu e condicionador > Shampoos',
