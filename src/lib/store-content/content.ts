@@ -9,8 +9,8 @@
  *   3. A newsletter da home.
  *
  * COMO TROCAR AS IMAGENS DA LOJA:
- *   - Coloque o arquivo da foto em `public/` (ex.: public/loja.jpg).
- *   - Aponte o caminho começando com "/" (ex.: imageUrl: '/loja.jpg').
+ *   - Coloque o arquivo da foto em `public/` (ex.: public/loja.webp).
+ *   - Aponte o caminho começando com "/" (ex.: imageUrl: '/loja.webp').
  *   - Também aceita URL completa (https://...) de imagem hospedada.
  *   - Deixe `null` para exibir um espaço reservado até você adicionar a foto.
  */
@@ -101,7 +101,7 @@ export const storeContent: StoreContent = {
         'Somos uma loja especializada em cosméticos, skincare, maquiagem e higiene pessoal, com produtos selecionados para oferecer qualidade, variedade e preços acessíveis.',
         'Da escolha da fórmula certa ao atendimento no pós-venda, estamos ao seu lado em cada etapa da sua rotina de beleza.',
       ],
-      imageUrl: '/loja.png',
+      imageUrl: '/loja.webp',
       imageAlt: 'Interior da Batista Cosméticos',
       cta: { label: 'Conheça nossa história', href: '/paginas/quem-somos' },
     },
@@ -133,7 +133,7 @@ export const storeContent: StoreContent = {
       enabled: true,
       eyebrow: 'Nossa loja',
       title: 'Um espaço pensado para a sua experiência de beleza.',
-      imageUrl: '/loja.png',
+      imageUrl: '/loja.webp',
       imageAlt: 'Interior da Batista Cosméticos',
       caption: 'Venha nos visitar e conhecer pessoalmente nossa curadoria de produtos.',
     },

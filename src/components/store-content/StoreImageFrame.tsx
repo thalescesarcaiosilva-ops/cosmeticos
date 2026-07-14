@@ -22,7 +22,8 @@ export function StoreImageFrame({ imageUrl, alt, className, priority }: StoreIma
           src={imageUrl}
           alt={alt}
           fill
-          sizes="(min-width: 768px) 50vw, 100vw"
+          sizes="(min-width: 768px) 600px, 100vw"
+          quality={75}
           className="object-cover"
           priority={priority}
         />

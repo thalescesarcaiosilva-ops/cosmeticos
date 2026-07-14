@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import type { StoreLogo } from '@/types/layout'
 
@@ -21,11 +22,15 @@ export function StoreLogoMark({
         className={`inline-flex shrink-0 items-center ${className ?? ''}`}
         title={storeName}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={logo.imageUrl}
           alt={storeName}
-          className={`w-auto max-w-[120px] object-contain transition-[filter,opacity] duration-[400ms]  ${
+          width={160}
+          height={48}
+          sizes="120px"
+          quality={75}
+          priority
+          className={`h-auto w-auto max-w-[120px] object-contain transition-[filter,opacity] duration-[400ms] ${
             variant === 'light' ? 'brightness-0 invert' : ''
           }`}
         />

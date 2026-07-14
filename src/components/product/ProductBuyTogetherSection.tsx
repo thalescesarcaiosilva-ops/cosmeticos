@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { IconChevronLeft } from '@/components/icons/DotIcons'
-import { calcBundlePricing, type BuyTogetherBundle, type BuyTogetherPrimaryProduct } from '@/lib/products/buy-together'
+import { calcBundlePricing, filterBundlesByMaxTotal, type BuyTogetherBundle, type BuyTogetherPrimaryProduct } from '@/lib/products/buy-together'
 import { formatCurrency } from '@/lib/products/format'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import { useCart } from '@/providers/CartProvider'
@@ -67,12 +67,14 @@ export function ProductBuyTogetherSection({
   paymentSettings,
 }: ProductBuyTogetherSectionProps) {
   const { addItem, addBundlePair } = useCart()
+  const eligibleBundles = filterBundlesByMaxTotal(primaryProduct.price, bundles)
   const [activeIndex, setActiveIndex] = useState(0)
   const [added, setAdded] = useState(false)
 
-  if (bundles.length === 0) return null
+  if (eligibleBundles.length === 0) return null
 
-  const bundle = bundles[activeIndex] ?? bundles[0]
+  const safeIndex = Math.min(activeIndex, eligibleBundles.length - 1)
+  const bundle = eligibleBundles[safeIndex]!
   const { originalTotal, bundlePrice } = calcBundlePricing(
     primaryProduct.price,
     bundle.companion.price,
@@ -81,7 +83,7 @@ export function ProductBuyTogetherSection({
   const installment = calcInstallmentDisplay(bundlePrice, paymentSettings)
 
   function goTo(index: number) {
-    setActiveIndex((index + bundles.length) % bundles.length)
+    setActiveIndex((index + eligibleBundles.length) % eligibleBundles.length)
     setAdded(false)
   }
 
@@ -171,11 +173,11 @@ export function ProductBuyTogetherSection({
         </div>
       </div>
 
-      {bundles.length > 1 && (
+      {eligibleBundles.length > 1 && (
         <div className="mt-4 flex items-center justify-center gap-4">
           <button
             type="button"
-            onClick={() => goTo(activeIndex - 1)}
+            onClick={() => goTo(safeIndex - 1)}
             className="flex size-8 items-center justify-center rounded-full text-white transition-colors hover:bg-surface hover:text-text-primary"
             aria-label="Sugestão anterior"
           >
@@ -183,29 +185,29 @@ export function ProductBuyTogetherSection({
           </button>
 
           <div className="flex items-center gap-2">
-            {bundles.map((item, index) => (
+            {eligibleBundles.map((item, index) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => goTo(index)}
                 className={
-                  index === activeIndex
+                  index === safeIndex
                     ? 'h-1.5 w-6 rounded-full bg-white transition-all'
                     : 'size-1.5 rounded-full bg-white/40 transition-all hover:bg-white/70'
                 }
                 aria-label={`Sugestão ${index + 1}`}
-                aria-current={index === activeIndex ? 'true' : undefined}
+                aria-current={index === safeIndex ? 'true' : undefined}
               />
             ))}
           </div>
 
           <button
             type="button"
-            onClick={() => goTo(activeIndex + 1)}
+            onClick={() => goTo(safeIndex + 1)}
             className="flex size-8 items-center justify-center rounded-full text-white transition-colors hover:bg-surface hover:text-text-primary"
             aria-label="Próxima sugestão"
           >
-            <IconChevronLeft className="size-4 rotate-180 text-white" />  
+            <IconChevronLeft className="size-4 rotate-180 text-white" />
           </button>
         </div>
       )}

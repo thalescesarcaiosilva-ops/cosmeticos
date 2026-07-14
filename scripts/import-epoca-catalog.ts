@@ -47,7 +47,9 @@ const CSV_PATH =
   process.argv.find((a) => !a.startsWith('-') && a.endsWith('.csv')) ??
   'c:/importarprodutos/exportados/epoca_cosmeticos_1000_20260713_080620_woocommerce.csv'
 
-const MIN_PRICE = 50
+const NO_CLEAN = process.argv.includes('--no-clean')
+const minPriceArg = process.argv.find((a) => a.startsWith('--min-price='))
+const MIN_PRICE = minPriceArg ? parseFloat(minPriceArg.split('=')[1]) : 0
 const BATCH_SIZE = 5
 const ADMIN_USER_ID = process.env.IMPORT_ADMIN_USER_ID ?? 'e7741a3f-18f1-4af7-9b0a-38546be678da'
 
@@ -214,7 +216,7 @@ async function main() {
 
   console.log('CSV:', resolved)
   const { products, finalCounts, consolidationNotes } = prepareProducts(resolved)
-  console.log(`\nProdutos elegíveis (preço > R$${MIN_PRICE}): ${products.length}`)
+  console.log(`\nProdutos elegíveis${MIN_PRICE > 0 ? ` (preço > R$${MIN_PRICE})` : ''}: ${products.length}`)
   console.log('\nDistribuição final por categoria:')
   for (const cat of STORE_CATEGORIES) {
     const count = finalCounts.get(cat.slug) ?? 0
@@ -227,7 +229,11 @@ async function main() {
   const homeSlugs = getHomeCarouselSlugs(finalCounts)
 
   const admin = createAdminClient()
-  await cleanCatalog(admin)
+  if (!NO_CLEAN) {
+    await cleanCatalog(admin)
+  } else {
+    console.log('\n=== Limpeza ignorada (--no-clean) ===')
+  }
   await ensureStoreCategories(admin)
 
   console.log('\n=== Importando produtos ===')

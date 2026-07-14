@@ -36,7 +36,8 @@ export function CategoryGrid({ items }: CategoryGridProps) {
                     src={item.imageUrl}
                     alt={item.name}
                     fill
-                    sizes="100%"
+                    sizes="(max-width: 640px) 72px, 100px"
+                    quality={70}
                     className="object-contain"
                   />
                 ) : (

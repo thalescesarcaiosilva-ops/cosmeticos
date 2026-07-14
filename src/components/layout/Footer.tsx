@@ -55,6 +55,8 @@ function FooterAssetImage({
       alt={alt}
       width={dimensions.width}
       height={dimensions.height}
+      sizes={size === 'payment' ? '56px' : '120px'}
+      quality={70}
       className={dimensions.className}
     />
   )
@@ -86,6 +88,8 @@ function FooterBrandColumn({
             alt={brand.storeName}
             width={160}
             height={48}
+            sizes="180px"
+            quality={75}
             className="h-12 w-auto max-w-[180px] object-contain"
           />
         </Link>

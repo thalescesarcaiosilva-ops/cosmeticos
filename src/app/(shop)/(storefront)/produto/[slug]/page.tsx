@@ -52,7 +52,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const [relatedProducts, buyTogetherBundles] = await Promise.all([
     getRelatedProducts(product.id, categoryIds),
-    getBuyTogetherBundles(product.id, categoryIds),
+    getBuyTogetherBundles(product.id, categoryIds, product.price),
   ])
   const approvedReviews = await getApprovedProductReviews(product.id)
   const reviewSummary = buildReviewSummary(approvedReviews)

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import {
   DEFAULT_BUNDLE_DISCOUNT_PERCENT,
+  filterBundlesByMaxTotal,
   type BuyTogetherBundle,
 } from '@/lib/products/buy-together'
 import { mapProductCard, getRelatedProducts, PRODUCT_SELECT } from '@/lib/products/queries'
@@ -68,17 +69,23 @@ async function getCuratedBundles(
 export async function getBuyTogetherBundles(
   productId: string,
   categoryIds: string[],
+  primaryPrice: number,
   limit = 3
 ): Promise<BuyTogetherBundle[]> {
-  const curated = await getCuratedBundles(productId, limit)
+  const curated = await getCuratedBundles(productId, Math.max(limit * 4, 12))
   if (curated !== null) {
-    return curated
+    return filterBundlesByMaxTotal(primaryPrice, curated).slice(0, limit)
   }
 
-  const related = await getRelatedProducts(productId, categoryIds, limit, { inStockOnly: true })
-  return related.map((companion) => ({
+  const related = await getRelatedProducts(productId, categoryIds, Math.max(limit * 4, 12), {
+    inStockOnly: true,
+  })
+  const bundles = related.map((companion) => ({
     id: `${productId}-${companion.id}`,
     companion,
     discountPercent: DEFAULT_BUNDLE_DISCOUNT_PERCENT,
   }))
+
+  return filterBundlesByMaxTotal(primaryPrice, bundles).slice(0, limit)
 }
+
