@@ -10,12 +10,14 @@ export { applyInstallmentTemplate, splitInstallmentTemplate }
 
 export function calcInstallmentDisplay(
   price: number,
-  settings: PaymentSettings
+  settings: PaymentSettings | null | undefined
 ): InstallmentDisplay | null {
-  if (price <= 0) return null
+  if (!settings || price <= 0) return null
 
-  const maxByMin = Math.floor(price / settings.minInstallmentValue)
-  let count = Math.min(settings.maxInstallments, Math.max(1, maxByMin))
+  const minInstallmentValue = Number(settings.minInstallmentValue) || 1
+  const maxInstallments = Number(settings.maxInstallments) || 1
+  const maxByMin = Math.floor(price / minInstallmentValue)
+  let count = Math.min(maxInstallments, Math.max(1, maxByMin))
 
   if (count < 1) count = 1
 

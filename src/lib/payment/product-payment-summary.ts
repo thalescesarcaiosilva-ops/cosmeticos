@@ -9,18 +9,19 @@ function calcPixPrice(price: number, discountPercent: number): number {
 
 export function buildProductPaymentSummary(
   price: number,
-  paymentSettings: PaymentSettings,
-  checkoutSettings: CheckoutPaymentSettings
+  paymentSettings: PaymentSettings | null | undefined,
+  checkoutSettings: CheckoutPaymentSettings | null | undefined
 ): string | null {
-  if (price <= 0) return null
+  if (price <= 0 || !paymentSettings || !checkoutSettings) return null
 
   const installment = calcInstallmentDisplay(price, paymentSettings)
   const segments: string[] = []
 
-  if (checkoutSettings.pixEnabled) {
-    if (checkoutSettings.pixDiscount > 0) {
+  if (checkoutSettings.pixEnabled !== false) {
+    const pixDiscount = Number(checkoutSettings.pixDiscount) || 0
+    if (pixDiscount > 0) {
       segments.push(
-        `à vista no Pix por ${formatCurrency(calcPixPrice(price, checkoutSettings.pixDiscount))}`
+        `à vista no Pix por ${formatCurrency(calcPixPrice(price, pixDiscount))}`
       )
     } else {
       segments.push('à vista no Pix')
@@ -28,7 +29,7 @@ export function buildProductPaymentSummary(
   }
 
   const showInstallments =
-    checkoutSettings.cardEnabled && installment != null && installment.count > 1
+    checkoutSettings.cardEnabled !== false && installment != null && installment.count > 1
 
   if (showInstallments && installment) {
     const cardPart = `${formatCurrency(price)} em até ${installment.count}x de ${formatCurrency(installment.value)} ${

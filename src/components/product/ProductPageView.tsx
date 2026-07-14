@@ -42,6 +42,7 @@ export function ProductPageView({
       <ProductBreadcrumb
         category={primaryCategory}
         brandName={product.brandName}
+        brandSlug={product.brandSlug}
         productName={product.name}
       />
 

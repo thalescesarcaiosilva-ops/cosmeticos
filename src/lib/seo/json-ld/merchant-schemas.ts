@@ -22,7 +22,8 @@ export function buildMerchantReturnPolicy(context: MerchantSeoContext) {
     merchantReturnDays: context.returnDays,
     returnMethod: RETURN_METHOD_URL[context.returnMethod],
     returnFees: RETURN_FEES_URL[context.returnFees],
-    ...(context.returnPolicyUrl ? { returnPolicyUrl: context.returnPolicyUrl } : {}),
+    refundType: 'https://schema.org/FullRefund',
+    ...(context.returnPolicyUrl ? { merchantReturnLink: context.returnPolicyUrl } : {}),
   }
 }
 
@@ -202,11 +203,6 @@ export function buildShippingServiceJsonLd() {
     description:
       'Envios via Correios (PAC e SEDEX) a partir de Salvador/BA (CEP 41706-690) para todo o Brasil. Frete grátis via PAC para pedidos a partir de R$ 250,00.',
     fulfillmentType: 'https://schema.org/FulfillmentTypeDelivery',
-    shippingOrigin: {
-      '@type': 'DefinedRegion',
-      addressCountry: 'BR',
-      addressRegion: 'BA',
-    },
     handlingTime: {
       '@type': 'ServicePeriod',
       cutoffTime: '14:00:00-03:00',

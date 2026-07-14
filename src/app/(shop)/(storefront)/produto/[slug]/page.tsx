@@ -62,14 +62,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const primaryCategory = product.categories[0] ?? null
   const breadcrumbItems = [
     { name: 'Início', path: '/' },
-    ...(product.brandName ? [{ name: product.brandName }] : []),
+    ...(product.brandName && product.brandSlug
+      ? [{ name: product.brandName, path: `/${product.brandSlug}` }]
+      : product.brandName
+        ? [{ name: product.brandName, path: `/busca?q=${encodeURIComponent(product.brandName)}` }]
+        : []),
     ...(primaryCategory
       ? [{ name: primaryCategory.name, path: `/colecoes/${primaryCategory.slug}` }]
       : []),
     { name: product.name },
   ]
 
-  const productJsonLd = buildProductJsonLd(product, merchantContext)
+  const productJsonLd = buildProductJsonLd(product, merchantContext, {
+    reviewSummary,
+    reviews: approvedReviews,
+  })
   const breadcrumbJsonLd = buildBreadcrumbJsonLd(breadcrumbItems)
   const structuredData = [productJsonLd, breadcrumbJsonLd].filter(Boolean) as Record<
     string,

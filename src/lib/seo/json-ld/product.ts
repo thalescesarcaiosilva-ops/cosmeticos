@@ -6,6 +6,7 @@ import {
   buildOfferShippingDetails,
   buildPriceValidUntil,
 } from '@/lib/seo/json-ld/merchant-schemas'
+import type { ApprovedProductReview } from '@/lib/products/reviews'
 import type { ProductDetail } from '@/types/product'
 
 function formatSchemaPrice(price: number): string {
@@ -16,9 +17,15 @@ function availabilityUrl(stock: number): string {
   return stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
 }
 
+type ProductJsonLdOptions = {
+  reviewSummary?: { average: number; count: number }
+  reviews?: ApprovedProductReview[]
+}
+
 export function buildProductJsonLd(
   product: ProductDetail,
-  merchant?: MerchantSeoContext | null
+  merchant?: MerchantSeoContext | null,
+  options?: ProductJsonLdOptions
 ) {
   const url = absoluteUrl(`/produto/${product.slug}`)
   if (!url) return null
@@ -55,9 +62,13 @@ export function buildProductJsonLd(
     name: product.name,
     description,
     url,
-    sku: product.sku ?? undefined,
     image: images.length > 0 ? images : undefined,
     offers: offer,
+  }
+
+  if (product.sku) {
+    jsonLd.sku = product.sku
+    jsonLd.mpn = product.sku
   }
 
   if (product.gtin) {
@@ -69,6 +80,37 @@ export function buildProductJsonLd(
       '@type': 'Brand',
       name: product.brandName,
     }
+  }
+
+  const reviewSummary = options?.reviewSummary
+  if (reviewSummary && reviewSummary.count > 0) {
+    jsonLd.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: reviewSummary.average,
+      reviewCount: reviewSummary.count,
+      bestRating: 5,
+      worstRating: 1,
+    }
+  }
+
+  const reviews = options?.reviews
+  if (reviews && reviews.length > 0) {
+    jsonLd.review = reviews.slice(0, 5).map((review) => ({
+      '@type': 'Review',
+      author: {
+        '@type': 'Person',
+        name: review.author_name,
+      },
+      datePublished: review.created_at.slice(0, 10),
+      reviewBody: review.comment,
+      name: review.title ?? undefined,
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: review.rating,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    }))
   }
 
   return jsonLd
