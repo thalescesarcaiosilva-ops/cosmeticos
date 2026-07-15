@@ -3,46 +3,68 @@ import Link from 'next/link'
 type ProductGalleryMetaProps = {
   categories: { name: string; slug: string }[]
   brandName: string | null
+  brandSlug?: string | null
 }
 
-export function ProductGalleryMeta({ categories, brandName }: ProductGalleryMetaProps) {
+export function ProductGalleryMeta({
+  categories,
+  brandName,
+  brandSlug,
+}: ProductGalleryMetaProps) {
   if (categories.length === 0 && !brandName) return null
 
+  const brandHref = brandSlug
+    ? `/${brandSlug}`
+    : brandName
+      ? `/busca?q=${encodeURIComponent(brandName)}`
+      : null
+
   return (
-    <div className="mt-5 grid gap-5 border-t border-border pt-5 sm:grid-cols-2">
+    <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-3 border-t border-border pt-4 text-sm">
       {categories.length > 0 && (
-        <div>
-          <p className="mb-1.5 text-[12px] font-bold uppercase tracking-wide text-text-muted">
+        <div className="min-w-0">
+          <dt className="text-[11px] font-semibold uppercase tracking-[0.12em] text-text-muted">
             Categorias
-          </p>
-          <p className="text-sm leading-relaxed text-text-primary">
+          </dt>
+          <dd className="mt-1 text-text-primary">
             {categories.map((category, index) => (
               <span key={category.slug}>
                 {index > 0 && (
-                  <span className="mx-1 text-text-muted" aria-hidden>
-                    ›
+                  <span className="mx-1.5 text-text-muted" aria-hidden>
+                    /
                   </span>
                 )}
                 <Link
                   href={`/colecoes/${category.slug}`}
-                  className="font-bold text-text-primary underline-offset-2 transition-colors hover:text-brand hover:underline"
+                  className="font-medium underline-offset-2 transition-colors hover:text-brand hover:underline"
                 >
                   {category.name}
                 </Link>
               </span>
             ))}
-          </p>
+          </dd>
         </div>
       )}
 
       {brandName && (
-        <div>
-          <p className="mb-1.5 text-[12px] font-bold uppercase tracking-wide text-text-muted">
+        <div className="min-w-0">
+          <dt className="text-[11px] font-semibold uppercase tracking-[0.12em] text-text-muted">
             Marca
-          </p>
-          <p className="text-sm font-bold text-text-primary">{brandName}</p>
+          </dt>
+          <dd className="mt-1 font-medium text-text-primary">
+            {brandHref ? (
+              <Link
+                href={brandHref}
+                className="underline-offset-2 transition-colors hover:text-brand hover:underline"
+              >
+                {brandName}
+              </Link>
+            ) : (
+              brandName
+            )}
+          </dd>
         </div>
       )}
-    </div>
+    </dl>
   )
 }

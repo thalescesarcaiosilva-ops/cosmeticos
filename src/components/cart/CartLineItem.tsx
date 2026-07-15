@@ -25,11 +25,11 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
 
   return (
     <li
-      className={`flex gap-4 border-b border-border py-5 transition-opacity ${updating || removing ? 'opacity-60' : ''}`}
+      className={`flex gap-4 py-5 transition-opacity duration-200 last:border-0 ${updating || removing ? 'opacity-55' : ''}`}
     >
       <Link
         href={`/produto/${line.slug}`}
-        className="relative size-20 shrink-0 overflow-hidden rounded-lg border border-border sm:size-24"
+        className="relative size-[88px] shrink-0 overflow-hidden rounded-lg bg-surface-strong/70 sm:size-24"
       >
         {line.imageUrl ? (
           <Image
@@ -46,30 +46,32 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
         )}
       </Link>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 flex-1">
           <Link
             href={`/produto/${line.slug}`}
-            className="line-clamp-2 text-sm font-medium text-text-primary hover:text-brand sm:text-base"
+            className="line-clamp-2 text-sm font-medium leading-snug text-text-primary transition-colors hover:text-brand sm:text-[15px]"
           >
             {line.name}
           </Link>
 
-          <div className="mt-1.5 space-y-0.5">
+          <div className="mt-2 flex flex-wrap items-baseline gap-2">
             {line.originalPrice != null && line.originalPrice > line.price && (
-              <p className="text-xs text-text-muted line-through">
+              <p className="text-xs text-text-muted line-through tabular-nums">
                 {formatCurrency(line.originalPrice)}
               </p>
             )}
-            <p className="text-base font-bold text-brand">{formatCurrency(line.price)}</p>
+            <p className="text-base font-bold text-text-primary tabular-nums">
+              {formatCurrency(line.price)}
+            </p>
           </div>
 
           {!line.available && (
             <p className="mt-2 text-xs font-medium text-badge-discount">Indisponível</p>
           )}
           {line.available && (line.bundleDiscountAmount ?? 0) > 0 && (
-            <p className="mt-2 text-xs font-medium text-brand">
-              Desconto Compre Junto aplicado
+            <p className="mt-2 inline-flex rounded-full bg-surface-strong px-2 py-0.5 text-[11px] font-medium text-claret">
+              Desconto Compre Junto
             </p>
           )}
           {line.quantityAdjusted && line.available && (
@@ -79,7 +81,7 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
           )}
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end">
+        <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end sm:gap-2.5">
           {line.available ? (
             <QuantityControl
               value={line.quantity}
@@ -98,14 +100,14 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
             </button>
           )}
 
-          <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-2">
+          <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-1.5">
             <div className="text-right">
               {(line.bundleDiscountAmount ?? 0) > 0 && (
-                <p className="text-xs text-text-muted line-through">
+                <p className="text-xs text-text-muted line-through tabular-nums">
                   {formatCurrency(line.lineTotal)}
                 </p>
               )}
-              <p className="text-sm font-bold text-text-primary sm:text-base">
+              <p className="text-sm font-bold text-text-primary tabular-nums sm:text-base">
                 {formatCurrency(line.displayLineTotal ?? line.lineTotal)}
               </p>
             </div>
@@ -113,11 +115,11 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
               <button
                 type="button"
                 onClick={handleRemove}
-                className="inline-flex items-center gap-1.5 text-xs text-text-secondary transition-colors hover:text-badge-discount"
+                className="inline-flex items-center gap-1.5 text-xs text-text-muted transition-colors hover:text-badge-discount"
                 aria-label={`Remover ${line.name} do carrinho`}
               >
-                <IconTrash className="size-4" />
-                <span className="hidden sm:inline">Remover</span>
+                <IconTrash className="size-3.5" />
+                <span>Remover</span>
               </button>
             )}
           </div>

@@ -1,5 +1,6 @@
 import { ProductBreadcrumb } from '@/components/product/ProductBreadcrumb'
 import { ProductBuyPanel } from '@/components/product/ProductBuyPanel'
+import { ProductBuyTogetherSection } from '@/components/product/ProductBuyTogetherSection'
 import { ProductDetailTabs } from '@/components/product/ProductDetailTabs'
 import { ProductGallery } from '@/components/product/ProductGallery'
 import { ProductGalleryMeta } from '@/components/product/ProductGalleryMeta'
@@ -46,8 +47,8 @@ export function ProductPageView({
         productName={product.name}
       />
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
-        <div>
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-12">
+        <div className="min-w-0">
           <ProductGallery
             images={product.images}
             productName={product.name}
@@ -56,13 +57,14 @@ export function ProductPageView({
           <ProductGalleryMeta
             categories={product.categories}
             brandName={product.brandName}
+            brandSlug={product.brandSlug}
           />
         </div>
 
-        <div className="lg:sticky lg:top-[calc(var(--shop-header-height,168px)+1rem)] lg:self-start">
+        <div className="min-w-0 lg:sticky lg:top-[calc(var(--shop-header-height,168px)+1rem)] lg:self-start">
           <header className="mb-5 border-b border-border pb-5">
             <div className="flex items-start gap-3">
-              <h1 className="min-w-0 flex-1 text-[21px] font-bold leading-snug text-text-primary md:text-[28px]">
+              <h1 className="min-w-0 flex-1 text-[21px] font-bold leading-snug text-text-primary md:text-[26px]">
                 {product.name}
               </h1>
               <FavoriteButton productId={product.id} variant="product" />
@@ -70,7 +72,7 @@ export function ProductPageView({
             <ProductRatingStars average={reviewSummary.average} count={reviewSummary.count} />
 
             {product.brandName && (
-              <p className="mt-3 text-sm font-bold uppercase tracking-wide text-text-secondary">
+              <p className="mt-3 text-[13px] font-semibold tracking-wide text-text-secondary">
                 {product.brandName}
               </p>
             )}
@@ -83,7 +85,14 @@ export function ProductPageView({
             originalPrice={product.original_price}
             paymentSettings={paymentSettings}
             checkoutSettings={checkoutSettings}
-            buyTogetherPrimary={{
+          />
+        </div>
+      </div>
+
+      {buyTogetherBundles.length > 0 && (
+        <div className="mt-10 md:mt-12">
+          <ProductBuyTogetherSection
+            primaryProduct={{
               id: product.id,
               name: product.name,
               price: product.price,
@@ -91,10 +100,11 @@ export function ProductPageView({
               imageAlt: product.images[0]?.alt ?? product.name,
               brandName: product.brandName,
             }}
-            buyTogetherBundles={buyTogetherBundles}
+            bundles={buyTogetherBundles}
+            paymentSettings={paymentSettings}
           />
         </div>
-      </div>
+      )}
 
       <ProductDetailTabs description={product.description} />
       <ProductReviewsSection productSlug={product.slug} reviews={approvedReviews} />

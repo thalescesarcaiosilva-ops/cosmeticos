@@ -43,7 +43,7 @@ export function PaymentDetailsTrigger({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={`group text-left ${layout === 'product' ? 'w-full pt-1' : 'mt-2 w-full'}`}
+        className={`group text-left ${layout === 'product' ? 'w-full' : 'mt-2 w-full'}`}
         aria-haspopup="dialog"
         aria-label={linkLabel}
       >

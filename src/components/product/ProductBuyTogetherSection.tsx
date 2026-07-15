@@ -4,7 +4,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { IconChevronLeft } from '@/components/icons/DotIcons'
-import { calcBundlePricing, filterBundlesByMaxTotal, type BuyTogetherBundle, type BuyTogetherPrimaryProduct } from '@/lib/products/buy-together'
+import {
+  calcBundlePricing,
+  filterBundlesByMaxTotal,
+  type BuyTogetherBundle,
+  type BuyTogetherPrimaryProduct,
+} from '@/lib/products/buy-together'
 import { formatCurrency } from '@/lib/products/format'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import { useCart } from '@/providers/CartProvider'
@@ -28,31 +33,32 @@ function ProductThumb({
   href?: string
 }) {
   const content = (
-    <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
-      <div className="relative aspect-square w-full max-w-[140px]">
+    <div className="flex min-w-0 flex-1 flex-col gap-2.5">
+      <div className="relative aspect-square w-full overflow-hidden rounded-md bg-surface-strong/60">
         {imageUrl ? (
           <Image
             src={imageUrl}
             alt={imageAlt ?? name}
             fill
-            sizes="140px"
-            className="object-contain"
+            sizes="160px"
+            className="object-contain p-2"
           />
         ) : (
-          <div className="flex h-full items-center justify-center rounded-sm bg-surface-strong text-xs text-text-muted">
+          <div className="flex h-full items-center justify-center text-xs text-text-muted">
             Sem imagem
           </div>
         )}
       </div>
-      <p className="line-clamp-2 w-full text-left text-[12px] leading-snug text-text-primary">
-        {name}
-      </p>
+      <p className="line-clamp-2 text-[13px] leading-snug text-text-primary">{name}</p>
     </div>
   )
 
   if (href) {
     return (
-      <Link href={href} className="min-w-0 flex-1 transition-opacity hover:opacity-80">
+      <Link
+        href={href}
+        className="min-w-0 flex-1 transition-opacity duration-200 hover:opacity-80"
+      >
         {content}
       </Link>
     )
@@ -81,6 +87,7 @@ export function ProductBuyTogetherSection({
     bundle.discountPercent
   )
   const installment = calcInstallmentDisplay(bundlePrice, paymentSettings)
+  const savings = Math.max(0, originalTotal - bundlePrice)
 
   function goTo(index: number) {
     setActiveIndex((index + eligibleBundles.length) % eligibleBundles.length)
@@ -101,21 +108,31 @@ export function ProductBuyTogetherSection({
 
   const brandHint = primaryProduct.brandName?.trim()
   const subtitle = brandHint
-    ? `Aproveite e combine seu ${brandHint} com outros produtos.`
-    : 'Aproveite e combine este produto com outros da loja.'
+    ? `Combine ${brandHint} com outro produto e ganhe um desconto exclusivo.`
+    : 'Combine este produto com outro e ganhe um desconto exclusivo.'
 
   return (
     <section
-      className="rounded-lg bg-brand p-4"
+      className="rounded-xl border border-border bg-cream/80 p-5 md:p-6"
       aria-label="Compre junto"
     >
-      <header className="mb-4 text-white">
-        <h2 className="text-[17px] font-bold ">Compre Junto</h2>
-        <p className="mt-1 text-[13px] leading-snug ">{subtitle}</p>
+      <header className="mb-5 flex flex-wrap items-end justify-between gap-3 border-b border-border/80 pb-4">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted">
+            Oferta
+          </p>
+          <h2 className="mt-1 text-lg font-bold text-text-primary md:text-xl">Compre junto</h2>
+          <p className="mt-1 max-w-xl text-sm leading-relaxed text-text-secondary">{subtitle}</p>
+        </div>
+        {bundle.discountPercent > 0 && (
+          <span className="rounded-full bg-coffee px-3 py-1 text-[12px] font-semibold text-text-on-dark">
+            −{bundle.discountPercent}% no kit
+          </span>
+        )}
       </header>
 
-      <div className="rounded-lg border border-border bg-surface p-4">
-        <div className="flex items-start gap-3">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
+        <div className="flex items-start gap-3 md:gap-4">
           <ProductThumb
             name={primaryProduct.name}
             imageUrl={primaryProduct.imageUrl}
@@ -123,7 +140,7 @@ export function ProductBuyTogetherSection({
           />
 
           <div
-            className="flex size-7 shrink-0 items-center justify-center self-center rounded-full border border-border text-sm font-bold "
+            className="mt-10 flex size-8 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-sm font-semibold text-text-secondary"
             aria-hidden
           >
             +
@@ -137,54 +154,61 @@ export function ProductBuyTogetherSection({
           />
         </div>
 
-        <div className="my-4 border-t border-dashed border-border" />
-
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="flex flex-wrap items-baseline gap-2">
-              <p className="text-[22px] font-bold leading-none text-text-primary">
-                {formatCurrency(bundlePrice)}
-              </p>
-              {originalTotal > bundlePrice && (
-                <p className="text-[14px] text-text-muted line-through">
-                  {formatCurrency(originalTotal)}
-                </p>
-              )}
-            </div>
-            {installment && (
-              <p className="mt-1.5 text-[13px] text-text-secondary">
-                {installment.count}x de {formatCurrency(installment.value)} no cartão
-              </p>
-            )}
-            {bundle.discountPercent > 0 && (
-              <p className="mt-1 text-[12px] font-medium text-brand">
-                Economize {bundle.discountPercent}% comprando os 2 juntos
+        <div className="rounded-lg border border-border bg-surface p-4 md:p-5">
+          <div className="flex flex-wrap items-baseline gap-2">
+            <p className="text-[26px] font-bold leading-none tracking-tight text-text-primary tabular-nums">
+              {formatCurrency(bundlePrice)}
+            </p>
+            {originalTotal > bundlePrice && (
+              <p className="text-sm text-text-muted line-through tabular-nums">
+                {formatCurrency(originalTotal)}
               </p>
             )}
           </div>
 
+          {installment && (
+            <p className="mt-2 text-[13px] text-text-secondary">
+              ou {installment.count}x de {formatCurrency(installment.value)} no cartão
+            </p>
+          )}
+
+          {savings > 0 && (
+            <p className="mt-2 text-[13px] font-medium text-claret">
+              Você economiza {formatCurrency(savings)}
+            </p>
+          )}
+
           <button
             type="button"
             onClick={handleBuyBoth}
-            className="shrink-0 rounded-sm bg-brand px-5 py-3 text-sm font-bold text-white transition-opacity duration-[400ms] hover:opacity-90"
+            className="mt-4 w-full rounded-md bg-coffee px-5 py-3 text-sm font-bold text-text-on-dark transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.99]"
           >
-            {added ? 'Adicionados!' : 'Comprar os 2 itens'}
+            {added ? 'Adicionados ao carrinho' : 'Comprar os 2 itens'}
           </button>
+
+          {added && (
+            <Link
+              href="/carrinho"
+              className="mt-2.5 block text-center text-sm font-semibold text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
+            >
+              Ver carrinho
+            </Link>
+          )}
         </div>
       </div>
 
       {eligibleBundles.length > 1 && (
-        <div className="mt-4 flex items-center justify-center gap-4">
+        <div className="mt-5 flex items-center justify-center gap-3 border-t border-border/80 pt-4">
           <button
             type="button"
             onClick={() => goTo(safeIndex - 1)}
-            className="flex size-8 items-center justify-center rounded-full text-white transition-colors hover:bg-surface hover:text-text-primary"
+            className="flex size-8 items-center justify-center rounded-full border border-border bg-surface text-text-secondary transition-colors hover:bg-surface-strong hover:text-text-primary"
             aria-label="Sugestão anterior"
           >
-            <IconChevronLeft className="size-4 text-white" />
+            <IconChevronLeft className="size-4" />
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {eligibleBundles.map((item, index) => (
               <button
                 key={item.id}
@@ -192,8 +216,8 @@ export function ProductBuyTogetherSection({
                 onClick={() => goTo(index)}
                 className={
                   index === safeIndex
-                    ? 'h-1.5 w-6 rounded-full bg-white transition-all'
-                    : 'size-1.5 rounded-full bg-white/40 transition-all hover:bg-white/70'
+                    ? 'h-1.5 w-5 rounded-full bg-coffee transition-all'
+                    : 'size-1.5 rounded-full bg-border transition-all hover:bg-text-muted'
                 }
                 aria-label={`Sugestão ${index + 1}`}
                 aria-current={index === safeIndex ? 'true' : undefined}
@@ -204,21 +228,12 @@ export function ProductBuyTogetherSection({
           <button
             type="button"
             onClick={() => goTo(safeIndex + 1)}
-            className="flex size-8 items-center justify-center rounded-full text-white transition-colors hover:bg-surface hover:text-text-primary"
+            className="flex size-8 items-center justify-center rounded-full border border-border bg-surface text-text-secondary transition-colors hover:bg-surface-strong hover:text-text-primary"
             aria-label="Próxima sugestão"
           >
-            <IconChevronLeft className="size-4 rotate-180 text-white" />
+            <IconChevronLeft className="size-4 rotate-180" />
           </button>
         </div>
-      )}
-
-      {added && (
-        <Link
-          href="/carrinho"
-          className="mt-3 block text-center text-sm font-bold text-brand hover:underline"
-        >
-          Ver carrinho
-        </Link>
       )}
     </section>
   )
