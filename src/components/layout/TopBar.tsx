@@ -34,7 +34,7 @@ export function TopBar({ storeName, policyLinks, socialLinks, overlay = false }:
                 key={link.href}
                 href={link.href}
                 className={`shrink-0 transition-opacity duration-[400ms] hover:opacity-80 ${
-                  overlay ? 'text-white/90 hover:text-white' : 'hover:text-brand'
+                  overlay ? 'text-white/90 hover:text-white' : 'hover:text-white'
                 }`}
               >
                 {link.label}

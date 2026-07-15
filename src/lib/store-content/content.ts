@@ -109,10 +109,10 @@ export const storeContent: StoreContent = {
       eyebrow: 'Clube de Ofertas',
       title: 'Novidades e descontos antes de todo mundo',
       description:
-        'Assine e receba lançamentos, promoções exclusivas e dicas de cuidado direto no seu e-mail.',
+        'Assine e receba lançamentos, promoções e dicas de cuidado direto no seu e-mail.',
       placeholder: 'Digite seu melhor e-mail',
       buttonLabel: 'Quero receber',
-      benefits: ['Ofertas exclusivas', 'Lançamentos em primeira mão', 'Dicas de skincare'],
+      benefits: ['Ofertas', 'Lançamentos em primeira mão', 'Dicas de skincare'],
       disclaimer: 'Você pode cancelar quando quiser.',
     },
   },
