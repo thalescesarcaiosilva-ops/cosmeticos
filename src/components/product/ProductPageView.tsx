@@ -64,7 +64,7 @@ export function ProductPageView({
           />
         </div>
 
-        <div className="min-w-0 lg:row-span-2 lg:sticky lg:top-[calc(var(--shop-header-height,168px)+0.75rem)] lg:max-h-[calc(100dvh-var(--shop-header-height,168px)-1.5rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pb-2 [scrollbar-width:thin]">
+        <div className="min-w-0 lg:row-span-2 lg:sticky lg:top-[calc(var(--shop-header-height,168px)+0.75rem)] lg:self-start">
           <header className="mb-5 border-b border-border pb-5">
             <div className="flex items-start gap-3">
               <h1 className="min-w-0 flex-1 text-[21px] font-bold leading-snug text-text-primary md:text-[26px]">
