@@ -128,14 +128,16 @@ export function ProductGallery({ images, productName, discountPercent }: Product
         </div>
 
         {images.length > 1 && (
-          <div className="mt-3 flex justify-center gap-2">
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
             {images.map((img, index) => (
               <button
                 key={img.id}
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                className={`size-2 rounded-full transition-colors duration-[400ms] ${
-                  index === activeIndex ? 'bg-text-primary' : 'bg-border hover:bg-text-muted'
+                className={`rounded-full border transition-all duration-200 ${
+                  index === activeIndex
+                    ? 'h-2 w-5 border-transparent bg-text-muted'
+                    : 'size-2 border-text-muted/50 bg-transparent hover:border-text-secondary'
                 }`}
                 aria-label={`Ir para imagem ${index + 1}`}
                 aria-current={index === activeIndex}

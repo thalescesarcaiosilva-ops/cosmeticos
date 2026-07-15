@@ -4,7 +4,7 @@ import { getPrimaryProductImage } from '@/lib/products/product-images'
 import type { ProductCardData, ProductDetail } from '@/types/product'
 
 const PRODUCT_SELECT = `
-  id, name, slug, description,
+  id, name, slug, description, short_description, benefits,
   price, original_price, stock, sku, gtin,
   meta_title, meta_description, active, brand_id, created_at, updated_at,
   brand:brands(id, name, slug, active),

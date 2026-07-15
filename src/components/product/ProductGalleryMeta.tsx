@@ -20,23 +20,21 @@ export function ProductGalleryMeta({
       : null
 
   return (
-    <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-3 border-t border-border pt-4 text-sm">
+    <dl className="mt-5 grid gap-x-8 gap-y-4 border-t border-border pt-5 sm:grid-cols-2">
       {categories.length > 0 && (
         <div className="min-w-0">
-          <dt className="text-[11px] font-semibold uppercase tracking-[0.12em] text-text-muted">
-            Categorias
-          </dt>
-          <dd className="mt-1 text-text-primary">
+          <dt className="text-[13px] font-bold text-text-primary">Categorias</dt>
+          <dd className="mt-1 text-[13px] leading-relaxed text-text-secondary">
             {categories.map((category, index) => (
               <span key={category.slug}>
                 {index > 0 && (
-                  <span className="mx-1.5 text-text-muted" aria-hidden>
-                    /
+                  <span className="mx-1 text-text-muted" aria-hidden>
+                    ›
                   </span>
                 )}
                 <Link
                   href={`/colecoes/${category.slug}`}
-                  className="font-medium underline-offset-2 transition-colors hover:text-brand hover:underline"
+                  className="underline decoration-border underline-offset-2 transition-colors hover:text-brand hover:decoration-brand"
                 >
                   {category.name}
                 </Link>
@@ -48,14 +46,12 @@ export function ProductGalleryMeta({
 
       {brandName && (
         <div className="min-w-0">
-          <dt className="text-[11px] font-semibold uppercase tracking-[0.12em] text-text-muted">
-            Marca
-          </dt>
-          <dd className="mt-1 font-medium text-text-primary">
+          <dt className="text-[13px] font-bold text-text-primary">Marca</dt>
+          <dd className="mt-1 text-[13px] leading-relaxed text-text-secondary">
             {brandHref ? (
               <Link
                 href={brandHref}
-                className="underline-offset-2 transition-colors hover:text-brand hover:underline"
+                className="underline decoration-border underline-offset-2 transition-colors hover:text-brand hover:decoration-brand"
               >
                 {brandName}
               </Link>

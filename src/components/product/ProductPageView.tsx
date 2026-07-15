@@ -1,6 +1,5 @@
 import { ProductBreadcrumb } from '@/components/product/ProductBreadcrumb'
 import { ProductBuyPanel } from '@/components/product/ProductBuyPanel'
-import { ProductBuyTogetherSection } from '@/components/product/ProductBuyTogetherSection'
 import { ProductDetailTabs } from '@/components/product/ProductDetailTabs'
 import { ProductGallery } from '@/components/product/ProductGallery'
 import { ProductGalleryMeta } from '@/components/product/ProductGalleryMeta'
@@ -47,7 +46,11 @@ export function ProductPageView({
         productName={product.name}
       />
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-12">
+      {/*
+        Mobile (1 col): galeria → marca/categoria → compra → descrição
+        Desktop (2 col): esquerda galeria+meta+descrição | direita sticky até o fim da descrição
+      */}
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-x-12 lg:gap-y-0">
         <div className="min-w-0">
           <ProductGallery
             images={product.images}
@@ -61,7 +64,7 @@ export function ProductPageView({
           />
         </div>
 
-        <div className="min-w-0 lg:sticky lg:top-[calc(var(--shop-header-height,168px)+1rem)] lg:self-start">
+        <div className="min-w-0 lg:row-span-2 lg:sticky lg:top-[calc(var(--shop-header-height,168px)+0.75rem)] lg:max-h-[calc(100dvh-var(--shop-header-height,168px)-1.5rem)] lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:pb-2 [scrollbar-width:thin]">
           <header className="mb-5 border-b border-border pb-5">
             <div className="flex items-start gap-3">
               <h1 className="min-w-0 flex-1 text-[21px] font-bold leading-snug text-text-primary md:text-[26px]">
@@ -85,14 +88,7 @@ export function ProductPageView({
             originalPrice={product.original_price}
             paymentSettings={paymentSettings}
             checkoutSettings={checkoutSettings}
-          />
-        </div>
-      </div>
-
-      {buyTogetherBundles.length > 0 && (
-        <div className="mt-10 md:mt-12">
-          <ProductBuyTogetherSection
-            primaryProduct={{
+            buyTogetherPrimary={{
               id: product.id,
               name: product.name,
               price: product.price,
@@ -100,14 +96,25 @@ export function ProductPageView({
               imageAlt: product.images[0]?.alt ?? product.name,
               brandName: product.brandName,
             }}
-            bundles={buyTogetherBundles}
-            paymentSettings={paymentSettings}
+            buyTogetherBundles={buyTogetherBundles}
           />
         </div>
-      )}
 
-      <ProductDetailTabs description={product.description} />
-      <ProductReviewsSection productSlug={product.slug} reviews={approvedReviews} />
+        <div className="min-w-0">
+          <ProductDetailTabs
+            productName={product.name}
+            description={product.description}
+            shortDescription={product.short_description}
+            benefits={product.benefits}
+          />
+        </div>
+      </div>
+
+      <ProductReviewsSection
+        productSlug={product.slug}
+        reviews={approvedReviews}
+        reviewSummary={reviewSummary}
+      />
 
       <ProductRelatedCarousel
         products={relatedProducts}
