@@ -38,7 +38,7 @@ function ProductThumb({
   const content = (
     <div className="flex min-w-0 flex-1 flex-col gap-1.5">
       <div
-        className={`relative aspect-square w-full overflow-hidden rounded-md bg-surface-strong/60 ${compact ? 'max-w-none' : 'max-w-[140px]'}`}
+        className={`relative aspect-square w-full overflow-hidden rounded-md  ${compact ? 'max-w-none' : 'max-w-[140px]'}`}
       >
         {imageUrl ? (
           <Image
@@ -149,7 +149,7 @@ export function ProductBuyTogetherSection({
         )}
       </header>
 
-      <div className="rounded-lg border border-border bg-surface p-3">
+      <div className="p-3">
         <div className="flex items-start gap-2">
           <ProductThumb
             name={primaryProduct.name}

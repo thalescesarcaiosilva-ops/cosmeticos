@@ -160,7 +160,7 @@ export function SearchBar({ className = '', id, variant = 'desktop', overlay = f
             className={`search-input w-full border text-sm font-bold transition-colors duration-[400ms] focus:outline-none focus:ring-2 ${
               overlay
                 ? 'border-white/20 bg-white/15 text-white placeholder:text-white/70 focus:border-white/40 focus:ring-white/15'
-                : 'border-border bg-surface-strong text-text-primary placeholder:text-text-muted focus:border-brand focus:ring-brand/15'
+                : 'border-border text-text-primary placeholder:text-text-muted focus:border-brand focus:ring-brand/15'
             } ${
               variant === 'mobile'
                 ? 'rounded-full py-2.5 pl-4 pr-12'

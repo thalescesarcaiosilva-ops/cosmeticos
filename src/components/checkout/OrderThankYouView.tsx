@@ -77,6 +77,20 @@ export function OrderThankYouView({
 
   useEffect(() => {
     let active = true
+    let hasOrder = false
+    let paid = false
+    let interval: ReturnType<typeof setInterval> | null = null
+
+    function isPaid(data: OrderDetail) {
+      return data.status === 'confirmed' || data.payment_status === 'paid'
+    }
+
+    function stopPolling() {
+      if (interval) {
+        clearInterval(interval)
+        interval = null
+      }
+    }
 
     async function load() {
       const { data, error: apiError } = await fetchApi<OrderDetail>(
@@ -86,31 +100,29 @@ export function OrderThankYouView({
       if (!active) return
       setLoading(false)
       if (apiError || !data) {
-        if (!order) setError(apiError ?? 'Pedido não encontrado')
+        if (!hasOrder) setError(apiError ?? 'Pedido não encontrado')
         return
       }
+      hasOrder = true
       setOrder(data)
+      if (isPaid(data)) {
+        paid = true
+        stopPolling()
+        clearGuestOrderToken(orderId)
+      }
     }
 
     load()
-    const interval = setInterval(() => {
-      const current = order
-      const alreadyPaid = current?.status === 'confirmed' || current?.payment_status === 'paid'
-      if (!alreadyPaid) {
-        load()
-      }
+    interval = setInterval(() => {
+      if (!paid) load()
     }, 4000)
 
     return () => {
       active = false
-      clearInterval(interval)
-      const current = order
-      const alreadyPaid = current?.status === 'confirmed' || current?.payment_status === 'paid'
-      if (alreadyPaid) {
-        clearGuestOrderToken(orderId)
-      }
+      stopPolling()
+      if (paid) clearGuestOrderToken(orderId)
     }
-  }, [orderId, order])
+  }, [orderId])
 
   async function refreshPaymentStatus() {
     setPolling(true)
