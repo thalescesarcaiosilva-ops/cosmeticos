@@ -10,15 +10,21 @@ import {
   type BuyTogetherBundle,
   type BuyTogetherPrimaryProduct,
 } from '@/lib/products/buy-together'
+import {
+  buildBuyTogetherCssVars,
+  sanitizeBuyTogetherCustomCss,
+} from '@/lib/products/buy-together-css'
 import { formatCurrency } from '@/lib/products/format'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import { useCart } from '@/providers/CartProvider'
 import type { PaymentSettings } from '@/types/payment'
+import type { BuyTogetherSettings } from '@/types/buy-together-settings'
 
 type ProductBuyTogetherSectionProps = {
   primaryProduct: BuyTogetherPrimaryProduct
   bundles: BuyTogetherBundle[]
   paymentSettings: PaymentSettings
+  settings: BuyTogetherSettings
   compact?: boolean
 }
 
@@ -80,14 +86,19 @@ export function ProductBuyTogetherSection({
   primaryProduct,
   bundles,
   paymentSettings,
+  settings,
   compact = false,
 }: ProductBuyTogetherSectionProps) {
   const { addItem, addBundlePair } = useCart()
-  const eligibleBundles = filterBundlesByMaxTotal(primaryProduct.price, bundles)
+  const eligibleBundles = filterBundlesByMaxTotal(
+    primaryProduct.price,
+    bundles,
+    settings.maxBundleTotal
+  )
   const [activeIndex, setActiveIndex] = useState(0)
   const [added, setAdded] = useState(false)
 
-  if (eligibleBundles.length === 0) return null
+  if (!settings.enabled || eligibleBundles.length === 0) return null
 
   const safeIndex = Math.min(activeIndex, eligibleBundles.length - 1)
   const bundle = eligibleBundles[safeIndex]!
@@ -119,31 +130,54 @@ export function ProductBuyTogetherSection({
   const brandHint = primaryProduct.brandName?.trim()
   const subtitle = brandHint
     ? `Combine ${brandHint} com outro produto.`
-    : 'Combine com outro produto e economize.'
+    : settings.subtitleFallback
+
+  const cssVars = buildBuyTogetherCssVars(settings.css)
+  const customCss = sanitizeBuyTogetherCustomCss(settings.css.customCss)
 
   return (
     <section
-      className={`rounded-xl border border-border bg-cream/80 ${compact ? 'p-3.5' : 'p-5 md:p-6'}`}
-      aria-label="Compre junto"
+      className={`buy-together-block rounded-xl border border-border bg-cream/80 ${compact ? 'p-3.5' : 'p-5 md:p-6'}`}
+      aria-label={settings.title}
+      style={{
+        ...cssVars,
+        background: cssVars['--bt-bg'] || undefined,
+        borderColor: cssVars['--bt-border'] || undefined,
+        borderRadius: cssVars['--bt-radius'] || undefined,
+      }}
     >
-      <header className={`flex items-start justify-between gap-2 ${compact ? 'mb-3' : 'mb-5 border-b border-border/80 pb-4'}`}>
+      {customCss ? <style>{customCss}</style> : null}
+
+      <header
+        className={`flex items-start justify-between gap-2 ${compact ? 'mb-3' : 'mb-5 border-b border-border/80 pb-4'}`}
+      >
         <div className="min-w-0">
-          {!compact && (
+          {!compact && settings.eyebrow && (
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted">
-              Oferta
+              {settings.eyebrow}
             </p>
           )}
           <h2
-            className={`font-bold text-text-primary ${compact ? 'text-[15px]' : 'mt-1 text-lg md:text-xl'}`}
+            className={`bt-title font-bold text-text-primary ${compact ? 'text-[15px]' : 'mt-1 text-lg md:text-xl'}`}
+            style={{ color: cssVars['--bt-title'] || undefined }}
           >
-            Compre junto
+            {settings.title}
           </h2>
-          <p className={`mt-0.5 leading-snug text-text-secondary ${compact ? 'text-[12px]' : 'text-sm'}`}>
+          <p
+            className={`bt-subtitle mt-0.5 leading-snug text-text-secondary ${compact ? 'text-[12px]' : 'text-sm'}`}
+            style={{ color: cssVars['--bt-subtitle'] || undefined }}
+          >
             {subtitle}
           </p>
         </div>
         {bundle.discountPercent > 0 && (
-          <span className="shrink-0 rounded-full bg-coffee px-2.5 py-1 text-[11px] font-semibold text-text-on-dark">
+          <span
+            className="bt-badge shrink-0 rounded-full bg-coffee px-2.5 py-1 text-[11px] font-semibold text-text-on-dark"
+            style={{
+              background: cssVars['--bt-badge-bg'] || undefined,
+              color: cssVars['--bt-badge-text'] || undefined,
+            }}
+          >
             −{bundle.discountPercent}%
           </span>
         )}
@@ -177,7 +211,8 @@ export function ProductBuyTogetherSection({
         <div className={`border-t border-dashed border-border ${compact ? 'mt-3 pt-3' : 'mt-4 pt-4'}`}>
           <div className="flex flex-wrap items-baseline gap-2">
             <p
-              className={`font-bold leading-none tracking-tight text-text-primary tabular-nums ${compact ? 'text-[20px]' : 'text-[26px]'}`}
+              className={`bt-price font-bold leading-none tracking-tight text-text-primary tabular-nums ${compact ? 'text-[20px]' : 'text-[26px]'}`}
+              style={{ color: cssVars['--bt-price'] || undefined }}
             >
               {formatCurrency(bundlePrice)}
             </p>
@@ -195,7 +230,10 @@ export function ProductBuyTogetherSection({
           )}
 
           {savings > 0 && (
-            <p className="mt-1 text-[12px] font-medium text-claret">
+            <p
+              className="bt-savings mt-1 text-[12px] font-medium text-claret"
+              style={{ color: cssVars['--bt-savings'] || undefined }}
+            >
               Economize {formatCurrency(savings)}
             </p>
           )}
@@ -203,9 +241,13 @@ export function ProductBuyTogetherSection({
           <button
             type="button"
             onClick={handleBuyBoth}
-            className="mt-3 w-full rounded-md bg-coffee px-4 py-2.5 text-sm font-bold text-text-on-dark transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.99]"
+            className="bt-cta mt-3 w-full rounded-md bg-coffee px-4 py-2.5 text-sm font-bold text-text-on-dark transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.99]"
+            style={{
+              background: cssVars['--bt-btn-bg'] || undefined,
+              color: cssVars['--bt-btn-text'] || undefined,
+            }}
           >
-            {added ? 'Adicionados!' : 'Comprar os 2 itens'}
+            {added ? settings.ctaAddedLabel : settings.ctaLabel}
           </button>
 
           {added && (
@@ -240,6 +282,11 @@ export function ProductBuyTogetherSection({
                   index === safeIndex
                     ? 'h-1.5 w-4 rounded-full bg-coffee transition-all'
                     : 'size-1.5 rounded-full bg-border transition-all hover:bg-text-muted'
+                }
+                style={
+                  index === safeIndex && cssVars['--bt-btn-bg']
+                    ? { background: cssVars['--bt-btn-bg'] }
+                    : undefined
                 }
                 aria-label={`Sugestão ${index + 1}`}
                 aria-current={index === safeIndex ? 'true' : undefined}

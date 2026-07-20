@@ -2,6 +2,8 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { SITE_SETTINGS_ID } from '@/lib/layout/queries'
 import type { StoreOpeningHoursSlot } from '@/schemas/store-profile-schema'
+import type { TrackingTag } from '@/types/tracking-tags'
+import { TRACKING_PLACEMENTS } from '@/types/tracking-tags'
 
 export type StoreProfile = {
   store_name: string
@@ -31,6 +33,7 @@ export type StoreProfile = {
   seo_handling_days_min: number
   seo_handling_days_max: number
   head_scripts: string | null
+  tracking_tags: TrackingTag[]
   _storeProfileColumnsAvailable?: boolean
 }
 
@@ -62,6 +65,7 @@ export const STORE_PROFILE_COLUMNS = [
   'seo_handling_days_min',
   'seo_handling_days_max',
   'head_scripts',
+  'tracking_tags',
 ].join(', ')
 
 const LEGACY_COLUMNS = [
@@ -85,6 +89,30 @@ function parseOpeningHours(raw: unknown): StoreOpeningHoursSlot[] {
       'closes' in slot &&
       'dayOfWeek' in slot
   )
+}
+
+function parseTrackingTags(raw: unknown): TrackingTag[] {
+  if (!Array.isArray(raw)) return []
+  const tags: TrackingTag[] = []
+
+  for (const item of raw) {
+    if (!item || typeof item !== 'object') continue
+    const row = item as Record<string, unknown>
+    const id = typeof row.id === 'string' ? row.id.trim() : ''
+    const name = typeof row.name === 'string' ? row.name.trim() : ''
+    const html = typeof row.html === 'string' ? row.html : ''
+    const placement = TRACKING_PLACEMENTS.find((value) => value === row.placement)
+    if (!id || !name || !placement) continue
+    tags.push({
+      id,
+      name,
+      placement,
+      enabled: row.enabled !== false,
+      html,
+    })
+  }
+
+  return tags
 }
 
 function mapRow(row: Record<string, unknown>, columnsAvailable: boolean): StoreProfile {
@@ -139,6 +167,7 @@ function mapRow(row: Record<string, unknown>, columnsAvailable: boolean): StoreP
     seo_handling_days_min: Number(row.seo_handling_days_min ?? 1),
     seo_handling_days_max: Number(row.seo_handling_days_max ?? 2),
     head_scripts: typeof row.head_scripts === 'string' ? row.head_scripts : null,
+    tracking_tags: parseTrackingTags(row.tracking_tags),
     _storeProfileColumnsAvailable: columnsAvailable,
   }
 }

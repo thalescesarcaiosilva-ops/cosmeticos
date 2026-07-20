@@ -1,11 +1,17 @@
-import { parseHeadHtml } from '@/lib/seo/parse-head-html'
+import { parseSiteHtml } from '@/lib/seo/parse-head-html'
 
-type HeadScriptsProps = {
+type SiteHtmlSnippetsProps = {
   html: string | null | undefined
 }
 
-export function HeadScripts({ html }: HeadScriptsProps) {
-  const nodes = parseHeadHtml(html ?? '')
+/** Injeta snippets HTML permitidos (script/meta/link/style/noscript/iframe). */
+export function SiteHtmlSnippets({ html }: SiteHtmlSnippetsProps) {
+  const nodes = parseSiteHtml(html ?? '')
   if (nodes.length === 0) return null
   return <>{nodes}</>
+}
+
+/** @deprecated Prefer SiteHtmlSnippets */
+export function HeadScripts({ html }: SiteHtmlSnippetsProps) {
+  return <SiteHtmlSnippets html={html} />
 }

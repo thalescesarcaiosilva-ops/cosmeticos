@@ -26,6 +26,7 @@ const SECTIONS: NavSection[] = [
     title: 'Catálogo',
     links: [
       { href: '/admin/produtos', label: 'Produtos' },
+      { href: '/admin/compre-junto', label: 'Compre junto' },
       { href: '/admin/avaliacoes', label: 'Avaliações' },
       { href: '/admin/categorias', label: 'Categorias' },
       { href: '/admin/marcas', label: 'Marcas' },

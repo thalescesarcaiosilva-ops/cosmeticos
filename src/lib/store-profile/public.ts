@@ -30,6 +30,7 @@ const EMPTY: StoreProfile = {
   seo_handling_days_min: 1,
   seo_handling_days_max: 2,
   head_scripts: null,
+  tracking_tags: [],
 }
 
 export async function getPublicStoreProfile(): Promise<StoreProfile> {

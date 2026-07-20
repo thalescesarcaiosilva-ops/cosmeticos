@@ -6,6 +6,7 @@ import { ProductPurchaseBar } from '@/components/product/ProductPurchaseBar'
 import { ShippingCalculator } from '@/components/shipping/ShippingCalculator'
 import type { BuyTogetherBundle, BuyTogetherPrimaryProduct } from '@/lib/products/buy-together'
 import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
+import type { BuyTogetherSettings } from '@/types/buy-together-settings'
 
 type ProductBuyPanelProps = {
   productId: string
@@ -16,6 +17,7 @@ type ProductBuyPanelProps = {
   checkoutSettings: CheckoutPaymentSettings
   buyTogetherPrimary: BuyTogetherPrimaryProduct
   buyTogetherBundles: BuyTogetherBundle[]
+  buyTogetherSettings: BuyTogetherSettings
 }
 
 export function ProductBuyPanel({
@@ -27,6 +29,7 @@ export function ProductBuyPanel({
   checkoutSettings,
   buyTogetherPrimary,
   buyTogetherBundles,
+  buyTogetherSettings,
 }: ProductBuyPanelProps) {
   return (
     <div className="space-y-5">
@@ -41,11 +44,12 @@ export function ProductBuyPanel({
 
       <ShippingCalculator subtotal={price} variant="product" />
 
-      {buyTogetherBundles.length > 0 && (
+      {buyTogetherSettings.enabled && buyTogetherBundles.length > 0 && (
         <ProductBuyTogetherSection
           primaryProduct={buyTogetherPrimary}
           bundles={buyTogetherBundles}
           paymentSettings={paymentSettings}
+          settings={buyTogetherSettings}
           compact
         />
       )}

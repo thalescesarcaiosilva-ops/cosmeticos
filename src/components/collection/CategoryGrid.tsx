@@ -38,6 +38,7 @@ export function CategoryGrid({ items }: CategoryGridProps) {
                     fill
                     sizes="(max-width: 640px) 72px, 100px"
                     quality={70}
+                    loading="lazy"
                     className="object-contain"
                   />
                 ) : (

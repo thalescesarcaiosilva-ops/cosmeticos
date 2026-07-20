@@ -7,6 +7,7 @@ import { getCheckoutPaymentSettings } from '@/lib/payment/queries'
 import { getPaymentSettings } from '@/lib/payment/queries'
 import { getProductBySlug, getRelatedProducts } from '@/lib/products/queries'
 import { getBuyTogetherBundles } from '@/lib/products/buy-together-queries'
+import { getBuyTogetherSettings } from '@/lib/products/buy-together-settings'
 import { buildReviewSummary, getApprovedProductReviews } from '@/lib/products/reviews'
 import { buildBreadcrumbJsonLd } from '@/lib/seo/json-ld/breadcrumb'
 import { buildProductJsonLd } from '@/lib/seo/json-ld/product'
@@ -38,12 +39,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params
-  const [product, paymentSettings, checkoutSettings, merchantContext] = await Promise.all([
-    getProductBySlug(slug),
-    getPaymentSettings(),
-    getCheckoutPaymentSettings(),
-    getMerchantSeoContext(),
-  ])
+  const [product, paymentSettings, checkoutSettings, merchantContext, buyTogetherSettings] =
+    await Promise.all([
+      getProductBySlug(slug),
+      getPaymentSettings(),
+      getCheckoutPaymentSettings(),
+      getMerchantSeoContext(),
+      getBuyTogetherSettings(),
+    ])
 
   if (!product) notFound()
 
@@ -52,7 +55,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const [relatedProducts, buyTogetherBundles] = await Promise.all([
     getRelatedProducts(product.id, categoryIds),
-    getBuyTogetherBundles(product.id, categoryIds, product.price),
+    buyTogetherSettings.enabled
+      ? getBuyTogetherBundles(
+          product.id,
+          categoryIds,
+          product.price,
+          3,
+          buyTogetherSettings
+        )
+      : Promise.resolve([]),
   ])
   const approvedReviews = await getApprovedProductReviews(product.id)
   const reviewSummary = buildReviewSummary(approvedReviews)
@@ -95,6 +106,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         relatedProducts={relatedProducts}
         relatedInstallments={relatedInstallments}
         buyTogetherBundles={buyTogetherBundles}
+        buyTogetherSettings={buyTogetherSettings}
       />
     </>
   )

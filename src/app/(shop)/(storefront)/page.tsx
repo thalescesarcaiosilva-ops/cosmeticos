@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Fragment } from 'react'
 import { CategoryGrid } from '@/components/collection/CategoryGrid'
+import { DeferredHomeSection } from '@/components/home/DeferredHomeSection'
 import { HomeBannerCarousel } from '@/components/home/HomeBannerCarousel'
 import { NewsletterSection } from '@/components/home/NewsletterSection'
 import { ProductCarouselSection } from '@/components/home/ProductCarouselSection'
@@ -41,8 +42,13 @@ export default async function HomePage() {
 
   return (
     <>
-      <HomeBannerCarousel banners={desktopBanners} className="home-hero-banner hidden md:block" />
-      <HomeBannerCarousel banners={mobileBanners} className="md:hidden" />
+      {/* Above-the-fold: banner + categorias — sem defer (evita tela branca / CLS).
+          Só o carrossel mobile usa priority: preload duplo (mobile+desktop) atrasa o LCP. */}
+      <HomeBannerCarousel
+        banners={desktopBanners}
+        className="home-hero-banner hidden md:block"
+      />
+      <HomeBannerCarousel banners={mobileBanners} className="md:hidden" prioritizeFirst />
 
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
         <section className="mb-12">
@@ -50,19 +56,28 @@ export default async function HomePage() {
           <CategoryGrid items={collections} />
         </section>
 
+        {/* Below-the-fold: HTML no SSR, pintura adiada; nunca desmonta ao rolar. */}
         {categorySections.map((section) => (
           <Fragment key={section.id}>
-            <ProductCarouselSection
-              title={section.name}
-              viewAllHref={`/colecoes/${section.slug}`}
-              products={section.products}
-              installments={installments}
-            />
-            {section.slug === 'cuidados-capilares' && <StoreAboutSection />}
+            <DeferredHomeSection estimatedHeightPx={560}>
+              <ProductCarouselSection
+                title={section.name}
+                viewAllHref={`/colecoes/${section.slug}`}
+                products={section.products}
+                installments={installments}
+              />
+            </DeferredHomeSection>
+            {section.slug === 'cuidados-capilares' && (
+              <DeferredHomeSection estimatedHeightPx={420}>
+                <StoreAboutSection />
+              </DeferredHomeSection>
+            )}
           </Fragment>
         ))}
 
-        <NewsletterSection />
+        <DeferredHomeSection estimatedHeightPx={280}>
+          <NewsletterSection />
+        </DeferredHomeSection>
       </div>
     </>
   )

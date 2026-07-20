@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { TRACKING_PLACEMENTS } from '@/types/tracking-tags'
 
 const optionalText = (max: number) =>
   z
@@ -53,6 +54,14 @@ export const storeOpeningHoursSlotSchema = z.object({
   closes: z.string().regex(/^\d{2}:\d{2}$/, 'Use HH:MM'),
 })
 
+export const trackingTagSchema = z.object({
+  id: z.string().min(1).max(64),
+  name: z.string().min(1).max(120),
+  placement: z.enum(TRACKING_PLACEMENTS),
+  enabled: z.boolean(),
+  html: z.string().max(50000),
+})
+
 export const updateStoreProfileSchema = z.object({
   store_name: z.string().min(1).max(100).optional(),
   company_legal_name: optionalText(200),
@@ -85,7 +94,9 @@ export const updateStoreProfileSchema = z.object({
   seo_handling_days_min: z.number().int().min(0).max(30).optional(),
   seo_handling_days_max: z.number().int().min(0).max(30).optional(),
   head_scripts: optionalText(50000),
+  tracking_tags: z.array(trackingTagSchema).max(50).optional(),
 })
 
 export type StoreOpeningHoursSlot = z.infer<typeof storeOpeningHoursSlotSchema>
 export type UpdateStoreProfileInput = z.infer<typeof updateStoreProfileSchema>
+export type TrackingTagInput = z.infer<typeof trackingTagSchema>

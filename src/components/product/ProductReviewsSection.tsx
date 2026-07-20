@@ -104,7 +104,7 @@ export function ProductReviewsSection({
         </p>
       </header>
 
-      <div className="mb-8 rounded-xl border border-border bg-cream/50 p-4 md:p-5">
+      <div className="mb-8 rounded-xl border border-border p-4 md:p-5">
         <div className="grid gap-6 md:grid-cols-[auto_minmax(0,1fr)] md:items-center md:gap-10">
           <div className="text-center md:min-w-[140px] md:text-left">
             <p className="text-[42px] font-bold leading-none tracking-tight text-text-primary tabular-nums">

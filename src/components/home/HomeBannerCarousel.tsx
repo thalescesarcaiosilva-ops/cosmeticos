@@ -9,11 +9,19 @@ import type { HomeBannerPublic } from '@/types/home-banner'
 type HomeBannerCarouselProps = {
   banners: HomeBannerPublic[]
   className?: string
+  /** Só o carrossel visível no viewport LCP deve ser true (evita preload duplo mobile+desktop). */
+  prioritizeFirst?: boolean
 }
 
-export function HomeBannerCarousel({ banners, className = '' }: HomeBannerCarouselProps) {
+export function HomeBannerCarousel({
+  banners,
+  className = '',
+  prioritizeFirst = false,
+}: HomeBannerCarouselProps) {
   const [index, setIndex] = useState(0)
   const count = banners.length
+  const ratioW = banners[0]?.width ?? 1920
+  const ratioH = banners[0]?.height ?? 720
 
   const goTo = useCallback(
     (next: number) => {
@@ -38,51 +46,51 @@ export function HomeBannerCarousel({ banners, className = '' }: HomeBannerCarous
       className={`relative w-full overflow-hidden bg-transparent ${className}`}
       aria-label="Destaques da loja"
       aria-roledescription="carrossel"
+      style={{ aspectRatio: `${ratioW} / ${ratioH}` }}
     >
       <div
-        className="flex transition-transform duration-500 ease-out"
+        className="flex h-full transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {banners.map((banner, slideIndex) => {
           const alt = banner.alt_text?.trim() || banner.title || 'Banner promocional'
-          const isFirst = slideIndex === 0
+          const isLcp = prioritizeFirst && slideIndex === 0
 
           const image = (
             <Image
               src={banner.image_url}
               alt={alt}
-              width={banner.width ?? 1920}
-              height={banner.height ?? 720}
+              fill
               sizes="100vw"
               quality={75}
-              priority={isFirst}
-              fetchPriority={isFirst ? 'high' : 'auto'}
-              className="block h-auto w-full object-contain md:h-full md:object-cover"
+              priority={isLcp}
+              fetchPriority={isLcp ? 'high' : 'auto'}
+              {...(!isLcp ? { loading: 'lazy' as const } : {})}
+              className="object-contain md:object-cover"
             />
           )
 
-          const slide = (
-            <div
-              key={banner.id}
-              className="relative w-full shrink-0"
-              aria-hidden={slideIndex !== index}
-            >
-              {image}
-            </div>
-          )
+          const slideClass =
+            'relative block h-full w-full shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
 
           return banner.link_href ? (
             <Link
               key={banner.id}
               href={banner.link_href}
-              className="relative block w-full shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              className={slideClass}
               aria-label={alt}
               tabIndex={slideIndex === index ? 0 : -1}
             >
               {image}
             </Link>
           ) : (
-            slide
+            <div
+              key={banner.id}
+              className="relative h-full w-full shrink-0"
+              aria-hidden={slideIndex !== index}
+            >
+              {image}
+            </div>
           )
         })}
       </div>

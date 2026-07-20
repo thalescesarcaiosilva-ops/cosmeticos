@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { TrackingTagsEditor } from '@/components/admin/TrackingTagsEditor'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -8,6 +9,7 @@ import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { fetchApi } from '@/lib/api/fetch-api'
 import type { StoreOpeningHoursSlot } from '@/schemas/store-profile-schema'
+import type { TrackingTag } from '@/types/tracking-tags'
 
 type PolicyPage = { slug: string; title: string }
 
@@ -38,6 +40,7 @@ type StoreProfileFormData = {
   seo_handling_days_min: number
   seo_handling_days_max: number
   head_scripts: string | null
+  tracking_tags: TrackingTag[]
   _storeProfileColumnsAvailable?: boolean
   policyPages?: PolicyPage[]
 }
@@ -47,7 +50,7 @@ const TABS = [
   { id: 'address', label: 'Endereço e horários' },
   { id: 'returns', label: 'Devoluções' },
   { id: 'seo', label: 'SEO / Frete' },
-  { id: 'analytics', label: 'Analytics' },
+  { id: 'analytics', label: 'Tags / Analytics' },
 ] as const
 
 type TabId = (typeof TABS)[number]['id']
@@ -87,6 +90,7 @@ export function StoreProfileForm() {
           ...data,
           store_opening_hours: data.store_opening_hours ?? [],
           return_days: data.return_days ?? 7,
+          tracking_tags: data.tracking_tags ?? [],
         })
         setMigrationNeeded(data._storeProfileColumnsAvailable === false)
       }
@@ -166,10 +170,9 @@ export function StoreProfileForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {migrationNeeded && (
         <Alert type="info">
-          Aplique as migrations{' '}
-          <code className="text-xs">202507020002_store_profile_merchant.sql</code> e{' '}
-          <code className="text-xs">202507070001_head_scripts.sql</code>{' '}
-          no Supabase para habilitar todos os campos (devoluções, horários, scripts no head).
+          Aplique as migrations de perfil da loja e de tags (
+          <code className="text-xs">202607200001_tracking_tags.sql</code>) no Supabase para habilitar
+          todos os campos.
         </Alert>
       )}
       {error && <Alert type="error">{error}</Alert>}
@@ -464,33 +467,10 @@ export function StoreProfileForm() {
       )}
 
       {tab === 'analytics' && (
-        <Card title="Scripts no &lt;head&gt;">
-          <p className="mb-4 text-sm text-text-secondary">
-            Cole aqui os trechos HTML de analytics (Google Tag, GTM, Meta Pixel, Clarity, etc.).
-            Eles são injetados no <code className="text-xs">&lt;head&gt;</code> de todas as páginas da
-            loja — não no painel admin.
-          </p>
-          <Textarea
-            label="Scripts HTML"
-            value={form.head_scripts ?? ''}
-            onChange={(e) => updateField('head_scripts', e.target.value || null)}
-            rows={14}
-            className="font-mono text-xs leading-relaxed"
-            placeholder={`<!-- Google Tag Manager -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>`}
-          />
-          <p className="mt-3 text-xs text-text-muted">
-            Aceita tags <code>&lt;script&gt;</code>, <code>&lt;meta&gt;</code>,{' '}
-            <code>&lt;link&gt;</code> e <code>&lt;style&gt;</code>. Cole exatamente como o provedor
-            fornece.
-          </p>
-        </Card>
+        <TrackingTagsEditor
+          tags={form.tracking_tags ?? []}
+          onChange={(tracking_tags) => updateField('tracking_tags', tracking_tags)}
+        />
       )}
 
       <div className="flex justify-end">

@@ -2,9 +2,11 @@ import { createClient } from '@/lib/supabase/server'
 import {
   DEFAULT_BUNDLE_DISCOUNT_PERCENT,
   filterBundlesByMaxTotal,
+  MAX_BUNDLE_TOTAL,
   type BuyTogetherBundle,
 } from '@/lib/products/buy-together'
 import { mapProductCard, getRelatedProducts, PRODUCT_SELECT } from '@/lib/products/queries'
+import type { BuyTogetherSettings } from '@/types/buy-together-settings'
 
 type BundleRow = {
   id: string
@@ -15,7 +17,8 @@ type BundleRow = {
 
 async function getCuratedBundles(
   productId: string,
-  limit: number
+  limit: number,
+  defaultDiscountPercent: number
 ): Promise<BuyTogetherBundle[] | null> {
   const supabase = await createClient()
 
@@ -60,7 +63,7 @@ async function getCuratedBundles(
       return {
         id: row.id,
         companion,
-        discountPercent: Number(row.discount_percent) || DEFAULT_BUNDLE_DISCOUNT_PERCENT,
+        discountPercent: Number(row.discount_percent) || defaultDiscountPercent,
       }
     })
     .filter((bundle): bundle is BuyTogetherBundle => bundle !== null)
@@ -70,11 +73,20 @@ export async function getBuyTogetherBundles(
   productId: string,
   categoryIds: string[],
   primaryPrice: number,
-  limit = 3
+  limit = 3,
+  settings?: Pick<BuyTogetherSettings, 'defaultDiscountPercent' | 'maxBundleTotal'>
 ): Promise<BuyTogetherBundle[]> {
-  const curated = await getCuratedBundles(productId, Math.max(limit * 4, 12))
+  const defaultDiscountPercent =
+    settings?.defaultDiscountPercent ?? DEFAULT_BUNDLE_DISCOUNT_PERCENT
+  const maxBundleTotal = settings?.maxBundleTotal ?? MAX_BUNDLE_TOTAL
+
+  const curated = await getCuratedBundles(
+    productId,
+    Math.max(limit * 4, 12),
+    defaultDiscountPercent
+  )
   if (curated !== null) {
-    return filterBundlesByMaxTotal(primaryPrice, curated).slice(0, limit)
+    return filterBundlesByMaxTotal(primaryPrice, curated, maxBundleTotal).slice(0, limit)
   }
 
   const related = await getRelatedProducts(productId, categoryIds, Math.max(limit * 4, 12), {
@@ -83,9 +95,8 @@ export async function getBuyTogetherBundles(
   const bundles = related.map((companion) => ({
     id: `${productId}-${companion.id}`,
     companion,
-    discountPercent: DEFAULT_BUNDLE_DISCOUNT_PERCENT,
+    discountPercent: defaultDiscountPercent,
   }))
 
-  return filterBundlesByMaxTotal(primaryPrice, bundles).slice(0, limit)
+  return filterBundlesByMaxTotal(primaryPrice, bundles, maxBundleTotal).slice(0, limit)
 }
-
