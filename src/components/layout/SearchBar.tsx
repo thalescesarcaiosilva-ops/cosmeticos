@@ -148,7 +148,11 @@ export function SearchBar({ className = '', id, variant = 'desktop', overlay = f
             }}
             onKeyDown={handleKeyDown}
             maxLength={100}
-            placeholder="Digite Aqui a Marca, Nome ou Tipo de Produto…"
+            placeholder={
+              variant === 'mobile'
+                ? 'Buscar produto, marca…'
+                : 'Digite Aqui a Marca, Nome ou Tipo de Produto…'
+            }
             autoComplete="off"
             role="combobox"
             aria-expanded={showDropdown}
@@ -157,25 +161,25 @@ export function SearchBar({ className = '', id, variant = 'desktop', overlay = f
             aria-activedescendant={
               activeIndex >= 0 ? `${inputId}-option-${activeIndex}` : undefined
             }
-            className={`search-input w-full border text-sm font-bold transition-colors duration-[400ms] focus:outline-none focus:ring-2 ${
+            className={`search-input w-full border font-semibold transition-colors duration-[400ms] focus:outline-none focus:ring-2 ${
               overlay
                 ? 'border-white/20 bg-white/15 text-white placeholder:text-white/70 focus:border-white/40 focus:ring-white/15'
                 : 'border-border text-text-primary placeholder:text-text-muted focus:border-brand focus:ring-brand/15'
             } ${
               variant === 'mobile'
-                ? 'rounded-full py-2.5 pl-4 pr-12'
-                : 'rounded-md py-2.5 pl-4 pr-12 md:py-3'
+                ? 'rounded-full py-1.5 pl-3 pr-10 text-sm'
+                : 'rounded-md py-2.5 pl-4 pr-12 text-sm md:py-3'
             }`}
           />
           <button
             type="submit"
             title="Buscar"
-            className={`absolute right-1 flex size-9 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80 md:right-1.5 ${
-              overlay ? 'text-white' : 'text-brand'
-            }`}
+            className={`absolute right-0.5 flex items-center justify-center transition-opacity duration-[400ms] hover:opacity-80 md:right-1.5 ${
+              variant === 'mobile' ? 'size-8' : 'size-9'
+            } ${overlay ? 'text-white' : 'text-brand'}`}
             aria-label="Buscar"
           >
-            <IconSearch className="size-5 stroke-[2.25]" />
+            <IconSearch className={`stroke-[2.25] ${variant === 'mobile' ? 'size-4' : 'size-5'}`} />
           </button>
         </div>
       </form>

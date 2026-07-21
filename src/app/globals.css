@@ -105,6 +105,11 @@ body {
   }
 }
 
+/* Reserva altura do banner (CLS) — proporção vem do inline style (width/height do arquivo) */
+.home-banner-carousel {
+  width: 100%;
+}
+
 @media (max-width: 767px) {
   input,
   select,

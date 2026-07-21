@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 
 type CategoryGridItem = {
   id: string
@@ -10,6 +13,38 @@ type CategoryGridItem = {
 
 type CategoryGridProps = {
   items: CategoryGridItem[]
+}
+
+function CategorySealImage({
+  src,
+  name,
+}: {
+  src: string
+  name: string
+}) {
+  const [failed, setFailed] = useState(false)
+
+  if (failed) {
+    return (
+      <div className="flex h-full items-center justify-center text-[10px] text-text-muted">
+        Sem imagem
+      </div>
+    )
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={name}
+      fill
+      sizes="(max-width: 640px) 72px, 100px"
+      quality={70}
+      // Lazy nativo quebra em overflow-x (carrossel mobile) — imagens ficam quebradas
+      loading="eager"
+      className="object-contain"
+      onError={() => setFailed(true)}
+    />
+  )
 }
 
 export function CategoryGrid({ items }: CategoryGridProps) {
@@ -32,15 +67,7 @@ export function CategoryGrid({ items }: CategoryGridProps) {
             >
               <div className="relative size-[4.5rem] overflow-hidden rounded-full bg-[#e8f1f8] ring-1 ring-border/40 transition-transform duration-300 group-hover:scale-105 sm:size-25">
                 {item.imageUrl ? (
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.name}
-                    fill
-                    sizes="(max-width: 640px) 72px, 100px"
-                    quality={70}
-                    loading="lazy"
-                    className="object-contain"
-                  />
+                  <CategorySealImage src={item.imageUrl} name={item.name} />
                 ) : (
                   <div className="flex h-full items-center justify-center text-[10px] text-text-muted">
                     Sem imagem

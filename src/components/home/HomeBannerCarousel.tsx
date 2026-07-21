@@ -43,13 +43,14 @@ export function HomeBannerCarousel({
 
   return (
     <section
-      className={`relative w-full overflow-hidden bg-transparent ${className}`}
+      className={`home-banner-carousel relative w-full overflow-hidden bg-surface-muted ${className}`}
       aria-label="Destaques da loja"
       aria-roledescription="carrossel"
       style={{ aspectRatio: `${ratioW} / ${ratioH}` }}
     >
+      {/* Track absoluto: cada slide ocupa 100% da largura do viewport do carrossel */}
       <div
-        className="flex h-full transition-transform duration-500 ease-out"
+        className="absolute inset-0 flex transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {banners.map((banner, slideIndex) => {
@@ -66,12 +67,12 @@ export function HomeBannerCarousel({
               priority={isLcp}
               fetchPriority={isLcp ? 'high' : 'auto'}
               {...(!isLcp ? { loading: 'lazy' as const } : {})}
-              className="object-contain md:object-cover"
+              className="object-cover object-center"
             />
           )
 
           const slideClass =
-            'relative block h-full w-full shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
+            'relative h-full w-full min-w-full shrink-0 basis-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
 
           return banner.link_href ? (
             <Link
@@ -86,7 +87,7 @@ export function HomeBannerCarousel({
           ) : (
             <div
               key={banner.id}
-              className="relative h-full w-full shrink-0"
+              className={slideClass}
               aria-hidden={slideIndex !== index}
             >
               {image}

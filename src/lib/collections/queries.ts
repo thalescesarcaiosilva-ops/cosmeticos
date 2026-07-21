@@ -3,7 +3,7 @@ import {
   isStorefrontCategoryHidden,
 } from '@/lib/categories/storefront'
 import { createPublicClient } from '@/lib/supabase/public'
-import { toSiteMediaUrl } from '@/lib/media/public-url'
+import { toAbsoluteSiteMediaUrl, toSiteMediaUrl } from '@/lib/media/public-url'
 import { mapProductCard, PRODUCT_SELECT } from '@/lib/products/queries'
 import type { CollectionFiltersInput } from '@/schemas/category-schema'
 import type {
@@ -285,16 +285,18 @@ export type CollectionsForCarouselOptions = {
 }
 
 function mapCollectionCarouselRow(row: Record<string, unknown>): CollectionCarouselItem {
+  const raw =
+    (row.image_url as string | null) ??
+    (row.seal_image_url as string | null | undefined) ??
+    null
+  // URL absoluta (Supabase) evita falha do /_next/image via rewrite em carrosséis
+  const imageUrl = toAbsoluteSiteMediaUrl(raw) ?? toSiteMediaUrl(raw)
+
   return {
     id: row.id as string,
     name: row.name as string,
     slug: row.slug as string,
-    imageUrl:
-      toSiteMediaUrl(
-        (row.image_url as string | null) ??
-          (row.seal_image_url as string | null | undefined) ??
-          null
-      ),
+    imageUrl,
   }
 }
 

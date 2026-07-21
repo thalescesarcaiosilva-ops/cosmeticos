@@ -64,17 +64,17 @@ export function SiteHeader({
 
       <div className="header-container">
         <header className="header mx-auto max-w-[1200px] px-4 md:px-6">
-          <div className="flex items-center gap-3 py-3 md:gap-5 md:py-4">
+          <div className="flex items-center gap-2 py-2 md:gap-5 md:py-4">
             <button
               type="button"
-              className={`logo__menu header-action flex size-9 shrink-0 items-center justify-center md:hidden ${
+              className={`logo__menu header-action flex size-8 shrink-0 items-center justify-center md:hidden ${
                 overlay ? 'text-white' : 'text-text-primary'
               }`}
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Abrir menu"
               aria-expanded={mobileMenuOpen}
             >
-              <IconMenu className="size-6" />
+              <IconMenu className="size-5" />
             </button>
 
             <div className="logo shrink-0">
@@ -85,7 +85,7 @@ export function SiteHeader({
               <SearchBar overlay={overlay} />
             </div>
 
-            <div className="ml-auto flex items-center gap-2 md:gap-4 lg:gap-5">
+            <div className="ml-auto flex items-center gap-1 md:gap-4 lg:gap-5">
               {hasPhone && (
                 <a
                   href={phone.href}
@@ -114,28 +114,26 @@ export function SiteHeader({
                 </Link>
               )}
 
-             
-
               {hasHelp && (
                 <Link
                   href={helpLink.href}
-                  className="header-action flex size-9 items-center justify-center lg:hidden"
+                  className="header-action flex size-8 items-center justify-center md:size-9 lg:hidden"
                   aria-label={helpLink.label}
                 >
-                  <IconHelp className="size-6" />
+                  <IconHelp className="size-5 md:size-6" />
                 </Link>
               )}
 
               <div className="relative">
                 <Link
                   href="/favoritos"
-                  className="header-action flex size-9 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80"
+                  className="header-action flex size-8 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80 md:size-9"
                   aria-label={`Favoritos${favoriteCount > 0 ? `, ${favoriteCount} itens` : ''}`}
                 >
-                  <IconHeart className="size-6" />
+                  <IconHeart className="size-5 md:size-6" />
                 </Link>
                 {favoritesHydrated && favoriteCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-1 text-[10px] font-bold text-white">
+                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brand px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
                     {favoriteCount > 9 ? '9+' : favoriteCount}
                   </span>
                 )}
@@ -144,24 +142,24 @@ export function SiteHeader({
               <div className="myaccount">
                 <Link
                   href="/conta"
-                  className="myaccount__hi header-action flex size-9 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80"
+                  className="myaccount__hi header-action flex size-8 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80 md:size-9"
                   aria-label="Minha conta"
                 >
-                  <IconCustomer className="size-6" />
+                  <IconCustomer className="size-5 md:size-6" />
                 </Link>
               </div>
 
               <div className="mycart relative">
                 <Link
                   href="/carrinho"
-                  className="mycart__link header-action flex size-9 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80"
+                  className="mycart__link header-action flex size-8 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80 md:size-9"
                   title="Meu Carrinho"
                   aria-label={`Meu Carrinho${cartItemCount > 0 ? `, ${cartItemCount} itens` : ''}`}
                 >
-                  <IconCart className="size-6" />
+                  <IconCart className="size-5 md:size-6" />
                 </Link>
                 {hydrated && cartItemCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-1 text-[10px] font-bold text-white">
+                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brand px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
                     {cartItemCount > 9 ? '9+' : cartItemCount}
                   </span>
                 )}
@@ -169,7 +167,7 @@ export function SiteHeader({
             </div>
           </div>
 
-          <div className="search overflow-visible pb-3 md:hidden">
+          <div className="search overflow-visible pb-2 md:hidden">
             <SearchBar id="search-mobile" variant="mobile" overlay={overlay} />
           </div>
         </header>
