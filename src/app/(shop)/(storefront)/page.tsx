@@ -46,9 +46,15 @@ export default async function HomePage() {
           Só o carrossel mobile usa priority: preload duplo (mobile+desktop) atrasa o LCP. */}
       <HomeBannerCarousel
         banners={desktopBanners}
+        variant="desktop"
         className="home-hero-banner hidden md:block"
       />
-      <HomeBannerCarousel banners={mobileBanners} className="md:hidden" prioritizeFirst />
+      <HomeBannerCarousel
+        banners={mobileBanners}
+        variant="mobile"
+        className="md:hidden"
+        prioritizeFirst
+      />
 
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
         <section className="mb-12">

@@ -9,19 +9,33 @@ import type { HomeBannerPublic } from '@/types/home-banner'
 type HomeBannerCarouselProps = {
   banners: HomeBannerPublic[]
   className?: string
+  /** mobile: fallback 4:5; desktop: fallback 1920:720 — usado só se width/height vierem nulos. */
+  variant?: 'mobile' | 'desktop'
   /** Só o carrossel visível no viewport LCP deve ser true (evita preload duplo mobile+desktop). */
   prioritizeFirst?: boolean
+}
+
+function resolveAspectRatio(
+  banners: HomeBannerPublic[],
+  variant: 'mobile' | 'desktop'
+): string {
+  const first = banners[0]
+  if (first?.width && first?.height) {
+    return `${first.width} / ${first.height}`
+  }
+  // Fallbacks alinhados aos formatos típicos enviados no admin
+  return variant === 'mobile' ? '1080 / 1350' : '1920 / 720'
 }
 
 export function HomeBannerCarousel({
   banners,
   className = '',
+  variant = 'desktop',
   prioritizeFirst = false,
 }: HomeBannerCarouselProps) {
   const [index, setIndex] = useState(0)
   const count = banners.length
-  const ratioW = banners[0]?.width ?? 1920
-  const ratioH = banners[0]?.height ?? 720
+  const aspectRatio = resolveAspectRatio(banners, variant)
 
   const goTo = useCallback(
     (next: number) => {
@@ -46,7 +60,7 @@ export function HomeBannerCarousel({
       className={`home-banner-carousel relative w-full overflow-hidden bg-surface-muted ${className}`}
       aria-label="Destaques da loja"
       aria-roledescription="carrossel"
-      style={{ aspectRatio: `${ratioW} / ${ratioH}` }}
+      style={{ aspectRatio }}
     >
       {/* Track absoluto: cada slide ocupa 100% da largura do viewport do carrossel */}
       <div
@@ -67,7 +81,7 @@ export function HomeBannerCarousel({
               priority={isLcp}
               fetchPriority={isLcp ? 'high' : 'auto'}
               {...(!isLcp ? { loading: 'lazy' as const } : {})}
-              className="object-cover object-center"
+              className="object-contain object-center"
             />
           )
 

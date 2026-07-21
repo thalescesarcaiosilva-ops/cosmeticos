@@ -12,6 +12,8 @@ import type { CollectionSort } from '@/schemas/category-schema'
 type CollectionFiltersProps = {
   meta: CollectionFilterMeta
   className?: string
+  /** Em páginas de marca o filtro de marca não faz sentido. */
+  hideBrandFilter?: boolean
 }
 
 type SortOption = {
@@ -97,7 +99,11 @@ function CheckboxList({
   )
 }
 
-export function CollectionFilters({ meta, className = '' }: CollectionFiltersProps) {
+export function CollectionFilters({
+  meta,
+  className = '',
+  hideBrandFilter = false,
+}: CollectionFiltersProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -167,7 +173,7 @@ export function CollectionFilters({ meta, className = '' }: CollectionFiltersPro
   }
 
   const hasActiveFilters =
-    selectedBrands.length > 0 ||
+    (!hideBrandFilter && selectedBrands.length > 0) ||
     selectedCategories.length > 0 ||
     searchParams.has('min_price') ||
     searchParams.has('max_price') ||
@@ -215,12 +221,14 @@ export function CollectionFilters({ meta, className = '' }: CollectionFiltersPro
         </div>
       </div>
 
-      <FilterSection title="Marca" defaultOpen>
-        <CheckboxList items={meta.brands} selected={selectedBrands} onToggle={toggleBrand} />
-      </FilterSection>
+      {!hideBrandFilter && meta.brands.length > 0 && (
+        <FilterSection title="Marca" defaultOpen>
+          <CheckboxList items={meta.brands} selected={selectedBrands} onToggle={toggleBrand} />
+        </FilterSection>
+      )}
 
       {meta.categories.length > 0 && (
-        <FilterSection title="Categoria">
+        <FilterSection title="Categoria" defaultOpen={hideBrandFilter}>
           <CheckboxList
             items={meta.categories}
             selected={selectedCategories}
@@ -261,7 +269,13 @@ export function CollectionFilters({ meta, className = '' }: CollectionFiltersPro
   )
 }
 
-export function CollectionFiltersMobile({ meta }: { meta: CollectionFilterMeta }) {
+export function CollectionFiltersMobile({
+  meta,
+  hideBrandFilter = false,
+}: {
+  meta: CollectionFilterMeta
+  hideBrandFilter?: boolean
+}) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -270,7 +284,11 @@ export function CollectionFiltersMobile({ meta }: { meta: CollectionFilterMeta }
         Filtrar e ordenar
       </Button>
       <Modal open={open} onClose={() => setOpen(false)} title="Filtrar produtos" size="md">
-        <CollectionFilters meta={meta} className="border-0 p-0 shadow-none" />
+        <CollectionFilters
+          meta={meta}
+          hideBrandFilter={hideBrandFilter}
+          className="border-0 p-0 shadow-none"
+        />
       </Modal>
     </>
   )

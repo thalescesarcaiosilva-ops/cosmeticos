@@ -51,7 +51,7 @@ export function ProductPageView({
 
       {/*
         Mobile (1 col): galeria → marca/categoria → compra → descrição
-        Desktop (2 col): esquerda galeria+meta+descrição | direita sticky até o fim da descrição
+        Desktop (2 col): esquerda galeria+meta+descrição | direita compra (fluxo normal, sem sticky)
       */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-x-12 lg:gap-y-0">
         <div className="min-w-0">
@@ -67,7 +67,7 @@ export function ProductPageView({
           />
         </div>
 
-        <div className="min-w-0 lg:row-span-2 lg:sticky lg:top-[calc(var(--shop-header-height,168px)+0.75rem)] lg:self-start">
+        <div className="min-w-0 lg:row-span-2">
           <header className="mb-5 border-b border-border pb-5">
             <div className="flex items-start gap-3">
               <h1 className="min-w-0 flex-1 text-[21px] font-bold leading-snug text-text-primary md:text-[26px]">

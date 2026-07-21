@@ -2,9 +2,11 @@ import { getFooterData } from '@/lib/layout/get-footer-data'
 import { getSiteSettings, getSocialLinks, SITE_SETTINGS_ID } from '@/lib/layout/queries'
 import { filterStorefrontSocialLinks } from '@/lib/layout/social-links'
 import {
+  buildOpeningHoursSchedule,
   formatOpeningHoursLong,
   formatPhoneDisplay,
   formatStoreAddressInline,
+  type OpeningHoursDayRow,
 } from '@/lib/store-profile/format'
 import { getStoreProfile } from '@/lib/store-profile/queries'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
@@ -25,6 +27,8 @@ export type ContactPageData = {
   phoneHref: string | null
   email: string | null
   businessHours: string | null
+  /** Dias da semana com horário ou "Fechado" (quando há horários estruturados). */
+  businessHoursSchedule: OpeningHoursDayRow[] | null
   socialLinks: SocialLink[]
 }
 
@@ -92,6 +96,7 @@ export async function getContactPageData(): Promise<ContactPageData> {
       phoneHref: null,
       email: null,
       businessHours: null,
+      businessHoursSchedule: null,
       socialLinks: [],
     }
   }
@@ -116,9 +121,18 @@ export async function getContactPageData(): Promise<ContactPageData> {
     (profile ? formatStoreAddressInline(profile) : null) ??
     footerData.contact.address
 
+  const structuredHours =
+    profile && profile.store_opening_hours.length > 0
+      ? profile.store_opening_hours
+      : null
+
   const businessHours =
-    (profile ? formatOpeningHoursLong(profile.store_opening_hours) : null) ??
+    (structuredHours ? formatOpeningHoursLong(structuredHours) : null) ??
     footerData.contact.businessHours
+
+  const businessHoursSchedule = structuredHours
+    ? buildOpeningHoursSchedule(structuredHours)
+    : null
 
   const socialLinks = filterStorefrontSocialLinks(
     socialRows.map(mapSocial).filter((s): s is SocialLink => s !== null)
@@ -136,6 +150,7 @@ export async function getContactPageData(): Promise<ContactPageData> {
     phoneHref: profile?.phone_href?.trim() || settings.phone_href?.trim() || null,
     email: profile?.contact_email ?? footerData.contact.email,
     businessHours,
+    businessHoursSchedule,
     socialLinks,
   }
 }

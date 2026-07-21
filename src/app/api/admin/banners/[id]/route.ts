@@ -6,7 +6,11 @@ import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { BANNER_COLUMNS } from '@/lib/banners/queries'
-import { isAllowedBannerMime, optimizeBannerImage } from '@/lib/image/optimize-banner'
+import {
+  isAllowedBannerMime,
+  optimizeBannerImage,
+  probeImageDimensions,
+} from '@/lib/image/optimize-banner'
 import { updateBannerSchema } from '@/schemas/banner-schema'
 
 const paramsSchema = z.object({ id: z.string().uuid() })
@@ -176,10 +180,11 @@ async function patchWithImage(id: string, formData: FormData) {
     console.error('[banners/optimize]', e instanceof Error ? e.message : e)
     const fallbackExt =
       file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg'
+    const probed = probeImageDimensions(raw)
     optimized = {
       buffer: raw,
-      width: null,
-      height: null,
+      width: probed?.width ?? null,
+      height: probed?.height ?? null,
       size: raw.byteLength,
       mimeType: file.type,
       extension: fallbackExt,

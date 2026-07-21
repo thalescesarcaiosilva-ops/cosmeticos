@@ -1,20 +1,26 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ProductGrid } from '@/components/product/ProductGrid'
+import { Suspense } from 'react'
+import { CatalogWithFilters } from '@/components/catalog/CatalogWithFilters'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { getBrandBySlug, getBrandProducts } from '@/lib/brands/queries'
+import { getBrandBySlug, getBrandFilterMeta, getBrandProducts } from '@/lib/brands/queries'
 import { buildInstallmentMap } from '@/lib/payment/build-installment-map'
 import { getPaymentSettings } from '@/lib/payment/queries'
 import { buildBreadcrumbJsonLd } from '@/lib/seo/json-ld/breadcrumb'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { collectionFiltersSchema } from '@/schemas/category-schema'
 
 type BrandPageProps = {
   params: Promise<{ brandSlug: string }>
+  searchParams: Promise<Record<string, string | undefined>>
 }
 
-export async function generateMetadata({ params }: BrandPageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: BrandPageProps): Promise<Metadata> {
   const { brandSlug } = await params
+  const rawParams = await searchParams
+  const hasFilters = Object.keys(rawParams).some((key) => rawParams[key])
+
   const brand = await getBrandBySlug(brandSlug)
   if (!brand) return { title: 'Marca não encontrada', robots: { index: false } }
 
@@ -22,27 +28,39 @@ export async function generateMetadata({ params }: BrandPageProps): Promise<Meta
     title: brand.name,
     description: `Produtos ${brand.name} na Batista Cosméticos. Confira a linha completa.`,
     path: `/${brand.slug}`,
+    noindex: hasFilters,
   })
 }
 
-export default async function BrandPage({ params }: BrandPageProps) {
+export default async function BrandPage({ params, searchParams }: BrandPageProps) {
   const { brandSlug } = await params
+  const rawParams = await searchParams
   const brand = await getBrandBySlug(brandSlug)
   if (!brand) notFound()
 
-  const [products, paymentSettings] = await Promise.all([
-    getBrandProducts(brand.id),
+  const filters = collectionFiltersSchema.parse(rawParams)
+
+  const [result, meta, paymentSettings] = await Promise.all([
+    getBrandProducts(brand.id, filters),
+    getBrandFilterMeta(brand.id),
     getPaymentSettings(),
   ])
 
-  const installments = buildInstallmentMap(products, paymentSettings)
+  const installments = buildInstallmentMap(result.products, paymentSettings)
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     { name: 'Início', path: '/' },
     { name: brand.name },
   ])
 
   return (
-    <>
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-7xl animate-pulse px-4 py-8 md:px-6">
+          <div className="mb-4 h-8 w-1/3 rounded bg-surface-muted" />
+          <div className="h-64 rounded bg-surface-muted" />
+        </div>
+      }
+    >
       <JsonLd data={breadcrumbJsonLd} />
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
         <nav className="mb-6 text-sm text-text-secondary" aria-label="Breadcrumb">
@@ -59,25 +77,25 @@ export default async function BrandPage({ params }: BrandPageProps) {
           </ol>
         </nav>
 
-        <h1 className="text-2xl font-bold text-text-primary md:text-3xl">{brand.name}</h1>
-        <p className="mt-2 text-sm text-text-secondary">
-          {products.length} produto{products.length === 1 ? '' : 's'}
-        </p>
-
-        {products.length === 0 ? (
-          <p className="mt-6 text-text-secondary">
-            Nenhum produto encontrado para esta marca.{' '}
-            <Link href="/" className="text-brand hover:underline">
-              Voltar à loja
-            </Link>
-            .
+        <header className="mb-8">
+          <h1 className="text-2xl font-bold text-text-primary md:text-3xl">{brand.name}</h1>
+          <p className="mt-2 text-sm text-text-secondary">
+            Produtos da marca {brand.name}
           </p>
-        ) : (
-          <div className="mt-6">
-            <ProductGrid products={products} installments={installments} />
-          </div>
-        )}
+        </header>
+
+        <CatalogWithFilters
+          basePath={`/${brand.slug}`}
+          products={result.products}
+          total={result.total}
+          page={result.page}
+          hasMore={result.hasMore}
+          meta={meta}
+          installments={installments}
+          searchParams={rawParams}
+          hideBrandFilter
+        />
       </div>
-    </>
+    </Suspense>
   )
 }

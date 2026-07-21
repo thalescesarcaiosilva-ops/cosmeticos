@@ -1,6 +1,16 @@
 import type { StoreOpeningHoursSlot } from '@/schemas/store-profile-schema'
 import type { StoreProfile } from '@/lib/store-profile/queries'
 
+const DAY_ORDER = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+] as const
+
 const DAY_LABELS: Record<string, string> = {
   Monday: 'Seg',
   Tuesday: 'Ter',
@@ -9,6 +19,25 @@ const DAY_LABELS: Record<string, string> = {
   Friday: 'Sex',
   Saturday: 'Sáb',
   Sunday: 'Dom',
+}
+
+const FULL_DAY_LABELS: Record<string, string> = {
+  Monday: 'Segunda-feira',
+  Tuesday: 'Terça-feira',
+  Wednesday: 'Quarta-feira',
+  Thursday: 'Quinta-feira',
+  Friday: 'Sexta-feira',
+  Saturday: 'Sábado',
+  Sunday: 'Domingo',
+}
+
+export type OpeningHoursDayRow = {
+  dayOfWeek: (typeof DAY_ORDER)[number]
+  label: string
+  value: string
+  closed: boolean
+  opens: string | null
+  closes: string | null
 }
 
 export function formatStoreAddress(profile: Pick<
@@ -47,31 +76,12 @@ export function formatOpeningHours(slots: StoreOpeningHoursSlot[]): string | nul
     .join(' · ')
 }
 
-const FULL_DAY_LABELS: Record<string, string> = {
-  Monday: 'Segunda-feira',
-  Tuesday: 'Terça-feira',
-  Wednesday: 'Quarta-feira',
-  Thursday: 'Quinta-feira',
-  Friday: 'Sexta-feira',
-  Saturday: 'Sábado',
-  Sunday: 'Domingo',
-}
-
 function formatDayRange(days: string[]): string {
   if (days.length === 0) return ''
   if (days.length === 1) return FULL_DAY_LABELS[days[0]!] ?? days[0]!
 
-  const order = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ]
-  const sorted = [...days].sort((a, b) => order.indexOf(a) - order.indexOf(b))
-  const indices = sorted.map((d) => order.indexOf(d))
+  const sorted = [...days].sort((a, b) => DAY_ORDER.indexOf(a as (typeof DAY_ORDER)[number]) - DAY_ORDER.indexOf(b as (typeof DAY_ORDER)[number]))
+  const indices = sorted.map((d) => DAY_ORDER.indexOf(d as (typeof DAY_ORDER)[number]))
 
   let isConsecutive = true
   for (let i = 1; i < indices.length; i++) {
@@ -97,13 +107,64 @@ function formatHour(time: string): string {
   return normalized
 }
 
+/** Expande slots em 7 dias da semana, marcando os sem horário como fechados. */
+export function buildOpeningHoursSchedule(
+  slots: StoreOpeningHoursSlot[]
+): OpeningHoursDayRow[] {
+  const openByDay = new Map<string, { opens: string; closes: string }>()
+
+  for (const slot of slots) {
+    const days = Array.isArray(slot.dayOfWeek) ? slot.dayOfWeek : [slot.dayOfWeek]
+    for (const day of days) {
+      openByDay.set(day, { opens: slot.opens, closes: slot.closes })
+    }
+  }
+
+  return DAY_ORDER.map((dayOfWeek) => {
+    const open = openByDay.get(dayOfWeek)
+    if (!open) {
+      return {
+        dayOfWeek,
+        label: FULL_DAY_LABELS[dayOfWeek]!,
+        value: 'Fechado',
+        closed: true,
+        opens: null,
+        closes: null,
+      }
+    }
+    return {
+      dayOfWeek,
+      label: FULL_DAY_LABELS[dayOfWeek]!,
+      value: `${formatHour(open.opens)} às ${formatHour(open.closes)}`,
+      closed: false,
+      opens: open.opens,
+      closes: open.closes,
+    }
+  })
+}
+
+/**
+ * Agrupa dias consecutivos com o mesmo horário (ou fechado) para texto compacto.
+ * Ex.: "Segunda-feira a Sexta-feira: 09:00h às 18:00h. Sábado e Domingo: Fechado."
+ */
 export function formatOpeningHoursLong(slots: StoreOpeningHoursSlot[]): string | null {
   if (slots.length === 0) return null
 
-  const lines = slots.map((slot) => {
-    const days = Array.isArray(slot.dayOfWeek) ? slot.dayOfWeek : [slot.dayOfWeek]
-    const dayLabel = formatDayRange(days)
-    return `${dayLabel}: ${formatHour(slot.opens)} às ${formatHour(slot.closes)}`
+  const schedule = buildOpeningHoursSchedule(slots)
+  const groups: { days: string[]; value: string; closed: boolean }[] = []
+
+  for (const row of schedule) {
+    const last = groups[groups.length - 1]
+    if (last && last.value === row.value && last.closed === row.closed) {
+      last.days.push(row.dayOfWeek)
+    } else {
+      groups.push({ days: [row.dayOfWeek], value: row.value, closed: row.closed })
+    }
+  }
+
+  const lines = groups.map((group) => {
+    const dayLabel = formatDayRange(group.days)
+    return `${dayLabel}: ${group.value}`
   })
 
   return `${lines.join('. ')}. Exceto feriados`

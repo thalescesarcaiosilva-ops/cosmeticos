@@ -157,12 +157,35 @@ export function ContactPageView({ data }: ContactFormProps) {
               </ContactChannel>
             )}
 
-            {data.businessHours && (
+            {(data.businessHoursSchedule || data.businessHours) && (
               <ContactChannel
                 icon={<Clock className="size-5" aria-hidden />}
                 title="Horário de Funcionamento"
               >
-                <p>{data.businessHours}</p>
+                {data.businessHoursSchedule ? (
+                  <ul className="space-y-2">
+                    {data.businessHoursSchedule.map((row) => (
+                      <li
+                        key={row.dayOfWeek}
+                        className="flex items-baseline justify-between gap-3 text-sm"
+                      >
+                        <span className="text-text-secondary">{row.label}</span>
+                        <span
+                          className={
+                            row.closed
+                              ? 'font-medium text-text-muted'
+                              : 'font-medium text-text-primary'
+                          }
+                        >
+                          {row.value}
+                        </span>
+                      </li>
+                    ))}
+                    <li className="pt-1 text-xs text-text-muted">Exceto feriados</li>
+                  </ul>
+                ) : (
+                  <p>{data.businessHours}</p>
+                )}
               </ContactChannel>
             )}
           </div>

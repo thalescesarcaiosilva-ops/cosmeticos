@@ -5,7 +5,11 @@ import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { BANNER_COLUMNS, getAdminHomeBanners } from '@/lib/banners/queries'
-import { isAllowedBannerMime, optimizeBannerImage } from '@/lib/image/optimize-banner'
+import {
+  isAllowedBannerMime,
+  optimizeBannerImage,
+  probeImageDimensions,
+} from '@/lib/image/optimize-banner'
 import { createBannerSchema } from '@/schemas/banner-schema'
 
 const BANNER_COLUMNS_INSERT_LEGACY =
@@ -97,10 +101,11 @@ export async function POST(request: Request) {
     console.error('[banners/optimize]', e instanceof Error ? e.message : e)
     const fallbackExt =
       file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg'
+    const probed = probeImageDimensions(raw)
     optimized = {
       buffer: raw,
-      width: null,
-      height: null,
+      width: probed?.width ?? null,
+      height: probed?.height ?? null,
       size: raw.byteLength,
       mimeType: file.type,
       extension: fallbackExt,

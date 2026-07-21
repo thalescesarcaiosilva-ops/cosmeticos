@@ -205,8 +205,9 @@ export function BannersManager() {
       <div>
         <h1 className="text-2xl font-bold text-text-primary">Banners da home</h1>
         <p className="mt-1 text-sm text-text-secondary">
-          Imagens são convertidas para WebP e redimensionadas para melhor desempenho. Defina se cada
-          banner aparece no desktop, no mobile ou em ambos com a mesma imagem.
+          Imagens são convertidas para WebP e redimensionadas (máx. 1920×2400, sem cropar) para
+          melhor desempenho. Defina se cada banner aparece no desktop, no mobile ou em ambos com a
+          mesma imagem. No mobile, envie a arte na proporção desejada (ex.: 1080×1350).
         </p>
       </div>
 

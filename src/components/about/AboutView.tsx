@@ -1,11 +1,24 @@
 import { storeContent } from '@/lib/store-content/content'
 import { StoreImageFrame } from '@/components/store-content/StoreImageFrame'
+import type { OpeningHoursDayRow } from '@/lib/store-profile/format'
 
 const BARCODE_BARS = [100, 60, 80, 40, 100, 50, 90, 30, 70, 100, 45, 85, 60, 95, 35, 75, 55, 100]
 
-export function AboutView() {
+type AboutViewProps = {
+  openingHours?: OpeningHoursDayRow[] | null
+}
+
+export function AboutView({ openingHours }: AboutViewProps) {
   const { about } = storeContent
   const { sobre, storeImage, info } = about
+  const hoursRows =
+    openingHours && openingHours.length > 0
+      ? openingHours.map((row) => ({
+          label: row.label,
+          value: row.value,
+          closed: row.closed,
+        }))
+      : info.hours
 
   return (
     <div className="bg-cream text-ink">
@@ -106,11 +119,11 @@ export function AboutView() {
               <div className="rounded-2xl bg-cream p-8">
                 <h3 className="mb-5 font-display text-xl text-plum">{info.hoursTitle}</h3>
                 <ul className="space-y-3 text-sm">
-                  {info.hours.map((row, i) => (
+                  {hoursRows.map((row, i) => (
                     <li
                       key={row.label}
                       className={`flex items-center justify-between ${
-                        i < info.hours.length - 1 ? 'border-b border-plum/10 pb-3' : ''
+                        i < hoursRows.length - 1 ? 'border-b border-plum/10 pb-3' : ''
                       }`}
                     >
                       <span className="text-ink/70">{row.label}</span>
