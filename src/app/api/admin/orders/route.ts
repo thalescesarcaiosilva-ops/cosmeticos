@@ -4,7 +4,7 @@ import { requireAdminUser } from '@/lib/auth/require-admin'
 import { orderStatusUpdateSchema } from '@/schemas/order-schema'
 
 const ORDER_COLUMNS =
-  'id, user_id, status, payment_status, payment_method, total, subtotal, shipping_price, shipping_method_name, address_id, notes, created_at, updated_at'
+  'id, user_id, status, payment_status, payment_method, total, subtotal, shipping_price, shipping_method_name, address_id, notes, customer_name, customer_email, customer_phone, shipping_address, created_at, updated_at'
 
 const ORDER_ITEM_COLUMNS =
   'id, product_id, quantity, unit_price, subtotal, products(name, slug)'

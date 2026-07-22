@@ -11,11 +11,13 @@ import { PasswordInput } from '@/components/ui/PasswordInput'
 import { PasswordStrength } from '@/components/ui/PasswordStrength'
 import { registerSchema } from '@/schemas/auth-schema'
 import { fetchApi } from '@/lib/api/fetch-api'
+import { formatPhoneInput } from '@/lib/checkout/validation'
 
 export function RegisterForm() {
   const router = useRouter()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
@@ -26,7 +28,7 @@ export function RegisterForm() {
     setError(null)
     setSuccess(null)
 
-    const parsed = registerSchema.safeParse({ name, email, password })
+    const parsed = registerSchema.safeParse({ name, email, password, phone: phone || undefined })
     if (!parsed.success) {
       setError(parsed.error.issues[0]?.message ?? 'Dados inválidos')
       return
@@ -37,6 +39,8 @@ export function RegisterForm() {
       ok: boolean
       needsEmailConfirm?: boolean
       signedIn?: boolean
+      redirectTo?: string
+      claimedOrders?: number
     }>('/api/auth/register', {
       method: 'POST',
       body: JSON.stringify(parsed.data),
@@ -54,8 +58,12 @@ export function RegisterForm() {
     }
 
     if (data?.signedIn) {
-      setSuccess('Conta criada! Redirecionando…')
-      router.push('/conta')
+      setSuccess(
+        data.claimedOrders && data.claimedOrders > 0
+          ? 'Conta criada! Pedidos anteriores vinculados. Redirecionando…'
+          : 'Conta criada! Redirecionando…'
+      )
+      router.push(data.redirectTo ?? '/conta')
       router.refresh()
       return
     }
@@ -88,6 +96,15 @@ export function RegisterForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          label="Celular"
+          name="phone"
+          type="tel"
+          autoComplete="tel"
+          placeholder="(11) 99999-9999"
+          value={phone}
+          onChange={(e) => setPhone(formatPhoneInput(e.target.value))}
         />
         <PasswordInput
           label="Senha"

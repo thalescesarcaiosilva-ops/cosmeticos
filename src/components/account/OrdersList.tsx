@@ -1,9 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { ChevronDown, MapPin, Package, ReceiptText } from 'lucide-react'
 import { Alert } from '@/components/ui/Alert'
+import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { fetchApi } from '@/lib/api/fetch-api'
+import { formatCurrency } from '@/lib/products/format'
 
 type OrderItem = {
   id: string
@@ -11,34 +14,317 @@ type OrderItem = {
   quantity: number
   unit_price: number
   subtotal: number
+  products: { name: string; slug: string } | null
+}
+
+type OrderAddress = {
+  street: string
+  number: string
+  complement: string | null
+  neighborhood: string
+  city: string
+  state: string
+  zip_code: string
 }
 
 type Order = {
   id: string
   status: string
+  payment_status?: string | null
+  payment_method?: string | null
   total: number
+  subtotal?: number | null
+  shipping_price?: number | null
+  discount_amount?: number | null
+  shipping_method_name?: string | null
+  shipping_address?: OrderAddress | null
+  notes?: string | null
   created_at: string
+  addresses?: OrderAddress | null
   order_items: OrderItem[]
 }
 
 const STATUS_LABELS: Record<string, string> = {
-  pending: 'Pendente',
+  pending: 'Aguardando pagamento',
   confirmed: 'Confirmado',
   shipped: 'Enviado',
   delivered: 'Entregue',
   cancelled: 'Cancelado',
 }
 
-function formatCurrency(value: number) {
-  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+const PAYMENT_METHOD_LABELS: Record<string, string> = {
+  pix: 'Pix',
+  credit_card: 'Cartão de crédito',
 }
+
+const ORDER_STEPS = [
+  { key: 'pending', label: 'Recebido' },
+  { key: 'confirmed', label: 'Confirmado' },
+  { key: 'shipped', label: 'Enviado' },
+  { key: 'delivered', label: 'Entregue' },
+] as const
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('pt-BR', {
     day: '2-digit',
-    month: 'short',
+    month: 'long',
     year: 'numeric',
   })
+}
+
+function formatDateTime(iso: string) {
+  return new Date(iso).toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
+function shortOrderId(id: string) {
+  return id.slice(0, 8).toUpperCase()
+}
+
+function stepIndexForStatus(status: string): number {
+  if (status === 'cancelled') return -1
+  const index = ORDER_STEPS.findIndex((step) => step.key === status)
+  return index >= 0 ? index : 0
+}
+
+function formatAddress(address: OrderAddress): string {
+  return [
+    `${address.street}, ${address.number}`,
+    address.complement,
+    address.neighborhood,
+    `${address.city}/${address.state}`,
+    address.zip_code,
+  ]
+    .filter(Boolean)
+    .join(' — ')
+}
+
+function OrderStatusStepper({ status }: { status: string }) {
+  if (status === 'cancelled') {
+    return (
+      <div className="rounded-xl border border-badge-discount/20 bg-badge-discount/5 px-4 py-3">
+        <p className="text-sm font-semibold text-badge-discount">Pedido cancelado</p>
+        <p className="mt-1 text-xs text-text-secondary">
+          Este pedido foi cancelado e não seguirá para entrega.
+        </p>
+      </div>
+    )
+  }
+
+  const activeIndex = stepIndexForStatus(status)
+
+  return (
+    <ol className="grid grid-cols-4 gap-2" aria-label="Etapas do pedido">
+      {ORDER_STEPS.map((step, index) => {
+        const done = index <= activeIndex
+        const current = index === activeIndex
+        return (
+          <li key={step.key} className="relative flex flex-col items-center text-center">
+            {index < ORDER_STEPS.length - 1 && (
+              <span
+                aria-hidden
+                className={`absolute top-3 left-[calc(50%+12px)] h-0.5 w-[calc(100%-24px)] ${
+                  index < activeIndex ? 'bg-brand' : 'bg-border'
+                }`}
+              />
+            )}
+            <span
+              className={`relative z-[1] flex size-6 items-center justify-center rounded-full text-[11px] font-bold ${
+                done
+                  ? 'bg-brand text-white'
+                  : 'border border-border bg-surface text-text-muted'
+              } ${current ? 'ring-4 ring-brand/15' : ''}`}
+            >
+              {index + 1}
+            </span>
+            <span
+              className={`mt-2 text-[11px] font-medium leading-tight sm:text-xs ${
+                done ? 'text-text-primary' : 'text-text-muted'
+              }`}
+            >
+              {step.label}
+            </span>
+          </li>
+        )
+      })}
+    </ol>
+  )
+}
+
+function OrderCard({ order }: { order: Order }) {
+  const [open, setOpen] = useState(false)
+  const deliveryAddress = order.addresses ?? order.shipping_address ?? null
+  const statusLabel = STATUS_LABELS[order.status] ?? order.status
+  const paymentLabel = order.payment_method
+    ? PAYMENT_METHOD_LABELS[order.payment_method] ?? order.payment_method
+    : 'Não informado'
+
+  return (
+    <Card className="overflow-hidden !p-0">
+      <div className="p-5 md:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">
+              Pedido #{shortOrderId(order.id)}
+            </p>
+            <p className="mt-1 text-base font-semibold text-text-primary">
+              {formatDate(order.created_at)}
+            </p>
+            <p className="mt-1 text-sm text-text-secondary">
+              {order.order_items?.length ?? 0}{' '}
+              {(order.order_items?.length ?? 0) === 1 ? 'item' : 'itens'}
+              {order.shipping_method_name ? ` · ${order.shipping_method_name}` : ''}
+            </p>
+          </div>
+
+          <div className="text-right">
+            <span
+              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                order.status === 'cancelled'
+                  ? 'bg-badge-discount/10 text-badge-discount'
+                  : order.status === 'delivered'
+                    ? 'bg-success/10 text-success'
+                    : 'bg-brand/10 text-brand'
+              }`}
+            >
+              {statusLabel}
+            </span>
+            <p className="mt-2 text-xl font-bold tabular-nums text-text-primary">
+              {formatCurrency(Number(order.total))}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-5">
+          <OrderStatusStepper status={order.status} />
+        </div>
+
+        <div className="mt-5 flex justify-end">
+          <Button
+            type="button"
+            variant="secondary"
+            className="gap-2"
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? 'Ocultar detalhes' : 'Detalhes do pedido'}
+            <ChevronDown
+              className={`size-4 transition-transform ${open ? 'rotate-180' : ''}`}
+              aria-hidden
+            />
+          </Button>
+        </div>
+      </div>
+
+      {open && (
+        <div className="space-y-5 border-t border-border bg-surface-muted/30 px-5 py-5 md:px-6">
+          <section>
+            <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
+              <Package className="size-4 text-brand" aria-hidden />
+              Resumo do pedido
+            </h3>
+            {order.order_items?.length > 0 ? (
+              <ul className="mt-3 space-y-2">
+                {order.order_items.map((item) => (
+                  <li
+                    key={item.id}
+                    className="flex items-start justify-between gap-4 text-sm text-text-secondary"
+                  >
+                    <span>
+                      <span className="font-medium text-text-primary">
+                        {item.products?.name ?? 'Produto'}
+                      </span>
+                      <span className="text-text-muted"> × {item.quantity}</span>
+                    </span>
+                    <span className="shrink-0 tabular-nums">
+                      {formatCurrency(Number(item.subtotal))}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-2 text-sm text-text-secondary">Itens indisponíveis.</p>
+            )}
+
+            <dl className="mt-4 space-y-1.5 border-t border-border pt-3 text-sm">
+              {order.subtotal != null && (
+                <div className="flex justify-between gap-4 text-text-secondary">
+                  <dt>Subtotal</dt>
+                  <dd className="tabular-nums">{formatCurrency(Number(order.subtotal))}</dd>
+                </div>
+              )}
+              {order.shipping_price != null && (
+                <div className="flex justify-between gap-4 text-text-secondary">
+                  <dt>Frete{order.shipping_method_name ? ` (${order.shipping_method_name})` : ''}</dt>
+                  <dd className="tabular-nums">
+                    {Number(order.shipping_price) === 0
+                      ? 'Grátis'
+                      : formatCurrency(Number(order.shipping_price))}
+                  </dd>
+                </div>
+              )}
+              {Number(order.discount_amount ?? 0) > 0 && (
+                <div className="flex justify-between gap-4 text-success">
+                  <dt>Desconto</dt>
+                  <dd className="tabular-nums">
+                    - {formatCurrency(Number(order.discount_amount))}
+                  </dd>
+                </div>
+              )}
+              <div className="flex justify-between gap-4 font-semibold text-text-primary">
+                <dt>Total</dt>
+                <dd className="tabular-nums">{formatCurrency(Number(order.total))}</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section className="grid gap-4 md:grid-cols-2">
+            <div className="rounded-xl border border-border bg-surface p-4">
+              <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
+                <ReceiptText className="size-4 text-brand" aria-hidden />
+                Pagamento
+              </h3>
+              <p className="mt-2 text-sm text-text-secondary">{paymentLabel}</p>
+              {order.payment_status && (
+                <p className="mt-1 text-xs text-text-muted">
+                  Status: {order.payment_status === 'paid' ? 'Pago' : order.payment_status}
+                </p>
+              )}
+              <p className="mt-2 text-xs text-text-muted">
+                Realizado em {formatDateTime(order.created_at)}
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border bg-surface p-4">
+              <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
+                <MapPin className="size-4 text-brand" aria-hidden />
+                Endereço de entrega
+              </h3>
+              {deliveryAddress ? (
+                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                  {formatAddress(deliveryAddress)}
+                </p>
+              ) : (
+                <p className="mt-2 text-sm text-text-secondary">Endereço não informado.</p>
+              )}
+            </div>
+          </section>
+
+          {order.notes?.trim() && (
+            <section>
+              <h3 className="text-sm font-semibold text-text-primary">Observações</h3>
+              <p className="mt-1 text-sm text-text-secondary">{order.notes}</p>
+            </section>
+          )}
+        </div>
+      )}
+    </Card>
+  )
 }
 
 export function OrdersList() {
@@ -63,8 +349,15 @@ export function OrdersList() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Meus pedidos</h1>
+      <div>
+        <h1 className="text-2xl font-bold text-text-primary">Meus pedidos</h1>
+        <p className="mt-1 text-sm text-text-secondary">
+          Acompanhe status, pagamento e detalhes de cada compra.
+        </p>
+      </div>
+
       {error && <Alert type="error">{error}</Alert>}
+
       {orders.length === 0 ? (
         <Card>
           <p className="text-text-secondary">Você ainda não fez nenhum pedido.</p>
@@ -73,29 +366,7 @@ export function OrdersList() {
         <ul className="space-y-4">
           {orders.map((order) => (
             <li key={order.id}>
-              <Card>
-                <div className="flex flex-wrap items-start justify-between gap-2">
-                  <div>
-                    <p className="font-semibold">Pedido #{order.id.slice(0, 8)}</p>
-                    <p className="text-sm text-text-secondary">{formatDate(order.created_at)}</p>
-                  </div>
-                  <div className="text-right">
-                    <span className="inline-block rounded-full bg-brand/10 px-3 py-1 text-xs font-medium text-brand">
-                      {STATUS_LABELS[order.status] ?? order.status}
-                    </span>
-                    <p className="mt-1 font-bold">{formatCurrency(order.total)}</p>
-                  </div>
-                </div>
-                {order.order_items?.length > 0 && (
-                  <ul className="mt-4 space-y-1 border-t border-border pt-4 text-sm text-text-secondary">
-                    {order.order_items.map((item) => (
-                      <li key={item.id}>
-                        {item.quantity}x — {formatCurrency(item.subtotal)}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </Card>
+              <OrderCard order={order} />
             </li>
           ))}
         </ul>

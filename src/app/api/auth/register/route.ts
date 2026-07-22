@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { claimGuestOrdersByEmail } from '@/lib/auth/claim-guest-orders'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import {
   isDuplicateSignup,
@@ -11,7 +12,11 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { copyCookies, createRouteHandlerClient } from '@/lib/supabase/route-handler'
 import { registerSchema } from '@/schemas/auth-schema'
 
-async function createProfileIfMissing(userId: string, name: string) {
+async function createProfileIfMissing(
+  userId: string,
+  name: string,
+  phone?: string | null
+) {
   const admin = createAdminClient()
   const { data: existingProfile } = await admin
     .from('profiles')
@@ -24,17 +29,25 @@ async function createProfileIfMissing(userId: string, name: string) {
       id: userId,
       name,
       role: 'customer',
+      phone: phone || null,
     })
     if (profileError) throw profileError
   } else {
-    await admin.from('profiles').update({ name }).eq('id', userId)
+    const updates: { name: string; phone?: string } = { name }
+    if (phone) updates.phone = phone
+    await admin.from('profiles').update(updates).eq('id', userId)
   }
+}
+
+async function claimOrdersAfterAuth(userId: string, email: string) {
+  return claimGuestOrdersByEmail({ userId, email })
 }
 
 async function registerViaAdmin(
   email: string,
   password: string,
-  name: string
+  name: string,
+  phone?: string
 ): Promise<{ userId: string } | { error: string }> {
   const admin = createAdminClient()
   const { data, error } = await admin.auth.admin.createUser({
@@ -58,7 +71,7 @@ async function registerViaAdmin(
   }
 
   try {
-    await createProfileIfMissing(data.user.id, name.trim())
+    await createProfileIfMissing(data.user.id, name.trim(), phone)
   } catch (profileError) {
     console.error('[auth/register] profile insert', profileError)
     return {
@@ -82,21 +95,42 @@ async function signInRegisteredUser(
   })
 }
 
-function registerSuccessResponse(
+async function registerSuccessResponse(
   response: NextResponse,
-  options: { needsEmailConfirm: boolean; signedIn: boolean }
+  options: {
+    needsEmailConfirm: boolean
+    signedIn: boolean
+    claimedOrders?: number
+    userId?: string
+    email?: string
+  }
 ) {
+  let claimedOrders = options.claimedOrders ?? 0
+  if (options.signedIn && options.userId && options.email && claimedOrders === 0) {
+    claimedOrders = await claimOrdersAfterAuth(options.userId, options.email)
+  }
+
+  const redirectTo =
+    options.signedIn && claimedOrders > 0 ? '/conta/pedidos' : options.signedIn ? '/conta' : undefined
+
+  const message =
+    options.signedIn && claimedOrders > 0
+      ? `Conta criada! ${claimedOrders} pedido(s) vinculado(s).`
+      : options.signedIn
+        ? 'Conta criada com sucesso!'
+        : options.needsEmailConfirm
+          ? 'Conta criada! Verifique seu e-mail para confirmar o cadastro.'
+          : 'Conta criada com sucesso'
+
   const jsonResponse = jsonSuccess(
     {
       ok: true,
       needsEmailConfirm: options.needsEmailConfirm,
       signedIn: options.signedIn,
+      claimedOrders,
+      redirectTo,
     },
-    options.signedIn
-      ? 'Conta criada com sucesso!'
-      : options.needsEmailConfirm
-        ? 'Conta criada! Verifique seu e-mail para confirmar o cadastro.'
-        : 'Conta criada com sucesso'
+    message
   )
   copyCookies(response, jsonResponse)
   return jsonResponse
@@ -125,6 +159,7 @@ export async function POST(request: NextRequest) {
 
   const email = parsed.data.email.trim().toLowerCase()
   const name = parsed.data.name.trim()
+  const phone = parsed.data.phone
   const { password } = parsed.data
 
   let response = NextResponse.next({ request })
@@ -140,7 +175,7 @@ export async function POST(request: NextRequest) {
     logSignUpError(error)
 
     if (shouldFallbackToAdminSignup(error)) {
-      const adminResult = await registerViaAdmin(email, password, name)
+      const adminResult = await registerViaAdmin(email, password, name, phone)
       if ('error' in adminResult) {
         return jsonError(adminResult.error, 400)
       }
@@ -157,12 +192,16 @@ export async function POST(request: NextRequest) {
         return registerSuccessResponse(response, {
           needsEmailConfirm: false,
           signedIn: false,
+          userId: adminResult.userId,
+          email,
         })
       }
 
       return registerSuccessResponse(response, {
         needsEmailConfirm: false,
         signedIn: true,
+        userId: adminResult.userId,
+        email,
       })
     }
 
@@ -183,7 +222,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    await createProfileIfMissing(data.user.id, name)
+    await createProfileIfMissing(data.user.id, name, phone)
   } catch (profileError) {
     console.error('[auth/register] profile insert', profileError)
     return jsonError(
@@ -209,6 +248,8 @@ export async function POST(request: NextRequest) {
       return registerSuccessResponse(response, {
         needsEmailConfirm: false,
         signedIn: true,
+        userId: data.user.id,
+        email,
       })
     }
 
@@ -218,5 +259,7 @@ export async function POST(request: NextRequest) {
   return registerSuccessResponse(response, {
     needsEmailConfirm,
     signedIn: Boolean(data.session),
+    userId: data.user.id,
+    email,
   })
 }

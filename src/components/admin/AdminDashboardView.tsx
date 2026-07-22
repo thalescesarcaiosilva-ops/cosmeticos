@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import {
   Box,
@@ -51,6 +51,7 @@ const METHOD_LABEL: Record<string, string> = {
 const ACCENT = '#76172c'
 const PIX = '#2e7d32'
 const STATUS_BAR = '#c4a574'
+const PRODUCTS_PAGE_SIZE = 10
 
 function toInputDate(date: Date): string {
   const y = date.getFullYear()
@@ -83,6 +84,7 @@ export function AdminDashboardView({ data }: Props) {
   const [customFrom, setCustomFrom] = useState(defaultFrom)
   const [customTo, setCustomTo] = useState(toInputDate(today))
   const [productQuery, setProductQuery] = useState('')
+  const [productPage, setProductPage] = useState(1)
 
   const range = useMemo(
     () => resolveRange(preset, customFrom, customTo, today),
@@ -137,23 +139,32 @@ export function AdminDashboardView({ data }: Props) {
     [data.orderItems, soldIds]
   )
 
-  const topProducts = productSales.slice(0, 10)
-
-  const searchedProducts = useMemo(() => {
+  const filteredProducts = useMemo(() => {
     const q = normalize(productQuery)
-    if (!q) return null
+    if (!q) return productSales
     const exact = productSales.filter((row) => normalize(row.name) === q)
     if (exact.length) return exact
-    return productSales
-      .filter(
-        (row) =>
-          normalize(row.name).includes(q) || normalize(row.slug).includes(q)
-      )
-      .slice(0, 12)
+    return productSales.filter(
+      (row) =>
+        normalize(row.name).includes(q) || normalize(row.slug).includes(q)
+    )
   }, [productSales, productQuery])
 
-  const productRows = searchedProducts ?? topProducts
-  const showingSearch = searchedProducts !== null
+  const showingSearch = normalize(productQuery).length > 0
+  const productTotalPages = Math.max(
+    1,
+    Math.ceil(filteredProducts.length / PRODUCTS_PAGE_SIZE)
+  )
+  const safeProductPage = Math.min(productPage, productTotalPages)
+  const productRows = filteredProducts.slice(
+    (safeProductPage - 1) * PRODUCTS_PAGE_SIZE,
+    safeProductPage * PRODUCTS_PAGE_SIZE
+  )
+  const productRankStart = (safeProductPage - 1) * PRODUCTS_PAGE_SIZE
+
+  useEffect(() => {
+    setProductPage(1)
+  }, [preset, customFrom, customTo, productQuery])
 
   const recentOrders = periodOrders.slice(0, 8)
 
@@ -261,7 +272,7 @@ export function AdminDashboardView({ data }: Props) {
         </Card>
       </div>
 
-      <Card title="Produtos mais vendidos">
+      <Card title="Produtos mais comprados">
         <div className="mb-4 max-w-md space-y-1">
           <Input
             label="Buscar produto exato"
@@ -271,16 +282,25 @@ export function AdminDashboardView({ data }: Props) {
             autoComplete="off"
           />
           <p className="text-xs text-text-muted">
-            {showingSearch
-              ? `Busca no período (${periodLabel}).`
-              : `Top 10 no período (${periodLabel}).`}
+            Ordenado por número de pedidos · {periodLabel} ·{' '}
+            {filteredProducts.length} produto
+            {filteredProducts.length === 1 ? '' : 's'}
+            {showingSearch ? ' na busca' : ' com vendas'}
           </p>
         </div>
-        <ProductSalesTable rows={productRows} emptySearch={showingSearch} />
-        {!showingSearch && productSales.length > 10 && (
-          <p className="mt-3 text-xs text-text-muted">
-            Mostrando top 10 de {productSales.length} produtos com vendas no período.
-          </p>
+        <ProductSalesTable
+          rows={productRows}
+          emptySearch={showingSearch}
+          rankStart={productRankStart}
+        />
+        {filteredProducts.length > PRODUCTS_PAGE_SIZE && (
+          <ProductPagination
+            page={safeProductPage}
+            totalPages={productTotalPages}
+            totalItems={filteredProducts.length}
+            pageSize={PRODUCTS_PAGE_SIZE}
+            onPage={setProductPage}
+          />
         )}
       </Card>
 
@@ -830,9 +850,11 @@ function StatusBars({ rows }: { rows: { status: string; count: number }[] }) {
 function ProductSalesTable({
   rows,
   emptySearch,
+  rankStart,
 }: {
   rows: ProductSalesRow[]
   emptySearch: boolean
+  rankStart: number
 }) {
   if (!rows.length) {
     return (
@@ -851,15 +873,17 @@ function ProductSalesTable({
           <tr className="border-b border-border text-xs uppercase tracking-wide text-text-muted">
             <th className="pb-2 pr-3 font-medium">#</th>
             <th className="pb-2 pr-3 font-medium">Produto</th>
-            <th className="pb-2 pr-3 font-medium tabular-nums">Unidades</th>
             <th className="pb-2 pr-3 font-medium tabular-nums">Pedidos</th>
+            <th className="pb-2 pr-3 font-medium tabular-nums">Unidades</th>
             <th className="pb-2 font-medium tabular-nums">Receita</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
           {rows.map((row, index) => (
             <tr key={row.productId}>
-              <td className="py-2.5 pr-3 text-text-muted tabular-nums">{index + 1}</td>
+              <td className="py-2.5 pr-3 text-text-muted tabular-nums">
+                {rankStart + index + 1}
+              </td>
               <td className="py-2.5 pr-3">
                 <Link
                   href="/admin/produtos"
@@ -870,10 +894,10 @@ function ProductSalesTable({
                 </Link>
               </td>
               <td className="py-2.5 pr-3 font-semibold tabular-nums" style={{ color: ACCENT }}>
-                {row.unitsSold}
+                {row.orderCount}
               </td>
               <td className="py-2.5 pr-3 tabular-nums text-text-secondary">
-                {row.orderCount}
+                {row.unitsSold}
               </td>
               <td className="py-2.5 font-medium tabular-nums">
                 {formatCurrency(row.revenue)}
@@ -882,6 +906,52 @@ function ProductSalesTable({
           ))}
         </tbody>
       </table>
+    </div>
+  )
+}
+
+function ProductPagination({
+  page,
+  totalPages,
+  totalItems,
+  pageSize,
+  onPage,
+}: {
+  page: number
+  totalPages: number
+  totalItems: number
+  pageSize: number
+  onPage: (page: number) => void
+}) {
+  const from = (page - 1) * pageSize + 1
+  const to = Math.min(page * pageSize, totalItems)
+
+  return (
+    <div className="mt-4 flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-xs text-text-muted">
+        Mostrando {from}–{to} de {totalItems} · {pageSize} por página
+      </p>
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          disabled={page <= 1}
+          onClick={() => onPage(page - 1)}
+          className="rounded-full border border-border bg-surface px-3.5 py-1.5 text-xs font-semibold text-text-secondary transition-colors hover:bg-surface-strong disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Anterior
+        </button>
+        <span className="text-xs font-medium tabular-nums text-text-secondary">
+          Página {page} de {totalPages}
+        </span>
+        <button
+          type="button"
+          disabled={page >= totalPages}
+          onClick={() => onPage(page + 1)}
+          className="rounded-full border border-border bg-surface px-3.5 py-1.5 text-xs font-semibold text-text-secondary transition-colors hover:bg-surface-strong disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Próxima
+        </button>
+      </div>
     </div>
   )
 }

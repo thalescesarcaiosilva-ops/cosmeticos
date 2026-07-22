@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { claimGuestOrdersByEmail } from '@/lib/auth/claim-guest-orders'
 import { ensureUserProfile } from '@/lib/auth/ensure-profile'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limit'
@@ -74,9 +75,27 @@ export async function POST(request: NextRequest) {
     'Usuário'
 
   const role = await ensureUserProfile(data.user.id, displayName)
-  const redirectTo = resolveRedirect(role, requestedRedirect)
 
-  const jsonResponse = jsonSuccess({ ok: true, role, redirectTo }, 'Login realizado')
+  const email = data.user.email?.trim().toLowerCase()
+  let claimedOrders = 0
+  if (email) {
+    claimedOrders = await claimGuestOrdersByEmail({
+      userId: data.user.id,
+      email,
+    })
+  }
+
+  const redirectTo = resolveRedirect(
+    role,
+    claimedOrders > 0 && requestedRedirect === '/conta' ? '/conta/pedidos' : requestedRedirect
+  )
+
+  const jsonResponse = jsonSuccess(
+    { ok: true, role, redirectTo, claimedOrders },
+    claimedOrders > 0
+      ? `Login realizado. ${claimedOrders} pedido(s) vinculado(s) à sua conta.`
+      : 'Login realizado'
+  )
   copyCookies(response, jsonResponse)
 
   return jsonResponse

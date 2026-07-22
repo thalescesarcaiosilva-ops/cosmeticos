@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { CheckCircle2, CreditCard, Package, ReceiptText } from 'lucide-react'
 import { CheckoutPixPanel } from '@/components/checkout/CheckoutPixPanel'
+import { OrderClaimAccountForm } from '@/components/checkout/OrderClaimAccountForm'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { fetchApi } from '@/lib/api/fetch-api'
@@ -25,10 +26,12 @@ type OrderItem = {
 
 type OrderDetail = {
   id: string
+  user_id?: string | null
   status: string
   payment_status: string
   payment_method: string | null
   customer_email: string | null
+  customer_name?: string | null
   total: number
   subtotal: number | null
   shipping_price: number | null
@@ -38,6 +41,8 @@ type OrderDetail = {
   pix_expiration: string | null
   created_at: string
   order_items: OrderItem[]
+  can_create_account?: boolean
+  is_linked_to_session?: boolean
 }
 
 const STATUS_LABEL: Record<string, string> = {
@@ -108,7 +113,9 @@ export function OrderThankYouView({
       if (isPaid(data)) {
         paid = true
         stopPolling()
-        clearGuestOrderToken(orderId)
+        if (!data.can_create_account) {
+          clearGuestOrderToken(orderId)
+        }
       }
     }
 
@@ -120,7 +127,6 @@ export function OrderThankYouView({
     return () => {
       active = false
       stopPolling()
-      if (paid) clearGuestOrderToken(orderId)
     }
   }, [orderId])
 
@@ -161,6 +167,7 @@ export function OrderThankYouView({
   const isPaid = order.status === 'confirmed' || order.payment_status === 'paid'
   const isPending = order.status === 'pending' && !isPaid
   const isPixPending = isPending && order.payment_method === 'pix' && order.pix_qr_code
+  const showClaimForm = Boolean(order.can_create_account)
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 md:py-14">
@@ -284,6 +291,18 @@ export function OrderThankYouView({
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {showClaimForm && (
+          <OrderClaimAccountForm orderId={order.id} customerEmail={order.customer_email} />
+        )}
+
+        {order.is_linked_to_session && (
+          <div className="mt-6">
+            <Alert type="success">
+              Este pedido já está na sua conta. Você pode acompanhar em Meus pedidos.
+            </Alert>
           </div>
         )}
 

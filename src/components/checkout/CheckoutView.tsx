@@ -43,6 +43,7 @@ type Profile = {
   name: string
   email: string
   phone: string | null
+  cpf?: string | null
 }
 
 type Address = {
@@ -159,6 +160,9 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
         email: profileData.email ?? '',
         phone: profileData.phone ?? '',
       })
+      if (profileData.cpf) {
+        setCpf(formatCpfInput(profileData.cpf))
+      }
     }
 
     async function loadAddresses() {

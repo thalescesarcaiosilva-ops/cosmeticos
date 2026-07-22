@@ -17,12 +17,17 @@ export function LoginForm() {
   const redirect = searchParams.get('redirect') ?? '/conta'
   const urlError = searchParams.get('error')
   const resetOk = searchParams.get('reset')
+  const emailFromQuery = searchParams.get('email') ?? ''
 
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(emailFromQuery)
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [info, setInfo] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (emailFromQuery) setEmail(emailFromQuery)
+  }, [emailFromQuery])
 
   useEffect(() => {
     if (urlError === 'admin_required') {
@@ -54,6 +59,7 @@ export function LoginForm() {
       ok: boolean
       role?: 'admin' | 'customer'
       redirectTo?: string
+      claimedOrders?: number
     }>('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify({ ...parsed.data, redirect }),
@@ -63,6 +69,10 @@ export function LoginForm() {
     if (apiError) {
       setError(apiError)
       return
+    }
+
+    if (data?.claimedOrders && data.claimedOrders > 0) {
+      setInfo(`${data.claimedOrders} pedido(s) vinculado(s) à sua conta.`)
     }
 
     router.push(data?.redirectTo ?? redirect)

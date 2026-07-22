@@ -16,6 +16,15 @@ export const registerSchema = z.object({
   name: z.string().min(2, 'Nome muito curto').max(100),
   email: z.string().email('E-mail inválido').max(255),
   password: passwordSchema,
+  phone: z
+    .string()
+    .max(20)
+    .optional()
+    .transform((v) => {
+      if (!v) return undefined
+      const digits = v.replace(/\D/g, '')
+      return digits || undefined
+    }),
 })
 
 export const forgotPasswordSchema = z.object({
@@ -32,7 +41,19 @@ export const resetPasswordSchema = z
     path: ['confirmPassword'],
   })
 
+export const createAccountFromOrderSchema = z
+  .object({
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, 'Confirme a senha'),
+    guestToken: z.string().min(20).max(128),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'As senhas não coincidem',
+    path: ['confirmPassword'],
+  })
+
 export type LoginInput = z.infer<typeof loginSchema>
 export type RegisterInput = z.infer<typeof registerSchema>
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>
+export type CreateAccountFromOrderInput = z.infer<typeof createAccountFromOrderSchema>

@@ -28,7 +28,7 @@ type OrderAddress = {
 
 type Order = {
   id: string
-  user_id: string
+  user_id: string | null
   status: string
   payment_status?: string | null
   payment_method?: string | null
@@ -37,6 +37,10 @@ type Order = {
   shipping_price?: number | null
   shipping_method_name?: string | null
   notes?: string | null
+  customer_name?: string | null
+  customer_email?: string | null
+  customer_phone?: string | null
+  shipping_address?: OrderAddress | null
   created_at: string
   profiles?: { name?: string } | null
   addresses?: OrderAddress | null
@@ -61,10 +65,10 @@ const PAYMENT_LABELS: Record<string, string> = {
 
 function formatAddress(address: OrderAddress): string {
   return [
-    `${address.street}, ${address.number}`,
+    address.street && address.number ? `${address.street}, ${address.number}` : address.street,
     address.complement,
     address.neighborhood,
-    `${address.city}/${address.state}`,
+    address.city && address.state ? `${address.city}/${address.state}` : address.city || address.state,
     address.zip_code,
   ]
     .filter(Boolean)
@@ -163,6 +167,12 @@ export function OrdersManager() {
       <div className="space-y-3">
         {orders.map((order) => {
           const expanded = expandedId === order.id
+          const customerLabel =
+            order.customer_name?.trim() ||
+            order.profiles?.name?.trim() ||
+            order.customer_email?.trim() ||
+            'Cliente'
+          const deliveryAddress = order.addresses ?? order.shipping_address ?? null
           return (
             <Card key={order.id}>
               <div className="flex flex-wrap items-start justify-between gap-4">
@@ -174,11 +184,22 @@ export function OrdersManager() {
                         {PAYMENT_LABELS[order.payment_status] ?? order.payment_status}
                       </span>
                     )}
+                    {!order.user_id && (
+                      <span className="rounded-full bg-surface-muted px-2 py-0.5 text-xs text-text-secondary">
+                        Convidado
+                      </span>
+                    )}
                   </div>
                   <p className="mt-1 text-sm text-text-secondary">
-                    {order.profiles?.name ?? 'Cliente'} ·{' '}
+                    {customerLabel} ·{' '}
                     {new Date(order.created_at).toLocaleString('pt-BR')}
                   </p>
+                  {order.customer_email && (
+                    <p className="mt-0.5 text-xs text-text-muted">{order.customer_email}</p>
+                  )}
+                  {order.customer_phone && (
+                    <p className="mt-0.5 text-xs text-text-muted">{order.customer_phone}</p>
+                  )}
                   <p className="mt-1 text-sm font-semibold text-brand tabular-nums">
                     {formatCurrency(Number(order.total))}
                   </p>
@@ -216,10 +237,10 @@ export function OrdersManager() {
 
               {expanded && (
                 <div className="mt-4 space-y-4 border-t border-border pt-4 text-sm">
-                  {order.addresses && (
+                  {deliveryAddress && (
                     <div>
                       <p className="font-semibold text-text-primary">Endereço de entrega</p>
-                      <p className="mt-1 text-text-secondary">{formatAddress(order.addresses)}</p>
+                      <p className="mt-1 text-text-secondary">{formatAddress(deliveryAddress)}</p>
                     </div>
                   )}
 

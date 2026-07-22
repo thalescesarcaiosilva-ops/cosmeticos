@@ -155,6 +155,7 @@ export async function processPixCheckout(params: CheckoutInput) {
     addressId: params.addressId,
     customer: params.customer,
     shippingAddress: params.shippingAddress,
+    document: params.document,
   })
 
   const customer = buildCustomer(params.customer, params.shippingAddress, params.document)
@@ -235,6 +236,7 @@ export async function processCardCheckout(
     addressId: params.addressId,
     customer: params.customer,
     shippingAddress: params.shippingAddress,
+    document: params.document,
   })
 
   const customer = buildCustomer(params.customer, params.shippingAddress, params.document)

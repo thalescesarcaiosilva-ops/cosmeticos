@@ -107,7 +107,12 @@ export function aggregateProductSales(
 
   return Array.from(map.values())
     .map(({ orderIds, ...row }) => ({ ...row, orderCount: orderIds.size }))
-    .sort((a, b) => b.unitsSold - a.unitsSold || b.revenue - a.revenue)
+    .sort(
+      (a, b) =>
+        b.orderCount - a.orderCount ||
+        b.unitsSold - a.unitsSold ||
+        b.revenue - a.revenue
+    )
 }
 
 export type MethodStats = {
