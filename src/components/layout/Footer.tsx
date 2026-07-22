@@ -46,8 +46,8 @@ function FooterAssetImage({
 }) {
   const dimensions =
     size === 'payment'
-      ? { width: 56, height: 36, className: 'h-9 w-14 object-contain' }
-      : { width: 96, height: 40, className: 'h-10 w-auto max-w-[120px] object-contain' }
+    ? { width: 80, height: 50, className: 'h-12 w-20 object-contain' }
+    : { width: 140, height: 60, className: 'h-14 w-auto max-w-[160px] object-contain' }
 
   const img = (
     <Image

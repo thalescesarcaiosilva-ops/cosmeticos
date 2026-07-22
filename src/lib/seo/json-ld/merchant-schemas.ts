@@ -66,70 +66,32 @@ export function buildOfferShippingDetails(context: MerchantSeoContext) {
   }
 }
 
-type ShippingRegion = {
+type NationalShippingMode = {
   id: string
-  label: string
-  states: string[]
-  pac: { price: number; min: number; max: number }
-  sedex: { price: number; min: number; max: number }
+  price: number
+  min: number
+  max: number
+  freeAbove?: number
 }
 
-const SHIPPING_REGIONS: ShippingRegion[] = [
-  {
-    id: 'ba',
-    label: 'Bahia (capital e interior)',
-    states: ['BA'],
-    pac: { price: 18.9, min: 3, max: 5 },
-    sedex: { price: 29.9, min: 1, max: 3 },
-  },
-  {
-    id: 'ne',
-    label: 'Nordeste (demais estados)',
-    states: ['AL', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE'],
-    pac: { price: 24.9, min: 5, max: 8 },
-    sedex: { price: 36.9, min: 2, max: 4 },
-  },
-  {
-    id: 'se',
-    label: 'Sudeste',
-    states: ['ES', 'MG', 'RJ', 'SP'],
-    pac: { price: 29.9, min: 7, max: 10 },
-    sedex: { price: 44.9, min: 3, max: 5 },
-  },
-  {
-    id: 'sco',
-    label: 'Sul e Centro-Oeste',
-    states: ['DF', 'GO', 'MS', 'MT', 'PR', 'RS', 'SC'],
-    pac: { price: 32.9, min: 8, max: 12 },
-    sedex: { price: 49.9, min: 4, max: 6 },
-  },
-  {
-    id: 'no',
-    label: 'Norte',
-    states: ['AC', 'AP', 'AM', 'PA', 'RO', 'RR', 'TO'],
-    pac: { price: 39.9, min: 10, max: 15 },
-    sedex: { price: 59.9, min: 5, max: 8 },
-  },
-]
+/** Valores fixos nacionais — alinhados à Política de Frete da loja. */
+const NATIONAL_SHIPPING = {
+  origin: 'Salvador/BA (CEP 41706-690)',
+  freePacAbove: 250,
+  pac: { id: 'pac', price: 24.9, min: 5, max: 10 } satisfies NationalShippingMode,
+  sedex: { id: 'sedex', price: 39.9, min: 2, max: 5 } satisfies NationalShippingMode,
+}
 
-function regionDestination(states: string[]) {
-  if (states.length === 1) {
-    return {
-      '@type': 'DefinedRegion',
-      addressCountry: 'BR',
-      addressRegion: states[0],
-    }
-  }
-  return states.map((state) => ({
+function brazilDestination() {
+  return {
     '@type': 'DefinedRegion',
     addressCountry: 'BR',
-    addressRegion: state,
-  }))
+  }
 }
 
 function shippingCondition(
   id: string,
-  destination: ReturnType<typeof regionDestination>,
+  destination: ReturnType<typeof brazilDestination>,
   price: number,
   minDays: number,
   maxDays: number,
@@ -167,41 +129,25 @@ function shippingCondition(
 }
 
 export function buildShippingServiceJsonLd() {
-  const shippingConditions = SHIPPING_REGIONS.flatMap((region) => {
-    const destination = regionDestination(region.states)
-    return [
-      shippingCondition(
-        `${region.id}-pac-pago`,
-        destination,
-        region.pac.price,
-        region.pac.min,
-        region.pac.max,
-        { minValue: 0, maxValue: 249.99 }
-      ),
-      shippingCondition(
-        `${region.id}-pac-gratis`,
-        destination,
-        0,
-        region.pac.min,
-        region.pac.max,
-        { minValue: 250 }
-      ),
-      shippingCondition(
-        `${region.id}-sedex`,
-        destination,
-        region.sedex.price,
-        region.sedex.min,
-        region.sedex.max
-      ),
-    ]
-  })
+  const destination = brazilDestination()
+  const { pac, sedex, freePacAbove } = NATIONAL_SHIPPING
+
+  const shippingConditions = [
+    shippingCondition('br-pac-pago', destination, pac.price, pac.min, pac.max, {
+      minValue: 0,
+      maxValue: freePacAbove - 0.01,
+    }),
+    shippingCondition('br-pac-gratis', destination, 0, pac.min, pac.max, {
+      minValue: freePacAbove,
+    }),
+    shippingCondition('br-sedex', destination, sedex.price, sedex.min, sedex.max),
+  ]
 
   return {
     '@type': 'ShippingService',
     '@id': '#frete-batista-cosmeticos',
     name: 'Frete Batista Cosméticos - Correios (PAC e SEDEX)',
-    description:
-      'Envios via Correios (PAC e SEDEX) a partir de Salvador/BA (CEP 41706-690) para todo o Brasil. Frete grátis via PAC para pedidos a partir de R$ 250,00.',
+    description: `Envios via Correios (PAC e SEDEX) a partir de ${NATIONAL_SHIPPING.origin} para todo o Brasil. PAC R$ ${pac.price.toFixed(2).replace('.', ',')} (5 a 10 dias úteis). SEDEX R$ ${sedex.price.toFixed(2).replace('.', ',')} (2 a 5 dias úteis). Frete grátis via PAC para pedidos a partir de R$ ${freePacAbove},00.`,
     fulfillmentType: 'https://schema.org/FulfillmentTypeDelivery',
     handlingTime: {
       '@type': 'ServicePeriod',
