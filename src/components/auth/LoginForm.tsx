@@ -38,6 +38,26 @@ export function LoginForm() {
   }, [urlError])
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+    const hash = window.location.hash.replace(/^#/, '')
+    if (!hash) return
+    const params = new URLSearchParams(hash)
+    const errorCode = params.get('error_code')
+    const errorDescription = params.get('error_description')
+    if (errorCode === 'otp_expired' || params.get('error') === 'access_denied') {
+      setError(
+        'O link de redefinição expirou ou já foi usado. Isso pode acontecer se o e-mail foi aberto pelo antivírus. Peça um novo link em “Esqueci minha senha”.'
+      )
+      window.history.replaceState(null, '', window.location.pathname + window.location.search)
+      return
+    }
+    if (errorDescription) {
+      setError(decodeURIComponent(errorDescription.replace(/\+/g, ' ')))
+      window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    }
+  }, [])
+
+  useEffect(() => {
     if (resetOk === 'ok') {
       setInfo('Senha alterada com sucesso. Faça login com a nova senha.')
     }

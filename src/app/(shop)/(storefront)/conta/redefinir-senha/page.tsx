@@ -9,7 +9,7 @@ export default async function ResetPasswordPage() {
   } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/conta/esqueci-senha')
+    redirect('/conta/login?error=link_invalido')
   }
 
   return (

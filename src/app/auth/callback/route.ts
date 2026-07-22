@@ -5,10 +5,32 @@ import { createRouteHandlerClient } from '@/lib/supabase/route-handler'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = sanitizeRedirectPath(searchParams.get('next'))
+  const tokenHash = searchParams.get('token_hash')
+  const type = searchParams.get('type')
+  const errorParam = searchParams.get('error')
+  const errorCode = searchParams.get('error_code')
+  const next = sanitizeRedirectPath(searchParams.get('next') ?? '/conta/redefinir-senha')
+
+  // Erros vindos do verify do Supabase (query string)
+  if (errorParam || errorCode === 'otp_expired') {
+    const loginUrl = new URL('/conta/login', origin)
+    loginUrl.searchParams.set('error', 'link_invalido')
+    return NextResponse.redirect(loginUrl)
+  }
+
+  // Fluxo com token_hash (template novo) → página intermediária anti-prefetch
+  if (tokenHash && type) {
+    const recoverUrl = new URL('/auth/recuperar', origin)
+    recoverUrl.searchParams.set('token_hash', tokenHash)
+    recoverUrl.searchParams.set('type', type)
+    recoverUrl.searchParams.set('next', next)
+    return NextResponse.redirect(recoverUrl)
+  }
 
   if (!code) {
-    return NextResponse.redirect(new URL('/conta/login', origin))
+    const loginUrl = new URL('/conta/login', origin)
+    loginUrl.searchParams.set('error', 'link_invalido')
+    return NextResponse.redirect(loginUrl)
   }
 
   let response = NextResponse.redirect(new URL(next, origin))
