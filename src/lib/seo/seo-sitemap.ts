@@ -106,6 +106,12 @@ export function getStaticSitemapUrls(now = new Date()): SitemapUrl[] {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    {
+      path: '/paginas/rastreio',
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
   ]
 }
 

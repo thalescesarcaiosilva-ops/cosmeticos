@@ -60,6 +60,7 @@ export async function getTrackingByCode(
       'id, order_id, sequence, event_type, city, state, message, scheduled_at, occurred_at, is_manual, created_at'
     )
     .eq('order_id', order.id)
+    .not('occurred_at', 'is', null)
     .order('sequence', { ascending: true })
 
   const address =

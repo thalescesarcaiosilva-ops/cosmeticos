@@ -1,27 +1,15 @@
-import type { Metadata } from 'next'
-import { Suspense } from 'react'
-import { TrackingPageView } from '@/components/tracking/TrackingPageView'
-import { buildPageMetadata } from '@/lib/seo/metadata'
+import { redirect } from 'next/navigation'
 
-export async function generateMetadata(): Promise<Metadata> {
-  return buildPageMetadata({
-    title: 'Rastreio de pedido',
-    description:
-      'Acompanhe o status e o caminho do seu pedido com o código de rastreio da Batista Cosméticos.',
-    path: '/rastreio',
-  })
+type PageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }
 
-export default function RastreioPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="mx-auto max-w-2xl px-4 py-14 text-center text-sm text-text-secondary">
-          Carregando rastreio…
-        </div>
-      }
-    >
-      <TrackingPageView />
-    </Suspense>
-  )
+export default async function LegacyRastreioRedirect({ searchParams }: PageProps) {
+  const params = (await searchParams) ?? {}
+  const codigoRaw = params.codigo ?? params.code
+  const codigo = Array.isArray(codigoRaw) ? codigoRaw[0] : codigoRaw
+  const query = codigo?.trim()
+    ? `?codigo=${encodeURIComponent(codigo.trim())}`
+    : ''
+  redirect(`/paginas/rastreio${query}`)
 }

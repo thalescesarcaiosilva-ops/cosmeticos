@@ -42,7 +42,7 @@ function resolveLogoUrl(logoUrl?: string | null): string {
 
 function buildHtml(input: OrderShippedEmailInput): string {
   const siteUrl = getSiteUrl() ?? 'https://www.batistacosmeticos.com.br'
-  const trackingUrl = `${siteUrl}/rastreio?codigo=${encodeURIComponent(input.trackingCode)}`
+  const trackingUrl = `${siteUrl}/paginas/rastreio?codigo=${encodeURIComponent(input.trackingCode)}`
   const ordersUrl = `${siteUrl}/conta/pedidos`
   const orderLabel = shortOrderId(input.orderId)
   const customerName = input.customerName?.trim() || 'Cliente'
@@ -143,7 +143,7 @@ function buildText(input: OrderShippedEmailInput): string {
     `Seu pedido #${shortOrderId(input.orderId)} foi enviado.`,
     `Código de rastreio: ${input.trackingCode}`,
     '',
-    `Acompanhe em: ${siteUrl}/rastreio?codigo=${input.trackingCode}`,
+    `Acompanhe em: ${siteUrl}/paginas/rastreio?codigo=${input.trackingCode}`,
     `Ou em: ${siteUrl}/conta/pedidos`,
     '',
     'Atendimento: atendimento@batistacosmeticos.com.br',

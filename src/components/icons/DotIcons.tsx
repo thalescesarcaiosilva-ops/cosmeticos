@@ -7,6 +7,7 @@ import {
   HelpCircle,
   Menu,
   Minus,
+  Package,
   Phone,
   Plus,
   Search,
@@ -54,6 +55,10 @@ export function IconMenu({ className }: IconProps) {
 
 export function IconPhone({ className }: IconProps) {
   return <Phone className={className} aria-hidden />
+}
+
+export function IconPackage({ className }: IconProps) {
+  return <Package className={className} aria-hidden />
 }
 
 export function IconWhatsapp({ className }: IconProps) {

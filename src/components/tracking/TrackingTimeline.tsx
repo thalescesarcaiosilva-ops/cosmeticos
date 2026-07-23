@@ -25,16 +25,15 @@ function formatDateTime(iso: string) {
 export function TrackingTimeline({
   events,
   trackingCode,
-  compact = false,
+  /** Se true, mostra também eventos futuros (uso no admin). */
+  showUpcoming = false,
 }: {
   events: TrackingTimelineEvent[]
   trackingCode?: string | null
-  compact?: boolean
+  showUpcoming?: boolean
 }) {
   const sorted = [...events].sort((a, b) => a.sequence - b.sequence)
-  const visible = compact
-    ? sorted.filter((event) => event.occurredAt)
-    : sorted
+  const visible = showUpcoming ? sorted : sorted.filter((event) => Boolean(event.occurredAt))
 
   if (!visible.length) {
     return (
@@ -55,13 +54,16 @@ export function TrackingTimeline({
         </p>
       )}
       <ol className="relative space-y-0 border-l border-border pl-5">
-        {visible.map((event, index) => {
+        {visible.map((event) => {
           const done = Boolean(event.occurredAt)
           const label =
             TRACKING_EVENT_LABELS[event.eventType as TrackingEventType] ??
             event.eventType
           return (
-            <li key={event.id ?? `${event.sequence}-${event.eventType}`} className="relative pb-5 last:pb-0">
+            <li
+              key={event.id ?? `${event.sequence}-${event.eventType}`}
+              className="relative pb-5 last:pb-0"
+            >
               <span
                 aria-hidden
                 className={`absolute top-1 -left-[1.4rem] size-2.5 rounded-full ${
@@ -69,10 +71,16 @@ export function TrackingTimeline({
                 }`}
               />
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className={`text-sm font-semibold ${done ? 'text-text-primary' : 'text-text-muted'}`}>
+                <p
+                  className={`text-sm font-semibold ${
+                    done ? 'text-text-primary' : 'text-text-muted'
+                  }`}
+                >
                   {label}
                   {event.isManual ? (
-                    <span className="ml-2 text-[11px] font-medium text-text-muted">(manual)</span>
+                    <span className="ml-2 text-[11px] font-medium text-text-muted">
+                      (manual)
+                    </span>
                   ) : null}
                 </p>
                 <time className="text-xs text-text-muted">
@@ -83,14 +91,15 @@ export function TrackingTimeline({
                       : null}
                 </time>
               </div>
-              <p className={`mt-1 text-sm ${done ? 'text-text-secondary' : 'text-text-muted'}`}>
+              <p
+                className={`mt-1 text-sm ${
+                  done ? 'text-text-secondary' : 'text-text-muted'
+                }`}
+              >
                 {event.message}
               </p>
               <p className="mt-0.5 text-xs text-text-muted">
                 {event.city}/{event.state}
-                {!done && index === visible.findIndex((item) => !item.occurredAt)
-                  ? ' · Próxima atualização'
-                  : ''}
               </p>
             </li>
           )

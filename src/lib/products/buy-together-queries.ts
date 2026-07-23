@@ -85,10 +85,11 @@ export async function getBuyTogetherBundles(
     Math.max(limit * 4, 12),
     defaultDiscountPercent
   )
-  if (curated !== null) {
+  if (curated !== null && curated.length > 0) {
     return filterBundlesByMaxTotal(primaryPrice, curated, maxBundleTotal).slice(0, limit)
   }
 
+  // Sem pares curados (ou tabela vazia): usa produtos relacionados da mesma categoria
   const related = await getRelatedProducts(productId, categoryIds, Math.max(limit * 4, 12), {
     inStockOnly: true,
   })

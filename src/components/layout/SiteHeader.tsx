@@ -8,6 +8,7 @@ import {
   IconHeart,
   IconHelp,
   IconMenu,
+  IconPackage,
   IconPhone,
 } from '@/components/icons/DotIcons'
 import type {
@@ -101,6 +102,24 @@ export function SiteHeader({
                   </span>
                 </a>
               )}
+
+              <Link
+                href="/paginas/rastreio"
+                className={`hidden items-center gap-1.5 text-sm font-bold transition-opacity duration-[400ms] hover:opacity-80 lg:flex ${
+                  overlay ? 'text-white' : 'text-text-primary'
+                }`}
+              >
+                <IconPackage className="size-5 shrink-0" />
+                <span>Rastreie seu Pedido</span>
+              </Link>
+
+              <Link
+                href="/paginas/rastreio"
+                className="header-action flex size-8 items-center justify-center md:size-9 lg:hidden"
+                aria-label="Rastreie seu Pedido"
+              >
+                <IconPackage className="size-5 md:size-6" />
+              </Link>
 
               {hasHelp && (
                 <Link

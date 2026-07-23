@@ -334,7 +334,7 @@ export function OrdersManager() {
                       <p className="font-semibold text-text-primary">Rastreio</p>
                       {order.tracking_code && (
                         <Link
-                          href={`/rastreio?codigo=${encodeURIComponent(order.tracking_code)}`}
+                          href={`/paginas/rastreio?codigo=${encodeURIComponent(order.tracking_code)}`}
                           className="text-xs font-semibold text-brand hover:underline"
                           target="_blank"
                         >
@@ -345,6 +345,7 @@ export function OrdersManager() {
 
                     <div className="mt-3">
                       <TrackingTimeline
+                        showUpcoming
                         trackingCode={order.tracking_code}
                         events={trackingEvents.map((event) => ({
                           id: event.id,

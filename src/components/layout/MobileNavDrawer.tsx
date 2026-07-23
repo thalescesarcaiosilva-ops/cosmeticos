@@ -8,6 +8,7 @@ import {
   IconChevronLeft,
   IconCustomer,
   IconHelp,
+  IconPackage,
 } from '@/components/icons/DotIcons'
 import type { ContactPageLink, MenuCategory } from '@/types/layout'
 
@@ -72,7 +73,15 @@ export function MobileNavDrawer({
           >
             <IconChevronLeft className="size-7" />
           </button>
-          <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
+          <div className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-2">
+            <Link
+              href="/paginas/rastreio"
+              className="flex min-w-0 items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-3 py-2 text-xs font-bold text-brand transition-opacity duration-[400ms] hover:opacity-95 sm:px-4 sm:text-sm"
+              onClick={onClose}
+            >
+              <IconPackage className="size-4 shrink-0 sm:size-5" />
+              <span className="truncate">Rastreie seu Pedido</span>
+            </Link>
             <Link
               href={contactPage.href}
               className="flex min-w-0 items-center gap-1.5 rounded-full border border-brand/20 bg-brand/5 px-3 py-2 text-xs font-bold text-brand transition-opacity duration-[400ms] hover:opacity-95 sm:px-4 sm:text-sm"

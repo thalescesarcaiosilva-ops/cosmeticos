@@ -231,7 +231,7 @@ function OrderCard({ order }: { order: Order }) {
         <div className="mt-5 flex flex-wrap justify-end gap-2">
           {order.tracking_code && (
             <Link
-              href={`/rastreio?codigo=${encodeURIComponent(order.tracking_code)}`}
+              href={`/paginas/rastreio?codigo=${encodeURIComponent(order.tracking_code)}`}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-2.5 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-muted"
             >
               <Truck className="size-4" aria-hidden />
