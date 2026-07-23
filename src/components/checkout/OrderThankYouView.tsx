@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { CheckCircle2, CreditCard, Package, ReceiptText } from 'lucide-react'
 import { CheckoutPixPanel } from '@/components/checkout/CheckoutPixPanel'
 import { OrderClaimAccountForm } from '@/components/checkout/OrderClaimAccountForm'
+import { PaymentProofUploadForm } from '@/components/checkout/PaymentProofUploadForm'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { fetchApi } from '@/lib/api/fetch-api'
@@ -130,17 +131,19 @@ export function OrderThankYouView({
     }
   }, [orderId])
 
-  async function refreshPaymentStatus() {
+  async function refreshPaymentStatus(): Promise<boolean> {
     setPolling(true)
-    await fetchApi(`/api/checkout/orders/${orderId}/payment-status${guestOrderQuery(orderId)}`, {
-      headers: guestOrderHeaders(orderId),
-    })
+    const { data: statusData } = await fetchApi<{ status: string }>(
+      `/api/checkout/orders/${orderId}/payment-status${guestOrderQuery(orderId)}`,
+      { headers: guestOrderHeaders(orderId) }
+    )
     const { data } = await fetchApi<OrderDetail>(
       `/api/checkout/orders/${orderId}${guestOrderQuery(orderId)}`,
       { headers: guestOrderHeaders(orderId) }
     )
     if (data) setOrder(data)
     setPolling(false)
+    return statusData?.status === 'paid' || Boolean(data && (data.status === 'confirmed' || data.payment_status === 'paid'))
   }
 
   if (loading && !order) {
@@ -200,25 +203,33 @@ export function OrderThankYouView({
           </div>
         </div>
 
-        {isPending && !isPixPending && (
-          <div className="mt-6">
-            <Alert type="info">
-              Se você acabou de pagar, a confirmação pode levar alguns instantes. Esta página
-              atualiza automaticamente.
-            </Alert>
-          </div>
-        )}
-
         {isPixPending && (
           <div className="mt-6">
             <CheckoutPixPanel
+              orderId={order.id}
               total={order.total}
               discountAmount={Number(order.discount_amount ?? 0)}
               qrCode={order.pix_qr_code}
               qrImage={null}
               expiresAt={order.pix_expiration}
               polling={polling}
+              proofSource="thank_you"
+              useGuestAccess
               onRefresh={refreshPaymentStatus}
+            />
+          </div>
+        )}
+
+        {isPending && !isPixPending && (
+          <div className="mt-6 space-y-3">
+            <Alert type="info">
+              Se você já pagou e o status não atualizou, envie o comprovante abaixo. Também é
+              possível fazer isso depois em Minha conta → Pedidos.
+            </Alert>
+            <PaymentProofUploadForm
+              orderId={order.id}
+              source="thank_you"
+              useGuestAccess
             />
           </div>
         )}

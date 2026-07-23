@@ -32,8 +32,12 @@ export type CreatePixTransactionPayload = {
   shipping?: { fee: number; address: PayoutCustomer['address'] }
   items: PayoutTransactionItem[]
   postbackUrl: string
+  /** String JSON de compliance (provider, user_email, order_id, checkout_url, shop_url). */
   metadata: string
+  /** Identificador estável do pedido na loja (priorizado no webhook). */
   externalRef: string
+  /** IP real do comprador — fora do metadata. Omitir se indisponível. */
+  ip?: string
   traceable?: boolean
   pix: { expiresInDays: number }
 }
@@ -47,8 +51,12 @@ export type CreateCardTransactionPayload = {
   shipping?: { fee: number; address: PayoutCustomer['address'] }
   items: PayoutTransactionItem[]
   postbackUrl: string
+  /** String JSON de compliance (provider, user_email, order_id, checkout_url, shop_url). */
   metadata: string
+  /** Identificador estável do pedido na loja (priorizado no webhook). */
   externalRef: string
+  /** IP real do comprador — fora do metadata. Omitir se indisponível. */
+  ip?: string
   traceable?: boolean
 }
 

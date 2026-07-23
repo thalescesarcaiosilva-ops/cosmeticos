@@ -62,11 +62,24 @@ type Order = {
   shipped_at?: string | null
   delivered_at?: string | null
   tracking_simulation_paused?: boolean | null
+  payment_proof_pending?: boolean | null
   created_at: string
   profiles?: { name?: string } | null
   addresses?: OrderAddress | null
   order_items?: OrderItem[]
   tracking_events?: TrackingEvent[]
+}
+
+type PaymentProof = {
+  id: string
+  order_id: string
+  message: string | null
+  mime_type: string
+  file_name: string
+  source: string
+  status: string
+  created_at: string
+  signedUrl?: string | null
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -106,6 +119,8 @@ export function OrdersManager() {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [manualCity, setManualCity] = useState('')
   const [manualState, setManualState] = useState('')
+  const [proofsByOrder, setProofsByOrder] = useState<Record<string, PaymentProof[]>>({})
+  const [proofFilter, setProofFilter] = useState<'all' | 'with_proof'>('all')
 
   const load = useCallback(async () => {
     const query = statusFilter === 'all' ? '' : `?status=${statusFilter}`
@@ -121,13 +136,63 @@ export function OrdersManager() {
     load()
   }, [load])
 
+  const visibleOrders = useMemo(() => {
+    if (proofFilter === 'with_proof') {
+      return orders.filter((o) => o.payment_proof_pending)
+    }
+    return orders
+  }, [orders, proofFilter])
+
   const totals = useMemo(() => {
-    const pending = orders.filter((o) => o.status === 'pending').length
-    const revenue = orders
+    const pending = visibleOrders.filter((o) => o.status === 'pending').length
+    const withProof = orders.filter((o) => o.payment_proof_pending).length
+    const revenue = visibleOrders
       .filter((o) => ['confirmed', 'shipped', 'delivered'].includes(o.status))
       .reduce((sum, o) => sum + Number(o.total), 0)
-    return { pending, revenue, count: orders.length }
-  }, [orders])
+    return { pending, revenue, count: visibleOrders.length, withProof }
+  }, [visibleOrders, orders])
+
+  async function loadProofs(orderId: string) {
+    const { data, error: apiError } = await fetchApi<PaymentProof[]>(
+      `/api/admin/orders/payment-proofs?orderId=${orderId}`
+    )
+    if (apiError) {
+      setError(apiError)
+      return
+    }
+    setProofsByOrder((prev) => ({ ...prev, [orderId]: data ?? [] }))
+  }
+
+  async function toggleExpanded(orderId: string) {
+    const next = expandedId === orderId ? null : orderId
+    setExpandedId(next)
+    if (next) {
+      await loadProofs(next)
+    }
+  }
+
+  async function reviewProof(proofId: string, action: 'approve' | 'reject') {
+    setLoadingId(proofId)
+    setMessage(null)
+    const { error: apiError, message: okMessage } = await fetchApi(
+      '/api/admin/orders/payment-proofs',
+      {
+        method: 'PATCH',
+        body: JSON.stringify({ proofId, action }),
+      }
+    )
+    setLoadingId(null)
+
+    if (apiError) {
+      setError(apiError)
+      return
+    }
+
+    setError(null)
+    setMessage(okMessage ?? 'Comprovante atualizado')
+    await load()
+    if (expandedId) await loadProofs(expandedId)
+  }
 
   async function updateStatus(id: string, status: string) {
     const parsed = orderStatusUpdateSchema.safeParse({ id, status })
@@ -187,12 +252,15 @@ export function OrdersManager() {
       {error && <Alert type="error">{error}</Alert>}
       {message && <Alert type="success">{message}</Alert>}
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-4">
         <Card title="Nesta lista">
           <p className="text-2xl font-bold text-[#3d1654]">{totals.count}</p>
         </Card>
         <Card title="Pendentes">
           <p className="text-2xl font-bold text-badge-discount">{totals.pending}</p>
+        </Card>
+        <Card title="Com comprovante">
+          <p className="text-2xl font-bold text-brand">{totals.withProof}</p>
         </Card>
         <Card title="Total (lista)">
           <p className="text-2xl font-bold text-success">{formatCurrency(totals.revenue)}</p>
@@ -216,13 +284,22 @@ export function OrdersManager() {
             </option>
           ))}
         </select>
+        <select
+          value={proofFilter}
+          onChange={(e) => setProofFilter(e.target.value as 'all' | 'with_proof')}
+          className="rounded-md border border-border px-3 py-2 text-sm"
+          aria-label="Filtrar comprovantes"
+        >
+          <option value="all">Todos os pedidos</option>
+          <option value="with_proof">Só com comprovante</option>
+        </select>
         <Button type="button" variant="secondary" onClick={load}>
           Atualizar
         </Button>
       </div>
 
       <div className="space-y-3">
-        {orders.map((order) => {
+        {visibleOrders.map((order) => {
           const expanded = expandedId === order.id
           const customerLabel =
             order.customer_name?.trim() ||
@@ -231,12 +308,18 @@ export function OrdersManager() {
             'Cliente'
           const deliveryAddress = order.addresses ?? order.shipping_address ?? null
           const trackingEvents = order.tracking_events ?? []
+          const proofs = proofsByOrder[order.id] ?? []
           return (
             <Card key={order.id}>
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="font-mono font-semibold">#{order.id.slice(0, 8).toUpperCase()}</p>
+                    {order.payment_proof_pending && (
+                      <span className="rounded-full bg-claret px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-text-on-dark">
+                        COMPROVANTE
+                      </span>
+                    )}
                     {order.payment_status && (
                       <span className="rounded-full bg-surface-muted px-2 py-0.5 text-xs text-text-secondary">
                         {PAYMENT_LABELS[order.payment_status] ?? order.payment_status}
@@ -295,7 +378,7 @@ export function OrdersManager() {
                   <Button
                     type="button"
                     variant="ghost"
-                    onClick={() => setExpandedId(expanded ? null : order.id)}
+                    onClick={() => toggleExpanded(order.id)}
                   >
                     {expanded ? 'Ocultar detalhes' : 'Ver detalhes'}
                   </Button>
@@ -304,6 +387,74 @@ export function OrdersManager() {
 
               {expanded && (
                 <div className="mt-4 space-y-4 border-t border-border pt-4 text-sm">
+                  {proofs.length > 0 && (
+                    <div className="rounded-xl border border-claret/30 bg-cream/60 p-4">
+                      <p className="font-semibold text-text-primary">Comprovantes enviados</p>
+                      <ul className="mt-3 space-y-4">
+                        {proofs.map((proof) => (
+                          <li key={proof.id} className="rounded-lg border border-border bg-surface p-3">
+                            <div className="flex flex-wrap items-start justify-between gap-2">
+                              <div>
+                                <p className="text-xs text-text-muted">
+                                  {new Date(proof.created_at).toLocaleString('pt-BR')} · origem{' '}
+                                  {proof.source} · {proof.status}
+                                </p>
+                                <p className="mt-1 text-sm font-medium text-text-primary">
+                                  {proof.file_name}
+                                </p>
+                                {proof.message && (
+                                  <p className="mt-1 text-sm text-text-secondary whitespace-pre-wrap">
+                                    {proof.message}
+                                  </p>
+                                )}
+                              </div>
+                              {proof.status === 'pending_review' && (
+                                <div className="flex flex-wrap gap-2">
+                                  <Button
+                                    type="button"
+                                    disabled={loadingId === proof.id}
+                                    onClick={() => reviewProof(proof.id, 'approve')}
+                                  >
+                                    Confirmar pago
+                                  </Button>
+                                  <Button
+                                    type="button"
+                                    variant="secondary"
+                                    disabled={loadingId === proof.id}
+                                    onClick={() => reviewProof(proof.id, 'reject')}
+                                  >
+                                    Rejeitar
+                                  </Button>
+                                </div>
+                              )}
+                            </div>
+                            {proof.signedUrl && (
+                              <div className="mt-3">
+                                {proof.mime_type.startsWith('image/') ? (
+                                  // eslint-disable-next-line @next/next/no-img-element
+                                  <img
+                                    src={proof.signedUrl}
+                                    alt={`Comprovante ${proof.file_name}`}
+                                    className="max-h-80 rounded-md border border-border object-contain"
+                                  />
+                                ) : (
+                                  <a
+                                    href={proof.signedUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm font-medium text-brand hover:underline"
+                                  >
+                                    Abrir PDF do comprovante →
+                                  </a>
+                                )}
+                              </div>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
                   {deliveryAddress && (
                     <div>
                       <p className="font-semibold text-text-primary">Endereço de entrega</p>
@@ -485,7 +636,7 @@ export function OrdersManager() {
             </Card>
           )
         })}
-        {orders.length === 0 && (
+        {visibleOrders.length === 0 && (
           <Card>
             <p className="text-text-secondary">Nenhum pedido encontrado.</p>
           </Card>

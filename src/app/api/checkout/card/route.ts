@@ -3,6 +3,7 @@ import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { getOptionalSessionUserId } from '@/lib/checkout/order-access'
 import { CheckoutError } from '@/lib/checkout/create-order'
 import { processCardCheckout } from '@/lib/checkout/process-payment'
+import { getBuyerIpFromRequest } from '@/lib/payout/compliance-metadata'
 import { checkoutCardSchema } from '@/schemas/checkout-payment-schema'
 
 export async function POST(request: Request) {
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
   } = parsed.data
 
   const userId = await getOptionalSessionUserId()
+  const buyerIp = getBuyerIpFromRequest(request)
 
   try {
     const result = await processCardCheckout({
@@ -42,6 +44,7 @@ export async function POST(request: Request) {
       userId,
       cardHash: card_hash,
       installments,
+      buyerIp,
     })
 
     revalidatePath('/conta/pedidos')

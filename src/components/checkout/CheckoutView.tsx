@@ -852,13 +852,25 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
                 {pixResult && (
                   <CheckoutPixPanel
+                    orderId={pixResult.orderId}
                     total={pixResult.total}
                     discountAmount={pixResult.discountAmount}
                     qrCode={pixResult.qrCode}
                     qrImage={pixResult.qrImage}
                     expiresAt={pixResult.expiresAt}
                     polling={pixPolling}
-                    onRefresh={() => pollPaymentStatus(pixResult.orderId)}
+                    proofSource="checkout"
+                    useGuestAccess
+                    onRefresh={async () => {
+                      const paid = await pollPaymentStatus(pixResult.orderId)
+                      if (paid) {
+                        clearCart()
+                        router.push(
+                          `/pedido/${pixResult.orderId}/obrigado${guestOrderQuery(pixResult.orderId)}`
+                        )
+                      }
+                      return paid
+                    }}
                   />
                 )}
 

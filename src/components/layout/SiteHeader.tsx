@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
-  IconCart,
   IconCustomer,
   IconHeart,
   IconHelp,
@@ -19,7 +18,6 @@ import type {
   SocialLink,
   StoreLogo,
 } from '@/types/layout'
-import { useCart } from '@/providers/CartProvider'
 import { useFavorites } from '@/providers/FavoritesProvider'
 import { MobileNavDrawer } from './MobileNavDrawer'
 import { SearchBar } from './SearchBar'
@@ -47,7 +45,6 @@ export function SiteHeader({
   overlay = false,
 }: SiteHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { itemCount: cartItemCount, hydrated } = useCart()
   const { favoriteCount, hydrated: favoritesHydrated } = useFavorites()
   const hasPhone = Boolean(phone.display.trim() && phone.href.trim())
   const hasHelp = Boolean(helpLink.label.trim() && helpLink.href.trim())
@@ -166,22 +163,6 @@ export function SiteHeader({
                 >
                   <IconCustomer className="size-5 md:size-6" />
                 </Link>
-              </div>
-
-              <div className="mycart relative">
-                <Link
-                  href="/carrinho"
-                  className="mycart__link header-action flex size-8 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80 md:size-9"
-                  title="Meu Carrinho"
-                  aria-label={`Meu Carrinho${cartItemCount > 0 ? `, ${cartItemCount} itens` : ''}`}
-                >
-                  <IconCart className="size-5 md:size-6" />
-                </Link>
-                {hydrated && cartItemCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brand px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
-                    {cartItemCount > 9 ? '9+' : cartItemCount}
-                  </span>
-                )}
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { getOptionalSessionUserId } from '@/lib/checkout/order-access'
 import { CheckoutError } from '@/lib/checkout/create-order'
 import { processPixCheckout } from '@/lib/checkout/process-payment'
+import { getBuyerIpFromRequest } from '@/lib/payout/compliance-metadata'
 import { checkoutPixSchema } from '@/schemas/checkout-payment-schema'
 
 export async function POST(request: Request) {
@@ -21,6 +22,7 @@ export async function POST(request: Request) {
   const { shipping_method_id, items, bundle_pairs, document, customer, shipping_address } =
     parsed.data
   const userId = await getOptionalSessionUserId()
+  const buyerIp = getBuyerIpFromRequest(request)
 
   try {
     const result = await processPixCheckout({
@@ -31,6 +33,7 @@ export async function POST(request: Request) {
       customer,
       shippingAddress: shipping_address,
       userId,
+      buyerIp,
     })
 
     revalidatePath('/conta/pedidos')

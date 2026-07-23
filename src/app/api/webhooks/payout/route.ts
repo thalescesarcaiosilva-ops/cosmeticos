@@ -9,6 +9,7 @@ import {
   findOrderByPayoutTransactionId,
   recordWebhookEvent,
 } from '@/lib/checkout/create-order'
+import { parseOrderIdFromPayoutMetadata } from '@/lib/payout/compliance-metadata'
 import { isFailedStatus, isPaidStatus } from '@/lib/payout/pix-qrcode'
 
 type PayoutPostback = {
@@ -92,9 +93,11 @@ function resolveOrderId(params: {
   const uuidPattern =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
+  // Prioriza referência externa estável do pedido
   if (params.externalRef && uuidPattern.test(params.externalRef)) return params.externalRef
-  if (params.metadata && uuidPattern.test(params.metadata)) return params.metadata
-  return null
+
+  // Fallback: order_id dentro do JSON de compliance, ou UUID legado no metadata
+  return parseOrderIdFromPayoutMetadata(params.metadata)
 }
 
 export async function POST(request: Request) {

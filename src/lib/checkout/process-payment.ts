@@ -9,6 +9,7 @@ import {
   type CreatePixTransactionPayload,
   type PayoutCustomer,
 } from '@/lib/payout/client'
+import { buildPayoutComplianceMetadata } from '@/lib/payout/compliance-metadata'
 import { isPaidStatus, resolvePixDisplay } from '@/lib/payout/pix-qrcode'
 import { getCheckoutPaymentSettings } from '@/lib/payment/queries'
 import { getSiteUrl } from '@/lib/seo/site-url'
@@ -39,6 +40,8 @@ type CheckoutInput = {
   shippingAddress: CheckoutShippingAddressInput
   userId?: string | null
   addressId?: string | null
+  /** IP real do comprador (fora do metadata). Omitido se null. */
+  buyerIp?: string | null
 }
 
 function buildCustomer(
@@ -176,8 +179,13 @@ export async function processPixCheckout(params: CheckoutInput) {
     },
     items,
     postbackUrl: `${siteUrl}/api/webhooks/payout`,
-    metadata: order.id,
+    metadata: buildPayoutComplianceMetadata({
+      userEmail: params.customer.email,
+      orderId: order.id,
+      shopUrl: siteUrl,
+    }),
     externalRef: order.id,
+    ...(params.buyerIp ? { ip: params.buyerIp } : {}),
     traceable: true,
     pix: { expiresInDays: 1 },
   }
@@ -259,8 +267,13 @@ export async function processCardCheckout(
     },
     items,
     postbackUrl: `${siteUrl}/api/webhooks/payout`,
-    metadata: order.id,
+    metadata: buildPayoutComplianceMetadata({
+      userEmail: params.customer.email,
+      orderId: order.id,
+      shopUrl: siteUrl,
+    }),
     externalRef: order.id,
+    ...(params.buyerIp ? { ip: params.buyerIp } : {}),
     traceable: true,
   }
 

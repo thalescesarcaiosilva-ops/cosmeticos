@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ChevronDown, MapPin, Package, ReceiptText, Truck } from 'lucide-react'
+import { PaymentProofUploadForm } from '@/components/checkout/PaymentProofUploadForm'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -56,6 +57,7 @@ type Order = {
   notes?: string | null
   tracking_code?: string | null
   carrier?: string | null
+  payment_proof_pending?: boolean | null
   created_at: string
   addresses?: OrderAddress | null
   order_items: OrderItem[]
@@ -176,12 +178,16 @@ function OrderStatusStepper({ status }: { status: string }) {
 
 function OrderCard({ order }: { order: Order }) {
   const [open, setOpen] = useState(false)
+  const [showReport, setShowReport] = useState(false)
   const deliveryAddress = order.addresses ?? order.shipping_address ?? null
   const statusLabel = STATUS_LABELS[order.status] ?? order.status
   const paymentLabel = order.payment_method
     ? (PAYMENT_METHOD_LABELS[order.payment_method] ?? order.payment_method)
     : 'Não informado'
   const trackingEvents = order.tracking_events ?? []
+  const canReportPaymentIssue =
+    order.status === 'pending' ||
+    (order.status === 'cancelled' && order.payment_status !== 'paid')
 
   return (
     <Card className="overflow-hidden !p-0">
@@ -238,6 +244,19 @@ function OrderCard({ order }: { order: Order }) {
               Rastrear
             </Link>
           )}
+          {canReportPaymentIssue && (
+            <Button
+              type="button"
+              variant="secondary"
+              className="gap-2"
+              onClick={() => {
+                setOpen(true)
+                setShowReport(true)
+              }}
+            >
+              Relatar problema / comprovante
+            </Button>
+          )}
           <Button
             type="button"
             variant="secondary"
@@ -256,6 +275,36 @@ function OrderCard({ order }: { order: Order }) {
 
       {open && (
         <div className="space-y-5 border-t border-border bg-surface-muted/30 px-5 py-5 md:px-6">
+          {canReportPaymentIssue && showReport && (
+            <section className="space-y-3">
+              <Alert type="info">
+                Use este formulário se você pagou o Pix e o pedido ainda aparece como pendente.
+                Envie o comprovante e descreva o que aconteceu.
+              </Alert>
+              {order.payment_proof_pending && (
+                <Alert type="success">
+                  Já recebemos um comprovante deste pedido. Nossa equipe está analisando.
+                </Alert>
+              )}
+              <PaymentProofUploadForm
+                orderId={order.id}
+                source="account"
+                useGuestAccess={false}
+                onSubmitted={() => setShowReport(false)}
+              />
+            </section>
+          )}
+
+          {canReportPaymentIssue && !showReport && (
+            <button
+              type="button"
+              onClick={() => setShowReport(true)}
+              className="text-sm font-medium text-brand underline-offset-2 hover:underline"
+            >
+              Paguei e o status não atualizou? Enviar comprovante
+            </button>
+          )}
+
           {(order.tracking_code || trackingEvents.length > 0) && (
             <section>
               <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">

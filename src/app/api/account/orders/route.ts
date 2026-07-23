@@ -3,7 +3,7 @@ import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { getSessionUser } from '@/lib/auth/verify-session'
 
 const ORDER_COLUMNS =
-  'id, status, payment_status, payment_method, total, subtotal, shipping_price, discount_amount, shipping_method_name, address_id, shipping_address, notes, tracking_code, carrier, shipped_at, delivered_at, created_at, updated_at'
+  'id, status, payment_status, payment_method, total, subtotal, shipping_price, discount_amount, shipping_method_name, address_id, shipping_address, notes, tracking_code, carrier, shipped_at, delivered_at, payment_proof_pending, created_at, updated_at'
 
 const ORDER_ITEM_COLUMNS =
   'id, product_id, quantity, unit_price, subtotal, products(name, slug)'

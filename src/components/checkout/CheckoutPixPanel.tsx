@@ -2,21 +2,28 @@
 
 import { Copy, Check } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { PaymentProofUploadForm } from '@/components/checkout/PaymentProofUploadForm'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { formatCurrency } from '@/lib/products/format'
+import type { PaymentProofSource } from '@/schemas/payment-proof-schema'
 
 type CheckoutPixPanelProps = {
+  orderId: string
   total: number
   discountAmount: number
   qrCode: string | null
   qrImage: string | null
   expiresAt: string | null
   polling: boolean
-  onRefresh?: () => void
+  /** Retorna true se pago */
+  onRefresh?: () => Promise<boolean> | boolean | void
+  proofSource?: PaymentProofSource
+  useGuestAccess?: boolean
 }
 
 export function CheckoutPixPanel({
+  orderId,
   total,
   discountAmount,
   qrCode,
@@ -24,9 +31,14 @@ export function CheckoutPixPanel({
   expiresAt,
   polling,
   onRefresh,
+  proofSource = 'checkout',
+  useGuestAccess = true,
 }: CheckoutPixPanelProps) {
   const [copied, setCopied] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
+  const [verifying, setVerifying] = useState(false)
+  const [showProof, setShowProof] = useState(false)
+  const [verifyHint, setVerifyHint] = useState<string | null>(null)
 
   useEffect(() => {
     if (qrImage || !qrCode) {
@@ -61,6 +73,26 @@ export function CheckoutPixPanel({
     }
   }
 
+  async function handleVerify() {
+    if (!onRefresh) return
+    setVerifying(true)
+    setVerifyHint(null)
+    try {
+      const paid = await onRefresh()
+      if (paid === false) {
+        setShowProof(true)
+        setVerifyHint(
+          'Ainda não identificamos o pagamento. Se você já pagou, envie o comprovante abaixo.'
+        )
+      } else if (paid === true) {
+        setShowProof(false)
+        setVerifyHint(null)
+      }
+    } finally {
+      setVerifying(false)
+    }
+  }
+
   const expiresLabel = expiresAt
     ? new Date(expiresAt).toLocaleString('pt-BR', {
         dateStyle: 'short',
@@ -73,7 +105,7 @@ export function CheckoutPixPanel({
       <div>
         <p className="text-sm font-semibold text-text-primary">Pague com Pix</p>
         <p className="mt-1 text-sm text-text-secondary">
-          Escaneie o QR Code ou copie o código abaixo. A confirmação é automática.
+          Escaneie o QR Code ou copie o código abaixo. A confirmação pode levar alguns minutos.
         </p>
       </div>
 
@@ -124,13 +156,39 @@ export function CheckoutPixPanel({
       <Alert type="info">
         {polling
           ? 'Aguardando confirmação do pagamento… esta página atualiza automaticamente.'
-          : 'Após pagar, aguarde alguns instantes para a confirmação.'}
+          : 'Após pagar, clique em “Já paguei” para verificar. Se não confirmar, envie o comprovante.'}
       </Alert>
 
       {onRefresh && (
-        <Button type="button" variant="secondary" className="w-full" onClick={onRefresh}>
+        <Button
+          type="button"
+          variant="secondary"
+          className="w-full"
+          onClick={handleVerify}
+          loading={verifying}
+        >
           Já paguei — verificar agora
         </Button>
+      )}
+
+      {verifyHint && <Alert type="info">{verifyHint}</Alert>}
+
+      {(showProof || !onRefresh) && (
+        <PaymentProofUploadForm
+          orderId={orderId}
+          source={proofSource}
+          useGuestAccess={useGuestAccess}
+        />
+      )}
+
+      {!showProof && onRefresh && (
+        <button
+          type="button"
+          onClick={() => setShowProof(true)}
+          className="w-full text-center text-xs font-medium text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
+        >
+          Já paguei e não confirmou? Enviar comprovante
+        </button>
       )}
     </div>
   )
