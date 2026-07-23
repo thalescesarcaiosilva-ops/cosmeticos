@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { mapToSiteLayoutData } from '@/lib/layout/mappers'
 import {
   getMenuItems,
@@ -23,10 +24,9 @@ function emptySiteLayoutData(): SiteLayoutData {
 
 /**
  * Fonte única de dados do layout (top bar, header, menu).
- * Lê via Supabase anon + RLS (somente SELECT público).
- * Revalidação controlada em `src/app/layout.tsx` (revalidate = 60).
+ * cache() deduplica leituras no mesmo request React.
  */
-export async function getSiteLayoutData(): Promise<SiteLayoutData> {
+export const getSiteLayoutData = cache(async (): Promise<SiteLayoutData> => {
   if (!isSupabasePublicConfigured()) {
     return emptySiteLayoutData()
   }
@@ -46,4 +46,4 @@ export async function getSiteLayoutData(): Promise<SiteLayoutData> {
     socialLinks,
     menuItems,
   })
-}
+})

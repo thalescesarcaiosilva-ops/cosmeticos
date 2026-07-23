@@ -1,9 +1,21 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { cache } from 'react'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { SITE_SETTINGS_ID } from '@/lib/layout/queries'
+import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
 import type { StoreOpeningHoursSlot } from '@/schemas/store-profile-schema'
 import type { TrackingTag } from '@/types/tracking-tags'
 import { TRACKING_PLACEMENTS } from '@/types/tracking-tags'
+
+function trimStr(value: unknown): string {
+  return typeof value === 'string' ? value.trim() : String(value ?? '').trim()
+}
+
+function trimNullable(value: unknown): string | null {
+  if (typeof value !== 'string') return null
+  const trimmed = value.trim()
+  return trimmed.length > 0 ? trimmed : null
+}
 
 export type StoreProfile = {
   store_name: string
@@ -117,31 +129,26 @@ function parseTrackingTags(raw: unknown): TrackingTag[] {
 
 function mapRow(row: Record<string, unknown>, columnsAvailable: boolean): StoreProfile {
   return {
-    store_name: String(row.store_name ?? ''),
-    company_legal_name:
-      typeof row.company_legal_name === 'string' ? row.company_legal_name : null,
-    cnpj: typeof row.cnpj === 'string' ? row.cnpj : null,
+    store_name: trimStr(row.store_name),
+    company_legal_name: trimNullable(row.company_legal_name),
+    cnpj: trimNullable(row.cnpj),
     logo_image_url:
       typeof row.logo_image_url === 'string'
         ? toSiteMediaUrl(row.logo_image_url)
         : null,
-    store_description:
-      typeof row.store_description === 'string' ? row.store_description : null,
-    contact_email: typeof row.contact_email === 'string' ? row.contact_email : null,
-    phone_area_code: String(row.phone_area_code ?? ''),
-    phone_number: String(row.phone_number ?? ''),
-    phone_href: String(row.phone_href ?? ''),
-    store_street: typeof row.store_street === 'string' ? row.store_street : null,
-    store_street_number:
-      typeof row.store_street_number === 'string' ? row.store_street_number : null,
-    store_complement: typeof row.store_complement === 'string' ? row.store_complement : null,
-    store_neighborhood:
-      typeof row.store_neighborhood === 'string' ? row.store_neighborhood : null,
-    store_city: typeof row.store_city === 'string' ? row.store_city : null,
-    store_state: typeof row.store_state === 'string' ? row.store_state : null,
-    store_postal_code:
-      typeof row.store_postal_code === 'string' ? row.store_postal_code : null,
-    store_country: typeof row.store_country === 'string' ? row.store_country : 'BR',
+    store_description: trimNullable(row.store_description),
+    contact_email: trimNullable(row.contact_email),
+    phone_area_code: trimStr(row.phone_area_code),
+    phone_number: trimStr(row.phone_number),
+    phone_href: trimStr(row.phone_href),
+    store_street: trimNullable(row.store_street),
+    store_street_number: trimNullable(row.store_street_number),
+    store_complement: trimNullable(row.store_complement),
+    store_neighborhood: trimNullable(row.store_neighborhood),
+    store_city: trimNullable(row.store_city),
+    store_state: trimNullable(row.store_state),
+    store_postal_code: trimNullable(row.store_postal_code),
+    store_country: trimNullable(row.store_country) ?? 'BR',
     store_opening_hours: parseOpeningHours(row.store_opening_hours),
     return_enabled: row.return_enabled === true,
     return_days:
@@ -158,12 +165,8 @@ function mapRow(row: Record<string, unknown>, columnsAvailable: boolean): StoreP
         : row.return_fees === 'RestockingFees'
           ? 'RestockingFees'
           : 'FreeReturn',
-    return_policy_page_slug:
-      typeof row.return_policy_page_slug === 'string'
-        ? row.return_policy_page_slug
-        : null,
-    return_policy_notes:
-      typeof row.return_policy_notes === 'string' ? row.return_policy_notes : null,
+    return_policy_page_slug: trimNullable(row.return_policy_page_slug),
+    return_policy_notes: trimNullable(row.return_policy_notes),
     seo_handling_days_min: Number(row.seo_handling_days_min ?? 1),
     seo_handling_days_max: Number(row.seo_handling_days_max ?? 2),
     head_scripts: typeof row.head_scripts === 'string' ? row.head_scripts : null,
@@ -195,6 +198,12 @@ export async function getStoreProfile(
 
   return mapRow(legacy.data as unknown as Record<string, unknown>, false)
 }
+
+/** Uma leitura por request React — evita 3–4 hits a site_settings no layout. */
+export const getCachedStoreProfile = cache(async (): Promise<StoreProfile | null> => {
+  if (!isSupabasePublicConfigured()) return null
+  return getStoreProfile(createPublicClient())
+})
 
 export async function updateStoreProfile(
   supabase: SupabaseClient,

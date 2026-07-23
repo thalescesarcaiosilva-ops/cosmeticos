@@ -1,5 +1,6 @@
+import { cache } from 'react'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
-import { getStoreProfile } from '@/lib/store-profile/queries'
+import { getCachedStoreProfile } from '@/lib/store-profile/queries'
 import { absoluteUrl } from '@/lib/seo/site-url'
 
 export type MerchantSeoContext = {
@@ -28,7 +29,7 @@ const DEFAULT_CONTEXT: MerchantSeoContext = {
   defaultShippingRate: 24.9,
 }
 
-export async function getMerchantSeoContext(): Promise<MerchantSeoContext> {
+async function loadMerchantSeoContext(): Promise<MerchantSeoContext> {
   if (!isSupabasePublicConfigured()) {
     return DEFAULT_CONTEXT
   }
@@ -36,7 +37,7 @@ export async function getMerchantSeoContext(): Promise<MerchantSeoContext> {
   const supabase = createPublicClient()
 
   const [profile, shippingResult] = await Promise.all([
-    getStoreProfile(supabase),
+    getCachedStoreProfile(),
     supabase
       .from('shipping_methods')
       .select('base_price, estimated_days_min, estimated_days_max')
@@ -102,3 +103,5 @@ export async function getMerchantSeoContext(): Promise<MerchantSeoContext> {
     defaultShippingRate,
   }
 }
+
+export const getMerchantSeoContext = cache(loadMerchantSeoContext)

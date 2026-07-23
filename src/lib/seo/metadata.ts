@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { absoluteUrl } from '@/lib/seo/site-url'
+import { getCanonicalUrl } from '@/lib/seo/canonical'
 
 type BuildPageMetadataInput = {
   title: string | { absolute: string }
@@ -20,7 +20,7 @@ export function buildPageMetadata({
   noindex = false,
   type = 'website',
 }: BuildPageMetadataInput): Metadata {
-  const canonical = absoluteUrl(path)
+  const canonical = getCanonicalUrl(path) || undefined
   const titleText = typeof title === 'string' ? title : title.absolute
 
   const metadata: Metadata = {

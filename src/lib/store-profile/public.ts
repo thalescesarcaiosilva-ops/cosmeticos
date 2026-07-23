@@ -1,6 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
-import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
-import { getStoreProfile, type StoreProfile } from '@/lib/store-profile/queries'
+import { isSupabasePublicConfigured } from '@/lib/supabase/public'
+import {
+  getCachedStoreProfile,
+  getStoreProfile,
+  type StoreProfile,
+} from '@/lib/store-profile/queries'
 
 const EMPTY: StoreProfile = {
   store_name: '',
@@ -36,8 +40,7 @@ const EMPTY: StoreProfile = {
 export async function getPublicStoreProfile(): Promise<StoreProfile> {
   if (!isSupabasePublicConfigured()) return EMPTY
 
-  const supabase = createPublicClient()
-  const profile = await getStoreProfile(supabase)
+  const profile = await getCachedStoreProfile()
   return profile ?? EMPTY
 }
 

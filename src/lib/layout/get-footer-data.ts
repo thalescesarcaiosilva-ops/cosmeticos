@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { filterStorefrontSocialLinks } from '@/lib/layout/social-links'
 import {
   getFooterAssets,
@@ -10,7 +11,7 @@ import {
   formatPhoneDisplay,
   formatStoreAddressInline,
 } from '@/lib/store-profile/format'
-import { getStoreProfile } from '@/lib/store-profile/queries'
+import { getCachedStoreProfile, type StoreProfile } from '@/lib/store-profile/queries'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
 import type { FooterAssetRow, FooterMenuRow } from '@/types/database-layout'
 import type { SocialLink } from '@/types/layout'
@@ -70,7 +71,7 @@ function mapSocial(row: {
 }
 
 function buildBrand(
-  storeProfile: Awaited<ReturnType<typeof getStoreProfile>>,
+  storeProfile: StoreProfile | null,
   settings: Awaited<ReturnType<typeof getSiteSettings>>
 ): FooterBrand | null {
   const logoUrl = storeProfile?.logo_image_url ?? settings.logo_image_url ?? null
@@ -109,7 +110,7 @@ function emptyFooterData(): FooterData {
   }
 }
 
-export async function getFooterData(): Promise<FooterData> {
+export const getFooterData = cache(async (): Promise<FooterData> => {
   if (!isSupabasePublicConfigured()) {
     return emptyFooterData()
   }
@@ -121,7 +122,7 @@ export async function getFooterData(): Promise<FooterData> {
     getFooterMenus(supabase),
     getFooterAssets(supabase).catch(() => [] as FooterAssetRow[]),
     getSocialLinks(supabase),
-    getStoreProfile(supabase),
+    getCachedStoreProfile(),
   ])
 
   const socialLinks = filterStorefrontSocialLinks(
@@ -178,4 +179,4 @@ export async function getFooterData(): Promise<FooterData> {
     paymentHeading: 'Formas de Pagamento',
     paymentText,
   }
-}
+})

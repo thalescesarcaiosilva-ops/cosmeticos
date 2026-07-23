@@ -8,7 +8,7 @@ import {
   formatStoreAddressInline,
   type OpeningHoursDayRow,
 } from '@/lib/store-profile/format'
-import { getStoreProfile } from '@/lib/store-profile/queries'
+import { getCachedStoreProfile } from '@/lib/store-profile/queries'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
 import type { ContactSupportTopic } from '@/types/payment'
 import { DEFAULT_CONTACT_SUPPORT_TOPICS } from '@/types/payment'
@@ -105,7 +105,7 @@ export async function getContactPageData(): Promise<ContactPageData> {
 
   const [settings, storeProfile, socialRows, footerData, contactPageSettings] = await Promise.all([
     getSiteSettings(supabase),
-    getStoreProfile(supabase),
+    getCachedStoreProfile(),
     getSocialLinks(supabase),
     getFooterData(),
     fetchContactPageSettings(supabase),

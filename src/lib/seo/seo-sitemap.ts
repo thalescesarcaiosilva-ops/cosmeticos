@@ -310,9 +310,24 @@ export function buildSitemapIndexXml(
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</sitemapindex>\n`
 }
 
-/** robots.txt no estilo WordPress (Allow/Disallow + Sitemap + Host). */
+/**
+ * robots.txt: libera o conteúdo público e bloqueia áreas privadas/transacionais.
+ *
+ * IMPORTANTE (Google Search Central): robots.txt controla RASTREAMENTO, não
+ * indexação. Não resolve duplicata — use rel=canonical (lib/seo/canonical.ts)
+ * e noindex nas páginas. Não bloqueie /produto/, /colecoes/, /paginas/ nem
+ * assets — o Merchant Center precisa rastrear PDPs e políticas.
+ *
+ * UTM e filtros: preferir canonical + noindex; Disallow de query params é
+ * opcional e pouco útil em lojas médias.
+ */
 export function buildRobotsTxt(siteUrl: string | null = getSiteUrl()): string {
-  const lines = ['User-agent: *', 'Allow: /']
+  const lines = [
+    'User-agent: *',
+    'Allow: /',
+    '',
+    '# Áreas privadas e transacionais (sem valor de busca)',
+  ]
 
   for (const path of [
     '/admin/',
@@ -327,7 +342,7 @@ export function buildRobotsTxt(siteUrl: string | null = getSiteUrl()): string {
   }
 
   if (siteUrl) {
-    lines.push('', `Sitemap: ${siteUrl}/sitemap.xml`, `Host: ${siteUrl}`)
+    lines.push('', `Sitemap: ${siteUrl}/sitemap.xml`)
   }
 
   return `${lines.join('\n')}\n`
