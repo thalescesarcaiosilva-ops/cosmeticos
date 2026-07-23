@@ -1,12 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ChevronDown, MapPin, Package, ReceiptText } from 'lucide-react'
+import Link from 'next/link'
+import { ChevronDown, MapPin, Package, ReceiptText, Truck } from 'lucide-react'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
+import { TrackingTimeline } from '@/components/tracking/TrackingTimeline'
 import { fetchApi } from '@/lib/api/fetch-api'
 import { formatCurrency } from '@/lib/products/format'
+import type { TrackingEventType } from '@/lib/tracking/types'
 
 type OrderItem = {
   id: string
@@ -27,6 +30,18 @@ type OrderAddress = {
   zip_code: string
 }
 
+type TrackingEvent = {
+  id: string
+  sequence: number
+  event_type: TrackingEventType
+  city: string
+  state: string
+  message: string
+  scheduled_at: string
+  occurred_at: string | null
+  is_manual: boolean
+}
+
 type Order = {
   id: string
   status: string
@@ -39,9 +54,12 @@ type Order = {
   shipping_method_name?: string | null
   shipping_address?: OrderAddress | null
   notes?: string | null
+  tracking_code?: string | null
+  carrier?: string | null
   created_at: string
   addresses?: OrderAddress | null
   order_items: OrderItem[]
+  tracking_events?: TrackingEvent[]
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -161,8 +179,9 @@ function OrderCard({ order }: { order: Order }) {
   const deliveryAddress = order.addresses ?? order.shipping_address ?? null
   const statusLabel = STATUS_LABELS[order.status] ?? order.status
   const paymentLabel = order.payment_method
-    ? PAYMENT_METHOD_LABELS[order.payment_method] ?? order.payment_method
+    ? (PAYMENT_METHOD_LABELS[order.payment_method] ?? order.payment_method)
     : 'Não informado'
+  const trackingEvents = order.tracking_events ?? []
 
   return (
     <Card className="overflow-hidden !p-0">
@@ -180,6 +199,11 @@ function OrderCard({ order }: { order: Order }) {
               {(order.order_items?.length ?? 0) === 1 ? 'item' : 'itens'}
               {order.shipping_method_name ? ` · ${order.shipping_method_name}` : ''}
             </p>
+            {order.tracking_code && (
+              <p className="mt-2 font-mono text-xs tracking-wide text-brand">
+                Rastreio: {order.tracking_code}
+              </p>
+            )}
           </div>
 
           <div className="text-right">
@@ -204,7 +228,16 @@ function OrderCard({ order }: { order: Order }) {
           <OrderStatusStepper status={order.status} />
         </div>
 
-        <div className="mt-5 flex justify-end">
+        <div className="mt-5 flex flex-wrap justify-end gap-2">
+          {order.tracking_code && (
+            <Link
+              href={`/rastreio?codigo=${encodeURIComponent(order.tracking_code)}`}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-2.5 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-muted"
+            >
+              <Truck className="size-4" aria-hidden />
+              Rastrear
+            </Link>
+          )}
           <Button
             type="button"
             variant="secondary"
@@ -223,6 +256,31 @@ function OrderCard({ order }: { order: Order }) {
 
       {open && (
         <div className="space-y-5 border-t border-border bg-surface-muted/30 px-5 py-5 md:px-6">
+          {(order.tracking_code || trackingEvents.length > 0) && (
+            <section>
+              <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
+                <Truck className="size-4 text-brand" aria-hidden />
+                Caminho do pedido
+              </h3>
+              <div className="mt-3 rounded-xl border border-border bg-surface p-4">
+                <TrackingTimeline
+                  trackingCode={order.tracking_code}
+                  events={trackingEvents.map((event) => ({
+                    id: event.id,
+                    sequence: event.sequence,
+                    eventType: event.event_type,
+                    city: event.city,
+                    state: event.state,
+                    message: event.message,
+                    scheduledAt: event.scheduled_at,
+                    occurredAt: event.occurred_at,
+                    isManual: event.is_manual,
+                  }))}
+                />
+              </div>
+            </section>
+          )}
+
           <section>
             <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
               <Package className="size-4 text-brand" aria-hidden />
@@ -352,7 +410,7 @@ export function OrdersList() {
       <div>
         <h1 className="text-2xl font-bold text-text-primary">Meus pedidos</h1>
         <p className="mt-1 text-sm text-text-secondary">
-          Acompanhe status, pagamento e detalhes de cada compra.
+          Acompanhe status, rastreio e detalhes de cada compra.
         </p>
       </div>
 

@@ -1,10 +1,12 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { completeTrackingAsDelivered } from '@/lib/tracking/advance'
+import { dispatchOrderTracking } from '@/lib/tracking/dispatch'
 import { orderStatusUpdateSchema } from '@/schemas/order-schema'
 
 const ORDER_COLUMNS =
-  'id, user_id, status, payment_status, payment_method, total, subtotal, shipping_price, shipping_method_name, address_id, notes, customer_name, customer_email, customer_phone, shipping_address, created_at, updated_at'
+  'id, user_id, status, payment_status, payment_method, total, subtotal, shipping_price, shipping_method_name, address_id, notes, customer_name, customer_email, customer_phone, shipping_address, tracking_code, carrier, shipped_at, delivered_at, tracking_simulation_paused, created_at, updated_at'
 
 const ORDER_ITEM_COLUMNS =
   'id, product_id, quantity, unit_price, subtotal, products(name, slug)'
@@ -40,9 +42,10 @@ export async function GET(request: Request) {
   let query = admin
     .from('orders')
     .select(
-      `${ORDER_COLUMNS}, profiles(${PROFILE_COLUMNS}), addresses(${ADDRESS_COLUMNS}), order_items(${ORDER_ITEM_COLUMNS})`
+      `${ORDER_COLUMNS}, profiles(${PROFILE_COLUMNS}), addresses(${ADDRESS_COLUMNS}), order_items(${ORDER_ITEM_COLUMNS}), tracking_events(id, sequence, event_type, city, state, message, scheduled_at, occurred_at, is_manual)`
     )
     .order('created_at', { ascending: false })
+    .order('sequence', { referencedTable: 'tracking_events', ascending: true })
 
   if (statusFilter && statusFilter !== 'all') {
     query = query.eq('status', statusFilter)
@@ -83,11 +86,39 @@ export async function PATCH(request: Request) {
   }
 
   const admin = createAdminClient()
+
+  if (parsed.data.status === 'shipped') {
+    const dispatched = await dispatchOrderTracking(parsed.data.id)
+    if (!dispatched.ok) {
+      return jsonError(dispatched.reason ?? 'Não foi possível despachar o pedido', 400)
+    }
+  } else if (parsed.data.status === 'delivered') {
+    const completed = await completeTrackingAsDelivered(parsed.data.id)
+    if (!completed.ok) {
+      const { error } = await admin
+        .from('orders')
+        .update({ status: 'delivered', delivered_at: new Date().toISOString() })
+        .eq('id', parsed.data.id)
+      if (error) return jsonError('Não foi possível atualizar o pedido', 400)
+    }
+  } else {
+    const { error } = await admin
+      .from('orders')
+      .update({ status: parsed.data.status })
+      .eq('id', parsed.data.id)
+
+    if (error) {
+      return jsonError('Não foi possível atualizar o pedido', 400)
+    }
+  }
+
   const { data, error } = await admin
     .from('orders')
-    .update({ status: parsed.data.status })
+    .select(
+      `${ORDER_COLUMNS}, tracking_events(id, sequence, event_type, city, state, message, scheduled_at, occurred_at, is_manual)`
+    )
     .eq('id', parsed.data.id)
-    .select(ORDER_COLUMNS)
+    .order('sequence', { referencedTable: 'tracking_events', ascending: true })
     .single()
 
   if (error || !data) {

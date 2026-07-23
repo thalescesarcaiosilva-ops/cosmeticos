@@ -1,12 +1,16 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
+import { Input } from '@/components/ui/Input'
+import { TrackingTimeline } from '@/components/tracking/TrackingTimeline'
 import { fetchApi } from '@/lib/api/fetch-api'
 import { formatCurrency } from '@/lib/products/format'
 import { orderStatusSchema, orderStatusUpdateSchema } from '@/schemas/order-schema'
+import type { TrackingEventType } from '@/lib/tracking/types'
 
 type OrderItem = {
   id: string
@@ -26,6 +30,18 @@ type OrderAddress = {
   zip_code: string
 }
 
+type TrackingEvent = {
+  id: string
+  sequence: number
+  event_type: TrackingEventType
+  city: string
+  state: string
+  message: string
+  scheduled_at: string
+  occurred_at: string | null
+  is_manual: boolean
+}
+
 type Order = {
   id: string
   user_id: string | null
@@ -41,10 +57,16 @@ type Order = {
   customer_email?: string | null
   customer_phone?: string | null
   shipping_address?: OrderAddress | null
+  tracking_code?: string | null
+  carrier?: string | null
+  shipped_at?: string | null
+  delivered_at?: string | null
+  tracking_simulation_paused?: boolean | null
   created_at: string
   profiles?: { name?: string } | null
   addresses?: OrderAddress | null
   order_items?: OrderItem[]
+  tracking_events?: TrackingEvent[]
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -78,9 +100,12 @@ function formatAddress(address: OrderAddress): string {
 export function OrdersManager() {
   const [orders, setOrders] = useState<Order[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [message, setMessage] = useState<string | null>(null)
   const [loadingId, setLoadingId] = useState<string | null>(null)
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [manualCity, setManualCity] = useState('')
+  const [manualState, setManualState] = useState('')
 
   const load = useCallback(async () => {
     const query = statusFilter === 'all' ? '' : `?status=${statusFilter}`
@@ -112,7 +137,8 @@ export function OrdersManager() {
     }
 
     setLoadingId(id)
-    const { error: apiError } = await fetchApi('/api/admin/orders', {
+    setMessage(null)
+    const { error: apiError, message: okMessage } = await fetchApi('/api/admin/orders', {
       method: 'PATCH',
       body: JSON.stringify(parsed.data),
     })
@@ -123,12 +149,43 @@ export function OrdersManager() {
       return
     }
 
+    setError(null)
+    setMessage(okMessage ?? 'Status atualizado')
+    load()
+  }
+
+  async function runTrackingAction(
+    orderId: string,
+    body: Record<string, unknown>,
+    successFallback: string
+  ) {
+    setLoadingId(orderId)
+    setMessage(null)
+    const { error: apiError, message: okMessage } = await fetchApi(
+      '/api/admin/orders/tracking',
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      }
+    )
+    setLoadingId(null)
+
+    if (apiError) {
+      setError(apiError)
+      return
+    }
+
+    setError(null)
+    setMessage(okMessage ?? successFallback)
+    setManualCity('')
+    setManualState('')
     load()
   }
 
   return (
     <div className="space-y-6">
       {error && <Alert type="error">{error}</Alert>}
+      {message && <Alert type="success">{message}</Alert>}
 
       <div className="grid gap-4 sm:grid-cols-3">
         <Card title="Nesta lista">
@@ -173,6 +230,7 @@ export function OrdersManager() {
             order.customer_email?.trim() ||
             'Cliente'
           const deliveryAddress = order.addresses ?? order.shipping_address ?? null
+          const trackingEvents = order.tracking_events ?? []
           return (
             <Card key={order.id}>
               <div className="flex flex-wrap items-start justify-between gap-4">
@@ -189,16 +247,25 @@ export function OrdersManager() {
                         Convidado
                       </span>
                     )}
+                    {order.tracking_simulation_paused && (
+                      <span className="rounded-full bg-badge-discount/10 px-2 py-0.5 text-xs text-badge-discount">
+                        Simulação pausada
+                      </span>
+                    )}
                   </div>
                   <p className="mt-1 text-sm text-text-secondary">
-                    {customerLabel} ·{' '}
-                    {new Date(order.created_at).toLocaleString('pt-BR')}
+                    {customerLabel} · {new Date(order.created_at).toLocaleString('pt-BR')}
                   </p>
                   {order.customer_email && (
                     <p className="mt-0.5 text-xs text-text-muted">{order.customer_email}</p>
                   )}
                   {order.customer_phone && (
                     <p className="mt-0.5 text-xs text-text-muted">{order.customer_phone}</p>
+                  )}
+                  {order.tracking_code && (
+                    <p className="mt-1 font-mono text-xs tracking-wide text-brand">
+                      {order.tracking_code}
+                    </p>
                   )}
                   <p className="mt-1 text-sm font-semibold text-brand tabular-nums">
                     {formatCurrency(Number(order.total))}
@@ -261,6 +328,135 @@ export function OrdersManager() {
                       </ul>
                     </div>
                   )}
+
+                  <div className="rounded-xl border border-border bg-surface-muted/40 p-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="font-semibold text-text-primary">Rastreio</p>
+                      {order.tracking_code && (
+                        <Link
+                          href={`/rastreio?codigo=${encodeURIComponent(order.tracking_code)}`}
+                          className="text-xs font-semibold text-brand hover:underline"
+                          target="_blank"
+                        >
+                          Abrir página pública
+                        </Link>
+                      )}
+                    </div>
+
+                    <div className="mt-3">
+                      <TrackingTimeline
+                        trackingCode={order.tracking_code}
+                        events={trackingEvents.map((event) => ({
+                          id: event.id,
+                          sequence: event.sequence,
+                          eventType: event.event_type,
+                          city: event.city,
+                          state: event.state,
+                          message: event.message,
+                          scheduledAt: event.scheduled_at,
+                          occurredAt: event.occurred_at,
+                          isManual: event.is_manual,
+                        }))}
+                      />
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {!order.tracking_code && order.status === 'confirmed' && (
+                        <Button
+                          type="button"
+                          disabled={loadingId === order.id}
+                          onClick={() =>
+                            runTrackingAction(
+                              order.id,
+                              { orderId: order.id, action: 'dispatch' },
+                              'Pedido despachado'
+                            )
+                          }
+                        >
+                          Despachar agora
+                        </Button>
+                      )}
+                      {order.tracking_code && order.status === 'shipped' && (
+                        <>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            disabled={loadingId === order.id}
+                            onClick={() =>
+                              runTrackingAction(
+                                order.id,
+                                { orderId: order.id, action: 'advance' },
+                                'Rastreio avançado'
+                              )
+                            }
+                          >
+                            Avançar próximo passo
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            disabled={loadingId === order.id}
+                            onClick={() =>
+                              runTrackingAction(
+                                order.id,
+                                {
+                                  orderId: order.id,
+                                  action: order.tracking_simulation_paused
+                                    ? 'resume'
+                                    : 'pause',
+                                },
+                                order.tracking_simulation_paused
+                                  ? 'Simulação retomada'
+                                  : 'Simulação pausada'
+                              )
+                            }
+                          >
+                            {order.tracking_simulation_paused
+                              ? 'Retomar automático'
+                              : 'Pausar automático'}
+                          </Button>
+                        </>
+                      )}
+                    </div>
+
+                    {order.tracking_code && order.status === 'shipped' && (
+                      <form
+                        className="mt-4 grid gap-2 sm:grid-cols-[1fr_88px_auto]"
+                        onSubmit={(event) => {
+                          event.preventDefault()
+                          void runTrackingAction(
+                            order.id,
+                            {
+                              orderId: order.id,
+                              action: 'set_location',
+                              city: manualCity,
+                              state: manualState,
+                            },
+                            'Localização registrada'
+                          )
+                        }}
+                      >
+                        <Input
+                          value={manualCity}
+                          onChange={(e) => setManualCity(e.target.value)}
+                          placeholder="Cidade"
+                          aria-label="Cidade do rastreio"
+                          required
+                        />
+                        <Input
+                          value={manualState}
+                          onChange={(e) => setManualState(e.target.value.toUpperCase())}
+                          placeholder="UF"
+                          maxLength={2}
+                          aria-label="UF"
+                          required
+                        />
+                        <Button type="submit" disabled={loadingId === order.id}>
+                          Registrar local
+                        </Button>
+                      </form>
+                    )}
+                  </div>
 
                   <dl className="grid gap-2 sm:grid-cols-2">
                     {order.subtotal != null && (
