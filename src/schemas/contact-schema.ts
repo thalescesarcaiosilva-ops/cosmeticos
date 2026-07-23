@@ -22,3 +22,9 @@ export const contactMessageStatusUpdateSchema = z.object({
   id: z.string().uuid(),
   status: contactMessageStatusSchema,
 })
+
+export const contactMessageReplySchema = z.object({
+  id: z.string().uuid(),
+  body: z.string().trim().min(5, 'Escreva uma resposta com pelo menos 5 caracteres').max(5000),
+})
+

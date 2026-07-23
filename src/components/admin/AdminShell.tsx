@@ -12,11 +12,11 @@ type AdminShellProps = {
 
 export function AdminShell({ title, storeName, logoImageUrl, children }: AdminShellProps) {
   return (
-    <div className="flex min-h-screen bg-surface-muted">
+    <div className="flex min-h-screen bg-neutral-100 text-neutral-900">
       <AdminSidebar storeName={storeName} logoImageUrl={logoImageUrl} />
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col">
         <AdminHeader title={title} />
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-6 md:p-8">{children}</main>
       </div>
     </div>
   )

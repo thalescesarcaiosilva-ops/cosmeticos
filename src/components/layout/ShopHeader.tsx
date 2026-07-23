@@ -86,6 +86,7 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
         storeName={props.storeName}
         policyLinks={props.policyLinks}
         socialLinks={props.socialLinks}
+        phone={props.phone}
         overlay={overlay}
       />
       <SiteHeader {...props} overlay={overlay} />

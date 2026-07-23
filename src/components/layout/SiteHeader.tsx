@@ -3,12 +3,12 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import {
+  IconCart,
   IconCustomer,
   IconHeart,
   IconHelp,
   IconMenu,
   IconPackage,
-  IconPhone,
 } from '@/components/icons/DotIcons'
 import type {
   ContactPageLink,
@@ -18,6 +18,7 @@ import type {
   SocialLink,
   StoreLogo,
 } from '@/types/layout'
+import { useCart } from '@/providers/CartProvider'
 import { useFavorites } from '@/providers/FavoritesProvider'
 import { MobileNavDrawer } from './MobileNavDrawer'
 import { SearchBar } from './SearchBar'
@@ -38,15 +39,13 @@ export function SiteHeader({
   storeName,
   logo,
   menuCategories,
-  phone,
   helpLink,
   contactPage,
-  socialLinks,
   overlay = false,
 }: SiteHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { itemCount: cartItemCount, hydrated } = useCart()
   const { favoriteCount, hydrated: favoritesHydrated } = useFavorites()
-  const hasPhone = Boolean(phone.display.trim() && phone.href.trim())
   const hasHelp = Boolean(helpLink.label.trim() && helpLink.href.trim())
   const logoVariant = overlay ? 'light' : 'dark'
 
@@ -59,7 +58,6 @@ export function SiteHeader({
 
   return (
     <>
-
       <div className="header-container">
         <header className="header mx-auto max-w-[1200px] px-4 md:px-6">
           <div className="flex items-center gap-2 py-2 md:gap-5 md:py-4">
@@ -84,22 +82,6 @@ export function SiteHeader({
             </div>
 
             <div className="ml-auto flex items-center gap-1 md:gap-4 lg:gap-5">
-              {hasPhone && (
-                <a
-                  href={phone.href}
-                  className={`nav__phone hidden items-center gap-1.5 text-sm font-bold transition-opacity duration-[400ms] hover:opacity-80 lg:flex ${
-                    overlay ? 'text-white' : 'text-text-primary'
-                  }`}
-                  aria-label={`Telefone ${phone.display}`}
-                >
-                  <IconPhone className="size-5 shrink-0" />
-                  <span>
-                    <span>{phone.areaCode}</span>
-                    {phone.number}
-                  </span>
-                </a>
-              )}
-
               <Link
                 href="/paginas/rastreio"
                 className={`hidden items-center gap-1.5 text-sm font-bold transition-opacity duration-[400ms] hover:opacity-80 lg:flex ${
@@ -163,6 +145,22 @@ export function SiteHeader({
                 >
                   <IconCustomer className="size-5 md:size-6" />
                 </Link>
+              </div>
+
+              <div className="mycart relative">
+                <Link
+                  href="/carrinho"
+                  className="mycart__link header-action flex size-8 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80 md:size-9"
+                  title="Meu Carrinho"
+                  aria-label={`Meu Carrinho${cartItemCount > 0 ? `, ${cartItemCount} itens` : ''}`}
+                >
+                  <IconCart className="size-5 md:size-6" />
+                </Link>
+                {hydrated && cartItemCount > 0 && (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brand px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
+                    {cartItemCount > 9 ? '9+' : cartItemCount}
+                  </span>
+                )}
               </div>
             </div>
           </div>

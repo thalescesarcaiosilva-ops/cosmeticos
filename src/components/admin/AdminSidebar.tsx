@@ -12,14 +12,14 @@ type NavSection = {
 
 const SECTIONS: NavSection[] = [
   {
-    title: 'Visão geral',
+    title: 'Início',
     links: [{ href: '/admin', label: 'Dashboard', exact: true }],
   },
   {
-    title: 'Vendas',
+    title: 'Atendimento',
     links: [
       { href: '/admin/pedidos', label: 'Pedidos' },
-      { href: '/admin/mensagens', label: 'Mensagens' },
+      { href: '/admin/mensagens', label: 'Fale conosco' },
     ],
   },
   {
@@ -30,21 +30,21 @@ const SECTIONS: NavSection[] = [
       { href: '/admin/avaliacoes', label: 'Avaliações' },
       { href: '/admin/categorias', label: 'Categorias' },
       { href: '/admin/marcas', label: 'Marcas' },
+    ],
+  },
+  {
+    title: 'Conteúdo visual',
+    links: [
       { href: '/admin/midias', label: 'Mídia' },
       { href: '/admin/banners', label: 'Banners' },
     ],
   },
   {
-    title: 'Loja',
+    title: 'Configurações',
     links: [
       { href: '/admin/loja', label: 'Dados da loja' },
       { href: '/admin/frete', label: 'Frete' },
       { href: '/admin/configuracoes', label: 'Pagamentos e SEO' },
-    ],
-  },
-  {
-    title: 'Aparência',
-    links: [
       { href: '/admin/menu', label: 'Menu' },
       { href: '/admin/topbar', label: 'Top bar' },
       { href: '/admin/paginas', label: 'Páginas' },
@@ -67,26 +67,26 @@ export function AdminSidebar({ storeName, logoImageUrl }: AdminSidebarProps) {
   }
 
   return (
-    <aside className="flex w-56 shrink-0 flex-col bg-[#3d1654] text-white">
-      <div className="border-b border-white/10 px-5 py-6">
-        <Link href="/admin" className="inline-flex flex-col gap-2">
+    <aside className="flex w-60 shrink-0 flex-col border-r border-neutral-200 bg-neutral-950 text-white">
+      <div className="border-b border-white/10 px-5 py-5">
+        <Link href="/admin" className="inline-flex flex-col gap-1.5">
           {logoImageUrl ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
               src={logoImageUrl}
               alt={storeName}
-              className="h-9 w-auto max-w-[160px] object-contain brightness-0 invert"
+              className="h-8 w-auto max-w-[150px] object-contain brightness-0 invert"
             />
           ) : (
-            <span className="text-lg font-bold tracking-tight">{storeName}</span>
+            <span className="text-base font-semibold tracking-tight">{storeName}</span>
           )}
-          <span className="text-xs text-white/60">Painel da loja</span>
+          <span className="text-[11px] uppercase tracking-[0.14em] text-white/45">Admin</span>
         </Link>
       </div>
       <nav className="flex-1 overflow-y-auto p-3" aria-label="Menu admin">
         {SECTIONS.map((section) => (
-          <div key={section.title} className="mb-4">
-            <p className="mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-white/40">
+          <div key={section.title} className="mb-5">
+            <p className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/35">
               {section.title}
             </p>
             <div className="space-y-0.5">
@@ -94,9 +94,9 @@ export function AdminSidebar({ storeName, logoImageUrl }: AdminSidebarProps) {
                 <Link
                   key={href}
                   href={href}
-                  className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`block rounded-md px-3 py-2 text-sm transition-colors ${
                     isActive(href, exact)
-                      ? 'bg-white/15 text-white'
+                      ? 'bg-white font-semibold text-neutral-950'
                       : 'text-white/70 hover:bg-white/10 hover:text-white'
                   }`}
                 >
@@ -108,7 +108,10 @@ export function AdminSidebar({ storeName, logoImageUrl }: AdminSidebarProps) {
         ))}
       </nav>
       <div className="border-t border-white/10 p-3">
-        <Link href="/" className="block rounded-md px-3 py-2 text-sm text-white/60 hover:text-white">
+        <Link
+          href="/"
+          className="block rounded-md px-3 py-2 text-sm text-white/55 transition-colors hover:bg-white/10 hover:text-white"
+        >
           ← Voltar à loja
         </Link>
       </div>

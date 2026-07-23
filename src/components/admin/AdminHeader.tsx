@@ -18,9 +18,14 @@ export function AdminHeader({ title }: AdminHeaderProps) {
   }
 
   return (
-    <header className="flex items-center justify-between border-b border-border bg-surface px-6 py-4">
-      <h1 className="text-xl font-bold text-text-primary">{title}</h1>
-      <Button type="button" variant="secondary" onClick={handleLogout}>
+    <header className="flex items-center justify-between border-b border-neutral-200 bg-white px-6 py-4">
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-400">
+          Painel
+        </p>
+        <h1 className="text-xl font-semibold tracking-tight text-neutral-950">{title}</h1>
+      </div>
+      <Button type="button" variant="secondary" className="!rounded-md" onClick={handleLogout}>
         Sair
       </Button>
     </header>

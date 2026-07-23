@@ -1,20 +1,26 @@
 'use client'
 
 import Link from 'next/link'
-import { IconCart } from '@/components/icons/DotIcons'
-import { useCart } from '@/providers/CartProvider'
-import type { PolicyLink, SocialLink } from '@/types/layout'
+import { IconPhone } from '@/components/icons/DotIcons'
+import type { PhoneContact, PolicyLink, SocialLink } from '@/types/layout'
 import { SocialIcon } from './SocialIcon'
 
 type TopBarProps = {
   storeName: string
   policyLinks: PolicyLink[]
   socialLinks: SocialLink[]
+  phone?: PhoneContact
   overlay?: boolean
 }
 
-export function TopBar({ storeName, policyLinks, socialLinks, overlay = false }: TopBarProps) {
-  const { itemCount: cartItemCount, hydrated } = useCart()
+export function TopBar({
+  storeName,
+  policyLinks,
+  socialLinks,
+  phone,
+  overlay = false,
+}: TopBarProps) {
+  const hasPhone = Boolean(phone?.display.trim() && phone?.href.trim())
 
   return (
     <div
@@ -65,21 +71,18 @@ export function TopBar({ storeName, policyLinks, socialLinks, overlay = false }:
             </a>
           ))}
 
-          <Link
-            href="/carrinho"
-            className={`relative flex size-7 items-center justify-center rounded-full transition-opacity duration-[400ms] hover:opacity-90 ${
-              overlay ? 'bg-white/15 text-white' : 'bg-white/15 text-white'
-            }`}
-            title="Meu Carrinho"
-            aria-label={`Meu Carrinho${cartItemCount > 0 ? `, ${cartItemCount} itens` : ''}`}
-          >
-            <IconCart className="size-3.5" />
-            {hydrated && cartItemCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-white px-0.5 text-[9px] font-bold text-brand">
-                {cartItemCount > 9 ? '9+' : cartItemCount}
-              </span>
-            )}
-          </Link>
+          {hasPhone && phone && (
+            <a
+              href={phone.href}
+              className={`flex size-7 items-center justify-center rounded-full transition-opacity duration-[400ms] hover:opacity-90 ${
+                overlay ? 'bg-white/15 text-white' : 'bg-white/15 text-white'
+              }`}
+              aria-label={`Telefone ${phone.display}`}
+              title={phone.display}
+            >
+              <IconPhone className="size-3.5" />
+            </a>
+          )}
         </div>
       </div>
     </div>

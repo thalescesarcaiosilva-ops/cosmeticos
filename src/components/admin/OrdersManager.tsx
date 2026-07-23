@@ -254,7 +254,7 @@ export function OrdersManager() {
 
       <div className="grid gap-4 sm:grid-cols-4">
         <Card title="Nesta lista">
-          <p className="text-2xl font-bold text-[#3d1654]">{totals.count}</p>
+          <p className="text-2xl font-bold text-neutral-900">{totals.count}</p>
         </Card>
         <Card title="Pendentes">
           <p className="text-2xl font-bold text-badge-discount">{totals.pending}</p>
@@ -316,7 +316,7 @@ export function OrdersManager() {
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="font-mono font-semibold">#{order.id.slice(0, 8).toUpperCase()}</p>
                     {order.payment_proof_pending && (
-                      <span className="rounded-full bg-claret px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-text-on-dark">
+                      <span className="rounded-full bg-neutral-950 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-white">
                         COMPROVANTE
                       </span>
                     )}

@@ -186,7 +186,7 @@ export function StoreProfileForm() {
             onClick={() => setTab(id)}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               tab === id
-                ? 'bg-[#3d1654] text-white'
+                ? 'bg-neutral-900 text-white'
                 : 'bg-surface text-text-secondary hover:bg-surface-muted'
             }`}
           >
