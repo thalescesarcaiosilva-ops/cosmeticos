@@ -3,6 +3,7 @@ import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { getPrimaryProductImage, readBrandName } from '@/lib/products/product-images'
 import { absoluteUrl } from '@/lib/seo/site-url'
 import { resolveGoogleProductCategory } from '@/lib/seo/google-product-taxonomy'
+import { isValidGtin } from '@/lib/seo/json-ld/merchant-schemas'
 
 export const revalidate = 3600
 
@@ -101,6 +102,9 @@ export async function GET() {
     const googleCategory = resolveGoogleProductCategory(categories.map((c) => c.slug))
     const storeCategoryPath = categories.map((c) => c.name).join(' > ') || null
 
+    const gtin = row.gtin && isValidGtin(row.gtin) ? row.gtin.replace(/\D/g, '') : null
+    const hasIdentifier = Boolean(gtin || row.sku)
+
     return `
     <item>
       <g:id>${escapeXml(row.id)}</g:id>
@@ -115,9 +119,9 @@ export async function GET() {
       ${salePrice ? `<g:sale_price>${escapeXml(salePrice)}</g:sale_price>` : ''}
       <g:condition>new</g:condition>
       ${brand ? `<g:brand>${escapeXml(brand)}</g:brand>` : ''}
-      ${row.gtin ? `<g:gtin>${escapeXml(row.gtin)}</g:gtin>` : ''}
+      ${gtin ? `<g:gtin>${escapeXml(gtin)}</g:gtin>` : ''}
       ${row.sku ? `<g:mpn>${escapeXml(row.sku)}</g:mpn>` : ''}
-      <g:identifier_exists>${row.gtin || row.sku ? 'yes' : 'no'}</g:identifier_exists>
+      <g:identifier_exists>${hasIdentifier ? 'yes' : 'no'}</g:identifier_exists>
       <g:google_product_category>${googleCategory.id}</g:google_product_category>
       ${storeCategoryPath ? `<g:product_type>${escapeXml(storeCategoryPath)}</g:product_type>` : ''}
     </item>`

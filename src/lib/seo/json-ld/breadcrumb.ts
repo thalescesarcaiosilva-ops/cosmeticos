@@ -2,40 +2,31 @@ import { absoluteUrl } from '@/lib/seo/site-url'
 
 export type BreadcrumbItem = {
   name: string
-  /** Required for every crumb except the last (current page). */
+  /** Absolute path for this crumb (required for every crumb including the current page). */
   path?: string
 }
 
 /**
  * Builds BreadcrumbList JSON-LD.
- * Google requires `item` (URL) on every ListItem except the last.
+ * Search Console (Merchant listings) treats missing `item` on any ListItem
+ * as a critical rich-result error — including the current page crumb.
+ * Always emit an absolute URL for every crumb.
  */
 export function buildBreadcrumbJsonLd(items: BreadcrumbItem[]) {
   const homeUrl = absoluteUrl('/')
   if (!homeUrl || items.length === 0) return null
 
-  const lastIndex = items.length - 1
-
   const itemListElement = items.map((item, index) => {
     const position = index + 1
-    const isLast = index === lastIndex
-    const itemUrl = item.path ? absoluteUrl(item.path) : undefined
+    const itemUrl = item.path ? absoluteUrl(item.path) : null
 
-    const listItem: Record<string, unknown> = {
+    return {
       '@type': 'ListItem',
       position,
       name: item.name,
+      // Fallback to home only if a caller forgot `path` — never omit `item`.
+      item: itemUrl ?? homeUrl,
     }
-
-    if (itemUrl) {
-      listItem.item = itemUrl
-    } else if (!isLast) {
-      // Non-final crumbs without a path are invalid for Rich Results.
-      // Callers must pass `path` for every crumb except the last.
-      listItem.item = homeUrl
-    }
-
-    return listItem
   })
 
   return {

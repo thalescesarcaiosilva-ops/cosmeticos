@@ -33,6 +33,18 @@ export function buildPriceValidUntil(daysFromNow = 365): string {
   return date.toISOString().slice(0, 10)
 }
 
+/** Data de início da oferta (hoje, UTC) — campo sugerido pelo Search Console em Offer. */
+export function buildPriceValidFrom(): string {
+  return new Date().toISOString().slice(0, 10)
+}
+
+/** GTIN/EAN válido para Merchant + Rich Results (8, 12, 13 ou 14 dígitos). */
+export function isValidGtin(value: string | null | undefined): boolean {
+  if (!value) return false
+  const digits = value.replace(/\D/g, '')
+  return digits.length === 8 || digits.length === 12 || digits.length === 13 || digits.length === 14
+}
+
 export function buildOfferShippingDetails(context: MerchantSeoContext) {
   const shippingRateValue =
     context.defaultShippingRate != null ? context.defaultShippingRate.toFixed(2) : '0'

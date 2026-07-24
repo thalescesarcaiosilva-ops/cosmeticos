@@ -49,7 +49,7 @@ export default async function BrandPage({ params, searchParams }: BrandPageProps
   const installments = buildInstallmentMap(result.products, paymentSettings)
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     { name: 'Início', path: '/' },
-    { name: brand.name },
+    { name: brand.name, path: `/${brand.slug}` },
   ])
 
   return (

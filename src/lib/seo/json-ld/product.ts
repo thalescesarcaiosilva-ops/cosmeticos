@@ -4,7 +4,9 @@ import { absoluteUrl } from '@/lib/seo/site-url'
 import {
   buildMerchantReturnPolicy,
   buildOfferShippingDetails,
+  buildPriceValidFrom,
   buildPriceValidUntil,
+  isValidGtin,
 } from '@/lib/seo/json-ld/merchant-schemas'
 import type { ApprovedProductReview } from '@/lib/products/reviews'
 import type { ProductDetail } from '@/types/product'
@@ -45,6 +47,7 @@ export function buildProductJsonLd(
     price: formatSchemaPrice(product.price),
     availability: availabilityUrl(product.stock),
     itemCondition: 'https://schema.org/NewCondition',
+    validFrom: buildPriceValidFrom(),
     priceValidUntil: buildPriceValidUntil(),
   }
 
@@ -71,8 +74,8 @@ export function buildProductJsonLd(
     jsonLd.mpn = product.sku
   }
 
-  if (product.gtin) {
-    jsonLd.gtin = product.gtin
+  if (product.gtin && isValidGtin(product.gtin)) {
+    jsonLd.gtin = product.gtin.replace(/\D/g, '')
   }
 
   if (product.brandName) {

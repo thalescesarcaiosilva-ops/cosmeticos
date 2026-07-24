@@ -81,7 +81,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     ...(primaryCategory
       ? [{ name: primaryCategory.name, path: `/colecoes/${primaryCategory.slug}` }]
       : []),
-    { name: product.name },
+    { name: product.name, path: `/produto/${product.slug}` },
   ]
 
   const productJsonLd = buildProductJsonLd(product, merchantContext, {
