@@ -333,8 +333,6 @@ export function buildRobotsTxt(siteUrl: string | null = getSiteUrl()): string {
     '/admin/',
     '/conta/',
     '/api/',
-    '/carrinho',
-    '/checkout',
     '/pedido/',
     '/busca',
   ]) {
