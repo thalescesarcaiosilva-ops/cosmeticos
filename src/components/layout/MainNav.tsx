@@ -2,11 +2,12 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { IconChevronDown } from '@/components/icons/DotIcons'
-import type { MenuCategory } from '@/types/layout'
+import { IconChevronDown, IconPhone } from '@/components/icons/DotIcons'
+import type { MenuCategory, PhoneContact } from '@/types/layout'
 
 type MainNavProps = {
   categories: MenuCategory[]
+  phone?: PhoneContact
   className?: string
   overlay?: boolean
 }
@@ -42,11 +43,11 @@ function NavDropdownItem({ category, overlay }: NavDropdownItemProps) {
   const linkClass = `whitespace-nowrap rounded-sm px-3 py-3 text-[13px] font-bold transition-colors duration-[400ms] md:text-sm ${
     overlay
       ? 'text-white hover:bg-white/10'
-      : 'text-text-primary hover:bg-surface-muted'
+      : 'text-[#302b2e] hover:text-claret'
   }`
 
   const chevronClass = `flex size-8 shrink-0 items-center justify-center rounded-sm transition-colors duration-[400ms] ${
-    overlay ? 'text-white hover:bg-white/10' : 'text-text-primary hover:bg-surface-muted'
+    overlay ? 'text-white hover:bg-white/10' : 'text-[#302b2e] hover:text-claret'
   }`
 
   function closeMenu() {
@@ -118,22 +119,42 @@ function NavDropdownItem({ category, overlay }: NavDropdownItemProps) {
   )
 }
 
-export function MainNav({ categories, className = '', overlay = false }: MainNavProps) {
+export function MainNav({
+  categories,
+  phone,
+  className = '',
+  overlay = false,
+}: MainNavProps) {
   if (categories.length === 0) return null
+
+  const hasPhone = Boolean(phone?.display.trim() && phone?.href.trim())
 
   return (
     <nav
       className={`overflow-visible transition-colors duration-[400ms] ${
-        overlay ? 'border-t border-white/10 bg-transparent' : 'border-t border-border bg-surface'
+        overlay ? 'border-t border-white/10 bg-transparent' : 'border-t border-[#eeeeee] bg-surface'
       } ${className}`}
       aria-label="Categorias principais"
     >
-      <div className="mx-auto max-w-[1200px] overflow-visible px-4 md:px-6">
-        <ul className="flex items-center gap-1 overflow-visible py-1">
+      <div className="mx-auto flex max-w-[1300px] items-center gap-3 overflow-visible px-4 md:px-6">
+        <ul className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto overflow-y-visible py-1">
           {categories.map((category) => (
             <NavDropdownItem key={category.id} category={category} overlay={overlay} />
           ))}
         </ul>
+
+        {hasPhone && phone && (
+          <a
+            href={phone.href}
+            className={`ml-auto flex shrink-0 items-center gap-2 whitespace-nowrap rounded-sm px-2 py-2 text-[13px] font-bold transition-opacity duration-[400ms] hover:opacity-80 md:text-sm ${
+              overlay ? 'text-white' : 'text-claret'
+            }`}
+            aria-label={`Telefone ${phone.display}`}
+          >
+            <IconPhone className="size-4 shrink-0" />
+            <span>{phone.display}</span>
+          </a>
+        )}
       </div>
     </nav>
   )

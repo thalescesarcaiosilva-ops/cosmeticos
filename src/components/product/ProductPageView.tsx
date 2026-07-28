@@ -41,7 +41,7 @@ export function ProductPageView({
   const primaryCategory = product.categories[0] ?? null
 
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-5 md:px-6 md:py-8">
+    <div className="mx-auto max-w-[1300px] px-4 py-5 md:px-6 md:py-8">
       <ProductBreadcrumb
         category={primaryCategory}
         brandName={product.brandName}

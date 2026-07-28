@@ -59,7 +59,7 @@ export function SiteHeader({
   return (
     <>
       <div className="header-container">
-        <header className="header mx-auto max-w-[1200px] px-4 md:px-6">
+        <header className="header mx-auto max-w-[1300px] px-4 md:px-6">
           <div className="flex items-center gap-2 py-2 md:gap-5 md:py-4">
             <button
               type="button"
@@ -131,7 +131,7 @@ export function SiteHeader({
                   <IconHeart className="size-5 md:size-6" />
                 </Link>
                 {favoritesHydrated && favoriteCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brand px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
+                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-claret px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
                     {favoriteCount > 9 ? '9+' : favoriteCount}
                   </span>
                 )}
@@ -157,7 +157,7 @@ export function SiteHeader({
                   <IconCart className="size-5 md:size-6" />
                 </Link>
                 {hydrated && cartItemCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-brand px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
+                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-claret px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
                     {cartItemCount > 9 ? '9+' : cartItemCount}
                   </span>
                 )}

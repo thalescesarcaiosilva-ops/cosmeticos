@@ -30,6 +30,7 @@ type ShopHeaderProps = {
 export function ShopHeader({ className, ...props }: ShopHeaderProps) {
   const pathname = usePathname()
   const headerRef = useRef<HTMLDivElement>(null)
+  const topBarRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
   const isHome = pathname === '/'
@@ -51,24 +52,29 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
   }, [pathname])
 
   useEffect(() => {
-    const node = headerRef.current
-    if (!node) return
+    const headerNode = headerRef.current
+    const topBarNode = topBarRef.current
+    if (!headerNode) return
 
-    function syncHeaderHeight() {
-      if (!node) return
-      const height = node.getBoundingClientRect().height
-      document.documentElement.style.setProperty('--shop-header-height', `${height}px`)
+    function syncHeaderHeights() {
+      if (!headerNode) return
+      const headerHeight = headerNode.getBoundingClientRect().height
+      const topBarHeight = topBarNode?.getBoundingClientRect().height ?? 0
+      document.documentElement.style.setProperty('--shop-header-height', `${headerHeight}px`)
+      document.documentElement.style.setProperty('--shop-topbar-height', `${topBarHeight}px`)
     }
 
-    syncHeaderHeight()
-    const observer = new ResizeObserver(syncHeaderHeight)
-    observer.observe(node)
-    window.addEventListener('resize', syncHeaderHeight)
+    syncHeaderHeights()
+    const observer = new ResizeObserver(syncHeaderHeights)
+    observer.observe(headerNode)
+    if (topBarNode) observer.observe(topBarNode)
+    window.addEventListener('resize', syncHeaderHeights)
 
     return () => {
       observer.disconnect()
-      window.removeEventListener('resize', syncHeaderHeight)
+      window.removeEventListener('resize', syncHeaderHeights)
       document.documentElement.style.removeProperty('--shop-header-height')
+      document.documentElement.style.removeProperty('--shop-topbar-height')
     }
   }, [pathname])
 
@@ -76,21 +82,26 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
     <div
       ref={headerRef}
       data-header-mode={overlay ? 'overlay' : 'solid'}
-      className={`shop-header sticky top-0 z-50 overflow-visible border-b border-border bg-surface text-text-primary shadow-[rgba(74,32,42,0.08)_0px_1px_2px_0px] transition-[background-color,box-shadow,border-color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
+      className={`shop-header sticky top-0 z-50 overflow-visible transition-[background-color,box-shadow,border-color,color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
         overlay
-          ? 'md:border-white/10 md:bg-black/45 md:text-white md:shadow-none md:backdrop-blur-md'
-          : ''
+          ? 'border-b border-transparent bg-[var(--color-header-overlay)] text-white shadow-none backdrop-blur-md'
+          : 'border-b border-[#e7e7e7] bg-surface text-[#272225] shadow-[0_1px_3px_rgba(36,29,31,0.08)] backdrop-blur-none'
       } ${className ?? ''}`}
     >
-      <TopBar
-        storeName={props.storeName}
-        policyLinks={props.policyLinks}
-        socialLinks={props.socialLinks}
+      <div ref={topBarRef}>
+        <TopBar
+          storeName={props.storeName}
+          policyLinks={props.policyLinks}
+          socialLinks={props.socialLinks}
+        />
+      </div>
+      <SiteHeader {...props} overlay={overlay} />
+      <MainNav
+        categories={props.menuCategories}
         phone={props.phone}
         overlay={overlay}
+        className="hidden md:block"
       />
-      <SiteHeader {...props} overlay={overlay} />
-      <MainNav categories={props.menuCategories} overlay={overlay} className="hidden md:block" />
     </div>
   )
 }

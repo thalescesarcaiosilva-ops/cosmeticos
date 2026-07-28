@@ -97,7 +97,7 @@ export function ContactPageView({ data }: ContactFormProps) {
   const showPhoneBlock = Boolean(phoneLine)
 
   return (
-    <div className="mx-auto max-w-[1200px] px-4 py-10 md:px-6 md:py-14">
+    <div className="mx-auto max-w-[1300px] px-4 py-10 md:px-6 md:py-14">
       <header className="mb-10 max-w-3xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">Suporte</p>
         <h1 className="mt-2 text-3xl font-bold text-logo md:text-4xl">{data.pageTitle}</h1>

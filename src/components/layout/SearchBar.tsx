@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { IconSearch } from '@/components/icons/DotIcons'
@@ -63,7 +62,10 @@ export function SearchBar({ className = '', id, variant = 'desktop', overlay = f
 
   useEffect(() => {
     if (!open) return
-    fetchResults(debouncedQuery)
+    const timer = window.setTimeout(() => {
+      void fetchResults(debouncedQuery)
+    }, 0)
+    return () => window.clearTimeout(timer)
   }, [debouncedQuery, open, fetchResults])
 
   useEffect(() => {
@@ -163,12 +165,14 @@ export function SearchBar({ className = '', id, variant = 'desktop', overlay = f
             }
             className={`search-input w-full border font-semibold transition-colors duration-[400ms] focus:outline-none focus:ring-2 ${
               overlay
-                ? 'border-white/20 bg-white/15 text-white placeholder:text-white/70 focus:border-white/40 focus:ring-white/15'
-                : 'border-border text-text-primary placeholder:text-text-muted focus:border-brand focus:ring-brand/15'
+                ? 'border-transparent bg-black/45 text-white placeholder:text-white/70 focus:border-white/25 focus:ring-white/15'
+                : 'border-[#d9d9d9] bg-[#f8f8f8] text-[#302b2e] placeholder:text-[#777176] focus:border-claret focus:ring-claret/10'
             } ${
               variant === 'mobile'
                 ? 'rounded-full py-1.5 pl-3 pr-10 text-sm'
-                : 'rounded-md py-2.5 pl-4 pr-12 text-sm md:py-3'
+                : overlay
+                  ? 'rounded-full py-2.5 pl-4 pr-12 text-sm md:py-3'
+                  : 'rounded-md py-2.5 pl-4 pr-12 text-sm md:py-3'
             }`}
           />
           <button
@@ -176,7 +180,7 @@ export function SearchBar({ className = '', id, variant = 'desktop', overlay = f
             title="Buscar"
             className={`absolute right-0.5 flex items-center justify-center transition-opacity duration-[400ms] hover:opacity-80 md:right-1.5 ${
               variant === 'mobile' ? 'size-8' : 'size-9'
-            } ${overlay ? 'text-white' : 'text-brand'}`}
+            } ${overlay ? 'text-white' : 'text-claret'}`}
             aria-label="Buscar"
           >
             <IconSearch className={`stroke-[2.25] ${variant === 'mobile' ? 'size-4' : 'size-5'}`} />

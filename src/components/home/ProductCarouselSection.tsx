@@ -33,7 +33,7 @@ export function ProductCarouselSection({
   return (
     <section className="mb-12" aria-label={title}>
       <div className="mb-6 flex align-items-center justify-between">
-        <h2 className="mb-0 section-title">{title}</h2>
+        <h2 className="mb-0 section-title text-black">{title}</h2>
         <Link href={viewAllHref} className="text-sm font-semibold text-brand hover:underline">Ver todos</Link>
       </div>
 

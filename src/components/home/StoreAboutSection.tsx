@@ -8,7 +8,7 @@ export function StoreAboutSection() {
   if (!section.enabled) return null
 
   return (
-    <section className="mb-12 overflow-hidden rounded-2xl bg-surface-muted">
+    <section className="mb-12 overflow-hidden rounded-2xl border border-gray-200">
       <div className="grid grid-cols-1 items-stretch gap-0 md:grid-cols-2">
         <StoreImageFrame
           imageUrl={section.imageUrl}

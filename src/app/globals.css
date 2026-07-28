@@ -22,8 +22,9 @@
   --color-footer-text: #f1dfdd;
   --color-nav-bg: #4a202a;
   --color-nav-text: #f1dfdd;
-  --color-header-overlay: rgba(74, 32, 42, 0.75);
+  --color-header-overlay: rgba(0, 0, 0, 0.45);
   --shop-header-height: 168px;
+  --shop-topbar-height: 36px;
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -85,6 +86,10 @@ body {
   overflow-x: hidden;
 }
 
+.shop-header[data-header-mode='solid'] .header-action {
+  color: var(--color-brand-primary-hover);
+}
+
 @media (min-width: 768px) {
   .shop-header[data-header-mode='overlay'] .header-action {
     color: #ffffff;
@@ -93,13 +98,8 @@ body {
   .shop-header[data-header-mode='overlay'] .header-action:hover {
     opacity: 0.88;
   }
-}
 
-.shop-header[data-header-mode='solid'] .header-action {
-  color: var(--color-brand-primary);
-}
-
-@media (min-width: 768px) {
+  /* Banner sobe sob o header transparente no desktop */
   .home-hero-banner {
     margin-top: calc(-1 * var(--shop-header-height));
   }

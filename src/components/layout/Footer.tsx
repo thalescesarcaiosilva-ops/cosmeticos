@@ -271,7 +271,7 @@ export function Footer({ className, footerData }: FooterProps) {
 
   return (
     <footer className={`mt-auto border-t border-border bg-surface text-text-secondary ${className ?? ''}`}>
-      <div className="mx-auto max-w-[1200px] px-4 py-10 md:px-6 md:py-12">
+      <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-6 md:py-12">
         {(showBrand || showMenus || showContact) && (
           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
             {showBrand && (
