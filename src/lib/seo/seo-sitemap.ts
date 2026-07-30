@@ -313,28 +313,26 @@ export function buildSitemapIndexXml(
 /**
  * robots.txt: libera o conteúdo público e bloqueia áreas privadas/transacionais.
  *
- * IMPORTANTE (Google Search Central): robots.txt controla RASTREAMENTO, não
- * indexação. Não resolve duplicata — use rel=canonical (lib/seo/canonical.ts)
- * e noindex nas páginas. Não bloqueie /produto/, /colecoes/, /paginas/ nem
- * assets — o Merchant Center precisa rastrear PDPs e políticas.
- *
- * UTM e filtros: preferir canonical + noindex; Disallow de query params é
- * opcional e pouco útil em lojas médias.
+ * IMPORTANTE (Google Search Central / Merchant Center):
+ * - robots.txt controla RASTREAMENTO, não indexação.
+ * - Não bloqueie /produto/, /colecoes/, /paginas/, imagens nem assets —
+ *   o Merchant Center e o Googlebot precisam rastrear PDPs e políticas.
+ * - NÃO use blocos "User-agent: Googlebot / Disallow:" vazios além de
+ *   "User-agent: *": o bloco específico substitui o "*", e liberaria /admin/.
+ * - UTM/filtros: preferir canonical + noindex (não Disallow de query).
  */
 export function buildRobotsTxt(siteUrl: string | null = getSiteUrl()): string {
   const lines = [
     'User-agent: *',
     'Allow: /',
     '',
-    '# Áreas privadas e transacionais (sem valor de busca)',
+    '# Áreas privadas e transacionais (sem valor de busca / Merchant)',
   ]
 
   for (const path of [
     '/admin/',
     '/conta/',
     '/api/',
-    '/pedido/',
-    '/busca',
   ]) {
     lines.push(`Disallow: ${path}`)
   }
