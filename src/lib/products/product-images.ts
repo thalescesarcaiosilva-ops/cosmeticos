@@ -1,11 +1,23 @@
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 
 export type PrimaryProductImage = {
+  /** Canônico (large) — Merchant / JSON-LD */
   url: string | null
+  /** Card / lista (~400px) */
+  thumbUrl: string | null
+  /** Galeria PDP (~800px) */
+  mediumUrl: string | null
   alt: string | null
 }
 
-function readMedia(media: unknown): { public_url: string; alt_text: string | null } | null {
+type MediaUrls = {
+  public_url: string
+  thumb_url?: string | null
+  medium_url?: string | null
+  alt_text: string | null
+}
+
+function readMedia(media: unknown): MediaUrls | null {
   if (!media || typeof media !== 'object') return null
 
   if (Array.isArray(media)) {
@@ -16,7 +28,8 @@ function readMedia(media: unknown): { public_url: string; alt_text: string | nul
     return null
   }
 
-  const publicUrl = 'public_url' in media && typeof media.public_url === 'string' ? media.public_url : null
+  const publicUrl =
+    'public_url' in media && typeof media.public_url === 'string' ? media.public_url : null
   if (!publicUrl) return null
 
   const altText =
@@ -24,7 +37,17 @@ function readMedia(media: unknown): { public_url: string; alt_text: string | nul
       ? media.alt_text
       : null
 
-  return { public_url: publicUrl, alt_text: altText }
+  const thumbUrl =
+    'thumb_url' in media && typeof media.thumb_url === 'string' ? media.thumb_url : null
+  const mediumUrl =
+    'medium_url' in media && typeof media.medium_url === 'string' ? media.medium_url : null
+
+  return {
+    public_url: publicUrl,
+    thumb_url: thumbUrl,
+    medium_url: mediumUrl,
+    alt_text: altText,
+  }
 }
 
 export function getPrimaryProductImage(
@@ -32,7 +55,7 @@ export function getPrimaryProductImage(
   fallbackAlt?: string
 ): PrimaryProductImage {
   if (!Array.isArray(productImages)) {
-    return { url: null, alt: fallbackAlt ?? null }
+    return { url: null, thumbUrl: null, mediumUrl: null, alt: fallbackAlt ?? null }
   }
 
   const sorted = [...productImages].sort((a, b) => {
@@ -51,12 +74,14 @@ export function getPrimaryProductImage(
       if (!normalizedUrl) continue
       return {
         url: normalizedUrl,
+        thumbUrl: toSiteMediaUrl(media.thumb_url) ?? normalizedUrl,
+        mediumUrl: toSiteMediaUrl(media.medium_url) ?? normalizedUrl,
         alt: media.alt_text ?? fallbackAlt ?? null,
       }
     }
   }
 
-  return { url: null, alt: fallbackAlt ?? null }
+  return { url: null, thumbUrl: null, mediumUrl: null, alt: fallbackAlt ?? null }
 }
 
 export function readBrandName(brand: unknown): string | null {

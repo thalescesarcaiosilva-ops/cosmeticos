@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { IconSearch } from '@/components/icons/DotIcons'
@@ -227,7 +227,7 @@ export function SearchBar({ className = '', id, variant = 'desktop', overlay = f
                     >
                       <div className="relative size-12 shrink-0 overflow-hidden rounded-md border border-border bg-surface-muted">
                         {product.imageUrl ? (
-                          <Image
+                          <SiteImage
                             src={product.imageUrl}
                             alt=""
                             fill

@@ -10,8 +10,12 @@ import {
   MEDIA_PAGE_SIZE,
   type MediaBucket,
 } from '@/lib/media/buckets'
+import { isRasterImageMime, uploadOptimizedMediaVariants } from '@/lib/media/upload-optimized'
 
 const MEDIA_COLUMNS =
+  'id, filename, storage_path, bucket, public_url, thumb_url, medium_url, mime_type, size_bytes, alt_text, created_at'
+
+const MEDIA_COLUMNS_LEGACY =
   'id, filename, storage_path, bucket, public_url, mime_type, size_bytes, alt_text, created_at'
 
 async function requireAdmin() {
@@ -31,10 +35,16 @@ async function requireAdmin() {
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
 const MAX_SIZE = 5 * 1024 * 1024
 
-function normalizeMediaAssetUrls<T extends { public_url: string | null }>(items: T[]): T[] {
+function normalizeMediaAssetUrls<
+  T extends { public_url: string | null; thumb_url?: string | null; medium_url?: string | null },
+>(items: T[]): T[] {
   return items.map((item) => ({
     ...item,
     public_url: toSiteMediaUrl(item.public_url) ?? item.public_url,
+    thumb_url: item.thumb_url ? toSiteMediaUrl(item.thumb_url) ?? item.thumb_url : item.thumb_url,
+    medium_url: item.medium_url
+      ? toSiteMediaUrl(item.medium_url) ?? item.medium_url
+      : item.medium_url,
   }))
 }
 
@@ -67,10 +77,23 @@ export async function GET(request: Request) {
     query = query.eq('bucket', bucketParam)
   }
 
-  const { data, error, count } = await query.range(from, to)
+  let { data, error, count } = await query.range(from, to)
 
   if (error) {
-    return jsonError('Não foi possível carregar a biblioteca de mídia', 500)
+    let legacyQuery = supabase
+      .from('media_assets')
+      .select(MEDIA_COLUMNS_LEGACY, { count: 'exact' })
+      .order('created_at', { ascending: false })
+    if (bucketParam && bucketParam !== 'all' && isMediaBucket(bucketParam)) {
+      legacyQuery = legacyQuery.eq('bucket', bucketParam)
+    }
+    const legacy = await legacyQuery.range(from, to)
+    if (legacy.error) {
+      return jsonError('Não foi possível carregar a biblioteca de mídia', 500)
+    }
+    data = legacy.data as typeof data
+    count = legacy.count
+    error = null
   }
 
   const total = count ?? 0
@@ -110,45 +133,126 @@ export async function POST(request: Request) {
     return jsonError('Arquivo muito grande. Máximo 5 MB.', 400)
   }
 
-  const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
-  const storagePath = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${ext}`
   const buffer = Buffer.from(await file.arrayBuffer())
-
   const admin = createAdminClient()
-  const { error: uploadError } = await admin.storage
-    .from(bucket)
-    .upload(storagePath, buffer, { contentType: file.type, upsert: false })
+  const alt =
+    typeof altText === 'string' && altText.trim() ? altText.trim() : null
 
-  if (uploadError) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('[media/upload]', uploadError.message)
+  // SVG: sem sharp — upload direto
+  if (file.type === 'image/svg+xml' || !isRasterImageMime(file.type)) {
+    const ext = file.name.split('.').pop()?.toLowerCase() ?? 'svg'
+    const storagePath = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${ext}`
+    const { error: uploadError } = await admin.storage
+      .from(bucket)
+      .upload(storagePath, buffer, { contentType: file.type, upsert: false })
+
+    if (uploadError) {
+      return jsonError(
+        'Falha no upload. Verifique se PARTE_4_storage.sql foi executado no Supabase.',
+        400
+      )
     }
-    return jsonError(
-      'Falha no upload. Verifique se PARTE_4_storage.sql foi executado no Supabase.',
-      400
+
+    const { data: urlData } = admin.storage.from(bucket).getPublicUrl(storagePath)
+    const normalizedPublicUrl = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
+
+    const { data, error } = await admin
+      .from('media_assets')
+      .insert({
+        filename: file.name,
+        storage_path: storagePath,
+        bucket,
+        public_url: normalizedPublicUrl,
+        mime_type: file.type,
+        size_bytes: file.size,
+        alt_text: alt,
+        uploaded_by: auth.id,
+      })
+      .select(MEDIA_COLUMNS_LEGACY)
+      .single()
+
+    if (error || !data) {
+      await admin.storage.from(bucket).remove([storagePath])
+      return jsonError('Não foi possível registrar a mídia', 400)
+    }
+
+    return jsonSuccess(
+      {
+        ...data,
+        public_url: toSiteMediaUrl(data.public_url) ?? data.public_url,
+        thumb_url: null,
+        medium_url: null,
+      },
+      'Imagem enviada',
+      201
     )
   }
 
-  const { data: urlData } = admin.storage.from(bucket).getPublicUrl(storagePath)
-  const normalizedPublicUrl = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
-
-  const { data, error } = await admin
-    .from('media_assets')
-    .insert({
-      filename: file.name,
-      storage_path: storagePath,
+  let uploaded
+  try {
+    uploaded = await uploadOptimizedMediaVariants({
       bucket,
-      public_url: normalizedPublicUrl,
-      mime_type: file.type,
-      size_bytes: file.size,
-      alt_text: typeof altText === 'string' && altText.trim() ? altText.trim() : null,
-      uploaded_by: auth.id,
+      fileBuffer: buffer,
     })
+  } catch (err) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[media/upload]', err)
+    }
+    return jsonError('Falha ao otimizar/enviar a imagem', 400)
+  }
+
+  const insertPayload = {
+    filename: file.name,
+    storage_path: uploaded.storagePath,
+    bucket,
+    public_url: uploaded.publicUrl,
+    thumb_url: uploaded.thumbUrl,
+    medium_url: uploaded.mediumUrl,
+    mime_type: uploaded.mimeType,
+    size_bytes: uploaded.sizeBytes,
+    alt_text: alt,
+    uploaded_by: auth.id,
+  }
+
+  let { data, error } = await admin
+    .from('media_assets')
+    .insert(insertPayload)
     .select(MEDIA_COLUMNS)
     .single()
 
-  if (error || !data) {
-    await admin.storage.from(bucket).remove([storagePath])
+  if (error) {
+    const legacyInsert = await admin
+      .from('media_assets')
+      .insert({
+        filename: file.name,
+        storage_path: uploaded.storagePath,
+        bucket,
+        public_url: uploaded.publicUrl,
+        mime_type: uploaded.mimeType,
+        size_bytes: uploaded.sizeBytes,
+        alt_text: alt,
+        uploaded_by: auth.id,
+      })
+      .select(MEDIA_COLUMNS_LEGACY)
+      .single()
+
+    if (legacyInsert.error || !legacyInsert.data) {
+      await admin.storage.from(bucket).remove(uploaded.pathsToCleanup)
+      return jsonError(
+        'Não foi possível registrar a mídia. Aplique a migration 202607300002_media_variants.sql.',
+        400
+      )
+    }
+    data = {
+      ...legacyInsert.data,
+      thumb_url: uploaded.thumbUrl,
+      medium_url: uploaded.mediumUrl,
+    } as typeof data
+    error = null
+  }
+
+  if (!data) {
+    await admin.storage.from(bucket).remove(uploaded.pathsToCleanup)
     return jsonError('Não foi possível registrar a mídia', 400)
   }
 
@@ -156,6 +260,12 @@ export async function POST(request: Request) {
     {
       ...data,
       public_url: toSiteMediaUrl(data.public_url) ?? data.public_url,
+      thumb_url: toSiteMediaUrl(
+        (data as { thumb_url?: string | null }).thumb_url ?? uploaded.thumbUrl
+      ),
+      medium_url: toSiteMediaUrl(
+        (data as { medium_url?: string | null }).medium_url ?? uploaded.mediumUrl
+      ),
     },
     'Imagem enviada',
     201

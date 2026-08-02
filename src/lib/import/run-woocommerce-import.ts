@@ -3,8 +3,7 @@ import {
   filterImportableImages,
   sourceFilenameFromUrl,
 } from '@/lib/import/image-source-policy'
-import { downloadRemoteImage, optimizeProductImage } from '@/lib/import/product-image-import'
-import { toSiteMediaUrl } from '@/lib/media/public-url'
+import { downloadRemoteImage } from '@/lib/import/product-image-import'
 import type { WooCommerceProductRow } from '@/lib/import/woocommerce-csv'
 import { syncProductRelations } from '@/lib/products/queries'
 import { slugify } from '@/lib/products/format'
@@ -330,31 +329,43 @@ async function importProductImage(
   }
 
   const raw = await downloadRemoteImage(sourceUrl)
-  const optimized = await optimizeProductImage(raw)
+  const { uploadOptimizedMediaVariants } = await import('@/lib/media/upload-optimized')
+  const uploaded = await uploadOptimizedMediaVariants({
+    bucket: 'product-images',
+    fileBuffer: raw,
+    folder: 'import',
+  })
 
-  const storagePath = `import/${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${optimized.extension}`
-
-  const { error: uploadError } = await admin.storage
-    .from('product-images')
-    .upload(storagePath, optimized.buffer, {
-      contentType: optimized.mimeType,
-      upsert: false,
+  const insertWithVariants = await admin
+    .from('media_assets')
+    .insert({
+      filename,
+      storage_path: uploaded.storagePath,
+      bucket: 'product-images',
+      public_url: uploaded.publicUrl,
+      thumb_url: uploaded.thumbUrl,
+      medium_url: uploaded.mediumUrl,
+      mime_type: uploaded.mimeType,
+      size_bytes: uploaded.sizeBytes,
+      alt_text: altText.slice(0, 255) || null,
+      uploaded_by: adminUserId,
     })
+    .select('id')
+    .single()
 
-  if (uploadError) throw new Error(uploadError.message)
-
-  const { data: urlData } = admin.storage.from('product-images').getPublicUrl(storagePath)
-  const normalizedPublicUrl = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
+  if (!insertWithVariants.error && insertWithVariants.data) {
+    return insertWithVariants.data.id
+  }
 
   const { data, error } = await admin
     .from('media_assets')
     .insert({
       filename,
-      storage_path: storagePath,
+      storage_path: uploaded.storagePath,
       bucket: 'product-images',
-      public_url: normalizedPublicUrl,
-      mime_type: optimized.mimeType,
-      size_bytes: optimized.size,
+      public_url: uploaded.publicUrl,
+      mime_type: uploaded.mimeType,
+      size_bytes: uploaded.sizeBytes,
       alt_text: altText.slice(0, 255) || null,
       uploaded_by: adminUserId,
     })
@@ -362,7 +373,7 @@ async function importProductImage(
     .single()
 
   if (error || !data) {
-    await admin.storage.from('product-images').remove([storagePath])
+    await admin.storage.from('product-images').remove(uploaded.pathsToCleanup)
     throw new Error(error?.message ?? 'Falha ao registrar mídia')
   }
 

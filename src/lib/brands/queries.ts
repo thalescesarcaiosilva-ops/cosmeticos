@@ -130,7 +130,7 @@ export async function getBrandProducts(
 
   const total = count ?? 0
   return {
-    products: data.map((row) => mapProductCard(row as Record<string, unknown>)),
+    products: data.map((row) => mapProductCard(row as unknown as Record<string, unknown>)),
     total,
     page,
     pageSize: PAGE_SIZE,

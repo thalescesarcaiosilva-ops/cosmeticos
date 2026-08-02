@@ -18,6 +18,10 @@ const LEGACY_PAGE_REDIRECTS: Record<string, string> = {
   '/fale-conosco': '/paginas/fale-conosco',
 }
 
+function needsAuthCheck(pathname: string): boolean {
+  return pathname.startsWith('/admin') || pathname.startsWith('/conta')
+}
+
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
@@ -28,12 +32,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url, 308)
   }
 
-  const requestHeaders = new Headers(request.headers)
-  requestHeaders.set('x-pathname', pathname)
+  // Storefront, sitemaps, feed, APIs públicas: sem round-trip de auth (economia Vercel + bots).
+  if (!needsAuthCheck(pathname)) {
+    return NextResponse.next()
+  }
 
   let response = NextResponse.next({
     request: {
-      headers: requestHeaders,
+      headers: request.headers,
     },
   })
 

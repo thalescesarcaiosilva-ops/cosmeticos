@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -33,7 +33,7 @@ function CategorySealImage({
   }
 
   return (
-    <Image
+    <SiteImage
       src={src}
       alt={name}
       fill

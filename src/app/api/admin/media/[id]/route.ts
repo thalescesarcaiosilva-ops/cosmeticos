@@ -41,7 +41,12 @@ export async function DELETE(
   }
 
   const admin = createAdminClient()
-  await admin.storage.from(asset.bucket).remove([asset.storage_path])
+  const pathsToRemove = [asset.storage_path]
+  const base = asset.storage_path.replace(/\.(webp|jpe?g|png|gif|avif)$/i, '')
+  if (base !== asset.storage_path) {
+    pathsToRemove.push(`${base}.thumb.webp`, `${base}.medium.webp`)
+  }
+  await admin.storage.from(asset.bucket).remove(pathsToRemove)
   const { error } = await admin.from('media_assets').delete().eq('id', id)
 
   if (error) {

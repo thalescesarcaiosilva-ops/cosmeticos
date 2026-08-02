@@ -4,7 +4,8 @@ import { getPrimaryProductImage } from '@/lib/products/product-images'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
 import { absoluteUrl, getSiteUrl } from '@/lib/seo/site-url'
 
-export const SITEMAP_REVALIDATE_SECONDS = 3600
+/** CDN curto: limpeza de catálogo deve refletir rápido no Google. */
+export const SITEMAP_REVALIDATE_SECONDS = 60
 
 /** Máximo de URLs por arquivo (limite do protocolo sitemap). */
 export const SITEMAP_MAX_URLS = 50_000

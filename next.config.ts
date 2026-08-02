@@ -40,12 +40,12 @@ const MONTH_CACHE = 'public, max-age=2592000, stale-while-revalidate=86400'
 
 const nextConfig: NextConfig = {
   images: {
-    // Gera WebP/AVIF e redimensiona conforme `sizes` (cards ~263px, não 1000px).
-    formats: ['image/avif', 'image/webp'],
+    // Loja usa SiteImage (unoptimized) + variantes WebP no storage.
+    formats: ['image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 30,
-    qualities: [70, 75, 80],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [64, 96, 128, 160, 256, 384],
+    qualities: [75],
+    deviceSizes: [640, 828, 1200, 1920],
+    imageSizes: [64, 128, 256, 384],
     remotePatterns,
   },
   async headers() {

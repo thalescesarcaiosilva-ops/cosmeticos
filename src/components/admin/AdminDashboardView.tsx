@@ -3,11 +3,15 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import {
+  AlertTriangle,
   Box,
   CreditCard,
   DollarSign,
+  FileWarning,
   LineChart,
+  Package,
   ShoppingCart,
+  Truck,
   Users,
   Wallet,
 } from 'lucide-react'
@@ -18,11 +22,16 @@ import type { DashboardPayload } from '@/lib/admin/dashboard-analytics'
 import {
   aggregateProductSales,
   buildDailyRevenue,
+  buildOrderFunnel,
+  filterNotFoundPaths,
   filterOrders,
+  highViewLowConversion,
   isSoldOrder,
   methodStats,
   resolveRange,
+  shippingMethodBreakdown,
   statusBreakdown,
+  suggestKitsFromOrders,
   type PeriodPreset,
   type ProductSalesRow,
 } from '@/lib/admin/dashboard-metrics'
@@ -139,6 +148,36 @@ export function AdminDashboardView({ data }: Props) {
     [data.orderItems, soldIds]
   )
 
+  const shippingStats = useMemo(
+    () => shippingMethodBreakdown(soldOrders),
+    [soldOrders]
+  )
+
+  const funnel = useMemo(
+    () => buildOrderFunnel(periodOrders, data.paymentColumnsAvailable),
+    [periodOrders, data.paymentColumnsAvailable]
+  )
+
+  const kitSuggestions = useMemo(
+    () => suggestKitsFromOrders(data.orderItems, soldIds),
+    [data.orderItems, soldIds]
+  )
+
+  const opportunities = useMemo(
+    () => highViewLowConversion(data.productViews, productSales, range),
+    [data.productViews, productSales, range]
+  )
+
+  const notFoundRows = useMemo(
+    () => filterNotFoundPaths(data.notFoundPaths, range).slice(0, 12),
+    [data.notFoundPaths, range]
+  )
+
+  const overallConversion = useMemo(() => {
+    if (periodOrders.length === 0) return 0
+    return (soldOrders.length / periodOrders.length) * 100
+  }, [periodOrders.length, soldOrders.length])
+
   const filteredProducts = useMemo(() => {
     const q = normalize(productQuery)
     if (!q) return productSales
@@ -201,7 +240,7 @@ export function AdminDashboardView({ data }: Props) {
         />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
         <KpiCard
           title="Receita confirmada"
           value={formatCurrency(confirmedRevenue)}
@@ -218,10 +257,16 @@ export function AdminDashboardView({ data }: Props) {
           highlight={pendingOrders > 0}
         />
         <KpiCard
+          title="Conversão pagamento"
+          value={`${overallConversion.toFixed(1)}%`}
+          hint="Pagos ÷ pedidos criados"
+          icon={<LineChart className="h-5 w-5" />}
+        />
+        <KpiCard
           title="Ticket médio"
           value={formatCurrency(averageTicket)}
           hint="Pedidos confirmados"
-          icon={<LineChart className="h-5 w-5" />}
+          icon={<Package className="h-5 w-5" />}
         />
         <KpiCard
           title="Clientes"
@@ -261,16 +306,137 @@ export function AdminDashboardView({ data }: Props) {
         </Card>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-[1.6fr_1fr]">
-        <Card
-          title={`Receita confirmada por dia · ${periodLabel}`}
-        >
+      <div className="grid gap-4 xl:grid-cols-[1.4fr_1fr]">
+        <Card title={`Receita confirmada por dia · ${periodLabel}`}>
           <RevenueLineChart points={daily} />
+        </Card>
+        <Card title="Funil de pedidos">
+          <FunnelBars steps={funnel} />
+        </Card>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card title="Frete mais usado">
+          {!shippingStats.length ? (
+            <p className="text-sm text-text-secondary">Sem fretes no período.</p>
+          ) : (
+            <ul className="space-y-3">
+              {shippingStats.slice(0, 6).map((row) => (
+                <li key={row.name}>
+                  <div className="mb-1 flex items-center justify-between gap-2 text-sm">
+                    <span className="flex min-w-0 items-center gap-2 font-medium">
+                      <Truck className="h-4 w-4 shrink-0 text-text-muted" />
+                      <span className="truncate">{row.name}</span>
+                    </span>
+                    <span className="shrink-0 tabular-nums text-text-secondary">
+                      {row.orders} · {row.share.toFixed(0)}%
+                    </span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-surface-muted">
+                    <div
+                      className="h-full rounded-full bg-claret"
+                      style={{ width: `${Math.min(100, row.share)}%` }}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </Card>
         <Card title="Pedidos por status">
           <StatusBars rows={statuses} />
         </Card>
       </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card title="Sugestões de kit (comprados juntos)">
+          {!kitSuggestions.length ? (
+            <p className="text-sm text-text-secondary">
+              Ainda não há pares com 2+ pedidos pagos no período. Use em Compre
+              junto quando aparecerem.
+            </p>
+          ) : (
+            <ul className="divide-y divide-border">
+              {kitSuggestions.map((kit) => (
+                <li key={`${kit.productAId}-${kit.productBId}`} className="py-3">
+                  <p className="text-sm font-medium text-text-primary">
+                    {kit.productAName}
+                    <span className="mx-1.5 text-text-muted">+</span>
+                    {kit.productBName}
+                  </p>
+                  <p className="mt-1 text-xs text-text-secondary">
+                    Juntos em {kit.togetherCount} pedidos ·{' '}
+                    <Link href="/admin/compre-junto" className="text-brand hover:underline">
+                      configurar kit
+                    </Link>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Card>
+
+        <Card title="Alto acesso, baixa conversão">
+          {!opportunities.length ? (
+            <p className="text-sm text-text-secondary">
+              Sem dados de visualização ainda. As views começam a contar após
+              aplicar a migration de analytics e visitas às PDPs.
+            </p>
+          ) : (
+            <ul className="divide-y divide-border">
+              {opportunities.map((row) => (
+                <li
+                  key={row.productId}
+                  className="flex items-start justify-between gap-3 py-3"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium">{row.name}</p>
+                    <p className="mt-0.5 flex items-center gap-1 text-xs text-text-secondary">
+                      <AlertTriangle className="h-3.5 w-3.5 text-badge-discount" />
+                      {row.views} views · {row.unitsSold} vendidos
+                    </p>
+                  </div>
+                  <span className="shrink-0 text-sm font-semibold tabular-nums text-badge-discount">
+                    {row.conversion.toFixed(1)}%
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Card>
+      </div>
+
+      <Card title="URLs 404 mais acessadas">
+        {!notFoundRows.length ? (
+          <p className="text-sm text-text-secondary">
+            Nenhum 404 registrado no período. Links quebrados e typos aparecerão
+            aqui (agregados, sem bots óbvios).
+          </p>
+        ) : (
+          <ul className="divide-y divide-border">
+            {notFoundRows.map((row) => (
+              <li
+                key={row.path}
+                className="flex items-start justify-between gap-3 py-3"
+              >
+                <div className="min-w-0">
+                  <p className="flex items-center gap-2 truncate font-mono text-sm">
+                    <FileWarning className="h-4 w-4 shrink-0 text-text-muted" />
+                    {row.path}
+                  </p>
+                  <p className="mt-1 text-xs text-text-muted">
+                    Último: {new Date(row.lastSeenAt).toLocaleString('pt-BR')}
+                    {row.sampleReferrer ? ` · ref: ${row.sampleReferrer.slice(0, 60)}` : ''}
+                  </p>
+                </div>
+                <span className="shrink-0 text-sm font-semibold tabular-nums">
+                  {row.hits}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
 
       <Card title="Produtos mais comprados">
         <div className="mb-4 max-w-md space-y-1">
@@ -810,6 +976,45 @@ function RevenueLineChart({
         )}
       </svg>
     </div>
+  )
+}
+
+function FunnelBars({
+  steps,
+}: {
+  steps: { key: string; label: string; count: number }[]
+}) {
+  if (!steps.length || steps.every((s) => s.count === 0)) {
+    return <p className="text-sm text-text-secondary">Nenhum pedido neste período.</p>
+  }
+
+  const max = Math.max(...steps.map((s) => s.count), 1)
+  const base = steps[0]?.count || 1
+
+  return (
+    <ul className="space-y-4">
+      {steps.map((step) => {
+        const width = Math.max(6, Math.round((step.count / max) * 100))
+        const rate = ((step.count / base) * 100).toFixed(0)
+        return (
+          <li key={step.key}>
+            <div className="mb-1.5 flex items-center justify-between gap-3 text-sm">
+              <span className="text-text-secondary">{step.label}</span>
+              <span className="font-semibold tabular-nums text-text-primary">
+                {step.count}
+                <span className="ml-1.5 text-xs font-normal text-text-muted">{rate}%</span>
+              </span>
+            </div>
+            <div className="h-3 overflow-hidden rounded-sm bg-surface-strong">
+              <div
+                className="h-full rounded-sm transition-all"
+                style={{ width: `${width}%`, background: ACCENT }}
+              />
+            </div>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 

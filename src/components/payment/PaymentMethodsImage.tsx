@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import {
   hasPaymentMethodsImage,
   paymentMethodsImageConfig,
@@ -16,7 +16,7 @@ export function PaymentMethodsImage({ size = 'md', className = '' }: PaymentMeth
     size === 'sm' ? 'max-h-6' : size === 'lg' ? 'max-h-10' : 'max-h-8'
 
   return (
-    <Image
+    <SiteImage
       src={paymentMethodsImageConfig.imageUrl!}
       alt={paymentMethodsImageConfig.alt}
       width={360}

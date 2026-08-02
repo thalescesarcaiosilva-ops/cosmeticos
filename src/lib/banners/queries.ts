@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import type { HomeBanner, HomeBannerPublic } from '@/types/home-banner'
 import type { BannerDeviceTarget } from '@/schemas/banner-schema'
@@ -31,7 +32,7 @@ function mapPublicBanner(row: Record<string, unknown>): HomeBannerPublic {
 }
 
 export async function getHomeBannersPublic(): Promise<HomeBannerPublic[]> {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const full = await supabase
     .from('home_banners')
     .select(BANNER_PUBLIC_COLUMNS)

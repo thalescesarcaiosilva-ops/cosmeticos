@@ -1,10 +1,10 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { IconBag } from '@/components/icons/DotIcons'
 import { FavoriteButton } from '@/components/product/FavoriteButton'
 import { InstallmentLine } from '@/components/product/InstallmentLine'
+import { SiteImage } from '@/components/ui/SiteImage'
 import { calcDiscountPercent, formatCurrency } from '@/lib/products/format'
 import type { InstallmentDisplay } from '@/types/payment'
 import type { ProductCardData } from '@/types/product'
@@ -29,12 +29,11 @@ export function ProductCard({ product, installment }: ProductCardProps) {
             </span>
           )}
           {product.imageUrl ? (
-            <Image
+            <SiteImage
               src={product.imageUrl}
               alt={product.imageAlt ?? product.name}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              quality={70}
               loading="lazy"
               className="object-contain p-4 transition-transform duration-300 group-hover:scale-[1.03]"
             />

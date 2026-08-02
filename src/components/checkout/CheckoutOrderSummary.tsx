@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
@@ -131,7 +131,7 @@ export function CheckoutOrderSummary({
                   <div className="relative shrink-0">
                     <div className="flex size-14 items-center justify-center rounded-md border border-border bg-white p-1">
                       {line.imageUrl ? (
-                        <Image
+                        <SiteImage
                           src={line.imageUrl}
                           alt={line.imageAlt}
                           width={48}

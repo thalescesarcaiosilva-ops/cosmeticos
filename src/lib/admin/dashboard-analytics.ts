@@ -31,6 +31,21 @@ export type LowStockRow = {
   slug: string
 }
 
+export type ProductViewRow = {
+  productId: string
+  day: string
+  views: number
+  productName: string
+  productSlug: string
+}
+
+export type NotFoundPathRow = {
+  path: string
+  hits: number
+  lastSeenAt: string
+  sampleReferrer: string | null
+}
+
 export type DashboardPayload = {
   paymentColumnsAvailable: boolean
   productsCount: number
@@ -39,6 +54,8 @@ export type DashboardPayload = {
   orders: DashboardOrderRow[]
   orderItems: DashboardOrderItemRow[]
   lowStock: LowStockRow[]
+  productViews: ProductViewRow[]
+  notFoundPaths: NotFoundPathRow[]
 }
 
 type RawOrder = {
@@ -84,18 +101,29 @@ function mapOrder(row: RawOrder): DashboardOrderRow {
 export async function getDashboardPayload(): Promise<DashboardPayload> {
   const admin = createAdminClient()
 
-  const [products, categories, customers, lowStock] = await Promise.all([
-    admin.from('products').select('id', { count: 'exact', head: true }),
-    admin.from('categories').select('id', { count: 'exact', head: true }),
-    admin.from('profiles').select('id', { count: 'exact', head: true }),
-    admin
-      .from('products')
-      .select('id, name, stock, slug')
-      .eq('active', true)
-      .lte('stock', 3)
-      .order('stock', { ascending: true })
-      .limit(8),
-  ])
+  const [products, categories, customers, lowStock, viewsResult, notFoundResult] =
+    await Promise.all([
+      admin.from('products').select('id', { count: 'exact', head: true }),
+      admin.from('categories').select('id', { count: 'exact', head: true }),
+      admin.from('profiles').select('id', { count: 'exact', head: true }),
+      admin
+        .from('products')
+        .select('id, name, stock, slug')
+        .eq('active', true)
+        .lte('stock', 3)
+        .order('stock', { ascending: true })
+        .limit(8),
+      admin
+        .from('product_views_daily')
+        .select('product_id, day, views, products(name, slug)')
+        .order('day', { ascending: false })
+        .limit(5000),
+      admin
+        .from('not_found_paths')
+        .select('path, hits, last_seen_at, sample_referrer')
+        .order('hits', { ascending: false })
+        .limit(30),
+    ])
 
   let paymentColumnsAvailable = true
   let rawOrders: RawOrder[] = []
@@ -159,6 +187,39 @@ export async function getDashboardPayload(): Promise<DashboardPayload> {
     }
   }
 
+  type RawView = {
+    product_id: string
+    day: string
+    views: number
+    products?: { name?: string | null; slug?: string | null } | null
+  }
+
+  const productViews: ProductViewRow[] = viewsResult.error
+    ? []
+    : ((viewsResult.data ?? []) as RawView[]).map((row) => ({
+        productId: row.product_id,
+        day: row.day,
+        views: Number(row.views ?? 0),
+        productName: row.products?.name?.trim() || 'Produto',
+        productSlug: row.products?.slug ?? '',
+      }))
+
+  type Raw404 = {
+    path: string
+    hits: number
+    last_seen_at: string
+    sample_referrer: string | null
+  }
+
+  const notFoundPaths: NotFoundPathRow[] = notFoundResult.error
+    ? []
+    : ((notFoundResult.data ?? []) as Raw404[]).map((row) => ({
+        path: row.path,
+        hits: Number(row.hits ?? 0),
+        lastSeenAt: row.last_seen_at,
+        sampleReferrer: row.sample_referrer,
+      }))
+
   return {
     paymentColumnsAvailable,
     productsCount: products.count ?? 0,
@@ -167,5 +228,7 @@ export async function getDashboardPayload(): Promise<DashboardPayload> {
     orders,
     orderItems,
     lowStock: (lowStock.data ?? []) as LowStockRow[],
+    productViews,
+    notFoundPaths,
   }
 }

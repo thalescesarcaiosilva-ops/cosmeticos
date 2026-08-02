@@ -1,16 +1,22 @@
 'use client'
 
-import Image from 'next/image'
 import { useRef, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { IconChevronLeft } from '@/components/icons/DotIcons'
+import { SiteImage } from '@/components/ui/SiteImage'
 
 const THUMB_SIZE = 72
 const THUMB_GAP = 8
 const VISIBLE_THUMBS = 4
 
 type ProductGalleryProps = {
-  images: { id: string; url: string; alt: string }[]
+  images: {
+    id: string
+    url: string
+    thumbUrl?: string
+    mediumUrl?: string
+    alt: string
+  }[]
   productName: string
   discountPercent: number | null
 }
@@ -58,8 +64,8 @@ export function ProductGallery({ images, productName, discountPercent }: Product
                 aria-label={`Ver imagem ${index + 1}`}
                 aria-current={index === activeIndex}
               >
-                <Image
-                  src={img.url}
+                <SiteImage
+                  src={img.thumbUrl || img.url}
                   alt=""
                   fill
                   sizes="72px"
@@ -115,9 +121,9 @@ export function ProductGallery({ images, productName, discountPercent }: Product
             </>
           )}
 
-          <Image
+          <SiteImage
             key={active.id}
-            src={active.url}
+            src={active.mediumUrl || active.url}
             alt={active.alt || productName}
             fill
             priority={activeIndex === 0}

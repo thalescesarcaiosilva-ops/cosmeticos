@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import Link from 'next/link'
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 import { SocialIcon } from '@/components/layout/SocialIcon'
@@ -50,7 +50,7 @@ function FooterAssetImage({
     : { width: 140, height: 60, className: 'h-14 w-auto max-w-[160px] object-contain' }
 
   const img = (
-    <Image
+    <SiteImage
       src={imageUrl}
       alt={alt}
       width={dimensions.width}
@@ -83,7 +83,7 @@ function FooterBrandColumn({
     <div className="space-y-4">
       {brand.logoUrl && (
         <Link href="/" className="inline-block">
-          <Image
+          <SiteImage
             src={brand.logoUrl}
             alt={brand.storeName}
             width={160}

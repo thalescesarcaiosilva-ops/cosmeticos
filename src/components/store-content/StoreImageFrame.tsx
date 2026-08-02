@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import { ImageIcon } from 'lucide-react'
 
 type StoreImageFrameProps = {
@@ -18,7 +18,7 @@ export function StoreImageFrame({ imageUrl, alt, className, priority }: StoreIma
       className={`relative overflow-hidden rounded-3xl bg-plum/5 ring-1 ring-plum/10 ${className ?? ''}`}
     >
       {imageUrl ? (
-        <Image
+        <SiteImage
           src={imageUrl}
           alt={alt}
           fill

@@ -11,6 +11,8 @@ export type MediaAsset = {
   storage_path: string
   bucket: string
   public_url: string
+  thumb_url?: string | null
+  medium_url?: string | null
   mime_type: string
   size_bytes: number
   alt_text: string | null
@@ -85,7 +87,13 @@ export type ProductCardData = {
 }
 
 export type ProductDetail = Product & {
-  images: { id: string; url: string; alt: string }[]
+  images: {
+    id: string
+    url: string
+    thumbUrl?: string
+    mediumUrl?: string
+    alt: string
+  }[]
   categories: { name: string; slug: string }[]
   categorySlugs: string[]
   brandName: string | null

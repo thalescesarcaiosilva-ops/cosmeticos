@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { Fragment } from 'react'
 import { CategoryGrid } from '@/components/collection/CategoryGrid'
 import { DeferredHomeSection } from '@/components/home/DeferredHomeSection'
-import { HomeBannerCarousel } from '@/components/home/HomeBannerCarousel'
 import { NewsletterSection } from '@/components/home/NewsletterSection'
 import { ProductCarouselSection } from '@/components/home/ProductCarouselSection'
+import { ResponsiveHomeBanners } from '@/components/home/ResponsiveHomeBanners'
 import { StoreAboutSection } from '@/components/home/StoreAboutSection'
 import { getHomeBannersPublic, splitBannersByDevice } from '@/lib/banners/queries'
 import { HOME_CATEGORY_SLUGS } from '@/lib/home/config'
@@ -42,18 +42,10 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Above-the-fold: banner + categorias — sem defer (evita tela branca / CLS).
-          Só o carrossel mobile usa priority: preload duplo (mobile+desktop) atrasa o LCP. */}
-      <HomeBannerCarousel
-        banners={desktopBanners}
-        variant="desktop"
-        className="home-hero-banner hidden md:block"
-      />
-      <HomeBannerCarousel
-        banners={mobileBanners}
-        variant="mobile"
-        className="md:hidden"
-        prioritizeFirst
+      {/* Above-the-fold: um carrossel por viewport (WebP direto, sem /_next/image). */}
+      <ResponsiveHomeBanners
+        desktopBanners={desktopBanners}
+        mobileBanners={mobileBanners}
       />
 
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">

@@ -7,6 +7,7 @@ import { ProductRatingStars } from '@/components/product/ProductRatingStars'
 import { ProductRelatedCarousel } from '@/components/product/ProductRelatedCarousel'
 import { ProductReviewsSection } from '@/components/product/ProductReviewsSection'
 import { FavoriteButton } from '@/components/product/FavoriteButton'
+import { TrackProductView } from '@/components/product/TrackProductView'
 import { calcDiscountPercent } from '@/lib/products/format'
 import type { BuyTogetherBundle } from '@/lib/products/buy-together'
 import type { ApprovedProductReview } from '@/lib/products/reviews'
@@ -42,6 +43,7 @@ export function ProductPageView({
 
   return (
     <div className="mx-auto max-w-[1300px] px-4 py-5 md:px-6 md:py-8">
+      <TrackProductView productId={product.id} />
       <ProductBreadcrumb
         category={primaryCategory}
         brandName={product.brandName}

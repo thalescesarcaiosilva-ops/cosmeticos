@@ -9,7 +9,8 @@
     "lint": "eslint",
     "diag:signup": "node --env-file=.env.local scripts/diag-signup.mjs",
     "diag:trigger": "node --env-file=.env.local scripts/diag-trigger.mjs",
-    "promote:admin": "node --env-file=.env.local scripts/promote-admin.mjs"
+    "promote:admin": "node --env-file=.env.local scripts/promote-admin.mjs",
+    "schema:clean": "node scripts/build-full-schema-clean.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

@@ -30,7 +30,7 @@ export async function getProductsByIds(productIds: string[]): Promise<ProductCar
 
   const byId = new Map(
     data.map((row) => {
-      const card = mapProductCard(row as Record<string, unknown>)
+      const card = mapProductCard(row as unknown as Record<string, unknown>)
       return [card.id, card] as const
     })
   )

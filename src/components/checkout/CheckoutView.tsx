@@ -338,23 +338,34 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
     let active = true
     setPixPolling(true)
+    const startedAt = Date.now()
+    const MAX_POLL_MS = 10 * 60 * 1000
+    let delay = 4000
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
 
     async function check() {
+      if (!active) return
+      if (Date.now() - startedAt > MAX_POLL_MS) {
+        setPixPolling(false)
+        return
+      }
       const paid = await pollPaymentStatus(pixResult!.orderId)
       if (!active) return
       if (paid) {
         clearCart()
         setPixPolling(false)
         router.push(`/pedido/${pixResult!.orderId}/obrigado${guestOrderQuery(pixResult!.orderId)}`)
+        return
       }
+      delay = Math.min(delay + 1000, 15000)
+      timeoutId = setTimeout(check, delay)
     }
 
     check()
-    const interval = setInterval(check, 4000)
 
     return () => {
       active = false
-      clearInterval(interval)
+      if (timeoutId) clearTimeout(timeoutId)
       setPixPolling(false)
     }
   }, [pixResult, pollPaymentStatus, clearCart, router])

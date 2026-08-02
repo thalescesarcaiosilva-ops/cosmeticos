@@ -1,11 +1,8 @@
 import type { Metadata } from 'next'
 import { Fraunces, IBM_Plex_Mono, Jost } from 'next/font/google'
-import { headers } from 'next/headers'
-import { TrackingScripts } from '@/components/seo/TrackingScripts'
 import { buildFaviconIcons } from '@/lib/seo/build-metadata-icons'
 import { getSeoSettings } from '@/lib/seo/get-seo-settings'
 import { getSiteUrl } from '@/lib/seo/site-url'
-import { getPublicStoreProfile } from '@/lib/store-profile/public'
 import './globals.css'
 
 export const revalidate = 60
@@ -61,24 +58,15 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const headersList = await headers()
-  const pathname = headersList.get('x-pathname') ?? ''
-  const isAdmin = pathname.startsWith('/admin')
-  const profile = !isAdmin ? await getPublicStoreProfile() : null
-
   return (
     <html
       lang="pt-BR"
       className={`${jost.variable} ${fraunces.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
-      <head>{profile ? <TrackingScripts profile={profile} placement="head" /> : null}</head>
-      <body className="min-h-full">
-        {profile ? <TrackingScripts profile={profile} placement="body" /> : null}
-        {children}
-      </body>
+      <body className="min-h-full">{children}</body>
     </html>
   )
 }

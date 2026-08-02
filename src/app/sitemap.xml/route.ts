@@ -1,6 +1,7 @@
 import { renderSitemapIndexResponse } from '@/lib/seo/sitemap-route'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function GET() {
   return renderSitemapIndexResponse()

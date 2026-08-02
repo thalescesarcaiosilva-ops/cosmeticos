@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { ShopShell } from '@/components/layout/ShopShell'
+import { TrackingScripts } from '@/components/seo/TrackingScripts'
 import { buildFaviconIcons } from '@/lib/seo/build-metadata-icons'
 import { getSeoSettings } from '@/lib/seo/get-seo-settings'
 import { getSiteUrl } from '@/lib/seo/site-url'
+import { getPublicStoreProfile } from '@/lib/store-profile/public'
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoSettings()
@@ -35,5 +37,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ShopLayout({ children }: { children: React.ReactNode }) {
-  return <ShopShell>{children}</ShopShell>
+  const profile = await getPublicStoreProfile()
+
+  return (
+    <>
+      <TrackingScripts profile={profile} placement="head" />
+      <TrackingScripts profile={profile} placement="body" />
+      <ShopShell>{children}</ShopShell>
+    </>
+  )
 }

@@ -5,7 +5,9 @@ import { absoluteUrl } from '@/lib/seo/site-url'
 import { resolveGoogleProductCategory } from '@/lib/seo/google-product-taxonomy'
 import { isValidGtin } from '@/lib/seo/json-ld/merchant-schemas'
 
-export const revalidate = 3600
+/** Sempre ler o catálogo vivo — evita XML antigo (ex.: 1000 itens) após limpeza. */
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 /** Máximo de imagens adicionais aceitas pelo Google Merchant Center. */
 const MAX_ADDITIONAL_IMAGES = 10
@@ -140,7 +142,7 @@ export async function GET() {
   return new Response(xml, {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=600',
+      'Cache-Control': 'public, max-age=0, s-maxage=60, stale-while-revalidate=30',
     },
   })
 }

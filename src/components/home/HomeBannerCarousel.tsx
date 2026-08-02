@@ -1,17 +1,15 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { SiteImage } from '@/components/ui/SiteImage'
 import type { HomeBannerPublic } from '@/types/home-banner'
 
 type HomeBannerCarouselProps = {
   banners: HomeBannerPublic[]
   className?: string
-  /** mobile: fallback 4:5; desktop: fallback 1920:720 — usado só se width/height vierem nulos. */
   variant?: 'mobile' | 'desktop'
-  /** Só o carrossel visível no viewport LCP deve ser true (evita preload duplo mobile+desktop). */
   prioritizeFirst?: boolean
 }
 
@@ -23,7 +21,6 @@ function resolveAspectRatio(
   if (first?.width && first?.height) {
     return `${first.width} / ${first.height}`
   }
-  // Fallbacks alinhados aos formatos típicos enviados no admin
   return variant === 'mobile' ? '1080 / 1350' : '1920 / 720'
 }
 
@@ -62,7 +59,6 @@ export function HomeBannerCarousel({
       aria-roledescription="carrossel"
       style={{ aspectRatio }}
     >
-      {/* Track absoluto: cada slide ocupa 100% da largura do viewport do carrossel */}
       <div
         className="absolute inset-0 flex transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${index * 100}%)` }}
@@ -70,20 +66,24 @@ export function HomeBannerCarousel({
         {banners.map((banner, slideIndex) => {
           const alt = banner.alt_text?.trim() || banner.title || 'Banner promocional'
           const isLcp = prioritizeFirst && slideIndex === 0
+          const shouldLoad =
+            slideIndex === index ||
+            slideIndex === (index + 1) % count ||
+            slideIndex === (index - 1 + count) % count ||
+            isLcp
 
-          const image = (
-            <Image
+          const image = shouldLoad ? (
+            <SiteImage
               src={banner.image_url}
               alt={alt}
               fill
               sizes="100vw"
-              quality={75}
               priority={isLcp}
               fetchPriority={isLcp ? 'high' : 'auto'}
               {...(!isLcp ? { loading: 'lazy' as const } : {})}
               className="object-contain object-center"
             />
-          )
+          ) : null
 
           const slideClass =
             'relative h-full w-full min-w-full shrink-0 basis-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
@@ -99,11 +99,7 @@ export function HomeBannerCarousel({
               {image}
             </Link>
           ) : (
-            <div
-              key={banner.id}
-              className={slideClass}
-              aria-hidden={slideIndex !== index}
-            >
+            <div key={banner.id} className={slideClass} aria-hidden={slideIndex !== index}>
               {image}
             </div>
           )

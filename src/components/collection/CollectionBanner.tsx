@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import type { CollectionDetail } from '@/types/collection'
 
 type CollectionBannerProps = {
@@ -10,7 +10,7 @@ export function CollectionBanner({ collection }: CollectionBannerProps) {
 
   return (
     <div className="mb-8 w-full">
-      <Image
+      <SiteImage
         src={collection.bannerImageUrl}
         alt={collection.pageTitle}
         width={0}

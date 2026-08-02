@@ -1,0 +1,59 @@
+const fs = require('fs')
+
+async function main() {
+  const res = await fetch(
+    'https://www.epocacosmeticos.com.br/api/catalog_system/pub/products/search?fq=productId:4196',
+    { headers: { 'User-Agent': 'Mozilla/5.0', Accept: 'application/json' } }
+  )
+  const data = await res.json()
+  const p = data[0]
+  const link = `https://www.epocacosmeticos.com.br/${p.linkText}/p`
+  console.log('link', link)
+
+  const htmlRes = await fetch(link, {
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      Accept: 'text/html',
+    },
+  })
+  const html = await htmlRes.text()
+  fs.writeFileSync('tmp-epoca-sample.html', html)
+  console.log('html bytes', html.length, 'status', htmlRes.status)
+
+  const snippets = []
+  const reList = [
+    /(\d[\d.]*)\s*avalia(?:ções|cao|ção)/gi,
+    /reviewCount["']?\s*[:=]\s*["']?(\d+)/gi,
+    /"ratingValue"\s*:\s*"?([\d.]+)"?/gi,
+    /aggregateRating/gi,
+    /trustvox/gi,
+    /yourviews/gi,
+    /"totalReviews"\s*:\s*(\d+)/gi,
+    /"reviews"\s*:\s*(\d+)/gi,
+  ]
+  for (const re of reList) {
+    const matches = [...html.matchAll(re)].slice(0, 8)
+    if (matches.length) {
+      snippets.push({
+        re: String(re),
+        matches: matches.map((m) => m[0].slice(0, 100)),
+      })
+    }
+  }
+  console.log(JSON.stringify(snippets, null, 2))
+
+  const next = html.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/)
+  if (next) {
+    const j = JSON.parse(next[1])
+    const s = JSON.stringify(j)
+    const i = s.toLowerCase().indexOf('review')
+    console.log('NEXT_DATA review idx', i)
+    if (i >= 0) console.log(s.slice(i - 60, i + 160))
+  }
+}
+
+main().catch((e) => {
+  console.error(e)
+  process.exit(1)
+})

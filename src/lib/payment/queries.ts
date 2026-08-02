@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { SITE_SETTINGS_ID } from '@/lib/layout/queries'
 import { parseInstallmentInterestRates } from '@/lib/payment/installment-rates'
 import { parsePaymentMethods } from '@/lib/payment/parse-payment-methods'
@@ -58,7 +58,7 @@ function mapPaymentSettings(row: PaymentRow | null): PaymentSettings {
 }
 
 export async function getPaymentSettings(): Promise<PaymentSettings> {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data, error } = await supabase
     .from('site_settings')
     .select(PAYMENT_COLUMNS)
@@ -80,7 +80,7 @@ function parseCheckoutPaymentConfig(raw: unknown): CheckoutPaymentSettings {
 }
 
 export async function getCheckoutPaymentSettings(): Promise<CheckoutPaymentSettings> {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data, error } = await supabase
     .from('site_settings')
     .select('payment_checkout_config')

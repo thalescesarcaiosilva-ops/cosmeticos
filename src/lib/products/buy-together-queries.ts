@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import {
   DEFAULT_BUNDLE_DISCOUNT_PERCENT,
   filterBundlesByMaxTotal,
@@ -20,7 +20,7 @@ async function getCuratedBundles(
   limit: number,
   defaultDiscountPercent: number
 ): Promise<BuyTogetherBundle[] | null> {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data: bundleRows, error } = await supabase
     .from('product_bundles')
@@ -53,7 +53,10 @@ async function getCuratedBundles(
   if (productsError || !products) return []
 
   const productMap = new Map(
-    products.map((row) => [row.id as string, mapProductCard(row as Record<string, unknown>)])
+    products.map((row) => [
+      (row as unknown as { id: string }).id,
+      mapProductCard(row as unknown as Record<string, unknown>),
+    ])
   )
 
   return rows

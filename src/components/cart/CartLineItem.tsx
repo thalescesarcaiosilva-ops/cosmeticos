@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import Link from 'next/link'
 import { useState } from 'react'
 import { QuantityControl } from '@/components/cart/QuantityControl'
@@ -32,7 +32,7 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
         className="relative size-[88px] shrink-0 overflow-hidden rounded-lg bg-surface-strong/70 sm:size-24"
       >
         {line.imageUrl ? (
-          <Image
+          <SiteImage
             src={line.imageUrl}
             alt={line.imageAlt}
             fill

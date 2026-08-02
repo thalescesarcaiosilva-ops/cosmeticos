@@ -26,6 +26,15 @@ type FavoritesContextValue = {
 
 const FavoritesContext = createContext<FavoritesContextValue | null>(null)
 
+/** Hint barato: só chama a API se parecer haver sessão Supabase. */
+function hasLikelyAuthSession(): boolean {
+  if (typeof document === 'undefined') return false
+  return document.cookie.split(';').some((part) => {
+    const name = part.trim().split('=')[0] ?? ''
+    return name.startsWith('sb-') && name.includes('auth-token')
+  })
+}
+
 export function FavoritesProvider({ children }: { children: ReactNode }) {
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set())
   const [hydrated, setHydrated] = useState(false)
@@ -36,6 +45,15 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
 
     async function hydrate() {
       const localIds = readStoredFavorites()
+
+      if (!hasLikelyAuthSession()) {
+        if (!cancelled) {
+          setFavoriteIds(new Set(localIds))
+          setIsLoggedIn(false)
+          setHydrated(true)
+        }
+        return
+      }
 
       try {
         const res = await fetch('/api/account/favorites')

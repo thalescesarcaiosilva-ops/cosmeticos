@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 
 export type ApprovedProductReview = {
   id: string
@@ -13,7 +13,7 @@ export async function getApprovedProductReviews(
   productId: string,
   limit = 20
 ): Promise<ApprovedProductReview[]> {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data, error } = await supabase
     .from('product_reviews')
     .select('id, author_name, rating, title, comment, created_at')

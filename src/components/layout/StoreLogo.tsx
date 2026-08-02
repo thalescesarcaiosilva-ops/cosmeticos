@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import Link from 'next/link'
 import type { StoreLogo } from '@/types/layout'
 
@@ -22,7 +22,7 @@ export function StoreLogoMark({
         className={`inline-flex shrink-0 items-center ${className ?? ''}`}
         title={storeName}
       >
-        <Image
+        <SiteImage
           src={logo.imageUrl}
           alt={storeName}
           width={160}

@@ -52,10 +52,26 @@ export function MediaLibrary({
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [backfilling, setBackfilling] = useState(false)
+  const [missingVariants, setMissingVariants] = useState<number | null>(null)
+  const [backfillMessage, setBackfillMessage] = useState<string | null>(null)
   const [altText, setAltText] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
   const uploadBucket = activeBucket === 'all' ? bucket : activeBucket
+
+  const loadMissingVariants = useCallback(async () => {
+    if (compact) return
+    try {
+      const res = await fetch('/api/admin/media/backfill-variants')
+      const json = await res.json()
+      if (!json.error && typeof json.data?.remaining === 'number') {
+        setMissingVariants(json.data.remaining)
+      }
+    } catch {
+      // silencioso — botão some se falhar
+    }
+  }, [compact])
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -81,13 +97,14 @@ export function MediaLibrary({
       }
       setAssets(json.data ?? [])
       setMeta(json.meta ?? { page: 1, limit: MEDIA_PAGE_SIZE, total: 0, totalPages: 1 })
+      await loadMissingVariants()
     } catch {
       setError('Não foi possível carregar a biblioteca')
       setAssets([])
     } finally {
       setLoading(false)
     }
-  }, [activeBucket, bucket, page, showBucketFilter])
+  }, [activeBucket, bucket, page, showBucketFilter, loadMissingVariants])
 
   useEffect(() => {
     load()
@@ -129,6 +146,39 @@ export function MediaLibrary({
     await load()
     if (selectable && onSelect) {
       onSelect(selectedIds.filter((sid) => sid !== id))
+    }
+  }
+
+  async function handleBackfillBatch() {
+    setBackfilling(true)
+    setError(null)
+    setBackfillMessage(null)
+    try {
+      const res = await fetch('/api/admin/media/backfill-variants', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ limit: 8 }),
+      })
+      const json = await res.json()
+      if (json.error) {
+        setError(json.message ?? 'Falha ao gerar variantes')
+        return
+      }
+      const data = json.data as {
+        updated: number
+        skipped: number
+        failed: number
+        remaining: number
+      }
+      setMissingVariants(data.remaining)
+      setBackfillMessage(
+        `${data.updated} otimizadas · ${data.skipped} ignoradas · ${data.failed} falhas · ${data.remaining} restantes. URLs do Merchant não foram alteradas.`
+      )
+      await load()
+    } catch {
+      setError('Falha ao gerar variantes')
+    } finally {
+      setBackfilling(false)
     }
   }
 
@@ -203,6 +253,24 @@ export function MediaLibrary({
           Enviar para {MEDIA_BUCKET_LABELS[uploadBucket]}
         </Button>
       </div>
+
+      {!compact && missingVariants != null && missingVariants > 0 && (
+        <div className="flex flex-col gap-2 rounded-lg border border-border bg-surface p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-medium text-text-primary">
+              {missingVariants} imagem(ns) sem versão leve (thumb/medium)
+            </p>
+            <p className="mt-0.5 text-xs text-text-secondary">
+              Gera cópias WebP menores para a loja. A URL canônica do Google Merchant não muda.
+            </p>
+          </div>
+          <Button type="button" variant="secondary" loading={backfilling} onClick={handleBackfillBatch}>
+            Otimizar lote (8)
+          </Button>
+        </div>
+      )}
+
+      {backfillMessage && <Alert type="success">{backfillMessage}</Alert>}
 
       {loading ? (
         <p className="text-sm text-text-secondary">Carregando imagens…</p>

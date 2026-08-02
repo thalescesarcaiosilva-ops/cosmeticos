@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { SiteImage } from '@/components/ui/SiteImage'
 import Link from 'next/link'
 import { useState } from 'react'
 import { IconChevronLeft } from '@/components/icons/DotIcons'
@@ -47,7 +47,7 @@ function ProductThumb({
         className={`relative aspect-square w-full overflow-hidden rounded-md  ${compact ? 'max-w-none' : 'max-w-[140px]'}`}
       >
         {imageUrl ? (
-          <Image
+          <SiteImage
             src={imageUrl}
             alt={imageAlt ?? name}
             fill

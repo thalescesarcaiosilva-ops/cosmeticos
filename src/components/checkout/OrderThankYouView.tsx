@@ -85,16 +85,19 @@ export function OrderThankYouView({
     let active = true
     let hasOrder = false
     let paid = false
-    let interval: ReturnType<typeof setInterval> | null = null
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
+    const startedAt = Date.now()
+    const MAX_POLL_MS = 10 * 60 * 1000
+    let delay = 4000
 
     function isPaid(data: OrderDetail) {
       return data.status === 'confirmed' || data.payment_status === 'paid'
     }
 
     function stopPolling() {
-      if (interval) {
-        clearInterval(interval)
-        interval = null
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+        timeoutId = null
       }
     }
 
@@ -117,13 +120,19 @@ export function OrderThankYouView({
         if (!data.can_create_account) {
           clearGuestOrderToken(orderId)
         }
+        return
       }
+      if (Date.now() - startedAt > MAX_POLL_MS) {
+        stopPolling()
+        return
+      }
+      delay = Math.min(delay + 1000, 15000)
+      timeoutId = setTimeout(() => {
+        if (!paid && active) void load()
+      }, delay)
     }
 
     load()
-    interval = setInterval(() => {
-      if (!paid) load()
-    }, 4000)
 
     return () => {
       active = false

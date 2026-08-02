@@ -1,6 +1,8 @@
 import type {
   DashboardOrderItemRow,
   DashboardOrderRow,
+  NotFoundPathRow,
+  ProductViewRow,
 } from '@/lib/admin/dashboard-analytics'
 
 export type PeriodPreset = '7d' | '30d' | 'custom' | 'all'
@@ -210,4 +212,179 @@ export function statusBreakdown(
   return Array.from(map.entries())
     .map(([status, count]) => ({ status, count }))
     .sort((a, b) => b.count - a.count)
+}
+
+export type ShippingMethodStat = {
+  name: string
+  orders: number
+  revenue: number
+  share: number
+}
+
+export function shippingMethodBreakdown(
+  soldOrders: DashboardOrderRow[]
+): ShippingMethodStat[] {
+  const map = new Map<string, { orders: number; revenue: number }>()
+  for (const order of soldOrders) {
+    const name = order.shipping_method_name?.trim() || 'Não informado'
+    const existing = map.get(name) ?? { orders: 0, revenue: 0 }
+    existing.orders += 1
+    existing.revenue += order.total
+    map.set(name, existing)
+  }
+  const total = soldOrders.length || 1
+  return Array.from(map.entries())
+    .map(([name, stat]) => ({
+      name,
+      orders: stat.orders,
+      revenue: stat.revenue,
+      share: (stat.orders / total) * 100,
+    }))
+    .sort((a, b) => b.orders - a.orders)
+}
+
+export type FunnelStep = {
+  key: string
+  label: string
+  count: number
+}
+
+export function buildOrderFunnel(
+  orders: DashboardOrderRow[],
+  paymentColumnsAvailable: boolean
+): FunnelStep[] {
+  const created = orders.length
+  const paid = orders.filter((o) => isSoldOrder(o, paymentColumnsAvailable)).length
+  const shipped = orders.filter((o) => o.status === 'shipped' || o.status === 'delivered').length
+  const delivered = orders.filter((o) => o.status === 'delivered').length
+  return [
+    { key: 'created', label: 'Pedidos criados', count: created },
+    { key: 'paid', label: 'Pagos', count: paid },
+    { key: 'shipped', label: 'Enviados', count: shipped },
+    { key: 'delivered', label: 'Entregues', count: delivered },
+  ]
+}
+
+export type KitSuggestion = {
+  productAId: string
+  productAName: string
+  productASlug: string
+  productBId: string
+  productBName: string
+  productBSlug: string
+  togetherCount: number
+}
+
+export function suggestKitsFromOrders(
+  items: DashboardOrderItemRow[],
+  soldOrderIds: Set<string>,
+  limit = 8
+): KitSuggestion[] {
+  const byOrder = new Map<string, DashboardOrderItemRow[]>()
+  for (const item of items) {
+    if (!soldOrderIds.has(item.orderId)) continue
+    const list = byOrder.get(item.orderId) ?? []
+    list.push(item)
+    byOrder.set(item.orderId, list)
+  }
+
+  const pairMap = new Map<string, KitSuggestion & { orderIds: Set<string> }>()
+
+  for (const [orderId, orderItems] of byOrder) {
+    const unique = new Map<string, DashboardOrderItemRow>()
+    for (const item of orderItems) unique.set(item.productId, item)
+    const products = Array.from(unique.values())
+    if (products.length < 2) continue
+
+    for (let i = 0; i < products.length; i++) {
+      for (let j = i + 1; j < products.length; j++) {
+        const a = products[i]
+        const b = products[j]
+        const [left, right] = a.productId < b.productId ? [a, b] : [b, a]
+        const key = `${left.productId}::${right.productId}`
+        const existing = pairMap.get(key)
+        if (existing) {
+          existing.orderIds.add(orderId)
+        } else {
+          pairMap.set(key, {
+            productAId: left.productId,
+            productAName: left.productName,
+            productASlug: left.productSlug,
+            productBId: right.productId,
+            productBName: right.productName,
+            productBSlug: right.productSlug,
+            togetherCount: 0,
+            orderIds: new Set([orderId]),
+          })
+        }
+      }
+    }
+  }
+
+  return Array.from(pairMap.values())
+    .map(({ orderIds, ...row }) => ({ ...row, togetherCount: orderIds.size }))
+    .filter((row) => row.togetherCount >= 2)
+    .sort((a, b) => b.togetherCount - a.togetherCount)
+    .slice(0, limit)
+}
+
+export type OpportunityRow = {
+  productId: string
+  name: string
+  slug: string
+  views: number
+  unitsSold: number
+  conversion: number
+}
+
+export function highViewLowConversion(
+  views: ProductViewRow[],
+  sales: ProductSalesRow[],
+  range: DateRange,
+  limit = 8
+): OpportunityRow[] {
+  const viewsByProduct = new Map<string, { views: number; name: string; slug: string }>()
+
+  for (const row of views) {
+    const dayDate = new Date(`${row.day}T12:00:00`)
+    if (range.from && dayDate < range.from) continue
+    if (range.to && dayDate > range.to) continue
+    const existing = viewsByProduct.get(row.productId)
+    if (existing) {
+      existing.views += row.views
+    } else {
+      viewsByProduct.set(row.productId, {
+        views: row.views,
+        name: row.productName,
+        slug: row.productSlug,
+      })
+    }
+  }
+
+  const salesMap = new Map(sales.map((s) => [s.productId, s]))
+
+  return Array.from(viewsByProduct.entries())
+    .map(([productId, meta]) => {
+      const sold = salesMap.get(productId)
+      const unitsSold = sold?.unitsSold ?? 0
+      return {
+        productId,
+        name: meta.name,
+        slug: meta.slug,
+        views: meta.views,
+        unitsSold,
+        conversion: meta.views > 0 ? (unitsSold / meta.views) * 100 : 0,
+      }
+    })
+    .filter((row) => row.views >= 5)
+    .sort((a, b) => a.conversion - b.conversion || b.views - a.views)
+    .slice(0, limit)
+}
+
+export function filterNotFoundPaths(
+  rows: NotFoundPathRow[],
+  range: DateRange
+): NotFoundPathRow[] {
+  if (!range.from && !range.to) return rows
+  return rows.filter((row) => inRange(row.lastSeenAt, range))
 }
