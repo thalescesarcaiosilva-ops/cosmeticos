@@ -48,6 +48,7 @@ export function isValidGtin(value: string | null | undefined): boolean {
 export function buildOfferShippingDetails(context: MerchantSeoContext) {
   const shippingRateValue =
     context.defaultShippingRate != null ? context.defaultShippingRate.toFixed(2) : '0'
+  const policyUrl = shippingPolicyUrl()
 
   return {
     '@type': 'OfferShippingDetails',
@@ -75,111 +76,12 @@ export function buildOfferShippingDetails(context: MerchantSeoContext) {
         unitCode: 'DAY',
       },
     },
+    ...(policyUrl ? { shippingSettingsLink: policyUrl } : {}),
   }
 }
 
-type NationalShippingMode = {
-  id: string
-  price: number
-  min: number
-  max: number
-  freeAbove?: number
-}
-
-/** Valores fixos nacionais — alinhados à Política de Frete da loja. */
-const NATIONAL_SHIPPING = {
-  origin: 'Salvador/BA (CEP 41706-690)',
-  freePacAbove: 250,
-  pac: { id: 'pac', price: 24.9, min: 5, max: 10 } satisfies NationalShippingMode,
-  sedex: { id: 'sedex', price: 39.9, min: 2, max: 5 } satisfies NationalShippingMode,
-}
-
-function brazilDestination() {
-  return {
-    '@type': 'DefinedRegion',
-    addressCountry: 'BR',
-  }
-}
-
-function shippingCondition(
-  id: string,
-  destination: ReturnType<typeof brazilDestination>,
-  price: number,
-  minDays: number,
-  maxDays: number,
-  orderValue?: { minValue: number; maxValue?: number }
-) {
-  return {
-    '@type': 'ShippingConditions',
-    '@id': `#${id}`,
-    shippingDestination: destination,
-    ...(orderValue
-      ? {
-          orderValue: {
-            '@type': 'MonetaryAmount',
-            currency: 'BRL',
-            minValue: orderValue.minValue,
-            ...(orderValue.maxValue != null ? { maxValue: orderValue.maxValue } : {}),
-          },
-        }
-      : {}),
-    shippingRate: {
-      '@type': 'MonetaryAmount',
-      currency: 'BRL',
-      value: price,
-    },
-    transitTime: {
-      '@type': 'ServicePeriod',
-      duration: {
-        '@type': 'QuantitativeValue',
-        minValue: minDays,
-        maxValue: maxDays,
-        unitCode: 'DAY',
-      },
-    },
-  }
-}
-
-export function buildShippingServiceJsonLd() {
-  const destination = brazilDestination()
-  const { pac, sedex, freePacAbove } = NATIONAL_SHIPPING
-
-  const shippingConditions = [
-    shippingCondition('br-pac-pago', destination, pac.price, pac.min, pac.max, {
-      minValue: 0,
-      maxValue: freePacAbove - 0.01,
-    }),
-    shippingCondition('br-pac-gratis', destination, 0, pac.min, pac.max, {
-      minValue: freePacAbove,
-    }),
-    shippingCondition('br-sedex', destination, sedex.price, sedex.min, sedex.max),
-  ]
-
-  return {
-    '@type': 'ShippingService',
-    '@id': '#frete-batista-cosmeticos',
-    name: 'Frete Batista Cosméticos - Correios (PAC e SEDEX)',
-    description: `Envios via Correios (PAC e SEDEX) a partir de ${NATIONAL_SHIPPING.origin} para todo o Brasil. PAC R$ ${pac.price.toFixed(2).replace('.', ',')} (5 a 10 dias úteis). SEDEX R$ ${sedex.price.toFixed(2).replace('.', ',')} (2 a 5 dias úteis). Frete grátis via PAC para pedidos a partir de R$ ${freePacAbove},00.`,
-    fulfillmentType: 'https://schema.org/FulfillmentTypeDelivery',
-    handlingTime: {
-      '@type': 'ServicePeriod',
-      cutoffTime: '14:00:00-03:00',
-      duration: {
-        '@type': 'QuantitativeValue',
-        minValue: 1,
-        maxValue: 2,
-        unitCode: 'DAY',
-      },
-      businessDays: [
-        'https://schema.org/Monday',
-        'https://schema.org/Tuesday',
-        'https://schema.org/Wednesday',
-        'https://schema.org/Thursday',
-        'https://schema.org/Friday',
-      ],
-    },
-    shippingConditions,
-  }
+export function shippingPolicyUrl(): string | null {
+  return absoluteUrl('/paginas/politica-de-frete')
 }
 
 export function organizationId(): string | null {

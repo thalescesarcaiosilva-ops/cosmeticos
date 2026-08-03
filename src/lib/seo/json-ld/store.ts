@@ -6,7 +6,6 @@ import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { absoluteUrl } from '@/lib/seo/site-url'
 import {
   buildMerchantReturnPolicy,
-  buildShippingServiceJsonLd,
   organizationId,
 } from '@/lib/seo/json-ld/merchant-schemas'
 
@@ -34,10 +33,12 @@ function formatTelephone(profile: StoreProfile): string | null {
 }
 
 function buildPostalAddress(profile: StoreProfile): Record<string, unknown> | null {
+  // Schema.org não tem campo de bairro; no BR incluímos no streetAddress.
   const streetParts = [
-    profile.store_street,
-    profile.store_street_number,
-    profile.store_complement,
+    profile.store_street?.trim(),
+    profile.store_street_number?.trim(),
+    profile.store_complement?.trim(),
+    profile.store_neighborhood?.trim(),
   ].filter(Boolean)
 
   if (streetParts.length === 0 && !profile.store_city) {
@@ -47,10 +48,10 @@ function buildPostalAddress(profile: StoreProfile): Record<string, unknown> | nu
   return {
     '@type': 'PostalAddress',
     streetAddress: streetParts.join(', ') || undefined,
-    addressLocality: profile.store_city ?? undefined,
-    addressRegion: profile.store_state ?? undefined,
-    postalCode: profile.store_postal_code ?? undefined,
-    addressCountry: profile.store_country || 'BR',
+    addressLocality: profile.store_city?.trim() || undefined,
+    addressRegion: profile.store_state?.trim() || undefined,
+    postalCode: profile.store_postal_code?.trim() || undefined,
+    addressCountry: profile.store_country?.trim() || 'BR',
   }
 }
 
@@ -118,8 +119,6 @@ export function buildStoreJsonLd({
   if (returnPolicy) {
     store.hasMerchantReturnPolicy = returnPolicy
   }
-
-  store.hasShippingService = buildShippingServiceJsonLd()
 
   return store
 }
