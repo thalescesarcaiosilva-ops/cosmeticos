@@ -139,9 +139,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
         checkoutSettings={checkoutSettings}
         relatedProducts={relatedProducts}
         relatedInstallments={relatedInstallments}
-        buyTogetherBundles={buyTogetherBundles}
-        buyTogetherSettings={buyTogetherSettings}
         assurances={assurances}
+        {...(buyTogetherSettings.enabled && buyTogetherBundles.length > 0
+          ? {
+              buyTogetherBundles,
+              buyTogetherSettings,
+            }
+          : {})}
       />
     </>
   )

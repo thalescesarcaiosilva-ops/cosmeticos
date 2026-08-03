@@ -78,10 +78,14 @@ export function FooterConfigForm() {
     setSuccess(null)
 
     const payload = {
-      ...form,
-      contact_whatsapp_href: null,
-      contact_whatsapp_label: null,
-      footer_security_text: form.footer_security_text || null,
+      footer_phone_label: form.footer_phone_label,
+      contact_page_label: form.contact_page_label,
+      contact_page_href: form.contact_page_href || null,
+      contact_address_label: form.contact_address_label,
+      footer_social_heading: form.footer_social_heading,
+      footer_security_heading: form.footer_security_heading,
+      footer_payment_text: form.footer_payment_text || null,
+      footer_security_text: form.footer_security_text?.trim() || null,
       footer_disclaimers: form.footer_disclaimers.filter((d) => d.trim()),
     }
 

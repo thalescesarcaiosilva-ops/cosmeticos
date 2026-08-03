@@ -18,10 +18,10 @@ type ProductBuyPanelProps = {
   originalPrice: number | null
   paymentSettings: PaymentSettings
   checkoutSettings: CheckoutPaymentSettings
-  buyTogetherPrimary: BuyTogetherPrimaryProduct
-  buyTogetherBundles: BuyTogetherBundle[]
-  buyTogetherSettings: BuyTogetherSettings
   assurances: ProductPurchaseAssurances
+  buyTogetherPrimary?: BuyTogetherPrimaryProduct | null
+  buyTogetherBundles?: BuyTogetherBundle[]
+  buyTogetherSettings?: BuyTogetherSettings | null
 }
 
 export function ProductBuyPanel({
@@ -31,11 +31,16 @@ export function ProductBuyPanel({
   originalPrice,
   paymentSettings,
   checkoutSettings,
-  buyTogetherPrimary,
-  buyTogetherBundles,
-  buyTogetherSettings,
   assurances,
+  buyTogetherPrimary = null,
+  buyTogetherBundles = [],
+  buyTogetherSettings = null,
 }: ProductBuyPanelProps) {
+  const showBuyTogether =
+    Boolean(buyTogetherSettings?.enabled) &&
+    Boolean(buyTogetherPrimary) &&
+    buyTogetherBundles.length > 0
+
   return (
     <div className="space-y-5">
       <ProductPricingBlock
@@ -54,7 +59,7 @@ export function ProductBuyPanel({
 
       <ProductPurchaseFaq assurances={assurances} />
 
-      {buyTogetherSettings.enabled && buyTogetherBundles.length > 0 && (
+      {showBuyTogether && buyTogetherSettings && buyTogetherPrimary ? (
         <ProductBuyTogetherSection
           primaryProduct={buyTogetherPrimary}
           bundles={buyTogetherBundles}
@@ -62,7 +67,7 @@ export function ProductBuyPanel({
           settings={buyTogetherSettings}
           compact
         />
-      )}
+      ) : null}
     </div>
   )
 }

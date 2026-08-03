@@ -1,19 +1,21 @@
 import { z } from 'zod'
 
+const optionalText = (max: number) => z.string().max(max).optional().nullable()
+
 export const updateFooterSettingsSchema = z.object({
-  cnpj: z.string().max(20).optional().nullable(),
-  company_legal_name: z.string().max(200).optional().nullable(),
-  footer_phone_label: z.string().max(100).optional(),
-  business_hours: z.string().max(300).optional().nullable(),
-  contact_whatsapp_label: z.string().max(50).optional(),
-  contact_whatsapp_href: z.string().max(300).optional().nullable(),
-  contact_page_label: z.string().max(50).optional(),
-  contact_page_href: z.string().max(200).optional(),
-  footer_social_heading: z.string().max(80).optional(),
-  footer_security_heading: z.string().max(80).optional(),
-  footer_payment_text: z.string().max(200).optional(),
-  footer_security_text: z.string().max(500).optional().nullable(),
-  footer_disclaimers: z.array(z.string().max(1000)).max(20).optional(),
+  cnpj: optionalText(20),
+  company_legal_name: optionalText(200),
+  footer_phone_label: optionalText(100),
+  business_hours: optionalText(300),
+  contact_whatsapp_label: optionalText(50),
+  contact_whatsapp_href: optionalText(300),
+  contact_page_label: optionalText(50),
+  contact_page_href: optionalText(200),
+  footer_social_heading: optionalText(80),
+  footer_security_heading: optionalText(80),
+  footer_payment_text: optionalText(200),
+  footer_security_text: optionalText(500),
+  footer_disclaimers: z.array(z.string().max(1000)).max(20).optional().nullable(),
   contact_email: z
     .string()
     .max(200)
@@ -21,8 +23,8 @@ export const updateFooterSettingsSchema = z.object({
     .nullable()
     .transform((v) => (v === '' ? null : v))
     .pipe(z.union([z.string().email().max(200), z.null()]).optional()),
-  contact_address: z.string().max(500).optional().nullable(),
-  contact_address_label: z.string().max(100).optional(),
+  contact_address: optionalText(500),
+  contact_address_label: optionalText(100),
 })
 
 export type UpdateFooterSettingsInput = z.infer<typeof updateFooterSettingsSchema>

@@ -24,8 +24,8 @@ type ProductPageViewProps = {
   checkoutSettings: CheckoutPaymentSettings
   relatedProducts: ProductCardData[]
   relatedInstallments: Map<string, InstallmentDisplay | null>
-  buyTogetherBundles: BuyTogetherBundle[]
-  buyTogetherSettings: BuyTogetherSettings
+  buyTogetherBundles?: BuyTogetherBundle[]
+  buyTogetherSettings?: BuyTogetherSettings | null
   assurances: ProductPurchaseAssurances
 }
 
@@ -37,12 +37,14 @@ export function ProductPageView({
   checkoutSettings,
   relatedProducts,
   relatedInstallments,
-  buyTogetherBundles,
-  buyTogetherSettings,
+  buyTogetherBundles = [],
+  buyTogetherSettings = null,
   assurances,
 }: ProductPageViewProps) {
   const discount = calcDiscountPercent(product.price, product.original_price)
   const primaryCategory = product.categories[0] ?? null
+  const showBuyTogether =
+    Boolean(buyTogetherSettings?.enabled) && buyTogetherBundles.length > 0
 
   return (
     <div className="mx-auto max-w-[1300px] px-4 py-5 md:px-6 md:py-8">
@@ -96,17 +98,21 @@ export function ProductPageView({
             originalPrice={product.original_price}
             paymentSettings={paymentSettings}
             checkoutSettings={checkoutSettings}
-            buyTogetherPrimary={{
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              imageUrl: product.images[0]?.url ?? null,
-              imageAlt: product.images[0]?.alt ?? product.name,
-              brandName: product.brandName,
-            }}
-            buyTogetherBundles={buyTogetherBundles}
-            buyTogetherSettings={buyTogetherSettings}
             assurances={assurances}
+            buyTogetherSettings={showBuyTogether ? buyTogetherSettings : null}
+            buyTogetherBundles={showBuyTogether ? buyTogetherBundles : []}
+            buyTogetherPrimary={
+              showBuyTogether
+                ? {
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    imageUrl: product.images[0]?.url ?? null,
+                    imageAlt: product.images[0]?.alt ?? product.name,
+                    brandName: product.brandName,
+                  }
+                : null
+            }
           />
         </div>
 
