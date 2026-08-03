@@ -77,7 +77,6 @@ export type StoreContent = {
       label: {
         title: string
         subtitle: string
-        sealText: string
         rows: StoreInfoRow[]
       }
       hoursTitle: string
@@ -133,26 +132,25 @@ export const storeContent: StoreContent = {
       enabled: true,
       eyebrow: 'Nossa loja',
       title: 'Um espaço pensado para a sua experiência de beleza.',
-      imageUrl: '/loja.webp',
+      imageUrl: 'https://www.batistacosmeticos.com.br/loja.webp',
       imageAlt: 'Interior da Batista Cosméticos',
       caption: 'Venha nos visitar e conhecer pessoalmente nossa curadoria de produtos.',
     },
     info: {
       eyebrow: 'Informações da loja',
-      title: 'Assim como todo bom produto, deixamos nossos dados no rótulo.',
+      title: 'Confira nossas informações',
       label: {
         title: 'Batista Cosméticos',
         subtitle: 'Ficha da loja',
-        sealText: 'cuida\nde você',
         rows: [
-          { label: 'Razão social', value: 'Eduardo Batista Prado Lessa' },
+          { label: 'Razão social', value: '67.834.759 Eduardo Batista Prado Lessa' },
           { label: 'CNPJ', value: '67.834.759/0001-40' },
           { label: 'E-mail', value: 'atendimento@batistacosmeticos.com.br' },
-          { label: 'Site', value: 'batistacosmeticos.com.br' },
+          { label: 'Site', value: 'www.batistacosmeticos.com.br' },
           { label: 'Telefone', value: '(71) 92006-7408' },
           {
             label: 'Endereço',
-            value: 'Av. Octavio Mangabeira, 6929, Loja 04, Boca do Rio, Salvador/BA, CEP 41706-690',
+            value: 'Av Octavio Mangabeira, 6929, Loja 04, Boca do Rio, Salvador/BA, CEP: 41706-690',
           },
         ],
       },
@@ -163,7 +161,7 @@ export const storeContent: StoreContent = {
         { label: 'Domingo', value: 'Fechado', closed: true },
       ],
       visitTitle: 'Visite a loja',
-      visitAddress: 'Av. Octavio Mangabeira, 6929, Loja 04, Boca do Rio, Salvador/BA, CEP 41706-690',
+      visitAddress: 'Av Octavio Mangabeira, 6929, Loja 04, Boca do Rio, Salvador/BA, CEP: 41706-690',
     },
   },
 }

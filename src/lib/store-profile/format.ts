@@ -57,7 +57,7 @@ export function formatStoreAddress(profile: Pick<
     profile.store_city && profile.store_state
       ? `${profile.store_city}/${profile.store_state}`
       : profile.store_city
-  const line5 = profile.store_postal_code ? `CEP ${profile.store_postal_code}` : null
+  const line5 = profile.store_postal_code ? `CEP: ${profile.store_postal_code}` : null
 
   const lines = [line1, line2, line3, line4, line5].filter(Boolean)
   return lines.length > 0 ? lines.join('\n') : null
@@ -199,7 +199,7 @@ export function formatStoreAddressInline(
     neighborhood,
     cityState,
     profile.store_postal_code?.trim()
-      ? `CEP ${profile.store_postal_code.trim()}`
+      ? `CEP: ${profile.store_postal_code.trim()}`
       : null,
   ].filter(Boolean)
 
