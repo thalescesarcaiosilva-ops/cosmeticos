@@ -1,5 +1,6 @@
 import { createPublicClient } from '@/lib/supabase/public'
 import { getPrimaryProductImage } from '@/lib/products/product-images'
+import { attachReviewSummaries } from '@/lib/products/reviews'
 import {
   escapeLikePattern,
   normalizeSearchText,
@@ -47,9 +48,11 @@ async function fetchProductsByIds(ids: string[]): Promise<ProductCardData[]> {
     .eq('active', true)
 
   if (error || !data) return []
-  return orderByIds(
-    data.map((row) => mapSearchResult(row as Record<string, unknown>)),
-    ids
+  return attachReviewSummaries(
+    orderByIds(
+      data.map((row) => mapSearchResult(row as Record<string, unknown>)),
+      ids
+    )
   )
 }
 

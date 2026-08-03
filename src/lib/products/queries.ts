@@ -2,6 +2,7 @@ import { cache } from 'react'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createPublicClient } from '@/lib/supabase/public'
 import { getPrimaryProductImage } from '@/lib/products/product-images'
+import { attachReviewSummaries } from '@/lib/products/reviews'
 import type { ProductCardData, ProductDetail } from '@/types/product'
 
 const PRODUCT_MEDIA_WITH_VARIANTS =
@@ -183,7 +184,9 @@ export async function getProductsForCards(options?: {
   }
 
   if (error || !data) return []
-  return data.map((row) => mapProductCard(row as unknown as Record<string, unknown>))
+  return attachReviewSummaries(
+    data.map((row) => mapProductCard(row as unknown as Record<string, unknown>))
+  )
 }
 
 export async function getRelatedProducts(
@@ -226,7 +229,9 @@ export async function getRelatedProducts(
   }
 
   if (error || !data) return []
-  return data.map((row) => mapProductCard(row as unknown as Record<string, unknown>))
+  return attachReviewSummaries(
+    data.map((row) => mapProductCard(row as unknown as Record<string, unknown>))
+  )
 }
 
 export { buildProductSelect, PRODUCT_MEDIA_WITH_VARIANTS, PRODUCT_MEDIA_LEGACY }

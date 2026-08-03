@@ -104,4 +104,5 @@ export type LayoutQueryResult = {
   policyLinks: PolicyLinkRow[]
   socialLinks: SocialLinkRow[]
   menuItems: MenuItemRow[]
+  freeShippingAbove?: number | null
 }

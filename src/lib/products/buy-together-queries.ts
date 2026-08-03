@@ -6,6 +6,7 @@ import {
   type BuyTogetherBundle,
 } from '@/lib/products/buy-together'
 import { mapProductCard, getRelatedProducts, PRODUCT_SELECT } from '@/lib/products/queries'
+import { attachReviewSummaries } from '@/lib/products/reviews'
 import type { BuyTogetherSettings } from '@/types/buy-together-settings'
 
 type BundleRow = {
@@ -52,12 +53,10 @@ async function getCuratedBundles(
 
   if (productsError || !products) return []
 
-  const productMap = new Map(
-    products.map((row) => [
-      (row as unknown as { id: string }).id,
-      mapProductCard(row as unknown as Record<string, unknown>),
-    ])
+  const cards = await attachReviewSummaries(
+    products.map((row) => mapProductCard(row as unknown as Record<string, unknown>))
   )
+  const productMap = new Map(cards.map((card) => [card.id, card]))
 
   return rows
     .map((row) => {

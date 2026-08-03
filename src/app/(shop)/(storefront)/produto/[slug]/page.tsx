@@ -13,6 +13,9 @@ import { buildBreadcrumbJsonLd } from '@/lib/seo/json-ld/breadcrumb'
 import { buildProductJsonLd } from '@/lib/seo/json-ld/product'
 import { buildPageMetadata } from '@/lib/seo/metadata'
 import { getMerchantSeoContext } from '@/lib/seo/get-merchant-seo-context'
+import { formatPhoneDisplay } from '@/lib/store-profile/format'
+import { getPublicStoreProfile } from '@/lib/store-profile/public'
+import type { ProductPurchaseAssurances } from '@/types/product-assurances'
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>
@@ -39,16 +42,47 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params
-  const [product, paymentSettings, checkoutSettings, merchantContext, buyTogetherSettings] =
-    await Promise.all([
-      getProductBySlug(slug),
-      getPaymentSettings(),
-      getCheckoutPaymentSettings(),
-      getMerchantSeoContext(),
-      getBuyTogetherSettings(),
-    ])
+  const [
+    product,
+    paymentSettings,
+    checkoutSettings,
+    merchantContext,
+    buyTogetherSettings,
+    storeProfile,
+  ] = await Promise.all([
+    getProductBySlug(slug),
+    getPaymentSettings(),
+    getCheckoutPaymentSettings(),
+    getMerchantSeoContext(),
+    getBuyTogetherSettings(),
+    getPublicStoreProfile(),
+  ])
 
   if (!product) notFound()
+
+  const returnSlug =
+    storeProfile.return_policy_page_slug?.trim() || 'politica-de-trocas-e-devolucoes'
+  const phoneDisplay = formatPhoneDisplay(
+    storeProfile.phone_area_code,
+    storeProfile.phone_number
+  )
+
+  const assurances: ProductPurchaseAssurances = {
+    returnEnabled: storeProfile.return_enabled,
+    returnDays: storeProfile.return_days,
+    returnFree: storeProfile.return_fees === 'FreeReturn',
+    returnPolicyHref: `/paginas/${returnSlug}`,
+    shippingPolicyHref: '/paginas/politica-de-frete',
+    paymentPolicyHref: '/paginas/formas-de-pagamento',
+    trackingHref: '/rastreio',
+    contactHref: '/paginas/fale-conosco',
+    contactEmail: storeProfile.contact_email,
+    phoneDisplay: phoneDisplay || null,
+    phoneHref: storeProfile.phone_href || null,
+    paymentLabels: paymentSettings.paymentMethods.map((method) => method.label).filter(Boolean),
+    pixEnabled: checkoutSettings.pixEnabled,
+    cardEnabled: checkoutSettings.cardEnabled,
+  }
 
   const categoryIds =
     product.product_categories?.map((pc) => pc.category_id).filter(Boolean) ?? []
@@ -107,6 +141,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         relatedInstallments={relatedInstallments}
         buyTogetherBundles={buyTogetherBundles}
         buyTogetherSettings={buyTogetherSettings}
+        assurances={assurances}
       />
     </>
   )

@@ -276,3 +276,23 @@ export async function getFooterAssets(
     image_url: toSiteMediaUrl(asset.image_url) ?? asset.image_url,
   }))
 }
+
+/** Menor limiar de frete grátis entre métodos ativos (ou null). */
+export async function getFreeShippingAbove(
+  supabase: SupabaseClient
+): Promise<number | null> {
+  const { data, error } = await supabase
+    .from('shipping_methods')
+    .select('free_above')
+    .eq('active', true)
+    .not('free_above', 'is', null)
+
+  if (error || !data?.length) return null
+
+  const values = data
+    .map((row) => Number(row.free_above))
+    .filter((value) => Number.isFinite(value) && value >= 0)
+
+  if (values.length === 0) return null
+  return Math.min(...values)
+}

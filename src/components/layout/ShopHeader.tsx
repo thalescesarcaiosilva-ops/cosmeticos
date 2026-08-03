@@ -25,6 +25,7 @@ type ShopHeaderProps = {
   helpLink: HelpLink
   contactPage: ContactPageLink
   socialLinks: SocialLink[]
+  freeShippingAbove?: number | null
 }
 
 export function ShopHeader({ className, ...props }: ShopHeaderProps) {
@@ -93,6 +94,7 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
           storeName={props.storeName}
           policyLinks={props.policyLinks}
           socialLinks={props.socialLinks}
+          freeShippingAbove={props.freeShippingAbove}
         />
       </div>
       <SiteHeader {...props} overlay={overlay} />

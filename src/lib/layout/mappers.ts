@@ -21,7 +21,7 @@ function mapSocialLink(row: LayoutQueryResult['socialLinks'][number]): SocialLin
 }
 
 export function mapToSiteLayoutData(result: LayoutQueryResult): SiteLayoutData {
-  const { settings, policyLinks, socialLinks, menuItems } = result
+  const { settings, policyLinks, socialLinks, menuItems, freeShippingAbove } = result
 
   const phoneDisplay = `${settings.phone_area_code}${settings.phone_number}`
 
@@ -83,5 +83,9 @@ export function mapToSiteLayoutData(result: LayoutQueryResult): SiteLayoutData {
         ...(children.length > 0 ? { children } : {}),
       }
     }),
+    freeShippingAbove:
+      freeShippingAbove != null && Number.isFinite(freeShippingAbove)
+        ? freeShippingAbove
+        : null,
   }
 }

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createPublicClient } from '@/lib/supabase/public'
 import { mapProductCard, PRODUCT_SELECT } from '@/lib/products/queries'
+import { attachReviewSummaries } from '@/lib/products/reviews'
 import type { ProductCardData } from '@/types/product'
 
 export async function getFavoriteProductIds(userId: string): Promise<string[]> {
@@ -35,7 +36,9 @@ export async function getProductsByIds(productIds: string[]): Promise<ProductCar
     })
   )
 
-  return uniqueIds.map((id) => byId.get(id)).filter((p): p is ProductCardData => Boolean(p))
+  return attachReviewSummaries(
+    uniqueIds.map((id) => byId.get(id)).filter((p): p is ProductCardData => Boolean(p))
+  )
 }
 
 export async function syncFavoriteProductIds(

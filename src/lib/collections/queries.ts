@@ -5,6 +5,7 @@ import {
 import { createPublicClient } from '@/lib/supabase/public'
 import { toAbsoluteSiteMediaUrl, toSiteMediaUrl } from '@/lib/media/public-url'
 import { mapProductCard, PRODUCT_SELECT } from '@/lib/products/queries'
+import { attachReviewSummaries } from '@/lib/products/reviews'
 import type { CollectionFiltersInput } from '@/schemas/category-schema'
 import type {
   CollectionDetail,
@@ -207,7 +208,9 @@ export async function getCollectionProducts(
 
   const total = count ?? 0
   return {
-    products: data.map((row) => mapProductCard(row as unknown as Record<string, unknown>)),
+    products: await attachReviewSummaries(
+      data.map((row) => mapProductCard(row as unknown as Record<string, unknown>))
+    ),
     total,
     page,
     pageSize: PAGE_SIZE,

@@ -84,6 +84,8 @@ export type ProductCardData = {
   originalPrice: number | null
   imageUrl: string | null
   imageAlt: string | null
+  ratingAverage?: number
+  ratingCount?: number
 }
 
 export type ProductDetail = Product & {

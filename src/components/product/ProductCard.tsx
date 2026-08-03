@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { IconBag } from '@/components/icons/DotIcons'
 import { FavoriteButton } from '@/components/product/FavoriteButton'
 import { InstallmentLine } from '@/components/product/InstallmentLine'
+import { ProductRatingStars } from '@/components/product/ProductRatingStars'
 import { SiteImage } from '@/components/ui/SiteImage'
 import { calcDiscountPercent, formatCurrency } from '@/lib/products/format'
 import type { InstallmentDisplay } from '@/types/payment'
@@ -59,6 +60,13 @@ export function ProductCard({ product, installment }: ProductCardProps) {
             {product.name}
           </h3>
         </Link>
+
+        <ProductRatingStars
+          average={product.ratingAverage ?? 0}
+          count={product.ratingCount ?? 0}
+          size={12}
+          compact
+        />
 
         <div className="mt-auto flex items-end justify-between gap-2 pt-1">
           <div className="min-w-0 flex-1 space-y-0.5">

@@ -1,6 +1,7 @@
 import { isStorefrontCategoryHidden } from '@/lib/categories/storefront'
 import { createPublicClient } from '@/lib/supabase/public'
 import { mapProductCard, PRODUCT_SELECT } from '@/lib/products/queries'
+import { attachReviewSummaries } from '@/lib/products/reviews'
 import type { CollectionFiltersInput } from '@/schemas/category-schema'
 import type { CollectionFilterMeta, CollectionProductsResult } from '@/types/collection'
 import type { Brand } from '@/types/product'
@@ -130,7 +131,9 @@ export async function getBrandProducts(
 
   const total = count ?? 0
   return {
-    products: data.map((row) => mapProductCard(row as unknown as Record<string, unknown>)),
+    products: await attachReviewSummaries(
+      data.map((row) => mapProductCard(row as unknown as Record<string, unknown>))
+    ),
     total,
     page,
     pageSize: PAGE_SIZE,

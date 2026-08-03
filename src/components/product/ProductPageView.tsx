@@ -13,6 +13,7 @@ import type { BuyTogetherBundle } from '@/lib/products/buy-together'
 import type { ApprovedProductReview } from '@/lib/products/reviews'
 import type { CheckoutPaymentSettings, InstallmentDisplay, PaymentSettings } from '@/types/payment'
 import type { BuyTogetherSettings } from '@/types/buy-together-settings'
+import type { ProductPurchaseAssurances } from '@/types/product-assurances'
 import type { ProductCardData, ProductDetail } from '@/types/product'
 
 type ProductPageViewProps = {
@@ -25,6 +26,7 @@ type ProductPageViewProps = {
   relatedInstallments: Map<string, InstallmentDisplay | null>
   buyTogetherBundles: BuyTogetherBundle[]
   buyTogetherSettings: BuyTogetherSettings
+  assurances: ProductPurchaseAssurances
 }
 
 export function ProductPageView({
@@ -37,6 +39,7 @@ export function ProductPageView({
   relatedInstallments,
   buyTogetherBundles,
   buyTogetherSettings,
+  assurances,
 }: ProductPageViewProps) {
   const discount = calcDiscountPercent(product.price, product.original_price)
   const primaryCategory = product.categories[0] ?? null
@@ -103,6 +106,7 @@ export function ProductPageView({
             }}
             buyTogetherBundles={buyTogetherBundles}
             buyTogetherSettings={buyTogetherSettings}
+            assurances={assurances}
           />
         </div>
 
