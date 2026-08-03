@@ -82,11 +82,6 @@ export function AboutView({ openingHours }: AboutViewProps) {
                     {info.label.subtitle}
                   </p>
                 </div>
-                <div className="seal relative flex size-16 shrink-0 items-center justify-center rounded-full">
-                  <span className="whitespace-pre-line text-center font-mono text-[0.55rem] uppercase leading-tight tracking-wide text-gold">
-                    {info.label.sealText}
-                  </span>
-                </div>
               </div>
 
               <dl className="font-mono text-sm">
