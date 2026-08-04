@@ -150,7 +150,7 @@ export const storeContent: StoreContent = {
           { label: 'Telefone', value: '(71) 92006-7408' },
           {
             label: 'Endereço',
-            value: 'Av Octavio Mangabeira, 6929, Loja 04, Boca do Rio, Salvador/BA, CEP: 41706-690',
+            value: 'Av Octavio Mangabeira, 6929, Boca Do Rio, Salvador/BA, CEP: 41706-690',
           },
         ],
       },
@@ -161,7 +161,7 @@ export const storeContent: StoreContent = {
         { label: 'Domingo', value: 'Fechado', closed: true },
       ],
       visitTitle: 'Visite a loja',
-      visitAddress: 'Av Octavio Mangabeira, 6929, Loja 04, Boca do Rio, Salvador/BA, CEP: 41706-690',
+      visitAddress: 'Av Octavio Mangabeira, 6929, Boca Do Rio, Salvador/BA, CEP: 41706-690',
     },
   },
 }
