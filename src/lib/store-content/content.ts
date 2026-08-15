@@ -121,7 +121,7 @@ export const storeContent: StoreContent = {
       eyebrow: 'Quem somos',
       title: 'Sobre Nós',
       paragraphs: [
-        'A Batista Cosméticos nasceu com o propósito de tornar o cuidado pessoal mais acessível, prático e confiável para todos. Fundada por Eduardo Batista Prado Lessa, a loja foi criada a partir da visão de oferecer produtos de qualidade com preços justos, sem complicar a experiência de compra.',
+        'A Batista Cosméticos nasceu com o propósito de tornar o cuidado pessoal mais acessível, prático e confiável para todos. A loja foi criada a partir da visão de oferecer produtos de qualidade com preços justos, sem complicar a experiência de compra.',
         'Somos especializados em cosméticos, produtos de skincare, maquiagem e itens de higiene pessoal, sempre selecionados com atenção aos detalhes. Cada produto disponível em nossa loja passa por uma curadoria criteriosa, garantindo que você tenha acesso a itens que realmente entregam qualidade, segurança e bons resultados no dia a dia.',
         'Acreditamos que cuidar da beleza é também cuidar de si. Por isso, buscamos reunir em um só lugar tudo o que você precisa para sua rotina de autocuidado, com variedade, praticidade e confiança. Nosso compromisso é facilitar sua escolha, oferecendo opções que atendam diferentes necessidades e perfis.',
         'Trabalhamos constantemente para que sua experiência de compra seja simples, segura e transparente. Desde a navegação no site até o atendimento pós-venda, cada etapa é pensada para garantir comodidade e satisfação. Valorizamos o relacionamento com nossos clientes e buscamos oferecer um atendimento ágil, claro e eficiente.',
@@ -147,10 +147,10 @@ export const storeContent: StoreContent = {
           { label: 'CNPJ', value: '67.834.759/0001-40' },
           { label: 'E-mail', value: 'atendimento@batistacosmeticos.com.br' },
           { label: 'Site', value: 'www.batistacosmeticos.com.br' },
-          { label: 'Telefone', value: '(71) 92006-7408' },
+          { label: 'Telefone', value: '(71) 98603-5819' },
           {
             label: 'Endereço',
-            value: 'Av Octavio Mangabeira, 6929, Boca Do Rio, Salvador/BA, CEP: 41706-690',
+            value: 'Avenida Octavio Mangabeira, 6929, Boca do Rio, Salvador/BA, CEP: 41706-690',
           },
         ],
       },
@@ -161,7 +161,7 @@ export const storeContent: StoreContent = {
         { label: 'Domingo', value: 'Fechado', closed: true },
       ],
       visitTitle: 'Visite a loja',
-      visitAddress: 'Av Octavio Mangabeira, 6929, Boca Do Rio, Salvador/BA, CEP: 41706-690',
+      visitAddress: 'Avenida Octavio Mangabeira, 6929, Boca do Rio, Salvador/BA, CEP: 41706-690',
     },
   },
 }
