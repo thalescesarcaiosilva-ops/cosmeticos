@@ -1,13 +1,6 @@
-import type { MerchantSeoContext } from '@/lib/seo/get-merchant-seo-context'
 import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { absoluteUrl } from '@/lib/seo/site-url'
-import {
-  buildMerchantReturnPolicy,
-  buildOfferShippingDetails,
-  buildPriceValidFrom,
-  buildPriceValidUntil,
-  isValidGtin,
-} from '@/lib/seo/json-ld/merchant-schemas'
+import { buildPriceValidUntil, isValidGtin } from '@/lib/seo/json-ld/merchant-schemas'
 import type { ApprovedProductReview } from '@/lib/products/reviews'
 import type { ProductDetail } from '@/types/product'
 
@@ -24,11 +17,7 @@ type ProductJsonLdOptions = {
   reviews?: ApprovedProductReview[]
 }
 
-export function buildProductJsonLd(
-  product: ProductDetail,
-  merchant?: MerchantSeoContext | null,
-  options?: ProductJsonLdOptions
-) {
+export function buildProductJsonLd(product: ProductDetail, options?: ProductJsonLdOptions) {
   const url = absoluteUrl(`/produto/${product.slug}`)
   if (!url) return null
 
@@ -47,16 +36,7 @@ export function buildProductJsonLd(
     price: formatSchemaPrice(product.price),
     availability: availabilityUrl(product.stock),
     itemCondition: 'https://schema.org/NewCondition',
-    validFrom: buildPriceValidFrom(),
     priceValidUntil: buildPriceValidUntil(),
-  }
-
-  if (merchant) {
-    offer.shippingDetails = buildOfferShippingDetails(merchant)
-    const returnPolicy = buildMerchantReturnPolicy(merchant)
-    if (returnPolicy) {
-      offer.hasMerchantReturnPolicy = returnPolicy
-    }
   }
 
   const jsonLd: Record<string, unknown> = {

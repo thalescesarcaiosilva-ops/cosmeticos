@@ -156,9 +156,9 @@ export const storeContent: StoreContent = {
       },
       hoursTitle: 'Horário de atendimento',
       hours: [
-        { label: 'Segunda a sexta', value: '08h às 17h' },
-        { label: 'Sábado', value: '08h às 12h' },
-        { label: 'Domingo', value: 'Fechado', closed: true },
+        { label: 'Segunda-feira a Sexta-feira', value: '08:00h às 17:00h' },
+        { label: 'Sábado', value: '08:00h às 12:00h' },
+        { label: 'Domingo', value: 'Fechado. Exceto feriados', closed: true },
       ],
       visitTitle: 'Visite a loja',
       visitAddress: 'Avenida Octavio Mangabeira, 6929, Boca do Rio, Salvador/BA, CEP: 41706-690',

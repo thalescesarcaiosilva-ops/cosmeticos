@@ -1,19 +1,14 @@
 import type { FooterData } from '@/lib/layout/get-footer-data'
 import type { SiteLayoutData } from '@/types/layout'
-import type { MerchantSeoContext } from '@/lib/seo/get-merchant-seo-context'
 import type { StoreProfile } from '@/lib/store-profile/queries'
 import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { absoluteUrl } from '@/lib/seo/site-url'
-import {
-  buildMerchantReturnPolicy,
-  organizationId,
-} from '@/lib/seo/json-ld/merchant-schemas'
+import { organizationId } from '@/lib/seo/json-ld/merchant-schemas'
 
 type StoreJsonLdInput = {
   layout: SiteLayoutData
   footer: FooterData
   profile: StoreProfile
-  merchant: MerchantSeoContext
 }
 
 function formatTelephone(profile: StoreProfile): string | null {
@@ -59,7 +54,6 @@ export function buildStoreJsonLd({
   layout,
   footer,
   profile,
-  merchant,
 }: StoreJsonLdInput): Record<string, unknown> | null {
   const siteUrl = absoluteUrl('/')
   const orgId = organizationId()
@@ -113,11 +107,6 @@ export function buildStoreJsonLd({
 
   if (sameAs.length > 0) {
     store.sameAs = sameAs
-  }
-
-  const returnPolicy = buildMerchantReturnPolicy(merchant)
-  if (returnPolicy) {
-    store.hasMerchantReturnPolicy = returnPolicy
   }
 
   return store

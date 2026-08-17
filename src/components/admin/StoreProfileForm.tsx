@@ -358,7 +358,7 @@ export function StoreProfileForm() {
               onChange={(e) => updateField('return_enabled', e.target.checked)}
               className="rounded border-border text-brand"
             />
-            Aceito devoluções (habilita schema MerchantReturnPolicy)
+            Aceito devoluções (políticas da loja / Merchant Center)
           </label>
 
           {form.return_enabled && (

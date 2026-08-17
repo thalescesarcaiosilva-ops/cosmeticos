@@ -12,7 +12,6 @@ import { buildReviewSummary, getApprovedProductReviews } from '@/lib/products/re
 import { buildBreadcrumbJsonLd } from '@/lib/seo/json-ld/breadcrumb'
 import { buildProductJsonLd } from '@/lib/seo/json-ld/product'
 import { buildPageMetadata } from '@/lib/seo/metadata'
-import { getMerchantSeoContext } from '@/lib/seo/get-merchant-seo-context'
 import { formatPhoneDisplay } from '@/lib/store-profile/format'
 import { getPublicStoreProfile } from '@/lib/store-profile/public'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
@@ -46,14 +45,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
     product,
     paymentSettings,
     checkoutSettings,
-    merchantContext,
     buyTogetherSettings,
     storeProfile,
   ] = await Promise.all([
     getProductBySlug(slug),
     getPaymentSettings(),
     getCheckoutPaymentSettings(),
-    getMerchantSeoContext(),
     getBuyTogetherSettings(),
     getPublicStoreProfile(),
   ])
@@ -118,7 +115,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     { name: product.name, path: `/produto/${product.slug}` },
   ]
 
-  const productJsonLd = buildProductJsonLd(product, merchantContext, {
+  const productJsonLd = buildProductJsonLd(product, {
     reviewSummary,
     reviews: approvedReviews,
   })
