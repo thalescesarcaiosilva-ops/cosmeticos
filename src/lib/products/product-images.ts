@@ -9,6 +9,8 @@ export type PrimaryProductImage = {
   url: string | null
   /** Card / lista (~400px) */
   thumbUrl: string | null
+  /** thumb_url gravada no banco (null até backfill) */
+  storedThumbUrl: string | null
   /** Galeria PDP (~800px) */
   mediumUrl: string | null
   alt: string | null
@@ -59,7 +61,13 @@ export function getPrimaryProductImage(
   fallbackAlt?: string
 ): PrimaryProductImage {
   if (!Array.isArray(productImages)) {
-    return { url: null, thumbUrl: null, mediumUrl: null, alt: fallbackAlt ?? null }
+    return {
+      url: null,
+      thumbUrl: null,
+      storedThumbUrl: null,
+      mediumUrl: null,
+      alt: fallbackAlt ?? null,
+    }
   }
 
   const sorted = [...productImages].sort((a, b) => {
@@ -79,13 +87,20 @@ export function getPrimaryProductImage(
       return {
         url: normalizedUrl,
         thumbUrl: resolveThumbDisplayUrl(normalizedUrl, media.thumb_url),
+        storedThumbUrl: toSiteMediaUrl(media.thumb_url),
         mediumUrl: resolveMediumDisplayUrl(normalizedUrl, media.medium_url),
         alt: media.alt_text ?? fallbackAlt ?? null,
       }
     }
   }
 
-  return { url: null, thumbUrl: null, mediumUrl: null, alt: fallbackAlt ?? null }
+  return {
+    url: null,
+    thumbUrl: null,
+    storedThumbUrl: null,
+    mediumUrl: null,
+    alt: fallbackAlt ?? null,
+  }
 }
 
 export function readBrandName(brand: unknown): string | null {

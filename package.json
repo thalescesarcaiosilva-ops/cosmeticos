@@ -10,7 +10,9 @@
     "diag:signup": "node --env-file=.env.local scripts/diag-signup.mjs",
     "diag:trigger": "node --env-file=.env.local scripts/diag-trigger.mjs",
     "promote:admin": "node --env-file=.env.local scripts/promote-admin.mjs",
-    "schema:clean": "node scripts/build-full-schema-clean.mjs"
+    "schema:clean": "node scripts/build-full-schema-clean.mjs",
+    "backfill:media": "npx tsx --env-file=.env.local scripts/backfill-media-variants.ts",
+    "optimize:site-assets": "npx tsx --env-file=.env.local scripts/optimize-site-assets.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

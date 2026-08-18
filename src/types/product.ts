@@ -82,7 +82,10 @@ export type ProductCardData = {
   brandName: string | null
   price: number
   originalPrice: number | null
+  /** URL canônica (src) — mesma do feed Merchant. */
   imageUrl: string | null
+  /** srcSet opcional com thumb 400w + canônica 1000w. */
+  imageSrcSet?: string | null
   imageAlt: string | null
   ratingAverage?: number
   ratingCount?: number

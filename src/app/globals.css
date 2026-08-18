@@ -90,21 +90,6 @@ body {
   color: var(--color-brand-primary-hover);
 }
 
-@media (min-width: 768px) {
-  .shop-header[data-header-mode='overlay'] .header-action {
-    color: #ffffff;
-  }
-
-  .shop-header[data-header-mode='overlay'] .header-action:hover {
-    opacity: 0.88;
-  }
-
-  /* Banner sobe sob o header transparente no desktop */
-  .home-hero-banner {
-    margin-top: calc(-1 * var(--shop-header-height));
-  }
-}
-
 /* Reserva altura do banner (CLS) — proporção vem do inline style (width/height do arquivo) */
 .home-banner-carousel {
   width: 100%;

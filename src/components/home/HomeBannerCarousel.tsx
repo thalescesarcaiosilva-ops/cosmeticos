@@ -11,8 +11,10 @@ type HomeBannerCarouselProps = {
   className?: string
   variant?: 'mobile' | 'desktop'
   prioritizeFirst?: boolean
-  /** Primeiro slide eager sem fetchpriority (desktop oculto no mobile + preload no head). */
-  eagerFirstSlide?: boolean
+}
+
+function bannerSizes(variant: 'mobile' | 'desktop'): string {
+  return variant === 'mobile' ? '(max-width: 767px) 100vw, 1px' : '(min-width: 768px) 100vw, 1px'
 }
 
 function resolveAspectRatio(
@@ -31,7 +33,6 @@ export function HomeBannerCarousel({
   className = '',
   variant = 'desktop',
   prioritizeFirst = false,
-  eagerFirstSlide = false,
 }: HomeBannerCarouselProps) {
   const [index, setIndex] = useState(0)
   const count = banners.length
@@ -69,23 +70,21 @@ export function HomeBannerCarousel({
         {banners.map((banner, slideIndex) => {
           const alt = banner.alt_text?.trim() || banner.title || 'Banner promocional'
           const isPriorityLcp = prioritizeFirst && slideIndex === 0
-          const isEagerFirst = eagerFirstSlide && slideIndex === 0
           const shouldLoad =
             slideIndex === index ||
             slideIndex === (index + 1) % count ||
             slideIndex === (index - 1 + count) % count ||
-            isPriorityLcp ||
-            isEagerFirst
+            isPriorityLcp
 
           const image = shouldLoad ? (
             <SiteImage
               src={banner.image_url}
               alt={alt}
               fill
-              sizes="100vw"
+              sizes={bannerSizes(variant)}
               priority={isPriorityLcp}
               fetchPriority={isPriorityLcp ? 'high' : 'auto'}
-              {...(!isPriorityLcp && !isEagerFirst ? { loading: 'lazy' as const } : {})}
+              {...(!isPriorityLcp ? { loading: 'lazy' as const } : {})}
               className="object-contain object-center"
             />
           ) : null

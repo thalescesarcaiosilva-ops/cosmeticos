@@ -1,6 +1,7 @@
 import { cache } from 'react'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createPublicClient } from '@/lib/supabase/public'
+import { buildProductCardSrcSet } from '@/lib/media/resolve-display-url'
 import { getPrimaryProductImage } from '@/lib/products/product-images'
 import { attachReviewSummaries } from '@/lib/products/reviews'
 import type { ProductCardData, ProductDetail } from '@/types/product'
@@ -101,7 +102,9 @@ export function mapProductCard(row: Record<string, unknown>): ProductCardData {
     brandName: brand?.name?.trim() || null,
     price: Number(row.price),
     originalPrice: row.original_price != null ? Number(row.original_price) : null,
-    imageUrl: primary.thumbUrl ?? primary.url,
+    /** Canônica (large) — atributo src; Merchant/bot sempre veem esta URL. */
+    imageUrl: primary.url,
+    imageSrcSet: buildProductCardSrcSet(primary.url, primary.storedThumbUrl),
     imageAlt: primary.alt ?? (row.name as string),
   }
 }

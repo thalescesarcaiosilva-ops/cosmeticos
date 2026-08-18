@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { IconBag } from '@/components/icons/DotIcons'
 import { FavoriteButton } from '@/components/product/FavoriteButton'
+import { ProductCardImage } from '@/components/product/ProductCardImage'
 import { InstallmentLine } from '@/components/product/InstallmentLine'
 import { ProductRatingStars } from '@/components/product/ProductRatingStars'
-import { SiteImage } from '@/components/ui/SiteImage'
 import { calcDiscountPercent, formatCurrency } from '@/lib/products/format'
 import type { InstallmentDisplay } from '@/types/payment'
 import type { ProductCardData } from '@/types/product'
@@ -30,13 +30,11 @@ export function ProductCard({ product, installment }: ProductCardProps) {
             </span>
           )}
           {product.imageUrl ? (
-            <SiteImage
+            <ProductCardImage
               src={product.imageUrl}
+              srcSet={product.imageSrcSet}
               alt={product.imageAlt ?? product.name}
-              fill
-              sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 280px"
-              loading="lazy"
-              className="object-contain p-4 transition-transform duration-300 group-hover:scale-[1.03]"
+              sizes="(max-width: 640px) 45vw, 183px"
             />
           ) : (
             <div className="flex h-full items-center justify-center text-xs text-text-muted">
