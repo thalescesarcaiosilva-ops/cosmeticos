@@ -3,13 +3,13 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { SiteImage } from '@/components/ui/SiteImage'
 import type { HomeBannerPublic } from '@/types/home-banner'
 
 type HomeBannerCarouselProps = {
   banners: HomeBannerPublic[]
   className?: string
   variant?: 'mobile' | 'desktop'
+  /** Primeiro slide no HTML com prioridade (LCP). Só um viewport deve ser true. */
   prioritizeFirst?: boolean
 }
 
@@ -69,28 +69,24 @@ export function HomeBannerCarousel({
       >
         {banners.map((banner, slideIndex) => {
           const alt = banner.alt_text?.trim() || banner.title || 'Banner promocional'
-          const isPriorityLcp = prioritizeFirst && slideIndex === 0
-          const shouldLoad =
-            slideIndex === index ||
-            slideIndex === (index + 1) % count ||
-            slideIndex === (index - 1 + count) % count ||
-            isPriorityLcp
-
-          const image = shouldLoad ? (
-            <SiteImage
-              src={banner.image_url}
-              alt={alt}
-              fill
-              sizes={bannerSizes(variant)}
-              priority={isPriorityLcp}
-              fetchPriority={isPriorityLcp ? 'high' : 'auto'}
-              {...(!isPriorityLcp ? { loading: 'lazy' as const } : {})}
-              className="object-contain object-center"
-            />
-          ) : null
-
+          const isLcp = prioritizeFirst && slideIndex === 0
           const slideClass =
             'relative h-full w-full min-w-full shrink-0 basis-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
+
+          const image = (
+            // eslint-disable-next-line @next/next/no-img-element -- banner no HTML do SSR para o bot; sem /_next/image
+            <img
+              src={banner.image_url}
+              alt={alt}
+              width={banner.width ?? undefined}
+              height={banner.height ?? undefined}
+              sizes={bannerSizes(variant)}
+              fetchPriority={isLcp ? 'high' : 'auto'}
+              loading={isLcp ? 'eager' : 'lazy'}
+              decoding={isLcp ? 'sync' : 'async'}
+              className="absolute inset-0 h-full w-full object-contain object-center"
+            />
+          )
 
           return banner.link_href ? (
             <Link

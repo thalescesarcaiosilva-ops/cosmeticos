@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { HOME_CACHE_TAG } from '@/lib/cache/storefront'
 import { updateCategorySchema } from '@/schemas/category-schema'
 
 const CATEGORY_COLUMNS =
@@ -58,6 +59,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   revalidateTag('collections', 'max')
+  revalidateTag(HOME_CACHE_TAG, 'max')
 
   return jsonSuccess(data, 'Categoria atualizada')
 }
@@ -78,5 +80,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return jsonError('Não foi possível remover a categoria', 400)
   }
 
+  revalidateTag('collections', 'max')
+  revalidateTag(HOME_CACHE_TAG, 'max')
   return jsonSuccess({ ok: true }, 'Categoria removida')
 }

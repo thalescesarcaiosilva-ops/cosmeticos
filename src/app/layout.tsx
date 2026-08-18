@@ -10,23 +10,26 @@ export const revalidate = 60
 const jost = Jost({
   variable: '--font-jost',
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '600', '700'],
   display: 'swap',
+  preload: true,
 })
 
 const fraunces = Fraunces({
   variable: '--font-fraunces',
   subsets: ['latin'],
-  weight: ['300', '500', '600', '700'],
+  weight: ['500', '600'],
   style: ['normal', 'italic'],
   display: 'swap',
+  preload: false,
 })
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: '--font-ibm-plex-mono',
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400'],
   display: 'swap',
+  preload: false,
 })
 
 export async function generateMetadata(): Promise<Metadata> {

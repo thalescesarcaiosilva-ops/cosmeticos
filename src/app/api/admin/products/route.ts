@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { revalidateStorefront } from '@/lib/cache/storefront'
 import { PRODUCT_SELECT, syncProductRelations } from '@/lib/products/queries'
 import { createProductSchema } from '@/schemas/product-schema'
 
@@ -102,5 +103,6 @@ export async function POST(request: Request) {
     .eq('id', data.id)
     .single()
 
+  revalidateStorefront()
   return jsonSuccess(full, 'Produto criado', 201)
 }

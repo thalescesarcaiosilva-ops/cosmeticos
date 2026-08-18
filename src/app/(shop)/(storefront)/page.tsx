@@ -1,20 +1,19 @@
 import type { Metadata } from 'next'
 import { Fragment } from 'react'
 import { CategoryGrid } from '@/components/collection/CategoryGrid'
-import { DeferredHomeSection } from '@/components/home/DeferredHomeSection'
 import { NewsletterSection } from '@/components/home/NewsletterSection'
 import { ProductCarouselSection } from '@/components/home/ProductCarouselSection'
 import { HomeLcpPreload } from '@/components/home/HomeLcpPreload'
 import { ResponsiveHomeBanners } from '@/components/home/ResponsiveHomeBanners'
 import { StoreAboutSection } from '@/components/home/StoreAboutSection'
-import { getHomeBannersPublic, splitBannersByDevice } from '@/lib/banners/queries'
-import { HOME_CATEGORY_SLUGS } from '@/lib/home/config'
-import { getCollectionsForCarousel } from '@/lib/collections/queries'
-import { getHomeCategorySections } from '@/lib/home/queries'
+import { splitBannersByDevice } from '@/lib/banners/queries'
+import { getCachedHomePageData } from '@/lib/home/queries'
 import { buildInstallmentMap } from '@/lib/payment/build-installment-map'
-import { getPaymentSettings } from '@/lib/payment/queries'
 import { getSeoSettings } from '@/lib/seo/get-seo-settings'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+
+/** HTML da home em cache — catálogo completo no SSR para o Googlebot. */
+export const revalidate = 60
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoSettings()
@@ -28,14 +27,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [banners, collections, categorySections, paymentSettings] = await Promise.all([
-    getHomeBannersPublic(),
-    getCollectionsForCarousel(),
-    getHomeCategorySections(
-      HOME_CATEGORY_SLUGS.length > 0 ? { slugs: HOME_CATEGORY_SLUGS } : undefined
-    ),
-    getPaymentSettings(),
-  ])
+  const { banners, collections, categorySections, paymentSettings } =
+    await getCachedHomePageData()
 
   const { desktop: desktopBanners, mobile: mobileBanners } = splitBannersByDevice(banners)
   const lcpMobileUrl = mobileBanners[0]?.image_url ?? null
@@ -46,7 +39,6 @@ export default async function HomePage() {
   return (
     <>
       <HomeLcpPreload mobileBannerUrl={lcpMobileUrl} desktopBannerUrl={lcpDesktopUrl} />
-      {/* Above-the-fold: um carrossel por viewport (WebP direto, sem /_next/image). */}
       <ResponsiveHomeBanners
         desktopBanners={desktopBanners}
         mobileBanners={mobileBanners}
@@ -58,28 +50,19 @@ export default async function HomePage() {
           <CategoryGrid items={collections} />
         </section>
 
-        {/* Below-the-fold: HTML no SSR, pintura adiada; nunca desmonta ao rolar. */}
         {categorySections.map((section) => (
           <Fragment key={section.id}>
-            <DeferredHomeSection estimatedHeightPx={560}>
-              <ProductCarouselSection
-                title={section.name}
-                viewAllHref={`/colecoes/${section.slug}`}
-                products={section.products}
-                installments={installments}
-              />
-            </DeferredHomeSection>
-            {section.slug === 'cuidados-capilares' && (
-              <DeferredHomeSection estimatedHeightPx={420}>
-                <StoreAboutSection />
-              </DeferredHomeSection>
-            )}
+            <ProductCarouselSection
+              title={section.name}
+              viewAllHref={`/colecoes/${section.slug}`}
+              products={section.products}
+              installments={installments}
+            />
+            {section.slug === 'cuidados-capilares' && <StoreAboutSection />}
           </Fragment>
         ))}
 
-        <DeferredHomeSection estimatedHeightPx={280}>
-          <NewsletterSection />
-        </DeferredHomeSection>
+        <NewsletterSection />
       </div>
     </>
   )

@@ -1,8 +1,9 @@
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { revalidateStorefront } from '@/lib/cache/storefront'
 import {
   fetchAdminSiteSettings,
   updateAdminSiteSettings,
@@ -69,8 +70,7 @@ export async function PATCH(request: Request) {
     return jsonError('Não foi possível atualizar as configurações', 400)
   }
 
-  revalidateTag('site-layout', 'max')
-  revalidatePath('/', 'layout')
+  revalidateStorefront()
   revalidatePath('/paginas/fale-conosco')
 
   const message = paymentConfigSkipped

@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { cache } from 'react'
+import { cacheStorefrontQuery, SITE_LAYOUT_CACHE_TAG } from '@/lib/cache/storefront'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { SITE_SETTINGS_ID } from '@/lib/layout/queries'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
@@ -199,10 +200,18 @@ export async function getStoreProfile(
   return mapRow(legacy.data as unknown as Record<string, unknown>, false)
 }
 
-/** Uma leitura por request React — evita 3–4 hits a site_settings no layout. */
+const loadStoreProfile = cacheStorefrontQuery(
+  async (): Promise<StoreProfile | null> => {
+    if (!isSupabasePublicConfigured()) return null
+    return getStoreProfile(createPublicClient())
+  },
+  'store-profile',
+  [SITE_LAYOUT_CACHE_TAG]
+)
+
+/** Cache de 60s entre requests + dedupe no mesmo request. */
 export const getCachedStoreProfile = cache(async (): Promise<StoreProfile | null> => {
-  if (!isSupabasePublicConfigured()) return null
-  return getStoreProfile(createPublicClient())
+  return loadStoreProfile()
 })
 
 export async function updateStoreProfile(

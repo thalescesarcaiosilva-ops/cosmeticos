@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { HOME_CACHE_TAG } from '@/lib/cache/storefront'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import { createCategorySchema } from '@/schemas/category-schema'
 
@@ -107,6 +108,7 @@ export async function POST(request: Request) {
   }
 
   revalidateTag('collections', 'max')
+  revalidateTag(HOME_CACHE_TAG, 'max')
 
   return jsonSuccess(data, 'Categoria criada', 201)
 }

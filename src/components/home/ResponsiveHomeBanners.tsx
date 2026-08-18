@@ -29,7 +29,6 @@ export function ResponsiveHomeBanners({
           banners={desktopBanners}
           variant="desktop"
           className="home-hero-banner hidden md:block"
-          prioritizeFirst
         />
       )}
     </>

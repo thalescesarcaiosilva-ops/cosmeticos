@@ -1,4 +1,4 @@
-import { revalidatePath } from 'next/cache'
+import { revalidateStorefront } from '@/lib/cache/storefront'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
@@ -191,6 +191,6 @@ export async function POST(request: Request) {
     )
   }
 
-  revalidatePath('/')
+  revalidateStorefront()
   return jsonSuccess(inserted.data, 'Banner adicionado', 201)
 }

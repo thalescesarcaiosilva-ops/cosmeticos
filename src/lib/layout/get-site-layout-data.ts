@@ -1,4 +1,5 @@
 import { cache } from 'react'
+import { cacheStorefrontQuery, SITE_LAYOUT_CACHE_TAG } from '@/lib/cache/storefront'
 import { mapToSiteLayoutData } from '@/lib/layout/mappers'
 import {
   getFreeShippingAbove,
@@ -25,30 +26,37 @@ function emptySiteLayoutData(): SiteLayoutData {
 }
 
 /**
- * Fonte única de dados do layout (top bar, header, menu).
- * cache() deduplica leituras no mesmo request React.
+ * Layout da vitrine em cache (60s) — HTML completo no SSR para o bot.
  */
+const loadSiteLayoutData = cacheStorefrontQuery(
+  async (): Promise<SiteLayoutData> => {
+    if (!isSupabasePublicConfigured()) {
+      return emptySiteLayoutData()
+    }
+
+    const supabase = createPublicClient()
+
+    const [settings, policyLinks, socialLinks, menuItems, freeShippingAbove] =
+      await Promise.all([
+        getSiteSettings(supabase),
+        getPolicyLinks(supabase),
+        getSocialLinks(supabase),
+        getMenuItems(supabase),
+        getFreeShippingAbove(supabase),
+      ])
+
+    return mapToSiteLayoutData({
+      settings,
+      policyLinks,
+      socialLinks,
+      menuItems,
+      freeShippingAbove,
+    })
+  },
+  'site-layout-data',
+  [SITE_LAYOUT_CACHE_TAG]
+)
+
 export const getSiteLayoutData = cache(async (): Promise<SiteLayoutData> => {
-  if (!isSupabasePublicConfigured()) {
-    return emptySiteLayoutData()
-  }
-
-  const supabase = createPublicClient()
-
-  const [settings, policyLinks, socialLinks, menuItems, freeShippingAbove] =
-    await Promise.all([
-      getSiteSettings(supabase),
-      getPolicyLinks(supabase),
-      getSocialLinks(supabase),
-      getMenuItems(supabase),
-      getFreeShippingAbove(supabase),
-    ])
-
-  return mapToSiteLayoutData({
-    settings,
-    policyLinks,
-    socialLinks,
-    menuItems,
-    freeShippingAbove,
-  })
+  return loadSiteLayoutData()
 })

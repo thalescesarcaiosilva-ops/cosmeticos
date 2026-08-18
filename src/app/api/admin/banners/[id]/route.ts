@@ -1,4 +1,4 @@
-import { revalidatePath } from 'next/cache'
+import { revalidateStorefront } from '@/lib/cache/storefront'
 import { z } from 'zod'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
@@ -91,7 +91,7 @@ export async function PATCH(
       )
     }
 
-    revalidatePath('/')
+    revalidateStorefront()
     return jsonSuccess(data, 'Banner atualizado')
   }
 
@@ -125,7 +125,7 @@ export async function PATCH(
     )
   }
 
-  revalidatePath('/')
+  revalidateStorefront()
   return jsonSuccess(data, 'Banner atualizado')
 }
 
@@ -247,7 +247,7 @@ async function patchWithImage(id: string, formData: FormData) {
     await admin.storage.from('banners').remove([existing.storage_path])
   }
 
-  revalidatePath('/')
+  revalidateStorefront()
   return jsonSuccess(data, 'Banner atualizado')
 }
 
@@ -287,6 +287,6 @@ export async function DELETE(
     }
   }
 
-  revalidatePath('/')
+  revalidateStorefront()
   return jsonSuccess({ ok: true }, 'Banner removido')
 }

@@ -1,4 +1,5 @@
 import { revalidatePath } from 'next/cache'
+import { revalidateStorefront } from '@/lib/cache/storefront'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
 import { importWooCommerceBatch } from '@/lib/import/run-woocommerce-import'
@@ -64,7 +65,7 @@ export async function POST(request: Request) {
       adminUserId: auth.id,
     })
 
-    revalidatePath('/')
+    revalidateStorefront()
     revalidatePath('/admin/produtos')
 
     return jsonSuccess(result, 'Lote importado')

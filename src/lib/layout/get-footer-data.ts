@@ -1,4 +1,5 @@
 import { cache } from 'react'
+import { cacheStorefrontQuery, SITE_LAYOUT_CACHE_TAG } from '@/lib/cache/storefront'
 import { filterStorefrontSocialLinks } from '@/lib/layout/social-links'
 import {
   getFooterAssets,
@@ -110,20 +111,21 @@ function emptyFooterData(): FooterData {
   }
 }
 
-export const getFooterData = cache(async (): Promise<FooterData> => {
-  if (!isSupabasePublicConfigured()) {
-    return emptyFooterData()
-  }
+const loadFooterData = cacheStorefrontQuery(
+  async (): Promise<FooterData> => {
+    if (!isSupabasePublicConfigured()) {
+      return emptyFooterData()
+    }
 
-  const supabase = createPublicClient()
+    const supabase = createPublicClient()
 
-  const [settings, menus, assets, socialRows, storeProfile] = await Promise.all([
-    getSiteSettings(supabase),
-    getFooterMenus(supabase),
-    getFooterAssets(supabase).catch(() => [] as FooterAssetRow[]),
-    getSocialLinks(supabase),
-    getCachedStoreProfile(),
-  ])
+    const [settings, menus, assets, socialRows, storeProfile] = await Promise.all([
+      getSiteSettings(supabase),
+      getFooterMenus(supabase),
+      getFooterAssets(supabase).catch(() => [] as FooterAssetRow[]),
+      getSocialLinks(supabase),
+      getCachedStoreProfile(),
+    ])
 
   const socialLinks = filterStorefrontSocialLinks(
     socialRows.map(mapSocial).filter((s): s is SocialLink => s !== null)
@@ -179,4 +181,11 @@ export const getFooterData = cache(async (): Promise<FooterData> => {
     paymentHeading: 'Formas de Pagamento',
     paymentText,
   }
+  },
+  'footer-data',
+  [SITE_LAYOUT_CACHE_TAG]
+)
+
+export const getFooterData = cache(async (): Promise<FooterData> => {
+  return loadFooterData()
 })

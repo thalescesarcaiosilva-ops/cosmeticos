@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { revalidateStorefront } from '@/lib/cache/storefront'
 import { PRODUCT_SELECT, syncProductRelations } from '@/lib/products/queries'
 import { updateProductSchema } from '@/schemas/product-schema'
 
@@ -64,6 +65,7 @@ export async function PATCH(
     return jsonError('Produto não encontrado', 404)
   }
 
+  revalidateStorefront()
   return jsonSuccess(data, 'Produto atualizado')
 }
 
@@ -83,5 +85,6 @@ export async function DELETE(
     return jsonError('Não foi possível remover o produto', 400)
   }
 
+  revalidateStorefront()
   return jsonSuccess({ ok: true }, 'Produto removido')
 }

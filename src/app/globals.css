@@ -23,7 +23,7 @@
   --color-nav-bg: #4a202a;
   --color-nav-text: #f1dfdd;
   --color-header-overlay: rgba(0, 0, 0, 0.45);
-  --shop-header-height: 168px;
+  --shop-header-height: 112px;
   --shop-topbar-height: 36px;
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -94,6 +94,12 @@ body {
 .home-banner-carousel {
   width: 100%;
   contain: layout style;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --shop-header-height: 168px;
+  }
 }
 
 @media (max-width: 767px) {
