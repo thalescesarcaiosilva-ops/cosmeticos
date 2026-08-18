@@ -1,3 +1,7 @@
+import {
+  resolveMediumDisplayUrl,
+  resolveThumbDisplayUrl,
+} from '@/lib/media/resolve-display-url'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 
 export type PrimaryProductImage = {
@@ -74,8 +78,8 @@ export function getPrimaryProductImage(
       if (!normalizedUrl) continue
       return {
         url: normalizedUrl,
-        thumbUrl: toSiteMediaUrl(media.thumb_url) ?? normalizedUrl,
-        mediumUrl: toSiteMediaUrl(media.medium_url) ?? normalizedUrl,
+        thumbUrl: resolveThumbDisplayUrl(normalizedUrl, media.thumb_url),
+        mediumUrl: resolveMediumDisplayUrl(normalizedUrl, media.medium_url),
         alt: media.alt_text ?? fallbackAlt ?? null,
       }
     }

@@ -88,9 +88,8 @@ function FooterBrandColumn({
             alt={brand.storeName}
             width={160}
             height={48}
-            sizes="180px"
-            quality={75}
-            className="h-12 w-auto max-w-[180px] object-contain"
+          sizes="180px"
+          className="h-12 w-[160px] max-w-[180px] object-contain object-left"
           />
         </Link>
       )}

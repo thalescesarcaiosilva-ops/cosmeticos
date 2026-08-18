@@ -4,6 +4,7 @@ import { CategoryGrid } from '@/components/collection/CategoryGrid'
 import { DeferredHomeSection } from '@/components/home/DeferredHomeSection'
 import { NewsletterSection } from '@/components/home/NewsletterSection'
 import { ProductCarouselSection } from '@/components/home/ProductCarouselSection'
+import { HomeLcpPreload } from '@/components/home/HomeLcpPreload'
 import { ResponsiveHomeBanners } from '@/components/home/ResponsiveHomeBanners'
 import { StoreAboutSection } from '@/components/home/StoreAboutSection'
 import { getHomeBannersPublic, splitBannersByDevice } from '@/lib/banners/queries'
@@ -37,11 +38,14 @@ export default async function HomePage() {
   ])
 
   const { desktop: desktopBanners, mobile: mobileBanners } = splitBannersByDevice(banners)
+  const lcpMobileUrl = mobileBanners[0]?.image_url ?? null
+  const lcpDesktopUrl = desktopBanners[0]?.image_url ?? null
   const allProducts = categorySections.flatMap((section) => section.products)
   const installments = buildInstallmentMap(allProducts, paymentSettings)
 
   return (
     <>
+      <HomeLcpPreload mobileBannerUrl={lcpMobileUrl} desktopBannerUrl={lcpDesktopUrl} />
       {/* Above-the-fold: um carrossel por viewport (WebP direto, sem /_next/image). */}
       <ResponsiveHomeBanners
         desktopBanners={desktopBanners}
@@ -49,7 +53,7 @@ export default async function HomePage() {
       />
 
       <div className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
-        <section className="mb-12">
+        <section className="mb-12 min-h-[11rem] sm:min-h-[12rem]">
           <h2 className="section-title">Compre por categoria</h2>
           <CategoryGrid items={collections} />
         </section>

@@ -38,9 +38,7 @@ function CategorySealImage({
       alt={name}
       fill
       sizes="(max-width: 640px) 72px, 100px"
-      quality={70}
-      // Lazy nativo quebra em overflow-x (carrossel mobile) — imagens ficam quebradas
-      loading="eager"
+      loading="lazy"
       className="object-contain"
       onError={() => setFailed(true)}
     />

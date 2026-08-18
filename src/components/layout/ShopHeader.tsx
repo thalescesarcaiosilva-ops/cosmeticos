@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useEffect, useRef } from 'react'
 import type {
   ContactPageLink,
   HelpLink,
@@ -29,28 +28,8 @@ type ShopHeaderProps = {
 }
 
 export function ShopHeader({ className, ...props }: ShopHeaderProps) {
-  const pathname = usePathname()
   const headerRef = useRef<HTMLDivElement>(null)
   const topBarRef = useRef<HTMLDivElement>(null)
-  const [scrolled, setScrolled] = useState(false)
-  const [isDesktop, setIsDesktop] = useState(false)
-  const isHome = pathname === '/'
-  const overlay = isDesktop && isHome && !scrolled
-
-  useEffect(() => {
-    const media = window.matchMedia('(min-width: 768px)')
-    const syncViewport = () => setIsDesktop(media.matches)
-    syncViewport()
-    media.addEventListener('change', syncViewport)
-    return () => media.removeEventListener('change', syncViewport)
-  }, [])
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 16)
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [pathname])
 
   useEffect(() => {
     const headerNode = headerRef.current
@@ -77,17 +56,13 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
       document.documentElement.style.removeProperty('--shop-header-height')
       document.documentElement.style.removeProperty('--shop-topbar-height')
     }
-  }, [pathname])
+  }, [])
 
   return (
     <div
       ref={headerRef}
-      data-header-mode={overlay ? 'overlay' : 'solid'}
-      className={`shop-header sticky top-0 z-50 overflow-visible transition-[background-color,box-shadow,border-color,color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
-        overlay
-          ? 'border-b border-transparent bg-[var(--color-header-overlay)] text-white shadow-none backdrop-blur-md'
-          : 'border-b border-[#e7e7e7] bg-surface text-[#272225] shadow-[0_1px_3px_rgba(36,29,31,0.08)] backdrop-blur-none'
-      } ${className ?? ''}`}
+      data-header-mode="solid"
+      className={`shop-header sticky top-0 z-50 overflow-visible border-b border-[#e7e7e7] bg-surface text-[#272225] shadow-[0_1px_3px_rgba(36,29,31,0.08)] ${className ?? ''}`}
     >
       <div ref={topBarRef}>
         <TopBar
@@ -97,13 +72,8 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
           freeShippingAbove={props.freeShippingAbove}
         />
       </div>
-      <SiteHeader {...props} overlay={overlay} />
-      <MainNav
-        categories={props.menuCategories}
-        phone={props.phone}
-        overlay={overlay}
-        className="hidden md:block"
-      />
+      <SiteHeader {...props} />
+      <MainNav categories={props.menuCategories} phone={props.phone} className="hidden md:block" />
     </div>
   )
 }

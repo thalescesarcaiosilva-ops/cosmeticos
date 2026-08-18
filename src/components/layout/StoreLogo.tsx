@@ -28,9 +28,8 @@ export function StoreLogoMark({
           width={160}
           height={48}
           sizes="(max-width: 767px) 96px, 120px"
-          quality={75}
           priority
-          className={`h-auto w-auto max-w-[96px] object-contain transition-[filter,opacity] duration-[400ms] md:max-w-[120px] ${
+          className={`h-12 w-[96px] max-w-[96px] object-contain object-left md:w-[120px] md:max-w-[120px] ${
             variant === 'light' ? 'brightness-0 invert' : ''
           }`}
         />
