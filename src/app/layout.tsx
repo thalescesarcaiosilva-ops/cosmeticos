@@ -7,14 +7,16 @@ import './globals.css'
 
 export const revalidate = 60
 
+/** Variável = 1 arquivo no caminho crítico (antes: 400/600/700 = vários woff2 em cadeia após o CSS). */
 const jost = Jost({
   variable: '--font-jost',
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
   display: 'swap',
   preload: true,
+  adjustFontFallback: true,
 })
 
+/** Só páginas editoriais; sem preload para não competir com LCP/CSS da home. */
 const fraunces = Fraunces({
   variable: '--font-fraunces',
   subsets: ['latin'],
@@ -22,6 +24,7 @@ const fraunces = Fraunces({
   style: ['normal', 'italic'],
   display: 'swap',
   preload: false,
+  adjustFontFallback: true,
 })
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -30,6 +33,7 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ['400'],
   display: 'swap',
   preload: false,
+  adjustFontFallback: true,
 })
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -70,7 +74,7 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${jost.variable} ${fraunces.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className={`${jost.className} min-h-full`}>{children}</body>
     </html>
   )
 }
