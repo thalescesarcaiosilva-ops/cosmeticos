@@ -14,7 +14,6 @@ import type {
   ContactPageLink,
   HelpLink,
   MenuCategory,
-  PhoneContact,
   SocialLink,
   StoreLogo,
 } from '@/types/layout'
@@ -28,7 +27,6 @@ type SiteHeaderProps = {
   storeName: string
   logo: StoreLogo
   menuCategories: MenuCategory[]
-  phone: PhoneContact
   helpLink: HelpLink
   contactPage: ContactPageLink
   socialLinks: SocialLink[]

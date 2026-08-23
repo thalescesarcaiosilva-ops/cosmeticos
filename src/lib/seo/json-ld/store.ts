@@ -59,25 +59,24 @@ export function buildStoreJsonLd({
   const orgId = organizationId()
   if (!siteUrl || !orgId) return null
 
-  const displayName = profile.store_name.trim() || layout.storeName || footer.legal.storeName
   const legalName =
     profile.company_legal_name?.trim() ||
     footer.legal.companyLegalName?.trim() ||
-    displayName
+    profile.store_name.trim() ||
+    layout.storeName ||
+    footer.legal.storeName
 
   const store: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Store',
     '@id': orgId,
-    name: displayName,
     legalName,
     url: siteUrl,
   }
 
-  const image = toAbsoluteSiteMediaUrl(profile.logo_image_url || layout.logo.imageUrl)
-  if (image) {
-    store.image = image
-    store.logo = image
+  const logo = toAbsoluteSiteMediaUrl(profile.logo_image_url || layout.logo.imageUrl)
+  if (logo) {
+    store.logo = logo
   }
 
   const description = profile.store_description?.trim()
@@ -103,7 +102,10 @@ export function buildStoreJsonLd({
     }))
   }
 
-  const sameAs = footer.socialLinks.map((s) => s.href).filter(Boolean)
+  const sameAs = footer.socialLinks
+    .filter((s) => s.type !== 'instagram')
+    .map((s) => s.href)
+    .filter(Boolean)
 
   if (sameAs.length > 0) {
     store.sameAs = sameAs

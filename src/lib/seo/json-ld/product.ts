@@ -1,3 +1,4 @@
+import { stripHtml } from '@/lib/content/strip-html'
 import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { absoluteUrl } from '@/lib/seo/site-url'
 import { buildPriceValidUntil, isValidGtin } from '@/lib/seo/json-ld/merchant-schemas'
@@ -24,10 +25,11 @@ export function buildProductJsonLd(product: ProductDetail, options?: ProductJson
   const images = product.images
     .map((img) => toAbsoluteSiteMediaUrl(img.url))
     .filter((url): url is string => Boolean(url))
-  const description =
+  const rawDescription =
     product.meta_description?.trim() ||
-    product.description?.trim()?.slice(0, 5000) ||
+    product.description?.trim() ||
     product.name
+  const description = stripHtml(rawDescription).slice(0, 5000)
 
   const offer: Record<string, unknown> = {
     '@type': 'Offer',

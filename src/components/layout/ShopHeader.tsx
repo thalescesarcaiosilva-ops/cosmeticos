@@ -2,7 +2,6 @@ import type {
   ContactPageLink,
   HelpLink,
   MenuCategory,
-  PhoneContact,
   PolicyLink,
   SocialLink,
   StoreLogo,
@@ -17,7 +16,6 @@ type ShopHeaderProps = {
   logo: StoreLogo
   policyLinks: PolicyLink[]
   menuCategories: MenuCategory[]
-  phone: PhoneContact
   helpLink: HelpLink
   contactPage: ContactPageLink
   socialLinks: SocialLink[]
@@ -38,7 +36,7 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
         freeShippingAbove={props.freeShippingAbove}
       />
       <SiteHeader {...props} />
-      <MainNav categories={props.menuCategories} phone={props.phone} className="hidden md:block" />
+      <MainNav categories={props.menuCategories} className="hidden md:block" />
     </div>
   )
 }

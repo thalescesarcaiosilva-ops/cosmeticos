@@ -2,12 +2,11 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { IconChevronDown, IconPhone } from '@/components/icons/DotIcons'
-import type { MenuCategory, PhoneContact } from '@/types/layout'
+import { IconChevronDown } from '@/components/icons/DotIcons'
+import type { MenuCategory } from '@/types/layout'
 
 type MainNavProps = {
   categories: MenuCategory[]
-  phone?: PhoneContact
   className?: string
   overlay?: boolean
 }
@@ -119,15 +118,8 @@ function NavDropdownItem({ category, overlay }: NavDropdownItemProps) {
   )
 }
 
-export function MainNav({
-  categories,
-  phone,
-  className = '',
-  overlay = false,
-}: MainNavProps) {
+export function MainNav({ categories, className = '', overlay = false }: MainNavProps) {
   if (categories.length === 0) return null
-
-  const hasPhone = Boolean(phone?.display.trim() && phone?.href.trim())
 
   return (
     <nav
@@ -142,19 +134,6 @@ export function MainNav({
             <NavDropdownItem key={category.id} category={category} overlay={overlay} />
           ))}
         </ul>
-
-        {hasPhone && phone && (
-          <a
-            href={phone.href}
-            className={`ml-auto flex shrink-0 items-center gap-2 whitespace-nowrap rounded-sm px-2 py-2 text-[13px] font-bold transition-opacity duration-[400ms] hover:opacity-80 md:text-sm ${
-              overlay ? 'text-white' : 'text-claret'
-            }`}
-            aria-label={`Telefone ${phone.display}`}
-          >
-            <IconPhone className="size-4 shrink-0" />
-            <span>{phone.display}</span>
-          </a>
-        )}
       </div>
     </nav>
   )

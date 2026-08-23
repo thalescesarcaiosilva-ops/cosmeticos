@@ -45,7 +45,6 @@ export async function SiteLayout({ children, chrome = 'full' }: SiteLayoutProps)
           logo={layoutData.logo}
           policyLinks={layoutData.policyLinks}
           menuCategories={layoutData.menuCategories}
-          phone={layoutData.phone}
           helpLink={layoutData.helpLink}
           contactPage={layoutData.contactPage}
           socialLinks={layoutData.socialLinks}
