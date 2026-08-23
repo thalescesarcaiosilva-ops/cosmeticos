@@ -90,10 +90,16 @@ body {
   color: var(--color-brand-primary-hover);
 }
 
-/* Reserva altura do banner (CLS) — proporção vem do inline style (width/height do arquivo) */
+/* Banner fluido: largura 100%; altura vem da imagem (height: auto). */
 .home-banner-carousel {
   width: 100%;
-  contain: layout style;
+}
+
+.home-banner-carousel img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 @media (min-width: 768px) {

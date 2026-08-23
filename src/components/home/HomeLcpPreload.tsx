@@ -25,6 +25,7 @@ export function HomeLcpPreload({ mobileBannerUrl, desktopBannerUrl }: HomeLcpPre
           as="image"
           href={desktopBannerUrl}
           media="(min-width: 768px)"
+          fetchPriority="high"
         />
       ) : null}
     </>

@@ -8,7 +8,8 @@ type ResponsiveHomeBannersProps = {
 
 /**
  * Dois carrosséis no SSR (CSS show/hide) — evita flash mobile→desktop na hidratação.
- * Cada viewport prioriza só o banner visível (LCP).
+ * O 1º slide de cada viewport vai eager (não lazy): labs desktop/mobile medem LCP
+ * no carrossel visível; banners ~20KB tornam o dual-eager barato.
  */
 export function ResponsiveHomeBanners({
   desktopBanners,
@@ -29,6 +30,7 @@ export function ResponsiveHomeBanners({
           banners={desktopBanners}
           variant="desktop"
           className="home-hero-banner hidden md:block"
+          prioritizeFirst
         />
       )}
     </>

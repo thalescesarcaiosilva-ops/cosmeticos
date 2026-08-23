@@ -9,34 +9,23 @@ type HomeBannerCarouselProps = {
   banners: HomeBannerPublic[]
   className?: string
   variant?: 'mobile' | 'desktop'
-  /** Primeiro slide no HTML com prioridade (LCP). Só um viewport deve ser true. */
+  /** Primeiro slide eager + fetchPriority high (candidato a LCP neste carrossel). */
   prioritizeFirst?: boolean
 }
 
-function bannerSizes(variant: 'mobile' | 'desktop'): string {
-  return variant === 'mobile' ? '(max-width: 767px) 100vw, 1px' : '(min-width: 768px) 100vw, 1px'
-}
-
-function resolveAspectRatio(
-  banners: HomeBannerPublic[],
-  variant: 'mobile' | 'desktop'
-): string {
-  const first = banners[0]
-  if (first?.width && first?.height) {
-    return `${first.width} / ${first.height}`
-  }
-  return variant === 'mobile' ? '1080 / 1350' : '1920 / 720'
-}
-
+/**
+ * Carrossel fluido: a imagem define a altura (`width: 100%` + `height: auto`).
+ * width/height no <img> são só metadados intrínsecos (CLS) — não limitam o tamanho na tela.
+ */
 export function HomeBannerCarousel({
   banners,
   className = '',
-  variant = 'desktop',
   prioritizeFirst = false,
 }: HomeBannerCarouselProps) {
+  // `variant` fica na API para o ResponsiveHomeBanners (mobile/desktop CSS),
+  // mas o layout é o mesmo: imagem 100% de largura, altura automática.
   const [index, setIndex] = useState(0)
   const count = banners.length
-  const aspectRatio = resolveAspectRatio(banners, variant)
 
   const goTo = useCallback(
     (next: number) => {
@@ -61,17 +50,16 @@ export function HomeBannerCarousel({
       className={`home-banner-carousel relative w-full overflow-hidden bg-surface-muted ${className}`}
       aria-label="Destaques da loja"
       aria-roledescription="carrossel"
-      style={{ aspectRatio }}
     >
       <div
-        className="absolute inset-0 flex transition-transform duration-500 ease-out"
+        className="flex w-full transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {banners.map((banner, slideIndex) => {
           const alt = banner.alt_text?.trim() || banner.title || 'Banner promocional'
           const isLcp = prioritizeFirst && slideIndex === 0
           const slideClass =
-            'relative h-full w-full min-w-full shrink-0 basis-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
+            'relative w-full min-w-full shrink-0 basis-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
 
           const image = (
             // eslint-disable-next-line @next/next/no-img-element -- banner no HTML do SSR para o bot; sem /_next/image
@@ -80,11 +68,10 @@ export function HomeBannerCarousel({
               alt={alt}
               width={banner.width ?? undefined}
               height={banner.height ?? undefined}
-              sizes={bannerSizes(variant)}
               fetchPriority={isLcp ? 'high' : 'auto'}
               loading={isLcp ? 'eager' : 'lazy'}
-              decoding={isLcp ? 'sync' : 'async'}
-              className="absolute inset-0 h-full w-full object-contain object-center"
+              decoding={isLcp ? 'async' : 'async'}
+              className="block h-auto w-full max-w-full"
             />
           )
 
