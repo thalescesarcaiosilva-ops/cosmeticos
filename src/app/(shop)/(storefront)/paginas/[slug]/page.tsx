@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { preparePolicyHtml } from '@/lib/content/policy-html'
 import { createPublicClient } from '@/lib/supabase/public'
 import { buildPageMetadata } from '@/lib/seo/metadata'
 
@@ -48,7 +49,7 @@ export default async function FooterContentPage({ params }: PageProps) {
       {page.content ? (
         <div
           className="prose prose-sm max-w-none text-text-secondary [&_a]:text-brand [&_h2]:text-text-primary [&_h3]:text-text-primary"
-          dangerouslySetInnerHTML={{ __html: page.content }}
+          dangerouslySetInnerHTML={{ __html: preparePolicyHtml(page.content) }}
         />
       ) : (
         <p className="text-text-secondary">Conteúdo em breve.</p>

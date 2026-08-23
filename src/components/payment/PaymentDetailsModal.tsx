@@ -30,8 +30,13 @@ export function PaymentDetailsTrigger({
   const cardEnabled = checkoutSettings?.cardEnabled !== false
   const showInstallmentTable = cardEnabled && rows.length > 0 && installmentDisplay != null
   const showPaymentIcons = hasPaymentMethodsImage()
+  const showPaymentIconsInModal = showPaymentIcons && layout !== 'product'
 
-  if (!showInstallmentTable && !showPaymentIcons) return null
+  if (layout === 'product') {
+    if (!triggerContent) return null
+  } else if (!showInstallmentTable && !showPaymentIcons) {
+    return null
+  }
 
   const linkLabel =
     layout === 'product'
@@ -111,7 +116,7 @@ export function PaymentDetailsTrigger({
             </div>
           )}
 
-          {showPaymentIcons && (
+          {showPaymentIconsInModal && (
             <div>
               <h3 className="mb-3 text-sm font-bold text-text-primary">
                 Formas de pagamento aceitas

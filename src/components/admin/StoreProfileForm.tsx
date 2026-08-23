@@ -439,11 +439,9 @@ export function StoreProfileForm() {
       {tab === 'seo' && (
         <Card title="SEO de frete e entrega">
           <p className="mb-4 text-sm text-text-secondary">
-            Prazos de <strong>transitTime</strong> vêm automaticamente dos métodos em{' '}
-            <a href="/admin/frete" className="text-brand hover:underline">
-              Admin → Frete
-            </a>
-            . Aqui você define apenas o tempo de separação (handling).
+            Os prazos totais em <strong>Admin → Frete</strong> devem refletir o Google Merchant Center
+            (separação + trânsito). O trânsito por modalidade (PAC 5–10, SEDEX 4–7) é usado no SEO;
+            aqui você define o tempo de separação (handling): 1–2 dias úteis.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             <Input

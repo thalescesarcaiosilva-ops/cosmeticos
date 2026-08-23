@@ -59,7 +59,7 @@ const nextConfig: NextConfig = {
         headers: [{ key: 'Cache-Control', value: LONG_CACHE }],
       },
       {
-        source: '/pagamento.png',
+        source: '/formasdepagamento.png',
         headers: [{ key: 'Cache-Control', value: LONG_CACHE }],
       },
       {

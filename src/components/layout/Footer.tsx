@@ -4,6 +4,7 @@ import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 import { SocialIcon } from '@/components/layout/SocialIcon'
 import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
 import { hasPaymentMethodsImage } from '@/lib/payment/payment-methods-image'
+import { toPublicHref } from '@/lib/navigation/public-href'
 import type { FooterData } from '@/lib/layout/get-footer-data'
 
 type FooterProps = {
@@ -17,10 +18,11 @@ function isInternalHref(href: string): boolean {
 
 function FooterMenuLink({ label, href }: { label: string; href: string }) {
   const className = 'text-text-secondary transition-colors hover:text-brand'
+  const resolvedHref = isInternalHref(href) ? toPublicHref(href) : href
 
   if (isInternalHref(href)) {
     return (
-      <Link href={href} className={className}>
+      <Link href={resolvedHref} className={className}>
         {label}
       </Link>
     )

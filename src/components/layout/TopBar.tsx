@@ -1,7 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { formatCurrency } from '@/lib/products/format'
+import { toPublicHref } from '@/lib/navigation/public-href'
 import type { PolicyLink, SocialLink } from '@/types/layout'
 import { SocialIcon } from './SocialIcon'
 
@@ -23,7 +23,7 @@ export function TopBar({
       ? null
       : freeShippingAbove <= 0
         ? 'Frete grátis'
-        : `Frete grátis acima de ${formatCurrency(freeShippingAbove)}`
+        : `Frete grátis no PAC acima de ${formatCurrency(freeShippingAbove)}`
 
   return (
     <div className="bg-brand text-[11px] font-semibold text-white">
@@ -61,13 +61,13 @@ export function TopBar({
             aria-label="Links institucionais"
           >
             {policyLinks.map((link) => (
-              <Link
+              <a
                 key={link.href}
-                href={link.href}
+                href={toPublicHref(link.href)}
                 className="shrink-0 text-white transition-colors duration-200 hover:text-claret"
               >
                 {link.label}
-              </Link>
+              </a>
             ))}
           </nav>
         </div>

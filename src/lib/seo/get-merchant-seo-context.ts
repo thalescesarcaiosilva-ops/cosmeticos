@@ -1,6 +1,10 @@
 import { cache } from 'react'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
 import { getCachedStoreProfile } from '@/lib/store-profile/queries'
+import {
+  MERCHANT_HANDLING_DAYS,
+  resolveMerchantTransitRange,
+} from '@/lib/shipping/merchant-shipping'
 import { absoluteUrl } from '@/lib/seo/site-url'
 
 export type MerchantSeoContext = {
@@ -22,9 +26,9 @@ const DEFAULT_CONTEXT: MerchantSeoContext = {
   returnDays: null,
   returnMethod: 'ReturnByMail',
   returnFees: 'FreeReturn',
-  handlingDaysMin: 1,
-  handlingDaysMax: 2,
-  transitDaysMin: 5,
+  handlingDaysMin: MERCHANT_HANDLING_DAYS.min,
+  handlingDaysMax: MERCHANT_HANDLING_DAYS.max,
+  transitDaysMin: 4,
   transitDaysMax: 10,
   defaultShippingRate: 24.9,
 }
@@ -40,7 +44,7 @@ async function loadMerchantSeoContext(): Promise<MerchantSeoContext> {
     getCachedStoreProfile(),
     supabase
       .from('shipping_methods')
-      .select('base_price, estimated_days_min, estimated_days_max')
+      .select('name, base_price')
       .eq('active', true)
       .order('sort_order', { ascending: true }),
   ])
@@ -67,9 +71,8 @@ async function loadMerchantSeoContext(): Promise<MerchantSeoContext> {
   }
 
   const methods = (shippingResult.data ?? []) as Array<{
+    name: string
     base_price: number
-    estimated_days_min: number | null
-    estimated_days_max: number | null
   }>
 
   let transitDaysMin = DEFAULT_CONTEXT.transitDaysMin
@@ -77,16 +80,9 @@ async function loadMerchantSeoContext(): Promise<MerchantSeoContext> {
   let defaultShippingRate: number | null = null
 
   if (methods.length > 0) {
-    const mins = methods
-      .map((m) => m.estimated_days_min)
-      .filter((v): v is number => v != null)
-    const maxs = methods
-      .map((m) => m.estimated_days_max)
-      .filter((v): v is number => v != null)
-
-    if (mins.length > 0) transitDaysMin = Math.min(...mins)
-    if (maxs.length > 0) transitDaysMax = Math.max(...maxs)
-
+    const transit = resolveMerchantTransitRange(methods.map((m) => m.name))
+    transitDaysMin = transit.min
+    transitDaysMax = transit.max
     defaultShippingRate = Math.min(...methods.map((m) => Number(m.base_price)))
   }
 

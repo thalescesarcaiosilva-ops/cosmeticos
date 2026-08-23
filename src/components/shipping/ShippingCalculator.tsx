@@ -177,13 +177,6 @@ export function ShippingCalculator({
 
       {error && <Alert type="error">{error}</Alert>}
 
-      {isProduct && (
-        <p style={{ color: 'black' }} className="px-4 py-3 text-xs leading-relaxed">
-          Os prazos de entrega começam a contar a partir do faturamento do pedido e podem variar de
-          acordo com a quantidade de produtos no carrinho.
-        </p>
-      )}
-
       {quote && quote.options.length > 0 && (
         <ul className="space-y-2" role="list">
           {quote.options.map((option) => {

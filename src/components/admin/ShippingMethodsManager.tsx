@@ -204,14 +204,14 @@ export function ShippingMethodsManager() {
               onChange={(e) => setForm({ ...form, free_above: e.target.value })}
             />
             <Input
-              label="Prazo mínimo (dias úteis)"
+              label="Prazo total mínimo (dias úteis)"
               type="number"
               min={0}
               value={form.estimated_days_min}
               onChange={(e) => setForm({ ...form, estimated_days_min: e.target.value })}
             />
             <Input
-              label="Prazo máximo (dias úteis)"
+              label="Prazo total máximo (dias úteis)"
               type="number"
               min={0}
               value={form.estimated_days_max}

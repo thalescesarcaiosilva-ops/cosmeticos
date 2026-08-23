@@ -12,6 +12,7 @@ import { buildReviewSummary, getApprovedProductReviews } from '@/lib/products/re
 import { buildBreadcrumbJsonLd } from '@/lib/seo/json-ld/breadcrumb'
 import { buildProductJsonLd } from '@/lib/seo/json-ld/product'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { absoluteUrl } from '@/lib/seo/site-url'
 import { formatPhoneDisplay } from '@/lib/store-profile/format'
 import { getPublicStoreProfile } from '@/lib/store-profile/public'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
@@ -68,11 +69,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
     returnEnabled: storeProfile.return_enabled,
     returnDays: storeProfile.return_days,
     returnFree: storeProfile.return_fees === 'FreeReturn',
-    returnPolicyHref: `/paginas/${returnSlug}`,
-    shippingPolicyHref: '/paginas/politica-de-frete',
-    paymentPolicyHref: '/paginas/formas-de-pagamento',
-    trackingHref: '/rastreio',
-    contactHref: '/paginas/fale-conosco',
+    returnPolicyHref: absoluteUrl(`/paginas/${returnSlug}`) ?? `/paginas/${returnSlug}`,
+    shippingPolicyHref: absoluteUrl('/paginas/politica-de-frete') ?? '/paginas/politica-de-frete',
+    paymentPolicyHref: absoluteUrl('/paginas/formas-de-pagamento') ?? '/paginas/formas-de-pagamento',
+    trackingHref: absoluteUrl('/paginas/rastreio') ?? '/paginas/rastreio',
+    contactHref: absoluteUrl('/paginas/fale-conosco') ?? '/paginas/fale-conosco',
     contactEmail: storeProfile.contact_email,
     phoneDisplay: phoneDisplay || null,
     phoneHref: storeProfile.phone_href || null,
