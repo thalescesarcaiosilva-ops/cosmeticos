@@ -12,6 +12,7 @@ import { buildReviewSummary, getApprovedProductReviews } from '@/lib/products/re
 import { buildBreadcrumbJsonLd } from '@/lib/seo/json-ld/breadcrumb'
 import { buildProductJsonLd } from '@/lib/seo/json-ld/product'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { POLICY_PATHS } from '@/lib/navigation/policy-links'
 import { absoluteUrl } from '@/lib/seo/site-url'
 import { formatPhoneDisplay } from '@/lib/store-profile/format'
 import { getPublicStoreProfile } from '@/lib/store-profile/public'
@@ -70,10 +71,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
     returnDays: storeProfile.return_days,
     returnFree: storeProfile.return_fees === 'FreeReturn',
     returnPolicyHref: absoluteUrl(`/paginas/${returnSlug}`) ?? `/paginas/${returnSlug}`,
-    shippingPolicyHref: absoluteUrl('/paginas/politica-de-frete') ?? '/paginas/politica-de-frete',
-    paymentPolicyHref: absoluteUrl('/paginas/formas-de-pagamento') ?? '/paginas/formas-de-pagamento',
+    shippingPolicyHref: absoluteUrl(POLICY_PATHS.shipping) ?? POLICY_PATHS.shipping,
+    paymentPolicyHref: absoluteUrl(POLICY_PATHS.payment) ?? POLICY_PATHS.payment,
     trackingHref: absoluteUrl('/paginas/rastreio') ?? '/paginas/rastreio',
-    contactHref: absoluteUrl('/paginas/fale-conosco') ?? '/paginas/fale-conosco',
+    contactHref: absoluteUrl(POLICY_PATHS.contact) ?? POLICY_PATHS.contact,
     contactEmail: storeProfile.contact_email,
     phoneDisplay: phoneDisplay || null,
     phoneHref: storeProfile.phone_href || null,

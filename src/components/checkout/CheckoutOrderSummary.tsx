@@ -3,6 +3,7 @@
 import { SiteImage } from '@/components/ui/SiteImage'
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { CheckoutPolicyNotice } from '@/components/checkout/CheckoutPolicyNotice'
 import { Button } from '@/components/ui/Button'
 import { formatCurrency } from '@/lib/products/format'
 import type { ValidatedCartLine } from '@/types/cart'
@@ -95,15 +96,20 @@ export function CheckoutOrderSummary({
         </div>
 
         {onFinalize && (
-          <Button
-            type="button"
-            className="mt-4 w-full rounded-md py-3 text-sm font-bold uppercase tracking-wide"
-            loading={finalizeLoading}
-            disabled={finalizeDisabled || finalizeLoading}
-            onClick={onFinalize}
-          >
-            {finalizeLabel}
-          </Button>
+          <>
+            <div className="mt-4">
+              <CheckoutPolicyNotice />
+            </div>
+            <Button
+              type="button"
+              className="mt-3 w-full rounded-md py-3 text-sm font-bold uppercase tracking-wide"
+              loading={finalizeLoading}
+              disabled={finalizeDisabled || finalizeLoading}
+              onClick={onFinalize}
+            >
+              {finalizeLabel}
+            </Button>
+          </>
         )}
 
         <div className="mt-5 border-t border-border pt-4">
