@@ -29,10 +29,11 @@ export function calcInstallmentTotal(price: number, count: number, settings: Pay
     }
   }
 
-  const total = price * (1 + monthlyRate / 100)
+  // Taxa configurada no admin = acréscimo sobre o valor à vista para aquela faixa de parcelas.
+  const total = Math.round(price * (1 + monthlyRate / 100) * 100) / 100
   return {
     total,
-    installmentValue: total / count,
+    installmentValue: Math.round((total / count) * 100) / 100,
     interestFree: false,
     monthlyRate,
   }

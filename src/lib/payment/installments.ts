@@ -21,7 +21,7 @@ export function calcInstallmentDisplay(
 
   if (count < 1) count = 1
 
-  const { installmentValue, interestFree } = calcInstallmentTotal(price, count, settings)
+  const { total, installmentValue, interestFree } = calcInstallmentTotal(price, count, settings)
 
   const template = interestFree
     ? settings.installmentTextInterestFree
@@ -29,7 +29,7 @@ export function calcInstallmentDisplay(
 
   const label = applyInstallmentTemplate(template, count, installmentValue)
 
-  return { count, value: installmentValue, interestFree, template, label }
+  return { count, value: installmentValue, total, interestFree, template, label }
 }
 
 export function formatInstallmentTemplate(

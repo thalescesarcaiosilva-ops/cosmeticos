@@ -32,7 +32,9 @@ export function buildProductPaymentSummary(
     checkoutSettings.cardEnabled !== false && installment != null && installment.count > 1
 
   if (showInstallments && installment) {
-    const cardPart = `${formatCurrency(price)} em até ${installment.count}x de ${formatCurrency(installment.value)} ${
+    // Com juros: mostrar o total financiado (não o preço à vista) — evita deturpação.
+    const cardTotal = installment.interestFree ? price : installment.total
+    const cardPart = `${formatCurrency(cardTotal)} em até ${installment.count}x de ${formatCurrency(installment.value)} ${
       installment.interestFree ? 'sem juros' : 'com juros'
     } no cartão`
 

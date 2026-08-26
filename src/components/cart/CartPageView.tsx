@@ -7,6 +7,7 @@ import { CartSummary } from '@/components/cart/CartSummary'
 import { Alert } from '@/components/ui/Alert'
 import { useCartSync } from '@/hooks/useCartSync'
 import { useCart } from '@/providers/CartProvider'
+import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 
 function CartSkeleton() {
   return (
@@ -25,7 +26,12 @@ function CartSkeleton() {
   )
 }
 
-export function CartPageView() {
+type CartPageViewProps = {
+  paymentSettings: PaymentSettings
+  checkoutSettings: CheckoutPaymentSettings
+}
+
+export function CartPageView({ paymentSettings, checkoutSettings }: CartPageViewProps) {
   const { items } = useCart()
   const { data, loading, error } = useCartSync()
 
@@ -119,7 +125,14 @@ export function CartPageView() {
             </div>
           </section>
 
-          {showContent && <CartSummary data={data} loading={loading} />}
+          {showContent && (
+            <CartSummary
+              data={data}
+              loading={loading}
+              paymentSettings={paymentSettings}
+              checkoutSettings={checkoutSettings}
+            />
+          )}
         </div>
       )}
     </div>

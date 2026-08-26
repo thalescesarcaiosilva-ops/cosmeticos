@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { CartPageView } from '@/components/cart/CartPageView'
+import { getCheckoutPaymentSettings, getPaymentSettings } from '@/lib/payment/queries'
 import { buildPageMetadata } from '@/lib/seo/metadata'
 
 export const metadata: Metadata = buildPageMetadata({
@@ -9,6 +10,13 @@ export const metadata: Metadata = buildPageMetadata({
   noindex: true,
 })
 
-export default function CartPage() {
-  return <CartPageView />
+export default async function CartPage() {
+  const [paymentSettings, checkoutSettings] = await Promise.all([
+    getPaymentSettings(),
+    getCheckoutPaymentSettings(),
+  ])
+
+  return (
+    <CartPageView paymentSettings={paymentSettings} checkoutSettings={checkoutSettings} />
+  )
 }

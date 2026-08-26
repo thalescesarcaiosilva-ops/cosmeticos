@@ -4,20 +4,35 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ShippingCalculator, type ShippingQuoteLine } from '@/components/shipping/ShippingCalculator'
 import { Button } from '@/components/ui/Button'
+import { buildProductPaymentSummary } from '@/lib/payment/product-payment-summary'
 import { formatCurrency } from '@/lib/products/format'
 import type { CartSyncResult } from '@/types/cart'
+import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 
 type CartSummaryProps = {
   data: CartSyncResult
   loading?: boolean
+  paymentSettings: PaymentSettings
+  checkoutSettings: CheckoutPaymentSettings
 }
 
-export function CartSummary({ data, loading = false }: CartSummaryProps) {
+export function CartSummary({
+  data,
+  loading = false,
+  paymentSettings,
+  checkoutSettings,
+}: CartSummaryProps) {
   const [selectedShipping, setSelectedShipping] = useState<ShippingQuoteLine | null>(null)
   const shippingPrice = selectedShipping?.price ?? 0
   const merchandiseTotal = data.merchandiseTotal
   const total = merchandiseTotal + shippingPrice
   const availableLines = data.lines.filter((line) => line.available && line.quantity > 0)
+  // Parcelas sobre o subtotal da mercadoria (sem frete) — frete fecha no checkout.
+  const paymentSummary = buildProductPaymentSummary(
+    merchandiseTotal,
+    paymentSettings,
+    checkoutSettings,
+  )
 
   return (
     <aside className="space-y-4 lg:sticky lg:top-24">
@@ -64,6 +79,10 @@ export function CartSummary({ data, loading = false }: CartSummaryProps) {
             </dd>
           </div>
         </dl>
+
+        {!loading && paymentSummary ? (
+          <p className="mt-2 text-[12px] leading-snug text-text-secondary">{paymentSummary}</p>
+        ) : null}
 
         <div className="mt-5 space-y-2.5">
           <Link

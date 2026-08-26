@@ -31,6 +31,8 @@ export type PaymentSettings = {
 export type InstallmentDisplay = {
   count: number
   value: number
+  /** Total a pagar no cartão nesta opção (com juros, se houver). */
+  total: number
   interestFree: boolean
   template: string
   label: string
