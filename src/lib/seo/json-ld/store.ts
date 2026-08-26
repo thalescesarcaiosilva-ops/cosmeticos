@@ -59,24 +59,39 @@ export function buildStoreJsonLd({
   const orgId = organizationId()
   if (!siteUrl || !orgId) return null
 
+  // `name` = nome comercial (obrigatório para rich result de Empresas locais).
+  // `legalName` = razão social (transparência / Organization).
+  const name =
+    profile.store_name.trim() ||
+    layout.storeName?.trim() ||
+    footer.legal.storeName?.trim() ||
+    null
+
   const legalName =
     profile.company_legal_name?.trim() ||
     footer.legal.companyLegalName?.trim() ||
-    profile.store_name.trim() ||
-    layout.storeName ||
-    footer.legal.storeName
+    name
+
+  if (!name && !legalName) return null
 
   const store: Record<string, unknown> = {
     '@context': 'https://schema.org',
+    // Store ⊂ LocalBusiness ⊂ Organization — um nó cobre Organization + Empresas locais.
     '@type': 'Store',
     '@id': orgId,
-    legalName,
+    name: name || legalName,
     url: siteUrl,
   }
 
-  const logo = toAbsoluteSiteMediaUrl(profile.logo_image_url || layout.logo.imageUrl)
-  if (logo) {
-    store.logo = logo
+  if (legalName) {
+    store.legalName = legalName
+  }
+
+  // LocalBusiness exige `image`; Organization usa `logo`. Mesmo asset cobre os dois.
+  const logoUrl = toAbsoluteSiteMediaUrl(profile.logo_image_url || layout.logo.imageUrl)
+  if (logoUrl) {
+    store.logo = logoUrl
+    store.image = [logoUrl]
   }
 
   const description = profile.store_description?.trim()
