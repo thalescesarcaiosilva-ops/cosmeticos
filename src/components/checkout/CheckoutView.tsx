@@ -200,6 +200,8 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     loadProfile()
     loadAddresses()
     loadPaymentConfig()
+    // Acorda o provedor de Pix enquanto o cliente preenche os dados.
+    fetchApi('/api/checkout/warmup', { method: 'POST' })
   }, [])
 
   const loadShipping = useCallback(

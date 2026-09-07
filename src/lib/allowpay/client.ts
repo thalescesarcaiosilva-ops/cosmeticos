@@ -1,5 +1,7 @@
 const DEFAULT_API_URL = 'https://allow-gi0i.onrender.com'
-const REQUEST_TIMEOUT_MS = 30_000
+const REQUEST_TIMEOUT_MS = 45_000
+const WARMUP_TIMEOUT_MS = 8_000
+const WARMUP_INTERVAL_MS = 60_000
 
 /** Status possíveis retornados pela AllowPay. */
 export type AllowPayStatus =
@@ -157,6 +159,36 @@ export async function getAllowPayPaymentStatus(params: {
   )}?route=${encodeURIComponent(params.route)}`
 
   return allowPayFetch<AllowPayStatusResponse>(path, { api_key: getAllowPayApiKey() })
+}
+
+let lastWarmUpAt = 0
+
+/**
+ * Acorda o serviço da AllowPay com uma chamada leve e somente leitura.
+ *
+ * A API é hospedada no Render, que suspende o serviço após alguns minutos sem
+ * tráfego: a primeira chamada depois disso leva dezenas de segundos. Chamando
+ * isto quando o cliente abre o checkout, o serviço já está de pé quando ele
+ * finaliza o pedido.
+ *
+ * Nunca lança nem propaga erro: é otimização de latência, não parte do
+ * fluxo de pagamento. Basta a requisição chegar ao Render para o serviço subir,
+ * então abortar a espera não atrapalha.
+ */
+export async function warmUpAllowPay(): Promise<void> {
+  const now = Date.now()
+  if (now - lastWarmUpAt < WARMUP_INTERVAL_MS) return
+  lastWarmUpAt = now
+
+  try {
+    await fetch(`${getAllowPayApiUrl()}/api/v2/allowpay-seller/acquirers`, {
+      headers: { 'x-api-key': getAllowPayApiKey(), Accept: 'application/json' },
+      signal: AbortSignal.timeout(WARMUP_TIMEOUT_MS),
+      cache: 'no-store',
+    })
+  } catch {
+    // Serviço frio ou fora do ar — quem trata isso é a chamada real do Pix.
+  }
 }
 
 /** Pago e confirmado. */
