@@ -1,7 +1,7 @@
 'use client'
 
-import { formatCurrency } from '@/lib/products/format'
 import { toPublicHref } from '@/lib/navigation/public-href'
+import { FREE_SHIPPING_LABEL } from '@/lib/shipping/merchant-shipping'
 import type { PolicyLink, SocialLink } from '@/types/layout'
 import { SocialIcon } from './SocialIcon'
 
@@ -9,28 +9,15 @@ type TopBarProps = {
   storeName: string
   policyLinks: PolicyLink[]
   socialLinks: SocialLink[]
-  freeShippingAbove?: number | null
 }
 
-export function TopBar({
-  storeName,
-  policyLinks,
-  socialLinks,
-  freeShippingAbove = null,
-}: TopBarProps) {
-  const freeShippingLabel =
-    freeShippingAbove == null
-      ? null
-      : freeShippingAbove <= 0
-        ? 'Frete grátis'
-        : `Frete grátis no PAC acima de ${formatCurrency(freeShippingAbove)}`
-
+export function TopBar({ storeName, policyLinks, socialLinks }: TopBarProps) {
   return (
     <div className="bg-brand text-[11px] font-semibold text-white">
       {/* Mobile: frete no centro + redes à direita */}
       <div className="relative mx-auto flex max-w-[1300px] items-center justify-end px-4 py-1 md:hidden">
         <p className="absolute left-1/2 max-w-[70%] -translate-x-1/2 truncate text-center whitespace-nowrap">
-          {freeShippingLabel ?? '\u00a0'}
+          {FREE_SHIPPING_LABEL}
         </p>
         <div className="relative z-10 flex shrink-0 items-center gap-2.5">
           {socialLinks.map((social) => (
@@ -72,9 +59,7 @@ export function TopBar({
           </nav>
         </div>
 
-        <p className="px-2 text-center whitespace-nowrap">
-          {freeShippingLabel ?? '\u00a0'}
-        </p>
+        <p className="px-2 text-center whitespace-nowrap">{FREE_SHIPPING_LABEL}</p>
 
         <div className="flex items-center justify-end gap-3">
           {socialLinks.map((social) => (

@@ -2,7 +2,6 @@ import { cache } from 'react'
 import { cacheStorefrontQuery, SITE_LAYOUT_CACHE_TAG } from '@/lib/cache/storefront'
 import { mapToSiteLayoutData } from '@/lib/layout/mappers'
 import {
-  getFreeShippingAbove,
   getMenuItems,
   getPolicyLinks,
   getSiteSettings,
@@ -21,7 +20,6 @@ function emptySiteLayoutData(): SiteLayoutData {
     helpLink: { label: '', href: '' },
     contactPage: { label: 'Fale Conosco', href: '/paginas/fale-conosco' },
     menuCategories: [],
-    freeShippingAbove: null,
   }
 }
 
@@ -36,21 +34,18 @@ const loadSiteLayoutData = cacheStorefrontQuery(
 
     const supabase = createPublicClient()
 
-    const [settings, policyLinks, socialLinks, menuItems, freeShippingAbove] =
-      await Promise.all([
-        getSiteSettings(supabase),
-        getPolicyLinks(supabase),
-        getSocialLinks(supabase),
-        getMenuItems(supabase),
-        getFreeShippingAbove(supabase),
-      ])
+    const [settings, policyLinks, socialLinks, menuItems] = await Promise.all([
+      getSiteSettings(supabase),
+      getPolicyLinks(supabase),
+      getSocialLinks(supabase),
+      getMenuItems(supabase),
+    ])
 
     return mapToSiteLayoutData({
       settings,
       policyLinks,
       socialLinks,
       menuItems,
-      freeShippingAbove,
     })
   },
   'site-layout-data',

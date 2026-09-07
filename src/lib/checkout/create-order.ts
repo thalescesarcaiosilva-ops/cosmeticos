@@ -105,13 +105,13 @@ export async function cancelCheckoutOrder(orderId: string): Promise<void> {
 export async function confirmCheckoutPayment(params: {
   orderId: string
   paymentMethod?: string | null
-  transactionId?: number | null
 }): Promise<void> {
   const admin = createAdminClient()
   await admin.rpc('confirm_order_payment', {
     p_order_id: params.orderId,
     p_payment_method: params.paymentMethod ?? null,
-    p_payout_transaction_id: params.transactionId ?? null,
+    // A AllowPay usa txid textual, guardado em orders.allowpay_txid no create-pix.
+    p_payout_transaction_id: null,
   })
 
   const { data: order } = await admin
@@ -204,38 +204,18 @@ export async function findOrderById(orderId: string) {
   const admin = createAdminClient()
   const { data } = await admin
     .from('orders')
-    .select('id, status, payment_status, user_id, payout_transaction_id')
+    .select('id, status, payment_status, user_id, allowpay_txid')
     .eq('id', orderId)
     .maybeSingle()
   return data
 }
 
-export async function findOrderByPayoutTransactionId(transactionId: number) {
+export async function findOrderByAllowpayTxid(txid: string) {
   const admin = createAdminClient()
   const { data } = await admin
     .from('orders')
-    .select('id, status, payment_status, user_id, payout_transaction_id')
-    .eq('payout_transaction_id', transactionId)
-    .maybeSingle()
-  return data
-}
-
-export async function findOrderByPayoutCheckoutId(checkoutId: number) {
-  const admin = createAdminClient()
-  const { data } = await admin
-    .from('orders')
-    .select('id, status, payment_status, user_id')
-    .eq('payout_checkout_id', checkoutId)
-    .maybeSingle()
-  return data
-}
-
-export async function findOrderByPayoutSecureId(secureId: string) {
-  const admin = createAdminClient()
-  const { data } = await admin
-    .from('orders')
-    .select('id, status, payment_status, user_id')
-    .eq('payout_secure_id', secureId)
+    .select('id, status, payment_status, user_id, allowpay_txid')
+    .eq('allowpay_txid', txid)
     .maybeSingle()
   return data
 }

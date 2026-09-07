@@ -19,7 +19,6 @@ type ShopHeaderProps = {
   helpLink: HelpLink
   contactPage: ContactPageLink
   socialLinks: SocialLink[]
-  freeShippingAbove?: number | null
 }
 
 /** Header SSR (links/logo no HTML). JS só nos filhos interativos (busca, menu, carrinho). */
@@ -33,7 +32,6 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
         storeName={props.storeName}
         policyLinks={props.policyLinks}
         socialLinks={props.socialLinks}
-        freeShippingAbove={props.freeShippingAbove}
       />
       <SiteHeader {...props} />
       <MainNav categories={props.menuCategories} className="hidden md:block" />

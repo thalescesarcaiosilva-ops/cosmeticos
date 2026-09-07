@@ -1,9 +1,9 @@
 import { revalidatePath } from 'next/cache'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
+import { AllowPayError } from '@/lib/allowpay/client'
 import { getOptionalSessionUserId } from '@/lib/checkout/order-access'
 import { CheckoutError } from '@/lib/checkout/create-order'
 import { processPixCheckout } from '@/lib/checkout/process-payment'
-import { getBuyerIpFromRequest } from '@/lib/payout/compliance-metadata'
 import { checkoutPixSchema } from '@/schemas/checkout-payment-schema'
 
 export async function POST(request: Request) {
@@ -22,7 +22,6 @@ export async function POST(request: Request) {
   const { shipping_method_id, items, bundle_pairs, document, customer, shipping_address } =
     parsed.data
   const userId = await getOptionalSessionUserId()
-  const buyerIp = getBuyerIpFromRequest(request)
 
   try {
     const result = await processPixCheckout({
@@ -33,7 +32,6 @@ export async function POST(request: Request) {
       customer,
       shippingAddress: shipping_address,
       userId,
-      buyerIp,
     })
 
     revalidatePath('/conta/pedidos')
@@ -43,8 +41,12 @@ export async function POST(request: Request) {
     if (e instanceof CheckoutError) {
       return jsonError(e.message, 400, e.code)
     }
-    if (e instanceof Error && e.message.includes('PAYOUT')) {
-      return jsonError('Pagamento indisponível no momento. Tente novamente.', 503, 'PAYOUT_ERROR')
+    if (e instanceof AllowPayError) {
+      return jsonError(
+        'Pagamento indisponível no momento. Tente novamente em instantes.',
+        503,
+        'PAYMENT_PROVIDER_ERROR'
+      )
     }
     return jsonError('Não foi possível gerar o Pix', 500)
   }

@@ -2,13 +2,13 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CreditCard, QrCode } from 'lucide-react'
 import { CheckoutOrderSummary } from '@/components/checkout/CheckoutOrderSummary'
 import { CheckoutPanel } from '@/components/checkout/CheckoutPanel'
 import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
 import { CheckoutPixPanel } from '@/components/checkout/CheckoutPixPanel'
-import { PayoutCardForm, type PayoutCardFormHandle } from '@/components/checkout/PayoutCardForm'
+import { CardUnavailablePanel } from '@/components/checkout/CardUnavailablePanel'
 import { CheckoutSecurityBadges } from '@/components/checkout/CheckoutSecurityBadges'
 import { CheckoutStepper } from '@/components/checkout/CheckoutStepper'
 import { CheckoutTopBar } from '@/components/checkout/CheckoutTopBar'
@@ -81,6 +81,10 @@ const emptyAddressForm: AddressForm = {
 
 type PaymentMethodChoice = 'pix' | 'card'
 
+/** O provedor atual processa apenas Pix — o cartão fica visível, mas não é cobrado. */
+const CARD_UNAVAILABLE_MESSAGE =
+  'Pagamento com cartão indisponível no momento. Por favor, finalize a compra com Pix.'
+
 type CheckoutViewProps = {
   storeName: string
   logo: StoreLogo
@@ -93,7 +97,6 @@ function calcPixDiscountAmount(subtotal: number, shipping: number, percent: numb
 
 export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const router = useRouter()
-  const cardFormRef = useRef<PayoutCardFormHandle>(null)
   const { items, bundlePairs, clearCart } = useCart()
   const { data: cart, loading: cartLoading, error: cartError } = useCartSync()
 
@@ -185,15 +188,12 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       const { data } = await fetchApi<{
         checkout: CheckoutPaymentSettings
         installments: PaymentSettings
-      }>('/api/payout/config')
+      }>('/api/checkout/config')
 
       if (data?.checkout) {
         setPaymentConfig(data.checkout)
-        if (data.checkout.pixEnabled) {
-          setPaymentMethod('pix')
-        } else if (data.checkout.cardEnabled) {
-          setPaymentMethod('card')
-        }
+        // Sempre inicia no Pix: é o único método processável no momento.
+        setPaymentMethod('pix')
       }
     }
 
@@ -294,7 +294,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     }
   }
 
-  function buildCheckoutPayload(extra?: Record<string, unknown>) {
+  function buildCheckoutPayload() {
     return {
       shipping_method_id: selectedShippingId,
       document: onlyDigits(cpf),
@@ -321,7 +321,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
         companion_product_id: pair.companionProductId,
         discount_percent: pair.discountPercent,
       })),
-      ...extra,
     }
   }
 
@@ -421,18 +420,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     })
   }
 
-  function handleCardSuccess(result: {
-    orderId: string
-    paid: boolean
-    guestAccessToken?: string | null
-  }) {
-    if (result.guestAccessToken) {
-      storeGuestOrderToken(result.orderId, result.guestAccessToken)
-    }
-    clearCart()
-    router.push(`/pedido/${result.orderId}/obrigado${guestOrderQuery(result.orderId)}`)
-  }
-
   async function handleFinalizeOrder() {
     setSubmitError(null)
     setIdentificationError(null)
@@ -440,6 +427,11 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     setDeliveryError(null)
     setAddressFieldErrors({})
     setCpfError(null)
+
+    if (paymentMethod === 'card') {
+      setSubmitError(CARD_UNAVAILABLE_MESSAGE)
+      return
+    }
 
     const idResult = validateCheckoutIdentification(identification)
     if (!idResult.ok) {
@@ -480,17 +472,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
     if (pixResult) return
 
-    if (paymentMethod === 'pix') {
-      await handlePixPayment()
-      return
-    }
-
-    setSubmitting(true)
-    try {
-      await cardFormRef.current?.submit()
-    } finally {
-      setSubmitting(false)
-    }
+    await handlePixPayment()
   }
 
   const isEmpty = items.length === 0 && !cartLoading
@@ -509,10 +491,10 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       cartLoading ||
       submitting ||
       availableLines.length === 0 ||
-      (paymentMethod === 'pix' && paymentConfig?.pixEnabled === false) ||
-      (paymentMethod === 'card' && paymentConfig?.cardEnabled === false),
+      paymentMethod === 'card' ||
+      paymentConfig?.pixEnabled === false,
     finalizeLoading: submitting,
-    finalizeLabel: paymentMethod === 'pix' ? 'Finalizar pedido' : 'Finalizar pedido',
+    finalizeLabel: 'Finalizar pedido',
   }
 
   if (isEmpty) {
@@ -793,22 +775,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                         </button>
                         {paymentMethod === 'card' && (
                           <div className="space-y-4 border-t border-border px-4 pb-4 pt-3">
-                            <PayoutCardForm
-                              ref={cardFormRef}
-                              total={total}
-                              showSubmitButton={false}
-                              disabled={
-                                cartLoading ||
-                                !selectedShippingId ||
-                                availableLines.length === 0 ||
-                                onlyDigits(cpf).length !== 11
-                              }
-                              buildPayload={(cardHash, installments) =>
-                                buildCheckoutPayload({ card_hash: cardHash, installments })
-                              }
-                              onSuccess={handleCardSuccess}
-                              onError={setSubmitError}
-                            />
+                            <CardUnavailablePanel total={total} />
                           </div>
                         )}
                       </div>

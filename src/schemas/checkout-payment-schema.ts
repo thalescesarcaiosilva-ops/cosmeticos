@@ -1,11 +1,12 @@
 import { z } from 'zod'
 import { cartSyncSchema } from '@/schemas/cart-schema'
 import { createAddressSchema } from '@/schemas/address-schema'
+import { isValidCpf } from '@/lib/checkout/cpf'
 
 const cpfSchema = z
   .string()
   .transform((v) => v.replace(/\D/g, ''))
-  .refine((v) => v.length === 11, 'CPF inválido')
+  .refine(isValidCpf, 'CPF inválido')
 
 export const checkoutCustomerSchema = z.object({
   name: z.string().trim().min(2, 'Informe seu nome completo').max(120, 'Nome muito longo'),
@@ -32,12 +33,6 @@ export const checkoutBaseSchema = z.object({
 
 export const checkoutPixSchema = checkoutBaseSchema
 
-export const checkoutCardSchema = checkoutBaseSchema.extend({
-  card_hash: z.string().min(10).max(500),
-  installments: z.number().int().min(1).max(24),
-})
-
 export type CheckoutCustomerInput = z.infer<typeof checkoutCustomerSchema>
 export type CheckoutShippingAddressInput = z.infer<typeof checkoutShippingAddressSchema>
 export type CheckoutPixInput = z.infer<typeof checkoutPixSchema>
-export type CheckoutCardInput = z.infer<typeof checkoutCardSchema>

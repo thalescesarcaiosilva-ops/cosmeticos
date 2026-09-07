@@ -1,11 +1,12 @@
 type AlertProps = {
-  type?: 'error' | 'success' | 'info'
+  type?: 'error' | 'success' | 'info' | 'warning'
   children: React.ReactNode
 }
 
 const styles = {
   error: 'border-badge-discount/30 bg-red-50 text-badge-discount',
   success: 'border-green-200 bg-green-50 text-green-800',
+  warning: 'border-amber-300 bg-amber-50 text-amber-900',
   info: 'border-border bg-surface-muted text-text-secondary',
 }
 

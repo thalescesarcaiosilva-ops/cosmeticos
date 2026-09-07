@@ -30,15 +30,15 @@ const POLITICA_FRETE = `<p>Como funciona o envio na <strong>Batista Cosméticos<
 <h2>PAC</h2>
 <ul>
   <li><strong>Tempo de separação:</strong> 1 a 2 dias úteis</li>
-  <li><strong>Tempo em trânsito:</strong> 5 a 10 dias úteis (Correios, após a postagem)</li>
-  <li><strong>Valor:</strong> taxa fixa de <strong>R$ 24,90</strong> para pedidos abaixo de R$ 250,00 em produtos. <strong>Frete grátis no PAC</strong> a partir de R$ 250,00 em produtos (o valor do frete não entra no cálculo).</li>
+  <li><strong>Tempo em trânsito:</strong> 3 a 4 dias úteis (Correios, após a postagem)</li>
+  <li><strong>Valor:</strong> taxa fixa de <strong>R$ 19,90</strong> para pedidos abaixo de R$ 150,00 em produtos. <strong>Frete grátis no PAC</strong> a partir de R$ 150,00 em produtos (o valor do frete não entra no cálculo).</li>
 </ul>
 
 <h2>SEDEX</h2>
 <ul>
   <li><strong>Tempo de separação:</strong> 1 a 2 dias úteis</li>
-  <li><strong>Tempo em trânsito:</strong> 4 a 7 dias úteis (Correios, após a postagem)</li>
-  <li><strong>Valor:</strong> taxa fixa de <strong>R$ 39,90</strong> para todos os pedidos. O SEDEX não participa da promoção de frete grátis.</li>
+  <li><strong>Tempo em trânsito:</strong> 2 a 3 dias úteis (Correios, após a postagem)</li>
+  <li><strong>Valor:</strong> taxa fixa de <strong>R$ 24,90</strong> para todos os pedidos. O SEDEX não participa da promoção de frete grátis.</li>
 </ul>
 
 <h2>Entrega e endereço</h2>
@@ -58,26 +58,26 @@ async function updateShipping() {
       const { error } = await admin
         .from('shipping_methods')
         .update({
-          base_price: 24.9,
-          free_above: 250,
-          estimated_days_min: 6,
-          estimated_days_max: 12,
+          base_price: 19.9,
+          free_above: 150,
+          estimated_days_min: 3,
+          estimated_days_max: 4,
         })
         .eq('id', method.id)
       if (error) throw error
-      console.log('PAC atualizado: total 6–12, grátis ≥ R$ 250, R$ 24,90 abaixo')
+      console.log('PAC atualizado: trânsito 3–4, grátis ≥ R$ 150, R$ 19,90 abaixo')
     } else if (name === 'SEDEX') {
       const { error } = await admin
         .from('shipping_methods')
         .update({
-          base_price: 39.9,
+          base_price: 24.9,
           free_above: null,
-          estimated_days_min: 5,
-          estimated_days_max: 9,
+          estimated_days_min: 2,
+          estimated_days_max: 3,
         })
         .eq('id', method.id)
       if (error) throw error
-      console.log('SEDEX atualizado: total 5–9, R$ 39,90 fixo')
+      console.log('SEDEX atualizado: trânsito 2–3, R$ 24,90 fixo')
     }
   }
 }

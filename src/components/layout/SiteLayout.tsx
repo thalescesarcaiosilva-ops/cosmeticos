@@ -48,7 +48,6 @@ export async function SiteLayout({ children, chrome = 'full' }: SiteLayoutProps)
           helpLink={layoutData.helpLink}
           contactPage={layoutData.contactPage}
           socialLinks={layoutData.socialLinks}
-          freeShippingAbove={layoutData.freeShippingAbove}
         />
       ) : null}
       <main className="flex-1">{children}</main>

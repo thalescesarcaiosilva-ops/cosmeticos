@@ -1,5 +1,6 @@
 import { createAddressSchema } from '@/schemas/address-schema'
 import { checkoutCustomerSchema } from '@/schemas/checkout-payment-schema'
+import { isValidCpf } from '@/lib/checkout/cpf'
 import { z } from 'zod'
 
 export type FieldErrors<T extends string> = Partial<Record<T, string>>
@@ -36,6 +37,7 @@ const cpfDigitsSchema = z
   .string()
   .transform((v) => onlyDigits(v))
   .refine((v) => v.length === 11, 'Informe um CPF com 11 dígitos')
+  .refine(isValidCpf, 'CPF inválido. Confira os números digitados.')
 
 export function validateCheckoutIdentification(input: {
   name: string
@@ -112,8 +114,12 @@ export function mapCheckoutApiError(error: string | null, message?: string | nul
     PROFILE_INCOMPLETE: 'Complete seus dados de identificação.',
     PIX_DISABLED: 'Pagamento via Pix está temporariamente indisponível.',
     CARD_DISABLED: 'Pagamento com cartão está temporariamente indisponível.',
-    CARD_REFUSED: 'Cartão recusado. Verifique os dados ou use outro cartão.',
-    PAYOUT_ERROR: 'Erro no processamento do pagamento. Tente novamente em instantes.',
+    CARD_UNAVAILABLE:
+      'Pagamento com cartão indisponível no momento. Por favor, finalize a compra com Pix.',
+    INVALID_CPF: 'CPF inválido. Confira os números digitados.',
+    ALLOWPAY_LINK_FAILED: 'Não foi possível vincular o pagamento ao pedido. Tente novamente.',
+    PAYMENT_PROVIDER_ERROR:
+      'Erro no processamento do pagamento. Tente novamente em instantes.',
     VALIDATION_ERROR: message ?? 'Verifique os dados informados.',
   }
 

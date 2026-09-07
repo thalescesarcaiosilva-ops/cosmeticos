@@ -28,9 +28,9 @@ const DEFAULT_CONTEXT: MerchantSeoContext = {
   returnFees: 'FreeReturn',
   handlingDaysMin: MERCHANT_HANDLING_DAYS.min,
   handlingDaysMax: MERCHANT_HANDLING_DAYS.max,
-  transitDaysMin: 4,
-  transitDaysMax: 10,
-  defaultShippingRate: 24.9,
+  transitDaysMin: 2,
+  transitDaysMax: 4,
+  defaultShippingRate: 19.9,
 }
 
 async function loadMerchantSeoContext(): Promise<MerchantSeoContext> {

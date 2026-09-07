@@ -55,6 +55,4 @@ export type SiteLayoutData = {
   helpLink: HelpLink
   contactPage: ContactPageLink
   menuCategories: MenuCategory[]
-  /** Menor valor de free_above entre fretes ativos; null se não houver frete grátis. */
-  freeShippingAbove: number | null
 }
