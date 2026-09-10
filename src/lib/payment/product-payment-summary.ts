@@ -2,7 +2,7 @@ import { formatCurrency } from '@/lib/products/format'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 
-function calcPixPrice(price: number, discountPercent: number): number {
+export function calcPixPrice(price: number, discountPercent: number): number {
   if (discountPercent <= 0) return price
   return Math.max(price * (1 - discountPercent / 100), 0)
 }

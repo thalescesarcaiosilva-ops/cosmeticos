@@ -16,9 +16,9 @@ export function ProductRatingStars({
   size = 14,
   compact = false,
 }: ProductRatingStarsProps) {
-  const normalized = Math.max(0, Math.min(5, average))
+  if (count <= 0) return null
 
-  if (compact && count <= 0) return null
+  const normalized = Math.max(0, Math.min(5, average))
 
   return (
     <div
@@ -48,11 +48,9 @@ export function ProductRatingStars({
         })}
       </div>
       <span>
-        {count > 0
-          ? compact
-            ? `${normalized.toFixed(1)} (${count})`
-            : `${normalized.toFixed(1)} (${count} avaliações)`
-          : 'Sem avaliações'}
+        {compact
+          ? `${normalized.toFixed(1)} (${count})`
+          : `${normalized.toFixed(1)} (${count} avaliações)`}
       </span>
     </div>
   )

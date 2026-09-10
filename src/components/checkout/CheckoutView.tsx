@@ -12,6 +12,7 @@ import { CardUnavailablePanel } from '@/components/checkout/CardUnavailablePanel
 import { CheckoutSecurityBadges } from '@/components/checkout/CheckoutSecurityBadges'
 import { CheckoutStepper } from '@/components/checkout/CheckoutStepper'
 import { CheckoutTopBar } from '@/components/checkout/CheckoutTopBar'
+import { PixDiscountBadge } from '@/components/product/PixDiscountBadge'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -728,8 +729,11 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
             <CheckoutPanel title="Selecione a forma de pagamento">
               <div className="space-y-4">
                 {paymentConfig?.pixDiscount ? (
-                  <div className="rounded-md border border-success/30 bg-success/5 px-4 py-3 text-sm text-success">
-                    {paymentConfig.pixDiscount}% de desconto no Pix
+                  <div className="flex flex-wrap items-center gap-2 rounded-md border border-brand/25 bg-brand/5 px-4 py-3">
+                    <PixDiscountBadge percent={paymentConfig.pixDiscount} />
+                    <p className="text-sm text-text-secondary">
+                      Pague com Pix e aproveite o desconto no total do pedido.
+                    </p>
                   </div>
                 ) : null}
 
@@ -803,14 +807,12 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                               }`}
                               aria-hidden
                             />
-                            <span className="min-w-0">
-                              <span className="block text-sm font-semibold text-text-primary">
+                            <span className="flex min-w-0 flex-wrap items-center gap-2">
+                              <span className="text-sm font-semibold text-text-primary">
                                 Pagar com Pix
                               </span>
                               {pixDiscountPercent > 0 && (
-                                <span className="mt-0.5 block text-xs text-success">
-                                  {pixDiscountPercent}% de desconto
-                                </span>
+                                <PixDiscountBadge percent={pixDiscountPercent} />
                               )}
                             </span>
                           </span>

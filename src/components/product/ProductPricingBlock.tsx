@@ -3,6 +3,7 @@
 import { ChevronRight } from 'lucide-react'
 import { PaymentDetailsTrigger } from '@/components/payment/PaymentDetailsModal'
 import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
+import { PixDiscountBadge } from '@/components/product/PixDiscountBadge'
 import { calcDiscountPercent, formatCurrency } from '@/lib/products/format'
 import { buildProductPaymentSummary } from '@/lib/payment/product-payment-summary'
 import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
@@ -26,6 +27,10 @@ export function ProductPricingBlock({
   const savings =
     hasDiscount && originalPrice != null ? Math.max(0, originalPrice - price) : 0
 
+  const pixEnabled = checkoutSettings.pixEnabled !== false
+  const pixDiscount = pixEnabled ? Math.max(0, Number(checkoutSettings.pixDiscount) || 0) : 0
+  const showPixBadge = pixDiscount > 0
+
   return (
     <div className="space-y-3">
       {hasDiscount && (
@@ -46,9 +51,12 @@ export function ProductPricingBlock({
         </div>
       )}
 
-      <p className="text-[32px] font-bold leading-none tracking-tight text-text-primary tabular-nums md:text-[36px]">
-        {formatCurrency(price)}
-      </p>
+      <div className="flex flex-wrap items-center gap-2.5">
+        <p className="text-[32px] font-bold leading-none tracking-tight text-text-primary tabular-nums md:text-[36px]">
+          {formatCurrency(price)}
+        </p>
+        {showPixBadge && <PixDiscountBadge percent={pixDiscount} />}
+      </div>
 
       {paymentSummary && (
         <p className="max-w-md text-[14px] leading-snug text-text-secondary">{paymentSummary}</p>
