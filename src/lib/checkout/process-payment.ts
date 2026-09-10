@@ -46,6 +46,28 @@ function toCents(value: number): number {
   return Math.round(value * 100)
 }
 
+/** Monta a description enviada à AllowPay com o(s) nome(s) do(s) produto(s). */
+function buildPixDescription(
+  lines: Array<{ name: string; quantity: number }>
+): string {
+  const names = lines
+    .map((line) => line.name.trim())
+    .filter(Boolean)
+
+  if (names.length === 0) return 'Pedido loja'
+
+  if (names.length === 1) {
+    const qty = lines[0]?.quantity ?? 1
+    return qty > 1 ? `${names[0]} (x${qty})` : names[0]
+  }
+
+  const first = names[0]
+  const rest = names.length - 1
+  const summary = `${first} + ${rest} ${rest === 1 ? 'item' : 'itens'}`
+  // AllowPay / extrato bancário costumam truncar descrições longas
+  return summary.slice(0, 140)
+}
+
 async function attachPixTransactionToOrder(params: {
   orderId: string
   txid: string
@@ -120,7 +142,7 @@ export async function processPixCheckout(params: CheckoutInput) {
   try {
     const pix = await createAllowPayPix({
       amount: toCents(order.total),
-      description: `Pedido ${order.id.slice(0, 8)}`,
+      description: buildPixDescription(availableLines),
       customer: {
         name: params.customer.name,
         email: params.customer.email,
