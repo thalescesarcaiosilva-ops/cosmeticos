@@ -60,10 +60,9 @@ height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Ma
     label: 'Conversão checkout',
     name: 'Marcação de conversão / pagamento',
     placement: 'checkout',
-    html: `<!-- Cole aqui a tag de conversão do Google Ads / pagamento (thank you / checkout) -->
-<script>
-  // Exemplo: gtag('event', 'conversion', { send_to: 'AW-XXXXXX/YYYY' });
-</script>`,
+    html: `<!-- NÃO use snippet estático de Compra aqui.
+A conversão Google Ads é disparada no código (página de obrigado, só com pedido pago),
+com value e transaction_id reais. Mantenha apenas gtag('config','AW-…') no head. -->`,
   },
 ]
 

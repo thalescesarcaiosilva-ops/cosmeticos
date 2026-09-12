@@ -6,6 +6,7 @@ import { CheckCircle2, CreditCard, Package, ReceiptText } from 'lucide-react'
 import { CheckoutPixPanel } from '@/components/checkout/CheckoutPixPanel'
 import { OrderClaimAccountForm } from '@/components/checkout/OrderClaimAccountForm'
 import { PaymentProofUploadForm } from '@/components/checkout/PaymentProofUploadForm'
+import { GoogleAdsPurchaseConversion } from '@/components/seo/GoogleAdsPurchaseConversion'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { fetchApi } from '@/lib/api/fetch-api'
@@ -183,6 +184,11 @@ export function OrderThankYouView({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 md:py-14">
+      <GoogleAdsPurchaseConversion
+        orderId={order.id}
+        value={Number(order.total) || 0}
+        paid={isPaid}
+      />
       <div className="rounded-2xl border border-border bg-surface p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)] md:p-8">
         <div className="flex items-start gap-3">
           <span className="mt-0.5 inline-flex size-10 items-center justify-center rounded-full bg-success/10 text-success">
