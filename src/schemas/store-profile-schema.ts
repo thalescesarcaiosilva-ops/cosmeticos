@@ -62,6 +62,21 @@ export const trackingTagSchema = z.object({
   html: z.string().max(50000),
 })
 
+const optionalTrackingId = z
+  .string()
+  .max(500)
+  .optional()
+  .nullable()
+  .transform((v) => (v == null || v.trim() === '' ? null : v.trim()))
+
+export const storeTrackingConfigSchema = z.object({
+  googleTagId: optionalTrackingId,
+  googleAnalyticsId: optionalTrackingId,
+  googleAdsId: optionalTrackingId,
+  googleAdsConversionSendTo: optionalTrackingId,
+  microsoftClarityId: optionalTrackingId,
+})
+
 export const updateStoreProfileSchema = z.object({
   store_name: z.string().min(1).max(100).optional(),
   company_legal_name: optionalText(200),
@@ -95,8 +110,10 @@ export const updateStoreProfileSchema = z.object({
   seo_handling_days_max: z.number().int().min(0).max(30).optional(),
   head_scripts: optionalText(50000),
   tracking_tags: z.array(trackingTagSchema).max(50).optional(),
+  tracking: storeTrackingConfigSchema.optional(),
 })
 
 export type StoreOpeningHoursSlot = z.infer<typeof storeOpeningHoursSlotSchema>
 export type UpdateStoreProfileInput = z.infer<typeof updateStoreProfileSchema>
 export type TrackingTagInput = z.infer<typeof trackingTagSchema>
+export type StoreTrackingConfigInput = z.infer<typeof storeTrackingConfigSchema>

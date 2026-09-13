@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ShopShell } from '@/components/layout/ShopShell'
+import { HeadTrackingScripts } from '@/components/seo/HeadTrackingScripts'
 import { TrackingScripts } from '@/components/seo/TrackingScripts'
 import { buildFaviconIcons } from '@/lib/seo/build-metadata-icons'
 import { getSeoSettings } from '@/lib/seo/get-seo-settings'
@@ -41,6 +42,7 @@ export default async function ShopLayout({ children }: { children: React.ReactNo
 
   return (
     <>
+      <HeadTrackingScripts tracking={profile.tracking} />
       <TrackingScripts profile={profile} placement="head" />
       <TrackingScripts profile={profile} placement="body" />
       <ShopShell>{children}</ShopShell>

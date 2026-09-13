@@ -1,6 +1,8 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { revalidateStorefront } from '@/lib/cache/storefront'
+import { normalizeTrackingConfig } from '@/lib/seo/analytics'
 import { getStoreProfile, updateStoreProfile } from '@/lib/store-profile/queries'
 import { updateStoreProfileSchema } from '@/schemas/store-profile-schema'
 
@@ -61,16 +63,23 @@ export async function PATCH(request: Request) {
     return jsonError('Nenhum campo para atualizar', 400)
   }
 
+  const payload: Record<string, unknown> = { ...parsed.data }
+  if (parsed.data.tracking) {
+    payload.tracking = normalizeTrackingConfig(parsed.data.tracking)
+  }
+
   const admin = createAdminClient()
-  const { data, migrationNeeded } = await updateStoreProfile(admin, parsed.data)
+  const { data, migrationNeeded } = await updateStoreProfile(admin, payload)
 
   if (!data) {
     return jsonError(
-      'Não foi possível salvar. Aplique a migration 202507020002_store_profile_merchant.sql no Supabase.',
+      'Não foi possível salvar. Aplique a migration 202609130001_site_settings_tracking.sql no Supabase.',
       400,
       'MIGRATION_REQUIRED'
     )
   }
+
+  revalidateStorefront()
 
   return jsonSuccess(
     { ...data, migrationNeeded },

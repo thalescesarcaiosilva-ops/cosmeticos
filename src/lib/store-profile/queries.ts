@@ -7,6 +7,11 @@ import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/p
 import type { StoreOpeningHoursSlot } from '@/schemas/store-profile-schema'
 import type { TrackingTag } from '@/types/tracking-tags'
 import { TRACKING_PLACEMENTS } from '@/types/tracking-tags'
+import {
+  EMPTY_TRACKING_CONFIG,
+  normalizeTrackingConfig,
+  type StoreTrackingConfig,
+} from '@/lib/seo/analytics'
 
 function trimStr(value: unknown): string {
   return typeof value === 'string' ? value.trim() : String(value ?? '').trim()
@@ -47,6 +52,7 @@ export type StoreProfile = {
   seo_handling_days_max: number
   head_scripts: string | null
   tracking_tags: TrackingTag[]
+  tracking: StoreTrackingConfig
   _storeProfileColumnsAvailable?: boolean
 }
 
@@ -79,6 +85,7 @@ export const STORE_PROFILE_COLUMNS = [
   'seo_handling_days_max',
   'head_scripts',
   'tracking_tags',
+  'tracking',
 ].join(', ')
 
 const LEGACY_COLUMNS = [
@@ -172,6 +179,7 @@ function mapRow(row: Record<string, unknown>, columnsAvailable: boolean): StoreP
     seo_handling_days_max: Number(row.seo_handling_days_max ?? 2),
     head_scripts: typeof row.head_scripts === 'string' ? row.head_scripts : null,
     tracking_tags: parseTrackingTags(row.tracking_tags),
+    tracking: normalizeTrackingConfig(row.tracking),
     _storeProfileColumnsAvailable: columnsAvailable,
   }
 }

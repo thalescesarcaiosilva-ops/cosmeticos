@@ -43,27 +43,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->`,
   },
-  {
-    label: 'GA4',
-    name: 'Google Analytics 4',
-    placement: 'head',
-    html: `<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>`,
-  },
-  {
-    label: 'Conversão checkout',
-    name: 'Marcação de conversão / pagamento',
-    placement: 'checkout',
-    html: `<!-- NÃO use snippet estático de Compra aqui.
-A conversão Google Ads é disparada no código (página de obrigado, só com pedido pago),
-com value e transaction_id reais. Mantenha apenas gtag('config','AW-…') no head. -->`,
-  },
 ]
 
 function createId() {
@@ -112,8 +91,9 @@ export function TrackingTagsEditor({ tags, onChange }: TrackingTagsEditorProps) 
     <div className="space-y-4">
       <Card title="Tags e scripts">
         <p className="mb-4 text-sm text-text-secondary">
-          Adicione quantas tags quiser: Google Tag Manager, Analytics, Meta Pixel, marcação de
-          pagamento no checkout, etc. Elas não aparecem no painel admin.
+          HTML livre para GTM e tags extras. <strong>Não cole</strong> snippet de conversão Google
+          Ads / GA4 / Clarity aqui — use os campos tipados acima (Pixels Google / Clarity). A
+          conversão de compra é disparada automaticamente na obrigado com pedido pago.
         </p>
 
         <div className="mb-4 flex flex-wrap gap-2">
@@ -208,10 +188,11 @@ export function TrackingTagsEditor({ tags, onChange }: TrackingTagsEditorProps) 
         )}
 
         <p className="mt-4 text-xs text-text-muted">
-          Locais: <strong>head</strong> e <strong>body</strong> em todas as páginas da loja;{' '}
-          <strong>checkout</strong> só em /checkout e na página de obrigado. Aceita até 50 tags.
-          Tags <code>&lt;script&gt;</code>, <code>&lt;noscript&gt;</code>, <code>&lt;meta&gt;</code>,{' '}
-          <code>&lt;link&gt;</code>, <code>&lt;style&gt;</code> e <code>&lt;iframe&gt;</code>.
+          Locais: <strong>head</strong> e <strong>body</strong> em todas as páginas da loja. O
+          placement <strong>checkout</strong> não é mais injetado (conversão Ads é nativa). Aceita
+          até 50 tags. Tags <code>&lt;script&gt;</code>, <code>&lt;noscript&gt;</code>,{' '}
+          <code>&lt;meta&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;style&gt;</code> e{' '}
+          <code>&lt;iframe&gt;</code>.
         </p>
       </Card>
     </div>

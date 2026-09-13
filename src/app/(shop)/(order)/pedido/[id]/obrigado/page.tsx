@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { OrderThankYouView } from '@/components/checkout/OrderThankYouView'
 import { buildPageMetadata } from '@/lib/seo/metadata'
+import { getPublicStoreProfile } from '@/lib/store-profile/public'
 
 type PageProps = {
   params: Promise<{ id: string }>
@@ -20,5 +21,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function OrderThankYouPage({ params, searchParams }: PageProps) {
   const { id } = await params
   const { token } = await searchParams
-  return <OrderThankYouView orderId={id} initialToken={token ?? null} />
+  const profile = await getPublicStoreProfile()
+
+  return (
+    <OrderThankYouView
+      orderId={id}
+      initialToken={token ?? null}
+      adsConversionSendTo={profile.tracking.googleAdsConversionSendTo}
+    />
+  )
 }

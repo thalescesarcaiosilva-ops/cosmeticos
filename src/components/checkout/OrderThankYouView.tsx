@@ -67,9 +67,12 @@ function shortOrderId(value: string) {
 export function OrderThankYouView({
   orderId,
   initialToken,
+  adsConversionSendTo = null,
 }: {
   orderId: string
   initialToken?: string | null
+  /** send_to Google Ads (AW-…/label) vindo de site_settings.tracking */
+  adsConversionSendTo?: string | null
 }) {
   const [order, setOrder] = useState<OrderDetail | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -188,6 +191,7 @@ export function OrderThankYouView({
         orderId={order.id}
         value={Number(order.total) || 0}
         paid={isPaid}
+        sendTo={adsConversionSendTo}
       />
       <div className="rounded-2xl border border-border bg-surface p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)] md:p-8">
         <div className="flex items-start gap-3">

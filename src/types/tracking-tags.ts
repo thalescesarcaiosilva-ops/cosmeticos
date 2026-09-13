@@ -13,5 +13,5 @@ export type TrackingTag = {
 export const TRACKING_PLACEMENT_LABELS: Record<TrackingPlacement, string> = {
   head: '<head> (todas as páginas)',
   body: '<body> (todas as páginas)',
-  checkout: 'Checkout e página de obrigado',
+  checkout: 'Checkout (legado — não injetado; use Pixels tipados)',
 }

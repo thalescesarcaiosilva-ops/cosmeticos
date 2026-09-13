@@ -5,6 +5,7 @@ import {
   getStoreProfile,
   type StoreProfile,
 } from '@/lib/store-profile/queries'
+import { EMPTY_TRACKING_CONFIG } from '@/lib/seo/analytics'
 
 const EMPTY: StoreProfile = {
   store_name: '',
@@ -35,6 +36,7 @@ const EMPTY: StoreProfile = {
   seo_handling_days_max: 2,
   head_scripts: null,
   tracking_tags: [],
+  tracking: EMPTY_TRACKING_CONFIG,
 }
 
 export async function getPublicStoreProfile(): Promise<StoreProfile> {

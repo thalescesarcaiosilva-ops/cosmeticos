@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { fetchApi } from '@/lib/api/fetch-api'
+import { EMPTY_TRACKING_CONFIG, type StoreTrackingConfig } from '@/lib/seo/analytics'
 import type { StoreOpeningHoursSlot } from '@/schemas/store-profile-schema'
 import type { TrackingTag } from '@/types/tracking-tags'
 
@@ -41,6 +42,7 @@ type StoreProfileFormData = {
   seo_handling_days_max: number
   head_scripts: string | null
   tracking_tags: TrackingTag[]
+  tracking: StoreTrackingConfig
   _storeProfileColumnsAvailable?: boolean
   policyPages?: PolicyPage[]
 }
@@ -91,6 +93,10 @@ export function StoreProfileForm() {
           store_opening_hours: data.store_opening_hours ?? [],
           return_days: data.return_days ?? 7,
           tracking_tags: data.tracking_tags ?? [],
+          tracking: {
+            ...EMPTY_TRACKING_CONFIG,
+            ...(data.tracking ?? {}),
+          },
         })
         setMigrationNeeded(data._storeProfileColumnsAvailable === false)
       }
@@ -102,6 +108,24 @@ export function StoreProfileForm() {
     value: StoreProfileFormData[K]
   ) {
     setForm((prev) => (prev ? { ...prev, [key]: value } : prev))
+  }
+
+  function updateTrackingField<K extends keyof StoreTrackingConfig>(
+    key: K,
+    value: StoreTrackingConfig[K]
+  ) {
+    setForm((prev) =>
+      prev
+        ? {
+            ...prev,
+            tracking: {
+              ...EMPTY_TRACKING_CONFIG,
+              ...prev.tracking,
+              [key]: value,
+            },
+          }
+        : prev
+    )
   }
 
   function addOpeningSlot() {
@@ -171,8 +195,8 @@ export function StoreProfileForm() {
       {migrationNeeded && (
         <Alert type="info">
           Aplique as migrations de perfil da loja e de tags (
-          <code className="text-xs">202607200001_tracking_tags.sql</code>) no Supabase para habilitar
-          todos os campos.
+          <code className="text-xs">202609130001_site_settings_tracking.sql</code>) no Supabase para
+          habilitar todos os campos.
         </Alert>
       )}
       {error && <Alert type="error">{error}</Alert>}
@@ -465,10 +489,55 @@ export function StoreProfileForm() {
       )}
 
       {tab === 'analytics' && (
-        <TrackingTagsEditor
-          tags={form.tracking_tags ?? []}
-          onChange={(tracking_tags) => updateField('tracking_tags', tracking_tags)}
-        />
+        <div className="space-y-6">
+          <Card title="Pixels Google / Clarity">
+            <p className="mb-4 text-sm text-text-secondary">
+              IDs tipados injetados automaticamente na vitrine. A conversão Google Ads dispara{' '}
+              <strong>somente na página de obrigado com pagamento confirmado</strong>, com valor e
+              ID do pedido reais (sem duplicar o mesmo pedido).
+            </p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input
+                label="Google Tag (GT-… ou G-…)"
+                value={form.tracking?.googleTagId ?? ''}
+                onChange={(e) => updateTrackingField('googleTagId', e.target.value || null)}
+                placeholder="GT-XXXXXXXX ou G-XXXXXXXX"
+              />
+              <Input
+                label="Google Analytics 4 (G-…)"
+                value={form.tracking?.googleAnalyticsId ?? ''}
+                onChange={(e) => updateTrackingField('googleAnalyticsId', e.target.value || null)}
+                placeholder="G-XXXXXXXX"
+              />
+              <Input
+                label="Google Ads (AW-…)"
+                value={form.tracking?.googleAdsId ?? ''}
+                onChange={(e) => updateTrackingField('googleAdsId', e.target.value || null)}
+                placeholder="AW-XXXXXXXXXX"
+              />
+              <Input
+                label="Conversão de compra (AW-…/rótulo)"
+                value={form.tracking?.googleAdsConversionSendTo ?? ''}
+                onChange={(e) =>
+                  updateTrackingField('googleAdsConversionSendTo', e.target.value || null)
+                }
+                placeholder="AW-XXXXXXXXXX/abcdefghijk"
+              />
+              <Input
+                label="Microsoft Clarity"
+                value={form.tracking?.microsoftClarityId ?? ''}
+                onChange={(e) => updateTrackingField('microsoftClarityId', e.target.value || null)}
+                placeholder="ID ou cole o snippet"
+                className="md:col-span-2"
+              />
+            </div>
+          </Card>
+
+          <TrackingTagsEditor
+            tags={form.tracking_tags ?? []}
+            onChange={(tracking_tags) => updateField('tracking_tags', tracking_tags)}
+          />
+        </div>
       )}
 
       <div className="flex justify-end">
