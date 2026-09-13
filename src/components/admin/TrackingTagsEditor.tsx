@@ -89,11 +89,11 @@ export function TrackingTagsEditor({ tags, onChange }: TrackingTagsEditorProps) 
 
   return (
     <div className="space-y-4">
-      <Card title="Tags e scripts">
+      <Card title="Tags e scripts (HTML livre · GTM / extras)">
         <p className="mb-4 text-sm text-text-secondary">
-          HTML livre para GTM e tags extras. <strong>Não cole</strong> snippet de conversão Google
-          Ads / GA4 / Clarity aqui — use os campos tipados acima (Pixels Google / Clarity). A
-          conversão de compra é disparada automaticamente na obrigado com pedido pago.
+          Use só para o que <strong>não</strong> está nos Pixels acima — tipicamente{' '}
+          <strong>Google Tag Manager</strong>, Meta Pixel, TikTok, chat, etc. Se GA4, Clarity ou
+          conversão Ads estiverem ativos aqui <em>e</em> nos Pixels, a loja marca duas vezes.
         </p>
 
         <div className="mb-4 flex flex-wrap gap-2">

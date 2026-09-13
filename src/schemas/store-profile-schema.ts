@@ -74,6 +74,7 @@ export const storeTrackingConfigSchema = z.object({
   googleAnalyticsId: optionalTrackingId,
   googleAdsId: optionalTrackingId,
   googleAdsConversionSendTo: optionalTrackingId,
+  googleAdsConversionSendTos: z.array(z.string().max(200)).max(5).optional(),
   microsoftClarityId: optionalTrackingId,
 })
 

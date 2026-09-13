@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { OrderThankYouView } from '@/components/checkout/OrderThankYouView'
+import { listAdsConversionSendTos } from '@/lib/seo/analytics'
 import { buildPageMetadata } from '@/lib/seo/metadata'
 import { getPublicStoreProfile } from '@/lib/store-profile/public'
 
@@ -27,7 +28,7 @@ export default async function OrderThankYouPage({ params, searchParams }: PagePr
     <OrderThankYouView
       orderId={id}
       initialToken={token ?? null}
-      adsConversionSendTo={profile.tracking.googleAdsConversionSendTo}
+      adsConversionSendTos={listAdsConversionSendTos(profile.tracking)}
     />
   )
 }

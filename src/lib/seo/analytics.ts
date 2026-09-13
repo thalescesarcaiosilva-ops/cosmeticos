@@ -4,7 +4,10 @@ export type StoreTrackingConfig = {
   googleTagId: string | null
   googleAnalyticsId: string | null
   googleAdsId: string | null
+  /** @deprecated Prefer googleAdsConversionSendTos */
   googleAdsConversionSendTo: string | null
+  /** Uma ou mais ações de conversão (AW-XXXX/label). */
+  googleAdsConversionSendTos: string[]
   microsoftClarityId: string | null
 }
 
@@ -13,8 +16,11 @@ export const EMPTY_TRACKING_CONFIG: StoreTrackingConfig = {
   googleAnalyticsId: null,
   googleAdsId: null,
   googleAdsConversionSendTo: null,
+  googleAdsConversionSendTos: [],
   microsoftClarityId: null,
 }
+
+export const MAX_ADS_CONVERSIONS = 5
 
 const GOOGLE_ID_RE = /^(G|GT|AW)-[A-Z0-9]+$/i
 const ADS_SEND_TO_RE = /^AW-\d+\/[\w-]+$/i
@@ -51,6 +57,35 @@ export function normalizeAdsSendTo(raw: string | null | undefined): string | nul
   return ADS_SEND_TO_RE.test(sendTo) ? sendTo : null
 }
 
+export function normalizeAdsSendTos(raw: unknown): string[] {
+  const collected: string[] = []
+
+  if (Array.isArray(raw)) {
+    for (const item of raw) {
+      if (typeof item === 'string') {
+        const n = normalizeAdsSendTo(item)
+        if (n) collected.push(n)
+      }
+    }
+  } else if (typeof raw === 'string') {
+    // Aceita uma por linha ou separadas por vírgula
+    for (const part of raw.split(/[\n,]+/)) {
+      const n = normalizeAdsSendTo(part)
+      if (n) collected.push(n)
+    }
+  }
+
+  return [...new Set(collected)].slice(0, MAX_ADS_CONVERSIONS)
+}
+
+/** Lista efetiva de conversões (array novo + legado string). */
+export function listAdsConversionSendTos(tracking: StoreTrackingConfig): string[] {
+  const fromArray = normalizeAdsSendTos(tracking.googleAdsConversionSendTos)
+  if (fromArray.length > 0) return fromArray
+  const legacy = normalizeAdsSendTo(tracking.googleAdsConversionSendTo)
+  return legacy ? [legacy] : []
+}
+
 /** Extrai ID do Clarity de valor puro, URL ou snippet HTML colado. */
 export function normalizeClarityId(raw: string | null | undefined): string | null {
   if (raw == null) return null
@@ -80,11 +115,18 @@ export function normalizeTrackingConfig(raw: unknown): StoreTrackingConfig {
   const str = (key: string) =>
     typeof row[key] === 'string' ? (row[key] as string) : null
 
+  const sendTos = listAdsConversionSendTos({
+    ...EMPTY_TRACKING_CONFIG,
+    googleAdsConversionSendTo: normalizeAdsSendTo(str('googleAdsConversionSendTo')),
+    googleAdsConversionSendTos: normalizeAdsSendTos(row.googleAdsConversionSendTos),
+  })
+
   return {
     googleTagId: normalizeGoogleId(str('googleTagId')),
     googleAnalyticsId: normalizeGoogleId(str('googleAnalyticsId')),
     googleAdsId: normalizeGoogleId(str('googleAdsId')),
-    googleAdsConversionSendTo: normalizeAdsSendTo(str('googleAdsConversionSendTo')),
+    googleAdsConversionSendTo: sendTos[0] ?? null,
+    googleAdsConversionSendTos: sendTos,
     microsoftClarityId: normalizeClarityId(str('microsoftClarityId')),
   }
 }
@@ -136,20 +178,22 @@ function markConversionFired(orderId: string) {
 }
 
 /**
- * Dispara conversão Google Ads 1× por pedido.
+ * Dispara uma ou mais conversões Google Ads 1× por pedido.
  * Retry até ~10s se gtag ainda não carregou.
  */
 export function fireGoogleAdsConversion(params: {
-  sendTo: string
+  sendTo: string | string[]
   value: number
   transactionId: string
   currency?: string
 }): void {
   if (typeof window === 'undefined') return
 
-  const sendTo = normalizeAdsSendTo(params.sendTo)
+  const sendTos = normalizeAdsSendTos(
+    Array.isArray(params.sendTo) ? params.sendTo : [params.sendTo]
+  )
   const orderId = params.transactionId?.trim()
-  if (!sendTo || !orderId || !(params.value >= 0)) return
+  if (sendTos.length === 0 || !orderId || !(params.value >= 0)) return
   if (wasConversionFired(orderId)) return
 
   const value = Math.round(Number(params.value) * 100) / 100
@@ -168,15 +212,16 @@ export function fireGoogleAdsConversion(params: {
       return
     }
 
-    // Marca antes de disparar para evitar corrida em remount
     markConversionFired(orderId)
     const gtag = ensureGtagStub()
-    gtag('event', 'conversion', {
-      send_to: sendTo,
-      value,
-      currency,
-      transaction_id: orderId,
-    })
+    for (const sendTo of sendTos) {
+      gtag('event', 'conversion', {
+        send_to: sendTo,
+        value,
+        currency,
+        transaction_id: orderId,
+      })
+    }
   }
 
   tryFire()

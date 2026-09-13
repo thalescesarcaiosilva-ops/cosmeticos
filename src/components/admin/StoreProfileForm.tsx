@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { TrackingPixelsPanel } from '@/components/admin/TrackingPixelsPanel'
 import { TrackingTagsEditor } from '@/components/admin/TrackingTagsEditor'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
@@ -52,7 +53,7 @@ const TABS = [
   { id: 'address', label: 'Endereço e horários' },
   { id: 'returns', label: 'Devoluções' },
   { id: 'seo', label: 'SEO / Frete' },
-  { id: 'analytics', label: 'Tags / Analytics' },
+  { id: 'analytics', label: 'Pixels / Tags' },
 ] as const
 
 type TabId = (typeof TABS)[number]['id']
@@ -110,22 +111,8 @@ export function StoreProfileForm() {
     setForm((prev) => (prev ? { ...prev, [key]: value } : prev))
   }
 
-  function updateTrackingField<K extends keyof StoreTrackingConfig>(
-    key: K,
-    value: StoreTrackingConfig[K]
-  ) {
-    setForm((prev) =>
-      prev
-        ? {
-            ...prev,
-            tracking: {
-              ...EMPTY_TRACKING_CONFIG,
-              ...prev.tracking,
-              [key]: value,
-            },
-          }
-        : prev
-    )
+  function updateTracking(tracking: StoreTrackingConfig) {
+    setForm((prev) => (prev ? { ...prev, tracking } : prev))
   }
 
   function addOpeningSlot() {
@@ -490,49 +477,11 @@ export function StoreProfileForm() {
 
       {tab === 'analytics' && (
         <div className="space-y-6">
-          <Card title="Pixels Google / Clarity">
-            <p className="mb-4 text-sm text-text-secondary">
-              IDs tipados injetados automaticamente na vitrine. A conversão Google Ads dispara{' '}
-              <strong>somente na página de obrigado com pagamento confirmado</strong>, com valor e
-              ID do pedido reais (sem duplicar o mesmo pedido).
-            </p>
-            <div className="grid gap-4 md:grid-cols-2">
-              <Input
-                label="Google Tag (GT-… ou G-…)"
-                value={form.tracking?.googleTagId ?? ''}
-                onChange={(e) => updateTrackingField('googleTagId', e.target.value || null)}
-                placeholder="GT-XXXXXXXX ou G-XXXXXXXX"
-              />
-              <Input
-                label="Google Analytics 4 (G-…)"
-                value={form.tracking?.googleAnalyticsId ?? ''}
-                onChange={(e) => updateTrackingField('googleAnalyticsId', e.target.value || null)}
-                placeholder="G-XXXXXXXX"
-              />
-              <Input
-                label="Google Ads (AW-…)"
-                value={form.tracking?.googleAdsId ?? ''}
-                onChange={(e) => updateTrackingField('googleAdsId', e.target.value || null)}
-                placeholder="AW-XXXXXXXXXX"
-              />
-              <Input
-                label="Conversão de compra (AW-…/rótulo)"
-                value={form.tracking?.googleAdsConversionSendTo ?? ''}
-                onChange={(e) =>
-                  updateTrackingField('googleAdsConversionSendTo', e.target.value || null)
-                }
-                placeholder="AW-XXXXXXXXXX/abcdefghijk"
-              />
-              <Input
-                label="Microsoft Clarity"
-                value={form.tracking?.microsoftClarityId ?? ''}
-                onChange={(e) => updateTrackingField('microsoftClarityId', e.target.value || null)}
-                placeholder="ID ou cole o snippet"
-                className="md:col-span-2"
-              />
-            </div>
-          </Card>
-
+          <TrackingPixelsPanel
+            tracking={form.tracking ?? EMPTY_TRACKING_CONFIG}
+            trackingTags={form.tracking_tags ?? []}
+            onChange={updateTracking}
+          />
           <TrackingTagsEditor
             tags={form.tracking_tags ?? []}
             onChange={(tracking_tags) => updateField('tracking_tags', tracking_tags)}

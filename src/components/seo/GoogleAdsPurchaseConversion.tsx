@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { fireGoogleAdsConversion, normalizeAdsSendTo } from '@/lib/seo/analytics'
+import { fireGoogleAdsConversion, normalizeAdsSendTos } from '@/lib/seo/analytics'
 
 type GoogleAdsPurchaseConversionProps = {
   orderId: string
@@ -9,32 +9,33 @@ type GoogleAdsPurchaseConversionProps = {
   value: number
   /** Só dispara quando true (pagamento confirmado). */
   paid: boolean
-  /** send_to do admin: AW-XXXX/label */
-  sendTo: string | null | undefined
+  /** Uma ou mais ações send_to: AW-XXXX/label */
+  sendTos: string[] | null | undefined
 }
 
 /**
  * Conversão Google Ads "Compra" — só com pedido pago,
  * com value e transaction_id reais (evita deturpação e duplicata).
+ * Dispara todas as ações configuradas no admin (até 5).
  */
 export function GoogleAdsPurchaseConversion({
   orderId,
   value,
   paid,
-  sendTo,
+  sendTos,
 }: GoogleAdsPurchaseConversionProps) {
   const startedRef = useRef(false)
-  const normalizedSendTo = normalizeAdsSendTo(sendTo)
+  const normalized = normalizeAdsSendTos(sendTos ?? [])
 
   useEffect(() => {
-    if (!paid || !normalizedSendTo || startedRef.current) return
+    if (!paid || normalized.length === 0 || startedRef.current) return
     startedRef.current = true
     fireGoogleAdsConversion({
-      sendTo: normalizedSendTo,
+      sendTo: normalized,
       value,
       transactionId: orderId,
     })
-  }, [paid, orderId, value, normalizedSendTo])
+  }, [paid, orderId, value, normalized.join('|')])
 
   return null
 }
