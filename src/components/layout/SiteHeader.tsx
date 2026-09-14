@@ -42,7 +42,7 @@ export function SiteHeader({
   overlay = false,
 }: SiteHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { itemCount: cartItemCount, hydrated } = useCart()
+  const { itemCount: cartItemCount, hydrated, openCartDrawer } = useCart()
   const { favoriteCount, hydrated: favoritesHydrated } = useFavorites()
   const hasHelp = Boolean(helpLink.label.trim() && helpLink.href.trim())
   const logoVariant = overlay ? 'light' : 'dark'
@@ -146,16 +146,18 @@ export function SiteHeader({
               </div>
 
               <div className="mycart relative">
-                <Link
-                  href="/carrinho"
+                <button
+                  type="button"
+                  onClick={openCartDrawer}
                   className="mycart__link header-action flex size-8 items-center justify-center transition-opacity duration-[400ms] hover:opacity-80 md:size-9"
                   title="Meu Carrinho"
                   aria-label={`Meu Carrinho${cartItemCount > 0 ? `, ${cartItemCount} itens` : ''}`}
+                  aria-haspopup="dialog"
                 >
                   <IconCart className="size-5 md:size-6" />
-                </Link>
+                </button>
                 {hydrated && cartItemCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-claret px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
+                  <span className="pointer-events-none absolute -right-0.5 -top-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-claret px-0.5 text-[9px] font-bold text-white md:h-4 md:min-w-4 md:text-[10px]">
                     {cartItemCount > 9 ? '9+' : cartItemCount}
                   </span>
                 )}

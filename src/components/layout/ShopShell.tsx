@@ -1,5 +1,6 @@
 import { CartProvider } from '@/providers/CartProvider'
 import { FavoritesProvider } from '@/providers/FavoritesProvider'
+import { CartDrawer } from '@/components/cart/CartDrawer'
 import { SiteLayout, type ChromeMode } from './SiteLayout'
 
 type ShopShellProps = {
@@ -12,6 +13,7 @@ export function ShopShell({ children, chrome }: ShopShellProps) {
     <CartProvider>
       <FavoritesProvider>
         {chrome ? <SiteLayout chrome={chrome}>{children}</SiteLayout> : children}
+        <CartDrawer />
       </FavoritesProvider>
     </CartProvider>
   )

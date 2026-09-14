@@ -101,6 +101,9 @@ type CartContextValue = {
   removeItem: (productId: string) => void
   clearCart: () => void
   syncValidatedItems: (items: StoredCartItem[]) => void
+  isCartDrawerOpen: boolean
+  openCartDrawer: () => void
+  closeCartDrawer: () => void
 }
 
 const CartContext = createContext<CartContextValue | null>(null)
@@ -108,6 +111,7 @@ const CartContext = createContext<CartContextValue | null>(null)
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [], hydrated: false })
   const [bundlePairs, setBundlePairs] = useState<StoredCartBundlePair[]>([])
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false)
 
   useEffect(() => {
     dispatch({ type: 'HYDRATE', items: readStoredCart() })
@@ -149,6 +153,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SYNC_FROM_VALIDATED', items })
   }, [])
 
+  const openCartDrawer = useCallback(() => setIsCartDrawerOpen(true), [])
+  const closeCartDrawer = useCallback(() => setIsCartDrawerOpen(false), [])
+
   const itemCount = useMemo(
     () => state.items.reduce((sum, item) => sum + item.quantity, 0),
     [state.items]
@@ -166,6 +173,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeItem,
       clearCart,
       syncValidatedItems,
+      isCartDrawerOpen,
+      openCartDrawer,
+      closeCartDrawer,
     }),
     [
       state.items,
@@ -178,6 +188,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeItem,
       clearCart,
       syncValidatedItems,
+      isCartDrawerOpen,
+      openCartDrawer,
+      closeCartDrawer,
     ]
   )
 

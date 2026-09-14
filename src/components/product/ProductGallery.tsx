@@ -70,6 +70,7 @@ export function ProductGallery({ images, productName, discountPercent }: Product
                   fill
                   sizes="72px"
                   loading="lazy"
+                  bypassOptimizer={false}
                   className="object-contain p-1.5"
                 />
               </button>
@@ -128,6 +129,7 @@ export function ProductGallery({ images, productName, discountPercent }: Product
             fill
             priority={activeIndex === 0}
             fetchPriority={activeIndex === 0 ? 'high' : 'auto'}
+            bypassOptimizer={false}
             sizes="(max-width: 768px) 88vw, (max-width: 1024px) 50vw, 560px"
             className="object-contain p-4 md:p-6"
           />

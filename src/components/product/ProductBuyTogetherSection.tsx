@@ -1,7 +1,7 @@
 'use client'
 
 import { SiteImage } from '@/components/ui/SiteImage'
-import Link from 'next/link'
+import Link from 'next/link' // usado em ProductThumb para link do produto acompanhante
 import { useState } from 'react'
 import { IconChevronLeft } from '@/components/icons/DotIcons'
 import {
@@ -89,7 +89,7 @@ export function ProductBuyTogetherSection({
   settings,
   compact = false,
 }: ProductBuyTogetherSectionProps) {
-  const { addItem, addBundlePair } = useCart()
+  const { addItem, addBundlePair, openCartDrawer } = useCart()
   const eligibleBundles = filterBundlesByMaxTotal(
     primaryProduct.price,
     bundles,
@@ -124,6 +124,7 @@ export function ProductBuyTogetherSection({
     addItem(primaryProduct.id, 1)
     addItem(bundle.companion.id, 1)
     setAdded(true)
+    openCartDrawer()
     window.setTimeout(() => setAdded(false), 2500)
   }
 
@@ -251,12 +252,9 @@ export function ProductBuyTogetherSection({
           </button>
 
           {added && (
-            <Link
-              href="/carrinho"
-              className="mt-2 block text-center text-[13px] font-semibold text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
-            >
-              Ver carrinho
-            </Link>
+            <p className="mt-2 text-center text-[12px] font-semibold text-success">
+              ✓ Adicionados ao carrinho
+            </p>
           )}
         </div>
       </div>

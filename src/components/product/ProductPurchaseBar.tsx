@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { useState } from 'react'
 import { useCart } from '@/providers/CartProvider'
 
@@ -24,7 +23,7 @@ type ProductPurchaseBarProps = {
 }
 
 export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps) {
-  const { addItem } = useCart()
+  const { addItem, openCartDrawer } = useCart()
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
 
@@ -43,6 +42,7 @@ export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps
     if (!inStock) return
     addItem(productId, quantity)
     setAdded(true)
+    openCartDrawer()
     window.setTimeout(() => setAdded(false), 2500)
   }
 
@@ -110,12 +110,9 @@ export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps
       </div>
 
       {added && (
-        <Link
-          href="/carrinho"
-          className="block text-center text-sm font-bold text-brand hover:underline"
-        >
-          Ver carrinho
-        </Link>
+        <p className="text-center text-sm font-semibold text-success">
+          ✓ Adicionado ao carrinho
+        </p>
       )}
     </div>
   )
