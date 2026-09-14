@@ -1,20 +1,5 @@
 import { syncCartItems } from '@/lib/cart/sync-cart'
-import {
-  AllowPayError,
-  createAllowPayPix,
-  getAllowPayPaymentStatus,
-  isAllowPayFailedStatus,
-  isAllowPayPaidStatus,
-} from '@/lib/allowpay/client'
-import { buildPixDisplayExpiration, buildPixQrImage } from '@/lib/allowpay/pix'
 import { isValidCpf } from '@/lib/checkout/cpf'
-import { getCheckoutPaymentSettings } from '@/lib/payment/queries'
-import { getSiteUrl } from '@/lib/seo/site-url'
-import { createAdminClient } from '@/lib/supabase/admin'
-import type {
-  CheckoutCustomerInput,
-  CheckoutShippingAddressInput,
-} from '@/schemas/checkout-payment-schema'
 import {
   cancelCheckoutOrder,
   CheckoutError,
@@ -22,6 +7,22 @@ import {
   createCheckoutOrder,
 } from '@/lib/checkout/create-order'
 import { assertOrderAccess, OrderAccessError } from '@/lib/checkout/order-access'
+import { getCheckoutPaymentSettings } from '@/lib/payment/queries'
+import { getSiteUrl } from '@/lib/seo/site-url'
+import { createAdminClient } from '@/lib/supabase/admin'
+import {
+  createVenoPix,
+  getVenoPixStatus,
+  isVenoFailedStatus,
+  isVenoPaidStatus,
+  VenoError,
+} from '@/lib/veno/client'
+import { buildPixQrImage, resolvePixExpiration } from '@/lib/veno/pix'
+import { assertVenoProductsSum, buildVenoProducts } from '@/lib/veno/products'
+import type {
+  CheckoutCustomerInput,
+  CheckoutShippingAddressInput,
+} from '@/schemas/checkout-payment-schema'
 
 type CheckoutInput = {
   shippingMethodId: string
@@ -46,32 +47,21 @@ function toCents(value: number): number {
   return Math.round(value * 100)
 }
 
-/** Monta a description enviada à AllowPay com o(s) nome(s) do(s) produto(s). */
-function buildPixDescription(
-  lines: Array<{ name: string; quantity: number }>
-): string {
-  const names = lines
-    .map((line) => line.name.trim())
-    .filter(Boolean)
-
+function buildPixDescription(lines: Array<{ name: string; quantity: number }>): string {
+  const names = lines.map((line) => line.name.trim()).filter(Boolean)
   if (names.length === 0) return 'Pedido loja'
-
   if (names.length === 1) {
     const qty = lines[0]?.quantity ?? 1
-    return qty > 1 ? `${names[0]} (x${qty})` : names[0]
+    return qty > 1 ? `${names[0]} (x${qty})` : names[0]!
   }
-
-  const first = names[0]
   const rest = names.length - 1
-  const summary = `${first} + ${rest} ${rest === 1 ? 'item' : 'itens'}`
-  // AllowPay / extrato bancário costumam truncar descrições longas
-  return summary.slice(0, 140)
+  return `${names[0]} + ${rest} ${rest === 1 ? 'item' : 'itens'}`.slice(0, 140)
 }
 
 async function attachPixTransactionToOrder(params: {
   orderId: string
+  depositId: string
   txid: string
-  route: string
   customerDocument: string
   pixQrCode: string
   pixExpiration: string
@@ -80,8 +70,9 @@ async function attachPixTransactionToOrder(params: {
   const { error } = await admin
     .from('orders')
     .update({
+      veno_deposit_id: params.depositId,
       allowpay_txid: params.txid,
-      allowpay_route: params.route,
+      allowpay_route: null,
       payment_method: 'pix',
       customer_document: onlyDigits(params.customerDocument),
       pix_qr_code: params.pixQrCode,
@@ -92,7 +83,7 @@ async function attachPixTransactionToOrder(params: {
 
   if (error) {
     await cancelCheckoutOrder(params.orderId)
-    throw new CheckoutError('Falha ao vincular pagamento ao pedido', 'ALLOWPAY_LINK_FAILED')
+    throw new CheckoutError('Falha ao vincular pagamento ao pedido', 'VENO_LINK_FAILED')
   }
 }
 
@@ -140,28 +131,49 @@ export async function processPixCheckout(params: CheckoutInput) {
   })
 
   try {
-    const pix = await createAllowPayPix({
-      amount: toCents(order.total),
+    const amountCents = toCents(order.total)
+    const products = assertVenoProductsSum(
+      buildVenoProducts({
+        lines: availableLines.map((line) => ({
+          productId: line.productId,
+          name: line.name,
+          quantity: line.quantity,
+          lineTotalReais: Number(line.displayLineTotal ?? line.lineTotal),
+        })),
+        shippingReais: order.shipping_price,
+        totalCents: amountCents,
+      }),
+      amountCents
+    )
+
+    const addr = params.shippingAddress
+    const pix = await createVenoPix({
+      amount: amountCents,
       description: buildPixDescription(availableLines),
-      customer: {
+      externalId: order.id,
+      callbackUrl: `${siteUrl.replace(/\/+$/, '')}/api/webhooks/veno`,
+      payer: {
         name: params.customer.name,
         email: params.customer.email,
-        cellphone: onlyDigits(params.customer.phone),
-        taxId: document,
+        document,
+        phone: onlyDigits(params.customer.phone),
+        address: [addr.street, addr.number].filter(Boolean).join(', '),
+        city: addr.city,
+        state: addr.state,
+        zip_code: onlyDigits(addr.zip_code),
       },
-      // O webhook confirma o pagamento; o polling do checkout serve como reconciliação.
-      webhookUrl: `${siteUrl.replace(/\/+$/, '')}/api/webhooks/allowpay`,
+      products,
     })
 
-    const qrImage = await buildPixQrImage(pix.pix_code)
-    const expiresAt = buildPixDisplayExpiration()
+    const qrImage = await buildPixQrImage(pix.pixCopyPaste)
+    const expiresAt = resolvePixExpiration(pix.expiresAt)
 
     await attachPixTransactionToOrder({
       orderId: order.id,
+      depositId: pix.id,
       txid: pix.txid,
-      route: pix.route,
       customerDocument: params.document,
-      pixQrCode: pix.pix_code,
+      pixQrCode: pix.pixCopyPaste,
       pixExpiration: expiresAt,
     })
 
@@ -172,7 +184,7 @@ export async function processPixCheckout(params: CheckoutInput) {
       discountAmount: order.discount_amount,
       transactionId: pix.txid,
       status: 'waiting_payment' as const,
-      qrCode: pix.pix_code,
+      qrCode: pix.pixCopyPaste,
       qrImage,
       expiresAt,
     }
@@ -204,7 +216,7 @@ export async function getOrderPaymentStatus(params: {
   const { data: order, error } = await admin
     .from('orders')
     .select(
-      'id, status, payment_status, payment_method, total, discount_amount, pix_qr_code, pix_expiration, allowpay_txid, allowpay_route'
+      'id, status, payment_status, payment_method, total, discount_amount, pix_qr_code, pix_expiration, veno_deposit_id, allowpay_txid'
     )
     .eq('id', params.orderId)
     .maybeSingle()
@@ -228,25 +240,21 @@ export async function getOrderPaymentStatus(params: {
     return { ...baseResult, status: 'paid' as const }
   }
 
-  if (!order.allowpay_txid || !order.allowpay_route) {
+  const depositId = order.veno_deposit_id as string | null
+  if (!depositId) {
     return { ...baseResult, status: 'pending' as const }
   }
 
-  // Reconciliação: o webhook é a fonte primária, mas consultamos a AllowPay
-  // caso ele tenha falhado ou ainda não tenha chegado.
   let transactionStatus: string | null = null
   try {
-    const transaction = await getAllowPayPaymentStatus({
-      txid: order.allowpay_txid,
-      route: order.allowpay_route,
-    })
+    const transaction = await getVenoPixStatus(depositId)
     transactionStatus = transaction.status ?? null
   } catch (e) {
-    if (!(e instanceof AllowPayError)) throw e
+    if (!(e instanceof VenoError)) throw e
     return { ...baseResult, status: 'pending' as const, transactionStatus: null }
   }
 
-  if (isAllowPayPaidStatus(transactionStatus)) {
+  if (isVenoPaidStatus(transactionStatus)) {
     if (order.status === 'pending') {
       await confirmCheckoutPayment({
         orderId: order.id,
@@ -262,7 +270,7 @@ export async function getOrderPaymentStatus(params: {
     }
   }
 
-  if (isAllowPayFailedStatus(transactionStatus) && order.status === 'pending') {
+  if (isVenoFailedStatus(transactionStatus) && order.status === 'pending') {
     await cancelCheckoutOrder(order.id)
     return {
       ...baseResult,
@@ -274,3 +282,5 @@ export async function getOrderPaymentStatus(params: {
 
   return { ...baseResult, status: 'pending' as const, transactionStatus }
 }
+
+export { VenoError }

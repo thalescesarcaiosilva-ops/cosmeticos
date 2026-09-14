@@ -1,6 +1,6 @@
 import { revalidatePath } from 'next/cache'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
-import { AllowPayError } from '@/lib/allowpay/client'
+import { VenoError } from '@/lib/veno/client'
 import { getOptionalSessionUserId } from '@/lib/checkout/order-access'
 import { CheckoutError } from '@/lib/checkout/create-order'
 import { processPixCheckout } from '@/lib/checkout/process-payment'
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     if (e instanceof CheckoutError) {
       return jsonError(e.message, 400, e.code)
     }
-    if (e instanceof AllowPayError) {
+    if (e instanceof VenoError) {
       return jsonError(
         'Pagamento indisponível no momento. Tente novamente em instantes.',
         503,

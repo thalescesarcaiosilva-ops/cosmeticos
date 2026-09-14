@@ -110,7 +110,7 @@ export async function confirmCheckoutPayment(params: {
   await admin.rpc('confirm_order_payment', {
     p_order_id: params.orderId,
     p_payment_method: params.paymentMethod ?? null,
-    // A AllowPay usa txid textual, guardado em orders.allowpay_txid no create-pix.
+    // A Veno usa deposit id em orders.veno_deposit_id (txid também em allowpay_txid por compat).
     p_payout_transaction_id: null,
   })
 
@@ -204,7 +204,7 @@ export async function findOrderById(orderId: string) {
   const admin = createAdminClient()
   const { data } = await admin
     .from('orders')
-    .select('id, status, payment_status, user_id, allowpay_txid')
+    .select('id, status, payment_status, user_id, allowpay_txid, veno_deposit_id')
     .eq('id', orderId)
     .maybeSingle()
   return data
@@ -214,8 +214,18 @@ export async function findOrderByAllowpayTxid(txid: string) {
   const admin = createAdminClient()
   const { data } = await admin
     .from('orders')
-    .select('id, status, payment_status, user_id, allowpay_txid')
+    .select('id, status, payment_status, user_id, allowpay_txid, veno_deposit_id')
     .eq('allowpay_txid', txid)
+    .maybeSingle()
+  return data
+}
+
+export async function findOrderByVenoDepositId(depositId: string) {
+  const admin = createAdminClient()
+  const { data } = await admin
+    .from('orders')
+    .select('id, status, payment_status, user_id, allowpay_txid, veno_deposit_id')
+    .eq('veno_deposit_id', depositId)
     .maybeSingle()
   return data
 }

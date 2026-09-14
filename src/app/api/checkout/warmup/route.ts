@@ -1,11 +1,9 @@
 import { jsonSuccess } from '@/lib/api/response'
-import { warmUpAllowPay } from '@/lib/allowpay/client'
 
 /**
- * Chamado quando o checkout abre, só para tirar o provedor de Pix do repouso.
- * Responde sempre 200: falhar aqui não pode atrapalhar o checkout.
+ * Mantido por compatibilidade com o checkout que chama /api/checkout/warmup.
+ * A Veno não precisa de warm-up (sem cold start Render).
  */
 export async function POST() {
-  await warmUpAllowPay()
   return jsonSuccess({ ok: true })
 }

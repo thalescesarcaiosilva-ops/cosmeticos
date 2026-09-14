@@ -82,10 +82,6 @@ const emptyAddressForm: AddressForm = {
 
 type PaymentMethodChoice = 'pix' | 'card'
 
-/** O provedor atual processa apenas Pix — o cartão fica visível, mas não é cobrado. */
-const CARD_UNAVAILABLE_MESSAGE =
-  'Pagamento com cartão indisponível no momento. Por favor, finalize a compra com Pix.'
-
 type CheckoutViewProps = {
   storeName: string
   logo: StoreLogo
@@ -431,11 +427,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     setAddressFieldErrors({})
     setCpfError(null)
 
-    if (paymentMethod === 'card') {
-      setSubmitError(CARD_UNAVAILABLE_MESSAGE)
-      return
-    }
-
     const idResult = validateCheckoutIdentification(identification)
     if (!idResult.ok) {
       setIdentificationFieldErrors(idResult.errors)
@@ -474,6 +465,11 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     }
 
     if (pixResult) return
+
+    if (paymentMethod === 'card') {
+      setSubmitError('Pagamento com cartão indisponível. Selecione Pix para concluir.')
+      return
+    }
 
     await handlePixPayment()
   }
