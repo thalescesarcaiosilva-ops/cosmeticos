@@ -24,6 +24,19 @@ export function filterImportableImages<T extends { url: string }>(images: T[]): 
   return images.filter((image) => isAllowedImageUrl(image.url))
 }
 
+/** Aceita qualquer host remoto válido, exceto hosts bloqueados. */
+export function filterNonBlockedImages<T extends { url: string }>(images: T[]): T[] {
+  return images.filter((image) => {
+    if (!image.url || isBlockedImageUrl(image.url)) return false
+    try {
+      const protocol = new URL(image.url).protocol
+      return protocol === 'http:' || protocol === 'https:'
+    } catch {
+      return false
+    }
+  })
+}
+
 export function sourceFilenameFromUrl(sourceUrl: string): string {
   return sourceUrl.split('/').pop()?.split('?')[0] ?? 'import.webp'
 }

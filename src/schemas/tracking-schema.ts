@@ -1,13 +1,22 @@
 import { z } from 'zod'
 import { orderStatusSchema } from '@/schemas/order-schema'
 
-export const trackingLookupSchema = z.object({
-  code: z
-    .string()
-    .trim()
-    .min(8, 'Informe o código de rastreio')
-    .max(32, 'Código inválido'),
-})
+export const trackingLookupSchema = z
+  .object({
+    code: z.string().trim().max(80, 'Código inválido').default(''),
+    order: z.string().trim().max(80, 'ID do pedido inválido').default(''),
+  })
+  .superRefine((value, ctx) => {
+    const code = value.code?.trim() ?? ''
+    const order = value.order?.trim() ?? ''
+    if (!code && !order) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Informe um código de rastreio válido',
+        path: ['code'],
+      })
+    }
+  })
 
 export const adminTrackingActionSchema = z.discriminatedUnion('action', [
   z.object({

@@ -1,6 +1,7 @@
 import { syncProfileFromCheckout } from '@/lib/auth/claim-guest-orders'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendOrderConfirmationEmail } from '@/lib/email/order-confirmation'
+import { syncOrderToTrack7Safe } from '@/lib/track7/sync-order'
 import type { CheckoutCustomerInput, CheckoutShippingAddressInput } from '@/schemas/checkout-payment-schema'
 
 export type CheckoutOrderResult = {
@@ -129,6 +130,10 @@ export async function confirmCheckoutPayment(params: {
 
   const isPaid = order.status === 'confirmed' || order.payment_status === 'paid'
   if (!isPaid) return
+
+  // Track7: aguarda o sync no serverless; nunca quebra o pagamento.
+  await syncOrderToTrack7Safe(params.orderId)
+
   if (!order.customer_email?.trim()) return
 
   const dedupe = await recordWebhookEvent({

@@ -62,6 +62,8 @@ type Order = {
   shipped_at?: string | null
   delivered_at?: string | null
   tracking_simulation_paused?: boolean | null
+  track7_synced_at?: string | null
+  track7_last_status?: string | null
   payment_proof_pending?: boolean | null
   created_at: string
   profiles?: { name?: string } | null
@@ -350,6 +352,11 @@ export function OrdersManager() {
                       {order.tracking_code}
                     </p>
                   )}
+                  {order.track7_last_status && (
+                    <p className="mt-0.5 text-xs text-text-muted">
+                      Track7: {order.track7_last_status}
+                    </p>
+                  )}
                   <p className="mt-1 text-sm font-semibold text-brand tabular-nums">
                     {formatCurrency(Number(order.total))}
                   </p>
@@ -492,121 +499,156 @@ export function OrdersManager() {
                           Abrir página pública
                         </Link>
                       )}
-                    </div>
-
-                    <div className="mt-3">
-                      <TrackingTimeline
-                        showUpcoming
-                        trackingCode={order.tracking_code}
-                        events={trackingEvents.map((event) => ({
-                          id: event.id,
-                          sequence: event.sequence,
-                          eventType: event.event_type,
-                          city: event.city,
-                          state: event.state,
-                          message: event.message,
-                          scheduledAt: event.scheduled_at,
-                          occurredAt: event.occurred_at,
-                          isManual: event.is_manual,
-                        }))}
-                      />
-                    </div>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {!order.tracking_code && order.status === 'confirmed' && (
-                        <Button
-                          type="button"
-                          disabled={loadingId === order.id}
-                          onClick={() =>
-                            runTrackingAction(
-                              order.id,
-                              { orderId: order.id, action: 'dispatch' },
-                              'Pedido despachado'
-                            )
-                          }
+                      {!order.tracking_code && (
+                        <Link
+                          href={`/paginas/rastreio?pedido=${encodeURIComponent(order.id)}`}
+                          className="text-xs font-semibold text-brand hover:underline"
+                          target="_blank"
                         >
-                          Despachar agora
-                        </Button>
+                          Consultar por pedido
+                        </Link>
                       )}
-                      {order.tracking_code && order.status === 'shipped' && (
-                        <>
-                          <Button
-                            type="button"
-                            variant="secondary"
-                            disabled={loadingId === order.id}
-                            onClick={() =>
-                              runTrackingAction(
-                                order.id,
-                                { orderId: order.id, action: 'advance' },
-                                'Rastreio avançado'
-                              )
-                            }
-                          >
-                            Avançar próximo passo
-                          </Button>
-                          <Button
-                            type="button"
-                            variant="secondary"
-                            disabled={loadingId === order.id}
-                            onClick={() =>
-                              runTrackingAction(
+                    </div>
+
+                    {(order.track7_synced_at || order.carrier === 'Track7') && (
+                      <div className="mt-3 space-y-1 text-sm text-text-secondary">
+                        <p>
+                          Origem: <span className="font-medium text-text-primary">Track7</span>
+                        </p>
+                        {order.track7_synced_at && (
+                          <p>
+                            Sync:{' '}
+                            {new Date(order.track7_synced_at).toLocaleString('pt-BR')}
+                          </p>
+                        )}
+                        <p>
+                          Status:{' '}
+                          <span className="font-medium text-text-primary">
+                            {order.track7_last_status || 'Aguardando atualização'}
+                          </span>
+                        </p>
+                      </div>
+                    )}
+
+                    {!(order.track7_synced_at || order.carrier === 'Track7') && (
+                      <>
+                        <div className="mt-3">
+                          <TrackingTimeline
+                            showUpcoming
+                            trackingCode={order.tracking_code}
+                            events={trackingEvents.map((event) => ({
+                              id: event.id,
+                              sequence: event.sequence,
+                              eventType: event.event_type,
+                              city: event.city,
+                              state: event.state,
+                              message: event.message,
+                              scheduledAt: event.scheduled_at,
+                              occurredAt: event.occurred_at,
+                              isManual: event.is_manual,
+                            }))}
+                          />
+                        </div>
+
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {!order.tracking_code && order.status === 'confirmed' && (
+                            <Button
+                              type="button"
+                              disabled={loadingId === order.id}
+                              onClick={() =>
+                                runTrackingAction(
+                                  order.id,
+                                  { orderId: order.id, action: 'dispatch' },
+                                  'Pedido despachado'
+                                )
+                              }
+                            >
+                              Despachar agora
+                            </Button>
+                          )}
+                          {order.tracking_code && order.status === 'shipped' && (
+                            <>
+                              <Button
+                                type="button"
+                                variant="secondary"
+                                disabled={loadingId === order.id}
+                                onClick={() =>
+                                  runTrackingAction(
+                                    order.id,
+                                    { orderId: order.id, action: 'advance' },
+                                    'Rastreio avançado'
+                                  )
+                                }
+                              >
+                                Avançar próximo passo
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="secondary"
+                                disabled={loadingId === order.id}
+                                onClick={() =>
+                                  runTrackingAction(
+                                    order.id,
+                                    {
+                                      orderId: order.id,
+                                      action: order.tracking_simulation_paused
+                                        ? 'resume'
+                                        : 'pause',
+                                    },
+                                    order.tracking_simulation_paused
+                                      ? 'Simulação retomada'
+                                      : 'Simulação pausada'
+                                  )
+                                }
+                              >
+                                {order.tracking_simulation_paused
+                                  ? 'Retomar automático'
+                                  : 'Pausar automático'}
+                              </Button>
+                            </>
+                          )}
+                        </div>
+
+                        {order.tracking_code && order.status === 'shipped' && (
+                          <form
+                            className="mt-4 grid gap-2 sm:grid-cols-[1fr_88px_auto]"
+                            onSubmit={(event) => {
+                              event.preventDefault()
+                              void runTrackingAction(
                                 order.id,
                                 {
                                   orderId: order.id,
-                                  action: order.tracking_simulation_paused
-                                    ? 'resume'
-                                    : 'pause',
+                                  action: 'set_location',
+                                  city: manualCity,
+                                  state: manualState,
                                 },
-                                order.tracking_simulation_paused
-                                  ? 'Simulação retomada'
-                                  : 'Simulação pausada'
+                                'Localização registrada'
                               )
-                            }
+                            }}
                           >
-                            {order.tracking_simulation_paused
-                              ? 'Retomar automático'
-                              : 'Pausar automático'}
-                          </Button>
-                        </>
-                      )}
-                    </div>
-
-                    {order.tracking_code && order.status === 'shipped' && (
-                      <form
-                        className="mt-4 grid gap-2 sm:grid-cols-[1fr_88px_auto]"
-                        onSubmit={(event) => {
-                          event.preventDefault()
-                          void runTrackingAction(
-                            order.id,
-                            {
-                              orderId: order.id,
-                              action: 'set_location',
-                              city: manualCity,
-                              state: manualState,
-                            },
-                            'Localização registrada'
-                          )
-                        }}
-                      >
-                        <Input
-                          value={manualCity}
-                          onChange={(e) => setManualCity(e.target.value)}
-                          placeholder="Cidade"
-                          aria-label="Cidade do rastreio"
-                          required
-                        />
-                        <Input
-                          value={manualState}
-                          onChange={(e) => setManualState(e.target.value.toUpperCase())}
-                          placeholder="UF"
-                          maxLength={2}
-                          aria-label="UF"
-                          required
-                        />
-                        <Button type="submit" disabled={loadingId === order.id}>
-                          Registrar local
-                        </Button>
-                      </form>
+                            <Input
+                              value={manualCity}
+                              onChange={(e) => setManualCity(e.target.value)}
+                              placeholder="Cidade"
+                              aria-label="Cidade do rastreio"
+                              required
+                            />
+                            <Input
+                              value={manualState}
+                              onChange={(e) =>
+                                setManualState(e.target.value.toUpperCase())
+                              }
+                              placeholder="UF"
+                              maxLength={2}
+                              aria-label="UF"
+                              required
+                            />
+                            <Button type="submit" disabled={loadingId === order.id}>
+                              Registrar local
+                            </Button>
+                          </form>
+                        )}
+                      </>
                     )}
                   </div>
 

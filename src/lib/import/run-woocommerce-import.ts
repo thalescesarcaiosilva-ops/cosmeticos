@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import {
   filterImportableImages,
+  filterNonBlockedImages,
   sourceFilenameFromUrl,
 } from '@/lib/import/image-source-policy'
 import { downloadRemoteImage } from '@/lib/import/product-image-import'
@@ -13,6 +14,10 @@ export type ImportBatchOptions = {
   adminUserId: string
   /** Reutiliza media_assets existentes com o mesmo filename de origem. */
   reuseExistingMedia?: boolean
+  /** Só cria produtos novos; não atualiza existentes (por wooId, slug ou GTIN). */
+  createOnly?: boolean
+  /** Aceita imagens de qualquer host não bloqueado (não só Época/VTEX). */
+  relaxImageHosts?: boolean
 }
 
 export type ImportItemResult = {
@@ -116,6 +121,22 @@ async function importSingleProduct(
     brandId = await ensureBrand(admin, row.brandName, brandBySlug, brandByName, batch)
   }
 
+  if (options.createOnly && row.gtin) {
+    const { data: byGtin } = await admin
+      .from('products')
+      .select('id, slug')
+      .eq('gtin', row.gtin)
+      .maybeSingle()
+    if (byGtin) {
+      return {
+        slug: row.slug,
+        name: row.name,
+        action: 'skipped',
+        message: `GTIN ${row.gtin} já existe (${byGtin.slug})`,
+      }
+    }
+  }
+
   const { data: byWooId } = await admin
     .from('products')
     .select('id, slug')
@@ -135,6 +156,16 @@ async function importSingleProduct(
     (bySlug && (bySlug.woocommerce_id == null || bySlug.woocommerce_id === row.wooId)
       ? bySlug
       : null)
+
+  if (existing && options.createOnly) {
+    return {
+      slug: row.slug,
+      name: row.name,
+      action: 'skipped',
+      message: `Já existe (${existing.slug})`,
+    }
+  }
+
   const isNew = !existing
 
   const productPayload = {
@@ -194,7 +225,9 @@ async function importSingleProduct(
 
   await syncProductRelations(productId, categoryIds, undefined)
 
-  const importableImages = filterImportableImages(row.images)
+  const importableImages = options.relaxImageHosts
+    ? filterNonBlockedImages(row.images)
+    : filterImportableImages(row.images)
   const shouldImportImages =
     importableImages.length > 0 && (isNew || options.updateImages)
 

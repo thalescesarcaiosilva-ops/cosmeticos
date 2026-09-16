@@ -57,6 +57,8 @@ type Order = {
   notes?: string | null
   tracking_code?: string | null
   carrier?: string | null
+  track7_synced_at?: string | null
+  track7_last_status?: string | null
   payment_proof_pending?: boolean | null
   created_at: string
   addresses?: OrderAddress | null
@@ -210,6 +212,11 @@ function OrderCard({ order }: { order: Order }) {
                 Rastreio: {order.tracking_code}
               </p>
             )}
+            {order.track7_last_status && (
+              <p className="mt-1 text-xs text-text-secondary">
+                Status do envio: {order.track7_last_status}
+              </p>
+            )}
           </div>
 
           <div className="text-right">
@@ -235,9 +242,13 @@ function OrderCard({ order }: { order: Order }) {
         </div>
 
         <div className="mt-5 flex flex-wrap justify-end gap-2">
-          {order.tracking_code && (
+          {(order.tracking_code || order.status === 'confirmed' || order.status === 'shipped' || order.status === 'delivered') && (
             <Link
-              href={`/paginas/rastreio?codigo=${encodeURIComponent(order.tracking_code)}`}
+              href={
+                order.tracking_code
+                  ? `/paginas/rastreio?codigo=${encodeURIComponent(order.tracking_code)}`
+                  : `/paginas/rastreio?pedido=${encodeURIComponent(order.id)}`
+              }
               className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-2.5 text-sm font-semibold text-text-primary transition-colors hover:bg-surface-muted"
             >
               <Truck className="size-4" aria-hidden />
@@ -305,27 +316,56 @@ function OrderCard({ order }: { order: Order }) {
             </button>
           )}
 
-          {(order.tracking_code || trackingEvents.length > 0) && (
+          {(order.tracking_code || trackingEvents.length > 0 || order.track7_last_status) && (
             <section>
               <h3 className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary">
                 <Truck className="size-4 text-brand" aria-hidden />
                 Caminho do pedido
               </h3>
               <div className="mt-3 rounded-xl border border-border bg-surface p-4">
-                <TrackingTimeline
-                  trackingCode={order.tracking_code}
-                  events={trackingEvents.map((event) => ({
-                    id: event.id,
-                    sequence: event.sequence,
-                    eventType: event.event_type,
-                    city: event.city,
-                    state: event.state,
-                    message: event.message,
-                    scheduledAt: event.scheduled_at,
-                    occurredAt: event.occurred_at,
-                    isManual: event.is_manual,
-                  }))}
-                />
+                {order.track7_synced_at || order.carrier === 'Track7' ? (
+                  <div className="space-y-2 text-sm">
+                    {order.tracking_code && (
+                      <p className="text-text-secondary">
+                        Código:{' '}
+                        <span className="font-mono font-semibold text-text-primary">
+                          {order.tracking_code}
+                        </span>
+                      </p>
+                    )}
+                    <p className="text-text-secondary">
+                      Status:{' '}
+                      <span className="font-medium text-text-primary">
+                        {order.track7_last_status || 'Aguardando atualização'}
+                      </span>
+                    </p>
+                    <Link
+                      href={
+                        order.tracking_code
+                          ? `/paginas/rastreio?codigo=${encodeURIComponent(order.tracking_code)}`
+                          : `/paginas/rastreio?pedido=${encodeURIComponent(order.id)}`
+                      }
+                      className="inline-flex text-sm font-semibold text-brand hover:underline"
+                    >
+                      Ver histórico completo
+                    </Link>
+                  </div>
+                ) : (
+                  <TrackingTimeline
+                    trackingCode={order.tracking_code}
+                    events={trackingEvents.map((event) => ({
+                      id: event.id,
+                      sequence: event.sequence,
+                      eventType: event.event_type,
+                      city: event.city,
+                      state: event.state,
+                      message: event.message,
+                      scheduledAt: event.scheduled_at,
+                      occurredAt: event.occurred_at,
+                      isManual: event.is_manual,
+                    }))}
+                  />
+                )}
               </div>
             </section>
           )}

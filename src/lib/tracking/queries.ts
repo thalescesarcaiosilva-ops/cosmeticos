@@ -13,7 +13,7 @@ export type PublicTrackingResult = {
   events: Array<{
     id: string
     sequence: number
-    eventType: TrackingEventRow['event_type']
+    eventType: TrackingEventRow['event_type'] | string
     city: string
     state: string
     message: string
@@ -21,6 +21,10 @@ export type PublicTrackingResult = {
     occurredAt: string | null
     isManual: boolean
   }>
+  /** local = simulação interna; track7 = API Track7 */
+  source?: 'local' | 'track7'
+  currentStatus?: string | null
+  hasEvents?: boolean
 }
 
 function mapEvents(rows: TrackingEventRow[]) {
@@ -77,6 +81,9 @@ export async function getTrackingByCode(
     destinationCity: address?.city ?? null,
     destinationState: address?.state ?? null,
     events: mapEvents((events ?? []) as TrackingEventRow[]),
+    source: 'local',
+    currentStatus: null,
+    hasEvents: (events ?? []).length > 0,
   }
 }
 

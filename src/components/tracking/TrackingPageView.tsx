@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState, useEffectEvent } from 'react'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   CalendarDays,
@@ -53,6 +54,36 @@ function formatDateTime(iso: string | null | undefined) {
 
 function resolveActiveMacroIndex(result: PublicTrackingResult): number {
   if (result.status === 'delivered' || result.deliveredAt) return 4
+
+  if (result.source === 'track7') {
+    const text = `${result.currentStatus ?? ''} ${result.status}`.toLowerCase()
+    if (text.includes('entreg') || text.includes('deliver')) return 4
+    if (text.includes('saiu') || text.includes('out for') || text.includes('em rota de entrega')) {
+      return 3
+    }
+    if (
+      text.includes('trâns') ||
+      text.includes('transito') ||
+      text.includes('trânsito') ||
+      text.includes('hub') ||
+      text.includes('centro') ||
+      text.includes('em rota')
+    ) {
+      return 2
+    }
+    if (
+      text.includes('postad') ||
+      text.includes('coleta') ||
+      text.includes('despach') ||
+      text.includes('ship') ||
+      result.shippedAt ||
+      result.trackingCode
+    ) {
+      return 1
+    }
+    return 0
+  }
+
   const types = new Set(result.events.map((event) => event.eventType))
   if (types.has('out_for_delivery')) return 3
   if (types.has('in_transit') || types.has('arrived_hub')) return 2
@@ -137,7 +168,20 @@ function TrackingResultCard({ result }: { result: PublicTrackingResult }) {
               </span>
             </p>
             <p className="mt-1 text-sm text-text-secondary">
-              Transportadora: {result.carrier || 'Batista Logística'}
+              Status:{' '}
+              <span className="font-medium text-text-primary">
+                {result.currentStatus ||
+                  (result.status === 'delivered'
+                    ? 'Entregue'
+                    : result.status === 'shipped'
+                      ? 'Em trânsito'
+                      : 'Aguardando atualização')}
+              </span>
+            </p>
+            <p className="mt-1 text-sm text-text-secondary">
+              Transportadora:{' '}
+              {result.carrier ||
+                (result.source === 'track7' ? 'Track7' : 'Batista Logística')}
             </p>
           </div>
         </div>
@@ -185,7 +229,7 @@ function TrackingResultCard({ result }: { result: PublicTrackingResult }) {
         ))}
       </ol>
 
-      {result.events.length > 0 && (
+      {result.events.length > 0 ? (
         <div className="mt-8 border-t border-border pt-6">
           <h2 className="text-sm font-semibold text-text-primary">
             Histórico de movimentações
@@ -212,13 +256,27 @@ function TrackingResultCard({ result }: { result: PublicTrackingResult }) {
               ))}
           </ol>
         </div>
+      ) : (
+        <div className="mt-8 border-t border-border pt-6">
+          <p className="text-sm text-text-secondary">
+            Ainda não há movimentações registradas para este envio.
+          </p>
+        </div>
       )}
 
-      <div className="mt-8 flex items-start gap-3 rounded-xl bg-brand/5 px-4 py-3 text-sm text-text-secondary">
-        <Info className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
+      <div className="mt-8 flex flex-col gap-3 rounded-xl bg-brand/5 px-4 py-3 text-sm text-text-secondary">
+        <div className="flex items-start gap-3">
+          <Info className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
+          <p>
+            As informações de rastreamento podem levar algumas horas para serem
+            atualizadas pela transportadora.
+          </p>
+        </div>
         <p>
-          As informações de rastreamento podem levar algumas horas para serem
-          atualizadas pela transportadora.
+          Precisa de ajuda?{' '}
+          <Link href="/paginas/fale-conosco" className="font-semibold text-brand hover:underline">
+            Fale com a loja
+          </Link>
         </p>
       </div>
     </section>
@@ -251,9 +309,12 @@ const TRUST_ITEMS = [
 export function TrackingPageView() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const initialCode = searchParams.get('codigo') ?? searchParams.get('code') ?? ''
+  const initialCode =
+    searchParams.get('codigo') ?? searchParams.get('code') ?? ''
+  const initialOrder =
+    searchParams.get('pedido') ?? searchParams.get('order') ?? ''
 
-  const [code, setCode] = useState(initialCode)
+  const [code, setCode] = useState(initialCode || initialOrder)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<PublicTrackingResult | null>(null)
@@ -261,35 +322,46 @@ export function TrackingPageView() {
   const lookup = useEffectEvent(async (value: string) => {
     const trimmed = value.trim()
     if (!trimmed) {
-      setError('Informe o código de rastreio')
+      setError('Informe um código de rastreio válido')
       setResult(null)
       return
     }
 
     setLoading(true)
     setError(null)
+
+    const uuidLike =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+        trimmed
+      )
+    const query = uuidLike
+      ? `pedido=${encodeURIComponent(trimmed)}`
+      : `codigo=${encodeURIComponent(trimmed)}`
+
     const { data, error: apiError } = await fetchApi<PublicTrackingResult>(
-      `/api/tracking?code=${encodeURIComponent(trimmed)}`
+      `/api/tracking?${query}`
     )
     setLoading(false)
 
     if (apiError || !data) {
       setResult(null)
-      setError(apiError ?? 'Código não encontrado')
+      setError(apiError ?? 'Pedido não encontrado. Confira o código ou aguarde a postagem.')
       return
     }
 
     setResult(data)
+    const urlCode = data.trackingCode || trimmed
     router.replace(
-      `${TRACKING_PATH}?codigo=${encodeURIComponent(data.trackingCode)}`
+      `${TRACKING_PATH}?codigo=${encodeURIComponent(urlCode)}`
     )
   })
 
   useEffect(() => {
-    if (initialCode.trim()) {
-      void lookup(initialCode)
+    const boot = (initialCode || initialOrder).trim()
+    if (boot) {
+      void lookup(boot)
     }
-  }, [initialCode])
+  }, [initialCode, initialOrder])
 
   return (
     <div className="pb-16">
@@ -307,10 +379,10 @@ export function TrackingPageView() {
             Rastreio
           </p>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-text-primary md:text-4xl">
-            Acompanhe seu pedido
+            Rastrear pedido
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-sm text-text-secondary md:text-base">
-            Digite o código recebido por e-mail após o despacho do pedido.
+            Digite o código de rastreio ou o ID do pedido para acompanhar o envio.
           </p>
 
           <form
@@ -326,8 +398,8 @@ export function TrackingPageView() {
             <input
               value={code}
               onChange={(event) => setCode(event.target.value.toUpperCase())}
-              placeholder="Ex.: BC482917365BR"
-              aria-label="Código de rastreio"
+              placeholder="Ex.: PQA1234567890BR"
+              aria-label="Código de rastreio ou ID do pedido"
               className="min-w-0 flex-1 border-0 bg-transparent px-3 py-3.5 font-mono text-sm tracking-wide text-text-primary outline-none placeholder:font-sans placeholder:tracking-normal placeholder:text-text-muted"
             />
             <button

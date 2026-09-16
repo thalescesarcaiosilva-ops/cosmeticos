@@ -5,9 +5,9 @@ import { buildPageMetadata } from '@/lib/seo/metadata'
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
-    title: 'Rastreio de pedido',
+    title: 'Rastrear pedido',
     description:
-      'Acompanhe o status e o caminho do seu pedido com o código de rastreio da Batista Cosméticos.',
+      'Acompanhe o status e o histórico do seu pedido com o código de rastreio ou o ID do pedido.',
     path: '/paginas/rastreio',
   })
 }

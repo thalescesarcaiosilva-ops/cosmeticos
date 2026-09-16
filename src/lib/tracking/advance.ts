@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin'
+import { isTrack7Configured } from '@/lib/track7/client'
 import { dispatchOrderTracking } from '@/lib/tracking/dispatch'
 import type { TrackingEventRow } from '@/lib/tracking/types'
 
@@ -51,7 +52,7 @@ export async function advanceDueTrackingEvents(now = new Date()): Promise<{
   const orderIds = [...new Set(dueEvents.map((event) => event.order_id))]
   const { data: orders } = await admin
     .from('orders')
-    .select('id, status, tracking_simulation_paused')
+    .select('id, status, tracking_simulation_paused, track7_synced_at, carrier')
     .in('id', orderIds)
 
   const orderMap = new Map((orders ?? []).map((order) => [order.id, order]))
@@ -62,6 +63,7 @@ export async function advanceDueTrackingEvents(now = new Date()): Promise<{
   for (const event of dueEvents) {
     const order = orderMap.get(event.order_id)
     if (!order) continue
+    if (order.track7_synced_at || order.carrier === 'Track7') continue
     if (order.tracking_simulation_paused) continue
     if (order.status === 'cancelled') continue
 
@@ -112,6 +114,12 @@ export async function dispatchEligibleOrders(now = new Date()): Promise<{
   dispatched: number
   errors: number
 }> {
+  // Com Track7 ativa, novos pedidos recebem código no pagamento confirmado.
+  // Mantém o cron só para o avanço do rastreio interno legado (BC…).
+  if (isTrack7Configured()) {
+    return { dispatched: 0, errors: 0 }
+  }
+
   const admin = createAdminClient()
   const cutoff = new Date(now.getTime() - TWO_DAYS_MS).toISOString()
 

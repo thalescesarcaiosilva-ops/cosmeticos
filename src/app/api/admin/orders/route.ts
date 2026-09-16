@@ -6,7 +6,7 @@ import { dispatchOrderTracking } from '@/lib/tracking/dispatch'
 import { orderStatusUpdateSchema } from '@/schemas/order-schema'
 
 const ORDER_COLUMNS =
-  'id, user_id, status, payment_status, payment_method, total, subtotal, shipping_price, shipping_method_name, address_id, notes, customer_name, customer_email, customer_phone, shipping_address, tracking_code, carrier, shipped_at, delivered_at, tracking_simulation_paused, payment_proof_pending, created_at, updated_at'
+  'id, user_id, status, payment_status, payment_method, total, subtotal, shipping_price, shipping_method_name, address_id, notes, customer_name, customer_email, customer_phone, shipping_address, tracking_code, carrier, shipped_at, delivered_at, tracking_simulation_paused, track7_synced_at, track7_last_status, payment_proof_pending, created_at, updated_at'
 
 const ORDER_ITEM_COLUMNS =
   'id, product_id, quantity, unit_price, subtotal, products(name, slug)'
@@ -57,7 +57,7 @@ export async function GET(request: Request) {
     const legacy = await admin
       .from('orders')
       .select(
-        `id, user_id, status, payment_status, payment_method, total, subtotal, shipping_price, shipping_method_name, address_id, notes, customer_name, customer_email, customer_phone, shipping_address, tracking_code, carrier, shipped_at, delivered_at, tracking_simulation_paused, created_at, updated_at, order_items(${ORDER_ITEM_COLUMNS})`
+        `id, user_id, status, payment_status, payment_method, total, subtotal, shipping_price, shipping_method_name, address_id, notes, customer_name, customer_email, customer_phone, shipping_address, tracking_code, carrier, shipped_at, delivered_at, tracking_simulation_paused, track7_synced_at, track7_last_status, created_at, updated_at, order_items(${ORDER_ITEM_COLUMNS})`
       )
       .order('created_at', { ascending: false })
 
