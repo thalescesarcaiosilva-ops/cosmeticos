@@ -178,11 +178,6 @@ function TrackingResultCard({ result }: { result: PublicTrackingResult }) {
                       : 'Aguardando atualização')}
               </span>
             </p>
-            <p className="mt-1 text-sm text-text-secondary">
-              Transportadora:{' '}
-              {result.carrier ||
-                (result.source === 'track7' ? 'Track7' : 'Batista Logística')}
-            </p>
           </div>
         </div>
         {shippedLabel && (
