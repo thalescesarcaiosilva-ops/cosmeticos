@@ -70,8 +70,6 @@ function readAddress(value: unknown): Track7OrderPayload['address'] | null {
 type OrderRow = {
   id: string
   total: number | string | null
-  shipping_price?: number | string | null
-  discount_amount?: number | string | null
   customer_name: string | null
   customer_email: string | null
   customer_phone: string | null
@@ -86,26 +84,9 @@ type OrderRow = {
   }> | null
 }
 
-function toCents(value: number): number {
-  return Math.round(Number(value) * 100)
-}
-
-function fromCents(cents: number): number {
-  return cents / 100
-}
-
-function lineSumCents(
-  products: Array<{ price: number; quantity: number }>
-): number {
-  return products.reduce(
-    (sum, item) => sum + toCents(item.price) * item.quantity,
-    0
-  )
-}
-
 /**
  * Track7 exige: total === soma(price × quantity).
- * Inclui frete e aplica desconto/ajuste para refletir o total pago na loja.
+ * Envia só os produtos da loja (sem frete/desconto como linha).
  */
 function buildProductsAndTotal(order: OrderRow): {
   products: Track7OrderPayload['products']
@@ -121,55 +102,12 @@ function buildProductsAndTotal(order: OrderRow): {
 
   if (!products.length) return null
 
-  const shippingCents = toCents(Number(order.shipping_price ?? 0))
-  if (shippingCents > 0) {
-    products.push({
-      name: 'Frete',
-      quantity: 1,
-      price: fromCents(shippingCents),
-    })
-  }
+  const totalCents = products.reduce(
+    (sum, item) => sum + Math.round(item.price * 100) * item.quantity,
+    0
+  )
 
-  let sumCents = lineSumCents(products)
-  const orderTotalCents = toCents(Number(order.total ?? fromCents(sumCents)))
-  let diffCents = orderTotalCents - sumCents
-
-  if (diffCents > 0) {
-    products.push({
-      name: 'Taxas',
-      quantity: 1,
-      price: fromCents(diffCents),
-    })
-    sumCents += diffCents
-  } else if (diffCents < 0) {
-    // Desconto: reduz o preço unitário dos produtos (Track7 não aceita preço negativo).
-    let remaining = -diffCents
-    for (const item of products) {
-      if (remaining <= 0) break
-      if (item.name === 'Frete' || item.name === 'Taxas') continue
-      const lineCents = toCents(item.price) * item.quantity
-      if (lineCents <= 0) continue
-      const take = Math.min(lineCents, remaining)
-      const newLineCents = lineCents - take
-      item.price = money(fromCents(newLineCents) / item.quantity)
-      remaining -= take
-    }
-    sumCents = lineSumCents(products)
-    // Resíduo de arredondamento: ajusta o 1º produto
-    diffCents = orderTotalCents - sumCents
-    if (diffCents !== 0 && products[0]) {
-      const first = products[0]
-      const firstLine = toCents(first.price) * first.quantity + diffCents
-      if (firstLine >= 0) {
-        first.price = money(fromCents(firstLine) / first.quantity)
-        sumCents = lineSumCents(products)
-      }
-    }
-  }
-
-  // Fonte da verdade para a Track7: soma exata das linhas
-  const total = fromCents(lineSumCents(products))
-  return { products, total }
+  return { products, total: totalCents / 100 }
 }
 
 function buildPayload(order: OrderRow): Track7OrderPayload | null {
@@ -248,8 +186,7 @@ export async function syncOrderToTrack7(
     const { data: order, error } = await admin
       .from('orders')
       .select(
-        `id, total, shipping_price, discount_amount,
-         customer_name, customer_email, customer_phone, customer_document,
+        `id, total, customer_name, customer_email, customer_phone, customer_document,
          shipping_address, tracking_code, track7_synced_at,
          order_items(quantity, unit_price, products(name))`
       )
