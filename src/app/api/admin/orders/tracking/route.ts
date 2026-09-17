@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { jsonError, jsonSuccess } from '@/lib/api/response'
 import { requireAdminUser } from '@/lib/auth/require-admin'
+import { syncOrderToTrack7 } from '@/lib/track7/sync-order'
 import {
   advanceNextTrackingEvent,
   registerManualTrackingLocation,
@@ -76,6 +77,29 @@ export async function POST(request: Request) {
       return jsonError(result.reason ?? 'Não foi possível despachar', 400)
     }
     return jsonSuccess(result, 'Pedido despachado e código gerado')
+  }
+
+  if (payload.action === 'sync_track7') {
+    const result = await syncOrderToTrack7(payload.orderId, {
+      force: Boolean(payload.force),
+    })
+    if (!result.ok) {
+      const message =
+        result.reason === 'not_configured'
+          ? 'TRACK7_API_KEY não configurada neste ambiente'
+          : result.reason === 'incomplete_payload'
+            ? 'Dados do pedido incompletos para a Track7'
+            : result.reason === 'validation'
+              ? 'Track7 rejeitou os dados do pedido'
+              : `Falha no sync Track7 (${result.reason ?? 'erro'})`
+      return jsonError(message, 400, result.reason)
+    }
+    return jsonSuccess(
+      result,
+      result.trackingCode
+        ? 'Pedido enviado à Track7 com código'
+        : 'Pedido enviado à Track7 (aguardando código no painel)'
+    )
   }
 
   if (payload.action === 'advance') {

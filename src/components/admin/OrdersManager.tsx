@@ -286,6 +286,35 @@ export function OrdersManager() {
             </option>
           ))}
         </select>
+        <Button
+          type="button"
+          variant="secondary"
+          disabled={Boolean(loadingId)}
+          onClick={async () => {
+            setLoadingId('track7-bulk')
+            setMessage(null)
+            setError(null)
+            const { error: apiError, message: okMessage, data } = await fetchApi<{
+              ok: number
+              fail: number
+            }>('/api/admin/orders/track7-sync', {
+              method: 'POST',
+              body: JSON.stringify({ limit: 30 }),
+            })
+            setLoadingId(null)
+            if (apiError) {
+              setError(apiError)
+              return
+            }
+            setMessage(
+              okMessage ??
+                `Track7: ${data?.ok ?? 0} enviados, ${data?.fail ?? 0} falha(s)`
+            )
+            load()
+          }}
+        >
+          {loadingId === 'track7-bulk' ? 'Enviando…' : 'Sincronizar Track7 (lote)'}
+        </Button>
         <select
           value={proofFilter}
           onChange={(e) => setProofFilter(e.target.value as 'all' | 'with_proof')}
@@ -510,11 +539,16 @@ export function OrdersManager() {
                       )}
                     </div>
 
-                    {(order.track7_synced_at || order.carrier === 'Track7') && (
+                    {(order.track7_synced_at ||
+                      order.carrier === 'Track7' ||
+                      order.track7_last_status?.startsWith('Erro:')) && (
                       <div className="mt-3 space-y-1 text-sm text-text-secondary">
-                        <p>
-                          Origem: <span className="font-medium text-text-primary">Track7</span>
-                        </p>
+                        {order.track7_synced_at || order.carrier === 'Track7' ? (
+                          <p>
+                            Origem:{' '}
+                            <span className="font-medium text-text-primary">Track7</span>
+                          </p>
+                        ) : null}
                         {order.track7_synced_at && (
                           <p>
                             Sync:{' '}
@@ -523,10 +557,65 @@ export function OrdersManager() {
                         )}
                         <p>
                           Status:{' '}
-                          <span className="font-medium text-text-primary">
+                          <span
+                            className={`font-medium ${
+                              order.track7_last_status?.startsWith('Erro:')
+                                ? 'text-badge-discount'
+                                : 'text-text-primary'
+                            }`}
+                          >
                             {order.track7_last_status || 'Aguardando atualização'}
                           </span>
                         </p>
+                      </div>
+                    )}
+
+                    {!order.track7_synced_at &&
+                      !order.tracking_code &&
+                      (order.status === 'confirmed' ||
+                        order.status === 'shipped' ||
+                        order.payment_status === 'paid') && (
+                        <div className="mt-4">
+                          <Button
+                            type="button"
+                            disabled={loadingId === order.id}
+                            onClick={() =>
+                              runTrackingAction(
+                                order.id,
+                                {
+                                  orderId: order.id,
+                                  action: 'sync_track7',
+                                  force: true,
+                                },
+                                'Pedido enviado à Track7'
+                              )
+                            }
+                          >
+                            Enviar para Track7
+                          </Button>
+                        </div>
+                      )}
+
+                    {order.track7_synced_at && !order.tracking_code && (
+                      <div className="mt-4">
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          disabled={loadingId === order.id}
+                          onClick={() =>
+                            runTrackingAction(
+                              order.id,
+                              {
+                                orderId: order.id,
+                                action: 'sync_track7',
+                                force: true,
+                              },
+                              'Track7 atualizado'
+                            )
+                          }
+                        >
+                          Atualizar Track7
+                        </Button>
                       </div>
                     )}
 

@@ -37,6 +37,11 @@ export const adminTrackingActionSchema = z.discriminatedUnion('action', [
   }),
   z.object({
     orderId: z.string().uuid(),
+    action: z.literal('sync_track7'),
+    force: z.boolean().optional(),
+  }),
+  z.object({
+    orderId: z.string().uuid(),
     action: z.literal('set_location'),
     city: z.string().trim().min(2).max(100),
     state: z

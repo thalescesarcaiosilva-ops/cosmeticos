@@ -249,6 +249,11 @@ async function track7Fetch(
 
     if (!response.ok) {
       const mapped = messageForStatus(response.status)
+      const bodyHint =
+        typeof json === 'object' && json
+          ? JSON.stringify(json).slice(0, 400)
+          : (text || '').slice(0, 200)
+      console.error('[track7] HTTP', response.status, path, bodyHint)
       throw new Track7Error(mapped.message, response.status, mapped.code)
     }
 

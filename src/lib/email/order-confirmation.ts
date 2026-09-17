@@ -250,7 +250,8 @@ function buildHtml(input: OrderConfirmationEmailInput): string {
             <tr>
               <td style="padding:16px 28px 28px 28px;text-align:center;">
                 <p style="margin:0 0 8px 0;font-size:13px;line-height:1.6;color:${BRAND.muted};">
-                  Você receberá o código de rastreio por e-mail assim que o pedido for enviado.
+                  Você pode acompanhar o envio em /paginas/rastreio com o código
+                  ou o número do pedido, assim que a postagem for registrada.
                 </p>
                 <p style="margin:0;font-size:12px;line-height:1.6;color:#9ca3af;">
                   Dúvidas? Fale com a gente em
@@ -290,9 +291,9 @@ function buildText(input: OrderConfirmationEmailInput): string {
   }
 
   lines.push(
-    'Você receberá o código de rastreio por e-mail assim que o pedido for enviado.',
+    'Acompanhe o envio em /paginas/rastreio com o código ou o número do pedido.',
     '',
-    'Acompanhe em: https://www.batistacosmeticos.com.br/conta/pedidos',
+    'Pedidos: https://www.batistacosmeticos.com.br/conta/pedidos',
     'Atendimento: atendimento@batistacosmeticos.com.br'
   )
 
