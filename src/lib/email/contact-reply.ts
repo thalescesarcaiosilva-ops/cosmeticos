@@ -36,8 +36,15 @@ export async function sendContactReplyEmail(
     ? input.subject
     : `Re: ${input.subject}`
 
-  const html = `
-    <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#111;">
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(subject)}</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f4f4f5;">
+    <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#111;max-width:600px;margin:0 auto;padding:24px;">
       <p>Olá ${escapeHtml(input.toName)},</p>
       <div style="white-space:pre-wrap;">${escapeHtml(input.replyBody)}</div>
       <hr style="border:none;border-top:1px solid #e5e5e5;margin:24px 0;" />
@@ -47,7 +54,8 @@ export async function sendContactReplyEmail(
       </blockquote>
       <p style="margin-top:24px;color:#666;font-size:12px;">Batista Cosméticos</p>
     </div>
-  `
+  </body>
+</html>`
 
   const text = `Olá ${input.toName},\n\n${input.replyBody}\n\n---\nSua mensagem original:\n${input.originalMessage}\n\nBatista Cosméticos`
 

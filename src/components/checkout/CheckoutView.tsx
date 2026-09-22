@@ -20,8 +20,20 @@ import { fetchApi } from '@/lib/api/fetch-api'
 import {
   guestOrderHeaders,
   guestOrderQuery,
+  readGuestOrderToken,
   storeGuestOrderToken,
 } from '@/lib/checkout/guest-access'
+import {
+  clearActivePix,
+  isLocallyExpired,
+  listPendingOrders,
+  pendingOrderUrl,
+  pushPendingOrder,
+  readActivePix,
+  removePendingOrder,
+  saveActivePix,
+  type PendingOrderEntry,
+} from '@/lib/checkout/pix-session-storage'
 import {
   formatCepInput,
   formatCpfInput,
@@ -130,6 +142,9 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     expiresAt: string | null
   } | null>(null)
   const [pixPolling, setPixPolling] = useState(false)
+  const [pixCancelled, setPixCancelled] = useState(false)
+  const [restoringPix, setRestoringPix] = useState(true)
+  const [pendingOrders, setPendingOrders] = useState<PendingOrderEntry[]>([])
 
   const availableLines = useMemo(
     () => cart?.lines.filter((line) => line.available && line.quantity > 0) ?? [],
@@ -199,6 +214,84 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     loadPaymentConfig()
     // Acorda o provedor de Pix enquanto o cliente preenche os dados.
     fetchApi('/api/checkout/warmup', { method: 'POST' })
+  }, [])
+
+  // Restaura um Pix em andamento (ex.: após reload) sem confiar apenas no
+  // localStorage — sempre revalida com o servidor antes de exibir algo.
+  useEffect(() => {
+    let active = true
+
+    async function restore() {
+      const stored = readActivePix()
+      if (!stored) {
+        setPendingOrders(listPendingOrders())
+        setRestoringPix(false)
+        return
+      }
+
+      if (stored.guestToken) {
+        storeGuestOrderToken(stored.orderId, stored.guestToken)
+      }
+
+      if (isLocallyExpired(stored.expiresAt)) {
+        clearActivePix()
+        if (active) {
+          setPendingOrders(listPendingOrders())
+          setRestoringPix(false)
+        }
+        return
+      }
+
+      const { data } = await fetchApi<{ status: string; orderStatus?: string | null }>(
+        `/api/checkout/orders/${stored.orderId}/payment-status${guestOrderQuery(stored.orderId)}`,
+        { headers: guestOrderHeaders(stored.orderId) }
+      )
+
+      if (!active) return
+
+      if (!data) {
+        // Não deu para revalidar (rede etc.) — não exibe um estado não confirmado.
+        clearActivePix()
+        setPendingOrders(listPendingOrders())
+        setRestoringPix(false)
+        return
+      }
+
+      if (data.status === 'paid') {
+        clearActivePix()
+        clearCart()
+        router.replace(`/pedido/${stored.orderId}/obrigado${guestOrderQuery(stored.orderId)}`)
+        return
+      }
+
+      if (data.orderStatus === 'cancelled') {
+        clearActivePix()
+        setSubmitError(
+          'Seu pagamento Pix anterior expirou ou foi cancelado. Você pode gerar um novo agora.'
+        )
+        setPendingOrders(listPendingOrders())
+        setRestoringPix(false)
+        return
+      }
+
+      setPixResult({
+        orderId: stored.orderId,
+        total: stored.total,
+        discountAmount: stored.discountAmount,
+        qrCode: stored.qrCode,
+        qrImage: stored.qrImage,
+        expiresAt: stored.expiresAt,
+      })
+      setPendingOrders(listPendingOrders())
+      setRestoringPix(false)
+    }
+
+    restore()
+
+    return () => {
+      active = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const loadShipping = useCallback(
@@ -323,19 +416,26 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     }
   }
 
-  const pollPaymentStatus = useCallback(async (orderId: string): Promise<boolean> => {
-    const { data } = await fetchApi<{ status: string }>(
-      `/api/checkout/orders/${orderId}/payment-status${guestOrderQuery(orderId)}`,
-      { headers: guestOrderHeaders(orderId) }
-    )
-    return data?.status === 'paid'
-  }, [])
+  const pollPaymentStatus = useCallback(
+    async (orderId: string): Promise<{ paid: boolean; cancelled: boolean }> => {
+      const { data } = await fetchApi<{ status: string; orderStatus?: string | null }>(
+        `/api/checkout/orders/${orderId}/payment-status${guestOrderQuery(orderId)}`,
+        { headers: guestOrderHeaders(orderId) }
+      )
+      return {
+        paid: data?.status === 'paid',
+        cancelled: data?.orderStatus === 'cancelled',
+      }
+    },
+    []
+  )
 
   useEffect(() => {
-    if (!pixResult?.orderId) return
+    if (!pixResult?.orderId || restoringPix) return
 
     let active = true
     setPixPolling(true)
+    setPixCancelled(false)
     const startedAt = Date.now()
     const MAX_POLL_MS = 10 * 60 * 1000
     let delay = 4000
@@ -347,12 +447,19 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
         setPixPolling(false)
         return
       }
-      const paid = await pollPaymentStatus(pixResult!.orderId)
+      const result = await pollPaymentStatus(pixResult!.orderId)
       if (!active) return
-      if (paid) {
+      if (result.paid) {
+        clearActivePix()
         clearCart()
         setPixPolling(false)
         router.push(`/pedido/${pixResult!.orderId}/obrigado${guestOrderQuery(pixResult!.orderId)}`)
+        return
+      }
+      if (result.cancelled) {
+        clearActivePix()
+        setPixPolling(false)
+        setPixCancelled(true)
         return
       }
       delay = Math.min(delay + 1000, 15000)
@@ -366,7 +473,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       if (timeoutId) clearTimeout(timeoutId)
       setPixPolling(false)
     }
-  }, [pixResult, pollPaymentStatus, clearCart, router])
+  }, [pixResult, restoringPix, pollPaymentStatus, clearCart, router])
 
   async function handlePixPayment() {
     setSubmitError(null)
@@ -409,6 +516,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       storeGuestOrderToken(data.orderId, data.guestAccessToken)
     }
 
+    setPixCancelled(false)
     setPixResult({
       orderId: data.orderId,
       total: data.total,
@@ -417,6 +525,45 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       qrImage: data.qrImage,
       expiresAt: data.expiresAt,
     })
+    saveActivePix({
+      orderId: data.orderId,
+      guestToken: data.guestAccessToken ?? null,
+      total: data.total,
+      discountAmount: data.discountAmount,
+      qrCode: data.qrCode,
+      qrImage: data.qrImage,
+      expiresAt: data.expiresAt,
+      createdAt: new Date().toISOString(),
+    })
+  }
+
+  /**
+   * Deixa o Pix atual como está (segue válido e pagável pelo link salvo)
+   * e libera a tela de checkout para um pedido novo — ex.: o cliente quer
+   * comprar mais itens ou fazer um pedido diferente sem perder o pagamento
+   * anterior.
+   */
+  function handleStartNewOrder() {
+    if (pixResult) {
+      pushPendingOrder({
+        orderId: pixResult.orderId,
+        guestToken: readGuestOrderToken(pixResult.orderId),
+        total: pixResult.total,
+        expiresAt: pixResult.expiresAt,
+        createdAt: new Date().toISOString(),
+      })
+    }
+    clearActivePix()
+    setPixResult(null)
+    setPixCancelled(false)
+    setPixPolling(false)
+    setPendingOrders(listPendingOrders())
+    setSubmitError(null)
+  }
+
+  function handleDismissPendingOrder(orderId: string) {
+    removePendingOrder(orderId)
+    setPendingOrders(listPendingOrders())
   }
 
   async function handleFinalizeOrder() {
@@ -489,6 +636,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     finalizeDisabled:
       cartLoading ||
       submitting ||
+      restoringPix ||
       availableLines.length === 0 ||
       paymentMethod === 'card' ||
       paymentConfig?.pixEnabled === false,
@@ -517,6 +665,12 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
       <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-6 md:py-8">
         <CheckoutStepper />
+
+        {restoringPix && (
+          <div className="mt-6">
+            <Alert type="info">Verificando se há um pagamento em andamento...</Alert>
+          </div>
+        )}
 
         {(cartError || submitError) && (
           <div className="mt-6 space-y-2">
@@ -837,19 +991,69 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                     qrImage={pixResult.qrImage}
                     expiresAt={pixResult.expiresAt}
                     polling={pixPolling}
+                    cancelled={pixCancelled}
+                    onStartNewOrder={handleStartNewOrder}
                     proofSource="checkout"
                     useGuestAccess
                     onRefresh={async () => {
-                      const paid = await pollPaymentStatus(pixResult.orderId)
-                      if (paid) {
+                      const result = await pollPaymentStatus(pixResult.orderId)
+                      if (result.paid) {
+                        clearActivePix()
                         clearCart()
                         router.push(
                           `/pedido/${pixResult.orderId}/obrigado${guestOrderQuery(pixResult.orderId)}`
                         )
+                        return true
                       }
-                      return paid
+                      if (result.cancelled) {
+                        clearActivePix()
+                        setPixCancelled(true)
+                      }
+                      return false
                     }}
                   />
+                )}
+
+                {!pixResult && pendingOrders.length > 0 && (
+                  <div className="space-y-2 rounded-md border border-border bg-surface-muted/30 p-4">
+                    <p className="text-sm font-semibold text-text-primary">
+                      Pagamento(s) pendente(s)
+                    </p>
+                    <p className="text-xs text-text-secondary">
+                      Você ainda pode concluir estes pedidos — eles continuam válidos.
+                    </p>
+                    <ul className="space-y-2">
+                      {pendingOrders.map((entry) => (
+                        <li
+                          key={entry.orderId}
+                          className="flex items-center justify-between gap-3 rounded-md border border-border bg-surface px-3 py-2"
+                        >
+                          <div>
+                            <p className="text-sm font-medium text-text-primary">
+                              {formatCurrency(entry.total)}
+                            </p>
+                            <p className="text-xs text-text-muted">Pedido #{entry.orderId.slice(0, 8)}</p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Link
+                              href={pendingOrderUrl(entry)}
+                              className="text-xs font-semibold text-brand underline-offset-2 hover:underline"
+                            >
+                              Pagar agora
+                            </Link>
+                            <button
+                              type="button"
+                              onClick={() => handleDismissPendingOrder(entry.orderId)}
+                              className="text-xs text-text-muted hover:text-text-secondary"
+                              aria-label="Dispensar"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
 
               </div>

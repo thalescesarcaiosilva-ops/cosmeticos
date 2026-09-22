@@ -20,6 +20,14 @@ type CheckoutPixPanelProps = {
   onRefresh?: () => Promise<boolean> | boolean | void
   proofSource?: PaymentProofSource
   useGuestAccess?: boolean
+  /** Pix expirado/cancelado no gateway — substitui o QR por uma mensagem. */
+  cancelled?: boolean
+  /**
+   * Permite ao cliente começar um pedido novo sem afetar este pagamento:
+   * o Pix atual continua válido e pagável (ex.: pelo histórico de pedidos
+   * pendentes), enquanto a loja libera a tela para um pedido diferente.
+   */
+  onStartNewOrder?: () => void
 }
 
 export function CheckoutPixPanel({
@@ -33,6 +41,8 @@ export function CheckoutPixPanel({
   onRefresh,
   proofSource = 'checkout',
   useGuestAccess = true,
+  cancelled = false,
+  onStartNewOrder,
 }: CheckoutPixPanelProps) {
   const [copied, setCopied] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
@@ -99,6 +109,26 @@ export function CheckoutPixPanel({
         timeStyle: 'short',
       })
     : null
+
+  if (cancelled) {
+    return (
+      <div className="space-y-4 rounded-md border border-border bg-surface-muted/40 p-4">
+        <div>
+          <p className="text-sm font-semibold text-text-primary">
+            Este Pix expirou ou foi cancelado
+          </p>
+          <p className="mt-1 text-sm text-text-secondary">
+            O código copia-e-cola anterior não vale mais. Gere um novo pagamento para continuar.
+          </p>
+        </div>
+        {onStartNewOrder && (
+          <Button type="button" className="w-full" onClick={onStartNewOrder}>
+            Gerar novo pagamento
+          </Button>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-4 rounded-md border border-brand/30 bg-brand/5 p-4">
@@ -188,6 +218,16 @@ export function CheckoutPixPanel({
           className="w-full text-center text-xs font-medium text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
         >
           Já paguei e não confirmou? Enviar comprovante
+        </button>
+      )}
+
+      {onStartNewOrder && (
+        <button
+          type="button"
+          onClick={onStartNewOrder}
+          className="w-full text-center text-xs font-medium text-text-secondary underline-offset-2 hover:text-text-primary hover:underline"
+        >
+          Quero fazer outro pedido (este Pix continua válido)
         </button>
       )}
     </div>

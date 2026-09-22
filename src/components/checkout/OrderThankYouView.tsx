@@ -239,6 +239,15 @@ export function OrderThankYouView({
           </div>
         )}
 
+        {order.status === 'cancelled' && (
+          <div className="mt-6">
+            <Alert type="error">
+              Este pagamento foi cancelado ou expirou. Você pode voltar à loja e fazer um novo
+              pedido a qualquer momento.
+            </Alert>
+          </div>
+        )}
+
         {isPending && !isPixPending && (
           <div className="mt-6 space-y-3">
             <Alert type="info">

@@ -87,6 +87,86 @@ async function attachPixTransactionToOrder(params: {
   }
 }
 
+function lineSignature(lines: Array<{ productId: string; quantity: number }>): string {
+  return lines
+    .map((l) => `${l.productId}:${l.quantity}`)
+    .sort()
+    .join('|')
+}
+
+/**
+ * Reaproveita um pedido Pix pendente e ainda válido, do mesmo cliente,
+ * com o mesmo carrinho — evita duplicar ao reenviar o mesmo pedido
+ * (double-click, reload antes de restaurar o estado local, etc.).
+ *
+ * Não bloqueia pedidos novos/diferentes: só reaproveita quando itens,
+ * frete e e-mail coincidem exatamente com um pedido recente ainda pagável.
+ */
+async function findReusablePendingOrder(params: {
+  customerEmail: string
+  shippingMethodId: string
+  lines: Array<{ productId: string; quantity: number }>
+}): Promise<{
+  orderId: string
+  guestAccessToken: string | null
+  total: number
+  discountAmount: number
+  qrCode: string
+  expiresAt: string
+} | null> {
+  const email = params.customerEmail.trim().toLowerCase()
+  if (!email) return null
+
+  const admin = createAdminClient()
+  const windowStart = new Date(Date.now() - 30 * 60 * 1000).toISOString()
+  const nowIso = new Date().toISOString()
+
+  const { data: candidates } = await admin
+    .from('orders')
+    .select(
+      `id, total, discount_amount, guest_access_token, pix_qr_code, pix_expiration,
+       shipping_method_id, created_at,
+       order_items(product_id, quantity)`
+    )
+    .ilike('customer_email', email)
+    .eq('status', 'pending')
+    .eq('payment_method', 'pix')
+    .gte('created_at', windowStart)
+    .gt('pix_expiration', nowIso)
+    .order('created_at', { ascending: false })
+    .limit(5)
+
+  if (!candidates?.length) return null
+
+  const targetSignature = lineSignature(params.lines)
+
+  for (const candidate of candidates) {
+    if (candidate.shipping_method_id !== params.shippingMethodId) continue
+    if (!candidate.pix_qr_code || !candidate.pix_expiration) continue
+
+    const rows = Array.isArray(candidate.order_items) ? candidate.order_items : []
+    const candidateSignature = lineSignature(
+      rows.map((row) => ({
+        productId: String((row as { product_id: string }).product_id),
+        quantity: Number((row as { quantity: number }).quantity ?? 0),
+      }))
+    )
+
+    if (candidateSignature !== targetSignature) continue
+
+    return {
+      orderId: candidate.id,
+      guestAccessToken: candidate.guest_access_token,
+      total: Number(candidate.total),
+      discountAmount: Number(candidate.discount_amount ?? 0),
+      qrCode: candidate.pix_qr_code,
+      expiresAt: candidate.pix_expiration,
+    }
+  }
+
+  return null
+}
+
 async function prepareCheckoutCart(
   items: Array<{ product_id: string; quantity: number }>,
   bundlePairs?: CheckoutInput['bundlePairs']
@@ -114,6 +194,31 @@ export async function processPixCheckout(params: CheckoutInput) {
   }
 
   const { cart, availableLines } = await prepareCheckoutCart(params.items, params.bundlePairs)
+
+  // Evita duplicar pedido/pagamento se o mesmo carrinho já tem um Pix
+  // pendente e ainda válido (double-click, retry antes do estado local
+  // ser restaurado, etc.). Pedidos com itens/frete diferentes não são
+  // afetados — o cliente sempre pode fazer um pedido novo.
+  const reusable = await findReusablePendingOrder({
+    customerEmail: params.customer.email,
+    shippingMethodId: params.shippingMethodId,
+    lines: availableLines.map((line) => ({ productId: line.productId, quantity: line.quantity })),
+  })
+
+  if (reusable) {
+    const qrImage = await buildPixQrImage(reusable.qrCode)
+    return {
+      orderId: reusable.orderId,
+      guestAccessToken: reusable.guestAccessToken,
+      total: reusable.total,
+      discountAmount: reusable.discountAmount,
+      transactionId: null,
+      status: 'waiting_payment' as const,
+      qrCode: reusable.qrCode,
+      qrImage,
+      expiresAt: reusable.expiresAt,
+    }
+  }
 
   const order = await createCheckoutOrder({
     shippingMethodId: params.shippingMethodId,
