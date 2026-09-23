@@ -157,10 +157,7 @@ export function ProductBuyTogetherSection({
     window.setTimeout(() => setAdded(false), 2500)
   }
 
-  const brandHint = primaryProduct.brandName?.trim()
-  const subtitle = brandHint
-    ? `Combine ${brandHint} com outro produto.`
-    : settings.subtitleFallback
+  const subtitle = `Compre junto e ganhe ${bundle.discountPercent}% de desconto na sua compra`
 
   const cssVars = buildBuyTogetherCssVars(settings.css)
   const customCss = sanitizeBuyTogetherCustomCss(settings.css.customCss)
@@ -194,13 +191,10 @@ export function ProductBuyTogetherSection({
             {settings.title}
           </h2>
           <p
-            className={`bt-subtitle mt-0.5 leading-snug text-text-secondary ${compact ? 'text-[12px]' : 'text-sm'}`}
+            className={`bt-subtitle mt-0.5 leading-snug font-semibold text-text-secondary ${compact ? 'text-[12px]' : 'text-sm'}`}
             style={{ color: cssVars['--bt-subtitle'] || undefined }}
           >
             {subtitle}
-          </p>
-          <p className="mt-1 text-[12px] font-semibold text-text-primary">
-            Compre junto e ganhe {bundle.discountPercent}% de desconto na sua compra
           </p>
         </div>
         {bundle.discountPercent > 0 && (
@@ -240,14 +234,13 @@ export function ProductBuyTogetherSection({
             href={`/produto/${bundle.companion.slug}`}
             compact={compact}
             caption="Sugestão"
-            badgeLabel={bundle.companionIsBestSeller ? 'Mais vendido' : null}
           />
         </div>
 
         <div className={`border-t border-dashed border-border ${compact ? 'mt-3 pt-3' : 'mt-4 pt-4'}`}>
           <div className="flex items-baseline justify-between gap-2 text-[12px] text-text-secondary">
             <span>Comprando separado</span>
-            <span className="text-text-muted line-through tabular-nums">
+            <span className="text-[11px] text-text-muted tabular-nums">
               {formatCurrency(originalTotal)}
             </span>
           </div>

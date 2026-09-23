@@ -15,7 +15,7 @@ export function TopBar({ storeName, policyLinks, socialLinks }: TopBarProps) {
   return (
     <div className="bg-brand text-[11px] font-semibold text-white">
       {/* Mobile: frete no centro + redes à direita */}
-      <div className="relative mx-auto flex max-w-[1300px] items-center justify-end px-4 py-1 md:hidden">
+      <div className="relative mx-auto flex max-w-[1300px] items-center justify-end px-4 py-2 md:hidden">
         <p className="absolute left-1/2 max-w-[70%] -translate-x-1/2 truncate text-center whitespace-nowrap">
           {FREE_SHIPPING_LABEL}
         </p>
@@ -36,7 +36,7 @@ export function TopBar({ storeName, policyLinks, socialLinks }: TopBarProps) {
       </div>
 
       {/* Desktop: conheça mais + políticas | frete | redes */}
-      <div className="mx-auto hidden max-w-[1300px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-6 py-1 md:grid">
+      <div className="mx-auto hidden max-w-[1300px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-6 py-2 md:grid">
         <div className="flex min-w-0 items-center gap-2 overflow-hidden">
           {storeName.trim() && (
             <span className="hidden shrink-0 lg:inline">

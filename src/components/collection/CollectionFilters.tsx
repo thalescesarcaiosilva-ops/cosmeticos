@@ -14,6 +14,8 @@ type CollectionFiltersProps = {
   className?: string
   /** Em páginas de marca o filtro de marca não faz sentido. */
   hideBrandFilter?: boolean
+  /** No modal mobile, exibe Marca e Categoria lado a lado (mais compacto). */
+  sideBySideFilters?: boolean
 }
 
 type SortOption = {
@@ -36,15 +38,17 @@ function FilterSection({
   title,
   defaultOpen = false,
   children,
+  noBorder = false,
 }: {
   title: string
   defaultOpen?: boolean
   children: React.ReactNode
+  noBorder?: boolean
 }) {
   const [open, setOpen] = useState(defaultOpen)
 
   return (
-    <div className="border-b border-border last:border-b-0">
+    <div className={noBorder ? '' : 'border-b border-border last:border-b-0'}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -103,6 +107,7 @@ export function CollectionFilters({
   meta,
   className = '',
   hideBrandFilter = false,
+  sideBySideFilters = false,
 }: CollectionFiltersProps) {
   const router = useRouter()
   const pathname = usePathname()
@@ -221,20 +226,42 @@ export function CollectionFilters({
         </div>
       </div>
 
-      {!hideBrandFilter && meta.brands.length > 0 && (
-        <FilterSection title="Marca" defaultOpen>
-          <CheckboxList items={meta.brands} selected={selectedBrands} onToggle={toggleBrand} />
-        </FilterSection>
-      )}
+      {sideBySideFilters ? (
+        <div className="grid grid-cols-2 gap-4 border-b border-border pb-1">
+          {!hideBrandFilter && meta.brands.length > 0 && (
+            <FilterSection title="Marca" defaultOpen noBorder>
+              <CheckboxList items={meta.brands} selected={selectedBrands} onToggle={toggleBrand} />
+            </FilterSection>
+          )}
 
-      {meta.categories.length > 0 && (
-        <FilterSection title="Categoria" defaultOpen={hideBrandFilter}>
-          <CheckboxList
-            items={meta.categories}
-            selected={selectedCategories}
-            onToggle={toggleCategory}
-          />
-        </FilterSection>
+          {meta.categories.length > 0 && (
+            <FilterSection title="Categoria" defaultOpen noBorder>
+              <CheckboxList
+                items={meta.categories}
+                selected={selectedCategories}
+                onToggle={toggleCategory}
+              />
+            </FilterSection>
+          )}
+        </div>
+      ) : (
+        <>
+          {!hideBrandFilter && meta.brands.length > 0 && (
+            <FilterSection title="Marca" defaultOpen>
+              <CheckboxList items={meta.brands} selected={selectedBrands} onToggle={toggleBrand} />
+            </FilterSection>
+          )}
+
+          {meta.categories.length > 0 && (
+            <FilterSection title="Categoria" defaultOpen={hideBrandFilter}>
+              <CheckboxList
+                items={meta.categories}
+                selected={selectedCategories}
+                onToggle={toggleCategory}
+              />
+            </FilterSection>
+          )}
+        </>
       )}
 
       <FilterSection title="Faixas de preço">
@@ -287,6 +314,7 @@ export function CollectionFiltersMobile({
         <CollectionFilters
           meta={meta}
           hideBrandFilter={hideBrandFilter}
+          sideBySideFilters
           className="border-0 p-0 shadow-none"
         />
       </Modal>
