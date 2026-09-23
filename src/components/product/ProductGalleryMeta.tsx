@@ -20,7 +20,7 @@ export function ProductGalleryMeta({
       : null
 
   return (
-    <dl className="mt-5 grid gap-x-8 gap-y-4 border-t border-border pt-5 sm:grid-cols-2">
+    <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-border pt-5 sm:gap-x-8">
       {categories.length > 0 && (
         <div className="min-w-0">
           <dt className="text-[13px] font-bold text-text-primary">Categorias</dt>
