@@ -4,6 +4,11 @@ export type BuyTogetherBundle = {
   id: string
   companion: ProductCardData
   discountPercent: number
+  /**
+   * true somente quando o acompanhante está no ranking real de mais vendidos
+   * (baseado em pedidos pagos) — nunca marcado sem dado de venda de verdade.
+   */
+  companionIsBestSeller?: boolean
 }
 
 export type BuyTogetherPrimaryProduct = {
@@ -18,7 +23,7 @@ export type BuyTogetherPrimaryProduct = {
 export const DEFAULT_BUNDLE_DISCOUNT_PERCENT = 5
 
 /** Valor máximo do combo (após desconto Compre Junto). */
-export const MAX_BUNDLE_TOTAL = 498
+export const MAX_BUNDLE_TOTAL = 650
 
 export function calcBundlePricing(
   primaryPrice: number,
@@ -48,4 +53,4 @@ export function filterBundlesByMaxTotal(
     isBundleWithinMaxTotal(primaryPrice, bundle.companion.price, bundle.discountPercent, maxTotal)
   )
 }
-
+

@@ -34,17 +34,28 @@ function ProductThumb({
   imageAlt,
   href,
   compact,
+  badgeLabel,
+  caption,
 }: {
   name: string
   imageUrl: string | null
   imageAlt: string | null
   href?: string
   compact?: boolean
+  /** Selo curto e verídico (ex.: "Mais vendido") — só exibido quando comprovado. */
+  badgeLabel?: string | null
+  /** Legenda pequena acima da imagem, ex.: "Este produto" / "Sugestão". */
+  caption?: string
 }) {
   const content = (
     <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+      {caption && (
+        <p className="text-[10px] font-semibold uppercase tracking-wide text-text-muted">
+          {caption}
+        </p>
+      )}
       <div
-        className={`relative aspect-square w-full overflow-hidden rounded-md  ${compact ? 'max-w-none' : 'max-w-[140px]'}`}
+        className={`relative aspect-square w-full overflow-hidden rounded-lg border border-border/70 bg-white ${compact ? 'max-w-none' : 'max-w-[140px]'}`}
       >
         {imageUrl ? (
           <SiteImage
@@ -52,12 +63,17 @@ function ProductThumb({
             alt={imageAlt ?? name}
             fill
             sizes={compact ? '120px' : '160px'}
-            className="object-contain p-1.5"
+            className="object-contain p-2"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-xs text-text-muted">
             Sem imagem
           </div>
+        )}
+        {badgeLabel && (
+          <span className="absolute left-1.5 top-1.5 rounded-full bg-text-primary/85 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white">
+            {badgeLabel}
+          </span>
         )}
       </div>
       <p
@@ -184,13 +200,14 @@ export function ProductBuyTogetherSection({
         )}
       </header>
 
-      <div className="p-3">
+      <div className="rounded-lg bg-surface/60 p-3">
         <div className="flex items-start gap-2">
           <ProductThumb
             name={primaryProduct.name}
             imageUrl={primaryProduct.imageUrl}
             imageAlt={primaryProduct.imageAlt}
             compact={compact}
+            caption="Este produto"
           />
 
           <div
@@ -206,6 +223,8 @@ export function ProductBuyTogetherSection({
             imageAlt={bundle.companion.imageAlt}
             href={`/produto/${bundle.companion.slug}`}
             compact={compact}
+            caption="Sugestão"
+            badgeLabel={bundle.companionIsBestSeller ? 'Mais vendido' : null}
           />
         </div>
 

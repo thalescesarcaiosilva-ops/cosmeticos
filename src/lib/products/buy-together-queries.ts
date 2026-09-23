@@ -1,4 +1,5 @@
 import { createPublicClient } from '@/lib/supabase/public'
+import { getBestSellingProductIds } from '@/lib/products/best-sellers'
 import {
   DEFAULT_BUNDLE_DISCOUNT_PERCENT,
   filterBundlesByMaxTotal,
@@ -19,7 +20,8 @@ type BundleRow = {
 async function getCuratedBundles(
   productId: string,
   limit: number,
-  defaultDiscountPercent: number
+  defaultDiscountPercent: number,
+  bestSellerIds: Set<string>
 ): Promise<BuyTogetherBundle[] | null> {
   const supabase = createPublicClient()
 
@@ -59,16 +61,75 @@ async function getCuratedBundles(
   const productMap = new Map(cards.map((card) => [card.id, card]))
 
   return rows
-    .map((row) => {
+    .map((row): BuyTogetherBundle | null => {
       const companion = productMap.get(row.companion_product_id)
       if (!companion) return null
       return {
         id: row.id,
         companion,
         discountPercent: Number(row.discount_percent) || defaultDiscountPercent,
+        companionIsBestSeller: bestSellerIds.has(row.companion_product_id),
       }
     })
     .filter((bundle): bundle is BuyTogetherBundle => bundle !== null)
+}
+
+/**
+ * Fallback sem curadoria manual: sugere como acompanhante apenas produtos
+ * que realmente já venderam na loja (ranking de `get_best_selling_products`),
+ * priorizando os que também são da mesma categoria do produto principal.
+ * Nunca inclui um produto "mais vendido" que não tenha venda de verdade.
+ */
+async function getBestSellerFallbackBundles(
+  productId: string,
+  categoryIds: string[],
+  limit: number,
+  defaultDiscountPercent: number,
+  rankedIds: string[]
+): Promise<BuyTogetherBundle[]> {
+  if (rankedIds.length === 0) return []
+
+  const supabase = createPublicClient()
+  const { data: products } = await supabase
+    .from('products')
+    .select(PRODUCT_SELECT)
+    .in('id', rankedIds)
+    .eq('active', true)
+    .gt('stock', 0)
+
+  if (!products?.length) return []
+
+  const cards = await attachReviewSummaries(
+    products.map((row) => mapProductCard(row as unknown as Record<string, unknown>))
+  )
+  const cardMap = new Map(cards.map((card) => [card.id, card]))
+
+  let sameCategoryIds = new Set<string>()
+  if (categoryIds.length > 0) {
+    const { data: links } = await supabase
+      .from('product_categories')
+      .select('product_id')
+      .in('category_id', categoryIds)
+      .in('product_id', rankedIds)
+    sameCategoryIds = new Set((links ?? []).map((l) => l.product_id as string))
+  }
+
+  // rankedIds já vem ordenado por unidades vendidas (desc); só reordenamos
+  // para priorizar mesma categoria, mantendo a ordem de vendas dentro de cada grupo.
+  const ordered = rankedIds
+    .filter((id) => cardMap.has(id))
+    .sort((a, b) => {
+      const aSame = sameCategoryIds.has(a) ? 0 : 1
+      const bSame = sameCategoryIds.has(b) ? 0 : 1
+      return aSame - bSame
+    })
+
+  return ordered.slice(0, limit).map((id) => ({
+    id: `${productId}-${id}`,
+    companion: cardMap.get(id)!,
+    discountPercent: defaultDiscountPercent,
+    companionIsBestSeller: true,
+  }))
 }
 
 export async function getBuyTogetherBundles(
@@ -82,16 +143,36 @@ export async function getBuyTogetherBundles(
     settings?.defaultDiscountPercent ?? DEFAULT_BUNDLE_DISCOUNT_PERCENT
   const maxBundleTotal = settings?.maxBundleTotal ?? MAX_BUNDLE_TOTAL
 
+  // Ranking real de mais vendidos (cacheado ~5min, sem custo de imagens/reviews).
+  const bestSellers = await getBestSellingProductIds(60)
+  const rankedIds = bestSellers.map((row) => row.productId).filter((id) => id !== productId)
+  const bestSellerIds = new Set(rankedIds)
+
   const curated = await getCuratedBundles(
     productId,
     Math.max(limit * 4, 12),
-    defaultDiscountPercent
+    defaultDiscountPercent,
+    bestSellerIds
   )
+
   if (curated !== null && curated.length > 0) {
     return filterBundlesByMaxTotal(primaryPrice, curated, maxBundleTotal).slice(0, limit)
   }
 
-  // Sem pares curados (ou tabela vazia): usa produtos relacionados da mesma categoria
+  // Sem pares curados: usa produtos com venda real comprovada na loja.
+  const bestSellerBundles = await getBestSellerFallbackBundles(
+    productId,
+    categoryIds,
+    Math.max(limit * 4, 12),
+    defaultDiscountPercent,
+    rankedIds
+  )
+  if (bestSellerBundles.length > 0) {
+    const filtered = filterBundlesByMaxTotal(primaryPrice, bestSellerBundles, maxBundleTotal)
+    if (filtered.length > 0) return filtered.slice(0, limit)
+  }
+
+  // Loja nova / sem vendas suficientes ainda: cai para produtos relacionados por categoria.
   const related = await getRelatedProducts(productId, categoryIds, Math.max(limit * 4, 12), {
     inStockOnly: true,
   })
@@ -99,6 +180,7 @@ export async function getBuyTogetherBundles(
     id: `${productId}-${companion.id}`,
     companion,
     discountPercent: defaultDiscountPercent,
+    companionIsBestSeller: false,
   }))
 
   return filterBundlesByMaxTotal(primaryPrice, bundles, maxBundleTotal).slice(0, limit)

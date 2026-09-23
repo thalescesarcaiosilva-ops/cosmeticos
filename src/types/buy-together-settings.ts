@@ -43,7 +43,7 @@ export const DEFAULT_BUY_TOGETHER_CSS: BuyTogetherCssSettings = {
 export const DEFAULT_BUY_TOGETHER_SETTINGS: BuyTogetherSettings = {
   enabled: true,
   defaultDiscountPercent: 5,
-  maxBundleTotal: 498,
+  maxBundleTotal: 650,
   title: 'Compre junto',
   eyebrow: 'Oferta',
   subtitleFallback: 'Combine com outro produto e economize.',

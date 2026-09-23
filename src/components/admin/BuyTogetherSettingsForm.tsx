@@ -192,8 +192,11 @@ export function BuyTogetherSettingsForm() {
           />
         </div>
         <p className="mt-3 text-xs text-text-muted">
-          O desconto padrão vale para sugestões automáticas (quando não há bundle cadastrado). O valor
-          máximo oculta combos mais caros que o limite.
+          O desconto padrão vale para sugestões automáticas: quando não há um par cadastrado
+          manualmente em <code>product_bundles</code>, o sistema sugere o produto mais vendido de
+          verdade (com base em pedidos pagos) da mesma categoria. O valor máximo oculta combos cujo
+          preço final (já com desconto) passe do limite — aumente esse valor se notar poucas
+          sugestões aparecendo.
         </p>
       </Card>
 
