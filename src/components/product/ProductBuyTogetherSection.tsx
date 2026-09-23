@@ -16,14 +16,17 @@ import {
 } from '@/lib/products/buy-together-css'
 import { formatCurrency } from '@/lib/products/format'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
+import { calcPixPrice } from '@/lib/payment/product-payment-summary'
+import { PixIcon } from '@/components/product/PixDiscountBadge'
 import { useCart } from '@/providers/CartProvider'
-import type { PaymentSettings } from '@/types/payment'
+import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 import type { BuyTogetherSettings } from '@/types/buy-together-settings'
 
 type ProductBuyTogetherSectionProps = {
   primaryProduct: BuyTogetherPrimaryProduct
   bundles: BuyTogetherBundle[]
   paymentSettings: PaymentSettings
+  checkoutSettings?: CheckoutPaymentSettings | null
   settings: BuyTogetherSettings
   compact?: boolean
 }
@@ -102,6 +105,7 @@ export function ProductBuyTogetherSection({
   primaryProduct,
   bundles,
   paymentSettings,
+  checkoutSettings,
   settings,
   compact = false,
 }: ProductBuyTogetherSectionProps) {
@@ -125,6 +129,15 @@ export function ProductBuyTogetherSection({
   )
   const installment = calcInstallmentDisplay(bundlePrice, paymentSettings)
   const savings = Math.max(0, originalTotal - bundlePrice)
+
+  // Desconto Pix (mesma % configurada no checkout) aplicado sobre o preço já
+  // reduzido do combo — mesma lógica usada no preço de um produto único, e é
+  // exatamente o que o checkout cobra (sem frete, calculado só no carrinho).
+  const pixEnabled = checkoutSettings?.pixEnabled !== false
+  const pixDiscountPercent = pixEnabled ? Math.max(0, Number(checkoutSettings?.pixDiscount) || 0) : 0
+  const showPix = pixDiscountPercent > 0
+  const pixBundlePrice = showPix ? calcPixPrice(bundlePrice, pixDiscountPercent) : bundlePrice
+  const pixSavings = Math.max(0, originalTotal - pixBundlePrice)
 
   function goTo(index: number) {
     setActiveIndex((index + eligibleBundles.length) % eligibleBundles.length)
@@ -186,6 +199,9 @@ export function ProductBuyTogetherSection({
           >
             {subtitle}
           </p>
+          <p className="mt-1 text-[12px] font-semibold text-text-primary">
+            Compre junto e ganhe {bundle.discountPercent}% de desconto na sua compra
+          </p>
         </div>
         {bundle.discountPercent > 0 && (
           <span
@@ -229,34 +245,61 @@ export function ProductBuyTogetherSection({
         </div>
 
         <div className={`border-t border-dashed border-border ${compact ? 'mt-3 pt-3' : 'mt-4 pt-4'}`}>
-          <div className="flex flex-wrap items-baseline gap-2">
+          <div className="flex items-baseline justify-between gap-2 text-[12px] text-text-secondary">
+            <span>Comprando separado</span>
+            <span className="text-text-muted line-through tabular-nums">
+              {formatCurrency(originalTotal)}
+            </span>
+          </div>
+
+          <div className="mt-1 flex items-baseline justify-between gap-2">
+            <span className="text-[12px] text-text-secondary">
+              No compre junto{showPix ? ' (cartão / à vista)' : ''}
+            </span>
             <p
-              className={`bt-price font-bold leading-none tracking-tight text-text-primary tabular-nums ${compact ? 'text-[20px]' : 'text-[26px]'}`}
+              className={`bt-price font-bold leading-none tracking-tight text-text-primary tabular-nums ${compact ? 'text-[18px]' : 'text-[22px]'}`}
               style={{ color: cssVars['--bt-price'] || undefined }}
             >
               {formatCurrency(bundlePrice)}
             </p>
-            {originalTotal > bundlePrice && (
-              <p className="text-[13px] text-text-muted line-through tabular-nums">
-                {formatCurrency(originalTotal)}
-              </p>
-            )}
           </div>
+
+          {showPix && (
+            <div className="mt-1.5 flex items-center justify-between gap-2 rounded-md bg-claret/5 px-2.5 py-1.5">
+              <span className="flex items-center gap-1.5 text-[12px] font-semibold text-claret">
+                <PixIcon className="size-4 shrink-0" />
+                No Pix (mais {pixDiscountPercent}% de desconto)
+              </span>
+              <span
+                className={`font-black tabular-nums text-claret ${compact ? 'text-[20px]' : 'text-[24px]'}`}
+                style={{ color: cssVars['--bt-price'] || undefined }}
+              >
+                {formatCurrency(pixBundlePrice)}
+              </span>
+            </div>
+          )}
 
           {installment && (
             <p className="mt-1.5 text-[12px] text-text-secondary">
-              {installment.count}x de {formatCurrency(installment.value)} no cartão
+              ou {installment.count}x de {formatCurrency(installment.value)} no cartão
             </p>
           )}
 
           {savings > 0 && (
             <p
-              className="bt-savings mt-1 text-[12px] font-medium text-claret"
+              className="bt-savings mt-1.5 text-[12px] font-medium text-claret"
               style={{ color: cssVars['--bt-savings'] || undefined }}
             >
-              Economize {formatCurrency(savings)}
+              Economize {formatCurrency(savings)} comprando os dois juntos
+              {showPix && pixSavings > savings
+                ? ` (até ${formatCurrency(pixSavings)} pagando no Pix)`
+                : ''}
             </p>
           )}
+
+          <p className="mt-1 text-[10px] leading-snug text-text-muted">
+            Valores dos produtos, sem frete. O frete é calculado no carrinho e cobrado à parte.
+          </p>
 
           <button
             type="button"

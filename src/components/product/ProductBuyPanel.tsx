@@ -55,19 +55,20 @@ export function ProductBuyPanel({
         <ProductTrustSignals assurances={assurances} />
       </div>
 
-      <ShippingCalculator subtotal={price} variant="product" />
-
-      <ProductPurchaseFaq assurances={assurances} />
-
       {showBuyTogether && buyTogetherSettings && buyTogetherPrimary ? (
         <ProductBuyTogetherSection
           primaryProduct={buyTogetherPrimary}
           bundles={buyTogetherBundles}
           paymentSettings={paymentSettings}
+          checkoutSettings={checkoutSettings}
           settings={buyTogetherSettings}
           compact
         />
       ) : null}
+
+      <ShippingCalculator subtotal={price} variant="product" />
+
+      <ProductPurchaseFaq assurances={assurances} />
     </div>
   )
 }

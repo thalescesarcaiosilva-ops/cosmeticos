@@ -190,7 +190,6 @@ export function OrderThankYouView({
       <GoogleAdsPurchaseConversion
         orderId={order.id}
         value={Number(order.total) || 0}
-        paid={isPaid}
         sendTos={adsConversionSendTos}
       />
       <div className="rounded-2xl border border-border bg-surface p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)] md:p-8">

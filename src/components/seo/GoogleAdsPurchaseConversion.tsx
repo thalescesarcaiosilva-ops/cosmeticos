@@ -7,35 +7,33 @@ type GoogleAdsPurchaseConversionProps = {
   orderId: string
   /** Total do pedido em reais (mesmo valor cobrado). */
   value: number
-  /** Só dispara quando true (pagamento confirmado). */
-  paid: boolean
   /** Uma ou mais ações send_to: AW-XXXX/label */
   sendTos: string[] | null | undefined
 }
 
 /**
- * Conversão Google Ads "Compra" — só com pedido pago,
- * com value e transaction_id reais (evita deturpação e duplicata).
+ * Conversão Google Ads "Compra" — dispara para todo pedido gerado
+ * (assim que a página de obrigado carrega), com value e transaction_id
+ * reais. Deduplicado por pedido (1x por transaction_id).
  * Dispara todas as ações configuradas no admin (até 5).
  */
 export function GoogleAdsPurchaseConversion({
   orderId,
   value,
-  paid,
   sendTos,
 }: GoogleAdsPurchaseConversionProps) {
   const startedRef = useRef(false)
   const normalized = normalizeAdsSendTos(sendTos ?? [])
 
   useEffect(() => {
-    if (!paid || normalized.length === 0 || startedRef.current) return
+    if (normalized.length === 0 || startedRef.current) return
     startedRef.current = true
     fireGoogleAdsConversion({
       sendTo: normalized,
       value,
       transactionId: orderId,
     })
-  }, [paid, orderId, value, normalized.join('|')])
+  }, [orderId, value, normalized.join('|')])
 
   return null
 }
