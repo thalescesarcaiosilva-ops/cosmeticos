@@ -29,6 +29,7 @@ export async function createCheckoutOrder(params: {
   items: Array<{ product_id: string; quantity: number }>
   discountAmount?: number
   pixDiscountPercent?: number
+  usedBuyTogether?: boolean
   userId?: string | null
   addressId?: string | null
   customer?: CheckoutCustomerInput
@@ -47,6 +48,7 @@ export async function createCheckoutOrder(params: {
     p_items: params.items,
     p_discount_amount: params.discountAmount ?? 0,
     p_pix_discount_percent: params.pixDiscountPercent ?? 0,
+    p_used_buy_together: params.usedBuyTogether ?? false,
     p_user_id: params.userId ?? null,
     p_address_id: useSavedAddress ? params.addressId : null,
     p_customer: useSavedAddress ? null : params.customer ?? null,

@@ -228,6 +228,7 @@ export async function processPixCheckout(params: CheckoutInput) {
     })),
     discountAmount: cart.bundleDiscountAmount,
     pixDiscountPercent: checkoutSettings.pixDiscount,
+    usedBuyTogether: cart.bundleDiscountAmount > 0,
     userId: params.userId,
     addressId: params.addressId,
     customer: params.customer,

@@ -65,6 +65,7 @@ type Order = {
   track7_synced_at?: string | null
   track7_last_status?: string | null
   payment_proof_pending?: boolean | null
+  used_buy_together?: boolean | null
   created_at: string
   profiles?: { name?: string } | null
   addresses?: OrderAddress | null
@@ -349,6 +350,11 @@ export function OrdersManager() {
                     {order.payment_proof_pending && (
                       <span className="rounded-full bg-neutral-950 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-white">
                         COMPROVANTE
+                      </span>
+                    )}
+                    {order.used_buy_together && (
+                      <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-brand">
+                        COMPRE JUNTO
                       </span>
                     )}
                     {order.payment_status && (
