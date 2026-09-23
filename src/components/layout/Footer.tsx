@@ -90,8 +90,9 @@ function FooterBrandColumn({
             alt={brand.storeName}
             width={160}
             height={48}
-          sizes="180px"
-          className="h-12 w-[160px] max-w-[180px] object-contain object-left"
+            sizes="180px"
+            className="max-h-12 w-auto max-w-[180px] object-contain object-left"
+            style={{ width: 'auto', height: 'auto' }}
           />
         </Link>
       )}

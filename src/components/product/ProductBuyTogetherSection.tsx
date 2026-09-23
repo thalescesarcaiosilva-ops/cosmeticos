@@ -3,6 +3,7 @@
 import { SiteImage } from '@/components/ui/SiteImage'
 import Link from 'next/link' // usado em ProductThumb para link do produto acompanhante
 import { useState } from 'react'
+import { CreditCard } from 'lucide-react'
 import { IconChevronLeft } from '@/components/icons/DotIcons'
 import {
   calcBundlePricing,
@@ -15,6 +16,7 @@ import {
   sanitizeBuyTogetherCustomCss,
 } from '@/lib/products/buy-together-css'
 import { formatCurrency } from '@/lib/products/format'
+import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import { calcPixPrice } from '@/lib/payment/product-payment-summary'
 import { PixIcon } from '@/components/product/PixDiscountBadge'
 import { useCart } from '@/providers/CartProvider'
@@ -79,7 +81,7 @@ function ProductThumb({
         {name}
       </p>
       <p
-        className={`font-bold tabular-nums text-text-primary ${compact ? 'text-[12px]' : 'text-[13px]'}`}
+        className={`font-semibold tabular-nums text-text-secondary ${compact ? 'text-[11px]' : 'text-[12px]'}`}
       >
         {formatCurrency(price)}
       </p>
@@ -103,7 +105,7 @@ function ProductThumb({
 export function ProductBuyTogetherSection({
   primaryProduct,
   bundles,
-  paymentSettings: _paymentSettings,
+  paymentSettings,
   checkoutSettings,
   settings,
   compact = false,
@@ -126,15 +128,21 @@ export function ProductBuyTogetherSection({
     bundle.companion.price,
     bundle.discountPercent
   )
+  // Economia do Compre junto = só o desconto do combo (não mistura com Pix).
   const savings = Math.max(0, originalTotal - bundlePrice)
 
-  // Desconto Pix (mesma % configurada no checkout) aplicado sobre o preço já
-  // reduzido do combo — mesma lógica usada no preço de um produto único, e é
-  // exatamente o que o checkout cobra (sem frete, calculado só no carrinho).
+  // Desconto Pix sobre o preço já com desconto do combo — igual ao checkout.
   const pixEnabled = checkoutSettings?.pixEnabled !== false
   const pixDiscountPercent = pixEnabled ? Math.max(0, Number(checkoutSettings?.pixDiscount) || 0) : 0
   const showPix = pixDiscountPercent > 0
   const pixBundlePrice = showPix ? calcPixPrice(bundlePrice, pixDiscountPercent) : bundlePrice
+  // Economia total vs separado pagando no Pix (combo + Pix) — valor real no checkout.
+  const pixSavings = Math.max(0, originalTotal - pixBundlePrice)
+
+  const installment = calcInstallmentDisplay(bundlePrice, paymentSettings)
+  const cardEnabled = checkoutSettings?.cardEnabled !== false
+  const showInstallments =
+    cardEnabled && installment != null && installment.count > 1
 
   function goTo(index: number) {
     setActiveIndex((index + eligibleBundles.length) % eligibleBundles.length)
@@ -182,6 +190,15 @@ export function ProductBuyTogetherSection({
         >
           {settings.title}
         </h2>
+        {bundle.discountPercent > 0 && (
+          <p
+            className={`bt-subtitle mt-1 leading-snug text-text-secondary ${compact ? 'text-[12px]' : 'text-sm'}`}
+            style={{ color: cssVars['--bt-subtitle'] || undefined }}
+          >
+            Compre junto e ganhe{' '}
+            <span className="font-bold text-claret">{bundle.discountPercent}% de desconto</span>
+          </p>
+        )}
       </header>
 
       <div className="rounded-lg bg-surface/60 p-3">
@@ -213,50 +230,83 @@ export function ProductBuyTogetherSection({
           />
         </div>
 
+        {/* Hierarquia igual à do produto: referência → Pix (destaque) → cartão → parcelas → economia */}
         <div className={`border-t border-dashed border-border ${compact ? 'mt-3 pt-3' : 'mt-4 pt-4'}`}>
-          <div className="flex items-baseline justify-between gap-2">
-            <span className="text-[12px] text-text-secondary">Separado</span>
-            <span className="text-[12px] text-text-muted tabular-nums">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+            <span className="text-[13px] font-semibold text-text-secondary">
+              Comprando separado
+            </span>
+            <span
+              className={`font-bold tabular-nums text-text-muted line-through ${compact ? 'text-[15px]' : 'text-[16px]'}`}
+            >
               {formatCurrency(originalTotal)}
             </span>
           </div>
 
-          <div className="mt-1 flex items-baseline justify-between gap-2">
-            <span className="text-[12px] font-semibold text-text-secondary">Comprando junto</span>
-            <p
-              className={`bt-price font-bold leading-none tracking-tight text-text-primary tabular-nums ${compact ? 'text-[18px]' : 'text-[22px]'}`}
-              style={{ color: cssVars['--bt-price'] || undefined }}
+          {showPix ? (
+            <div
+              className="mt-2 flex flex-wrap items-end gap-x-2 gap-y-1"
+              aria-label={`Pix com ${pixDiscountPercent}% de desconto: ${formatCurrency(pixBundlePrice)}`}
             >
-              {formatCurrency(bundlePrice)}
-            </p>
-          </div>
-
-          {showPix && (
-            <div className="mt-1.5 flex items-center justify-between gap-2 rounded-md bg-claret/5 px-2.5 py-1.5">
-              <span className="flex items-center gap-1.5 text-[12px] font-semibold text-claret">
-                <PixIcon className="size-4 shrink-0" />
-                No Pix
-              </span>
               <span
-                className={`font-black tabular-nums text-claret ${compact ? 'text-[20px]' : 'text-[24px]'}`}
+                className={`bt-price flex items-center gap-1.5 font-black leading-none tracking-tight text-claret tabular-nums ${compact ? 'text-[22px]' : 'text-[26px]'}`}
                 style={{ color: cssVars['--bt-price'] || undefined }}
               >
+                <PixIcon className="size-5 shrink-0" />
                 {formatCurrency(pixBundlePrice)}
               </span>
+              <span className="rounded-md bg-claret/10 px-2 py-0.5 text-[11px] font-bold text-claret">
+                no Pix
+              </span>
             </div>
+          ) : null}
+
+          <p
+            className={
+              showPix
+                ? 'mt-1.5 text-[15px] font-medium leading-none text-text-secondary tabular-nums'
+                : `bt-price mt-1.5 font-bold leading-none tracking-tight text-text-primary tabular-nums ${compact ? 'text-[20px]' : 'text-[24px]'}`
+            }
+            style={!showPix ? { color: cssVars['--bt-price'] || undefined } : undefined}
+            aria-label={`Comprando junto: ${formatCurrency(bundlePrice)}`}
+          >
+            {formatCurrency(bundlePrice)}
+            {showPix ? (
+              <span className="ml-1.5 text-[12px] font-medium text-text-muted">no cartão</span>
+            ) : null}
+          </p>
+
+          {showInstallments && installment && (
+            <p className="mt-2 flex items-start gap-1.5 text-[12px] leading-snug text-text-secondary">
+              <CreditCard className="mt-0.5 size-3.5 shrink-0 text-text-muted" aria-hidden />
+              <span>
+                ou{' '}
+                <span className="font-semibold text-text-primary tabular-nums">
+                  {formatCurrency(installment.interestFree ? bundlePrice : installment.total)}
+                </span>{' '}
+                em até{' '}
+                <span className="font-semibold text-text-primary">
+                  {installment.count}x de {formatCurrency(installment.value)}
+                </span>{' '}
+                {installment.interestFree ? 'sem juros' : 'com juros'} no cartão
+              </span>
+            </p>
           )}
 
           {savings > 0 && (
             <p
-              className="bt-savings mt-1.5 text-[12px] font-medium text-claret"
+              className="bt-savings mt-2 text-[12px] font-semibold text-claret"
               style={{ color: cssVars['--bt-savings'] || undefined }}
             >
-              Você economiza {formatCurrency(savings)}
+              Economize {formatCurrency(savings)} comprando os dois juntos
+              {showPix && pixSavings > savings
+                ? ` · até ${formatCurrency(pixSavings)} no Pix`
+                : ''}
             </p>
           )}
 
           <p className="mt-1 text-[10px] leading-snug text-text-muted">
-            *Sem frete, calculado no carrinho.
+            Valores dos produtos, sem frete.
           </p>
 
           <button

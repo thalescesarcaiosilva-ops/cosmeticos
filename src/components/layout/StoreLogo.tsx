@@ -30,9 +30,10 @@ export function StoreLogoMark({
           sizes="(max-width: 767px) 96px, 120px"
           priority
           bypassOptimizer={false}
-          className={`h-12 w-[96px] max-w-[96px] object-contain object-left md:w-[120px] md:max-w-[120px] ${
+          className={`max-h-12 w-auto max-w-[96px] object-contain object-left md:max-w-[120px] ${
             variant === 'light' ? 'brightness-0 invert' : ''
           }`}
+          style={{ width: 'auto', height: 'auto' }}
         />
       </Link>
     )

@@ -15,7 +15,7 @@ export function TopBar({ storeName, policyLinks, socialLinks }: TopBarProps) {
   return (
     <div className="bg-brand text-[11px] font-semibold text-white">
       {/* Mobile: frete no centro + redes à direita */}
-      <div className="relative mx-auto flex max-w-[1300px] items-center justify-end px-4 py-2 md:hidden">
+      <div className="relative mx-auto flex max-w-[1300px] items-center justify-end px-4 py-3 md:hidden">
         <p className="absolute left-1/2 max-w-[70%] -translate-x-1/2 truncate text-center whitespace-nowrap">
           {FREE_SHIPPING_LABEL}
         </p>
