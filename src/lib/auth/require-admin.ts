@@ -1,7 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { getSessionUser, type SessionUser } from '@/lib/auth/verify-session'
 
-export async function getUserRole(userId: string): Promise<'customer' | 'admin' | null> {
+export type AppRole = 'customer' | 'admin' | 'support'
+
+export async function getUserRole(userId: string): Promise<AppRole | null> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('profiles')
@@ -13,7 +15,7 @@ export async function getUserRole(userId: string): Promise<'customer' | 'admin' 
     return null
   }
 
-  if (data.role === 'admin' || data.role === 'customer') {
+  if (data.role === 'admin' || data.role === 'customer' || data.role === 'support') {
     return data.role
   }
 

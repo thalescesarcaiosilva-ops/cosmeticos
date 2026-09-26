@@ -67,14 +67,24 @@ export async function proxy(request: NextRequest) {
   const isAccountArea = pathname.startsWith('/conta')
   const isAdminArea = pathname.startsWith('/admin')
 
-  if (user && isAccountPublic && pathname !== '/conta/redefinir-senha') {
+  let role: string | null = null
+  if (user && (isAccountArea || isAdminArea)) {
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .maybeSingle()
+    role = profile?.role ?? null
+  }
 
-    const dest = profile?.role === 'admin' ? '/admin' : '/conta'
+  if (user && role === 'support' && (isAccountArea || isAdminArea)) {
+    const url = new URL('/suporte', request.url)
+    if (isAdminArea) url.searchParams.set('aviso', 'admin')
+    return NextResponse.redirect(url)
+  }
+
+  if (user && isAccountPublic && pathname !== '/conta/redefinir-senha') {
+    const dest = role === 'admin' ? '/admin' : '/conta'
     return NextResponse.redirect(new URL(dest, request.url))
   }
 
@@ -91,13 +101,7 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(loginUrl)
     }
 
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .maybeSingle()
-
-    if (profile?.role !== 'admin') {
+    if (role !== 'admin') {
       const loginUrl = new URL('/conta/login', request.url)
       loginUrl.searchParams.set('redirect', pathname)
       loginUrl.searchParams.set('error', 'admin_required')

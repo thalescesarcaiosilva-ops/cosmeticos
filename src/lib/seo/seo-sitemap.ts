@@ -332,6 +332,8 @@ export function buildRobotsTxt(siteUrl: string | null = getSiteUrl()): string {
 
   for (const path of [
     '/admin/',
+    '/suporte',
+    '/suporte/',
     '/conta/',
     '/api/',
   ]) {

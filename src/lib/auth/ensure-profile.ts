@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 export async function ensureUserProfile(
   userId: string,
   name: string
-): Promise<'admin' | 'customer'> {
+): Promise<'admin' | 'customer' | 'support'> {
   const admin = createAdminClient()
 
   const { data: profile } = await admin
@@ -21,7 +21,7 @@ export async function ensureUserProfile(
     return 'customer'
   }
 
-  if (profile.role === 'admin' || profile.role === 'customer') {
+  if (profile.role === 'admin' || profile.role === 'customer' || profile.role === 'support') {
     return profile.role
   }
 

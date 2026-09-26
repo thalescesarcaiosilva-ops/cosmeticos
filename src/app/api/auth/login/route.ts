@@ -8,7 +8,8 @@ import { sanitizeRedirectPath } from '@/lib/auth/safe-redirect'
 import { mapLoginError } from '@/lib/auth/map-login-error'
 import { loginSchema } from '@/schemas/auth-schema'
 
-function resolveRedirect(role: 'admin' | 'customer', requested: string): string {
+function resolveRedirect(role: 'admin' | 'customer' | 'support', requested: string): string {
+  if (role === 'support') return '/suporte'
   const safe = sanitizeRedirectPath(requested, '/conta')
   if (safe.startsWith('/admin')) {
     return role === 'admin' ? safe : '/conta'
@@ -78,7 +79,7 @@ export async function POST(request: NextRequest) {
 
   const email = data.user.email?.trim().toLowerCase()
   let claimedOrders = 0
-  if (email) {
+  if (email && role !== 'support') {
     claimedOrders = await claimGuestOrdersByEmail({
       userId: data.user.id,
       email,
