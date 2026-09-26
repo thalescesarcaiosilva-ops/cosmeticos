@@ -50,7 +50,7 @@ const QUEUE_COLUMNS = [
   'pix_expiration',
   'support_message_sent_at',
   'created_at',
-  'profiles(name, phone)',
+  'profiles!orders_user_id_fkey(name, phone)',
   'addresses(street, number, complement, neighborhood, city, state, zip_code)',
   'order_items(quantity, unit_price, subtotal, products(name))',
 ].join(', ')

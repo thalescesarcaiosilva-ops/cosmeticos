@@ -131,7 +131,7 @@ export async function getDashboardPayload(): Promise<DashboardPayload> {
   const full = await admin
     .from('orders')
     .select(
-      'id, status, payment_status, payment_method, total, shipping_price, discount_amount, created_at, shipping_method_name, customer_name, profiles(name)'
+      'id, status, payment_status, payment_method, total, shipping_price, discount_amount, created_at, shipping_method_name, customer_name, profiles!orders_user_id_fkey(name)'
     )
     .order('created_at', { ascending: false })
 
@@ -139,7 +139,7 @@ export async function getDashboardPayload(): Promise<DashboardPayload> {
     const mid = await admin
       .from('orders')
       .select(
-        'id, status, payment_status, payment_method, total, shipping_price, created_at, shipping_method_name, profiles(name)'
+        'id, status, payment_status, payment_method, total, shipping_price, created_at, shipping_method_name, profiles!orders_user_id_fkey(name)'
       )
       .order('created_at', { ascending: false })
 

@@ -265,7 +265,9 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
         {loading && orders.length === 0 && <p className="text-sm text-neutral-500">Carregando a fila…</p>}
         {!loading && orders.length === 0 && (
           <p className="rounded-xl border border-neutral-200 bg-white px-4 py-8 text-center text-sm text-neutral-500">
-            Nenhum pedido nesta fila.
+            {period === '24h'
+              ? 'Nenhum pedido nas últimas 24 horas. Os mais antigos estão em 7 dias, 30 dias ou Todos.'
+              : 'Nenhum pedido neste filtro.'}
           </p>
         )}
         {!loading && orders.length > 0 && visibleOrders.length === 0 && (

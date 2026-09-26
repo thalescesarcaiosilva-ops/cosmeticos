@@ -42,7 +42,7 @@ export async function GET(request: Request) {
   let query = admin
     .from('orders')
     .select(
-      `${ORDER_COLUMNS}, profiles(${PROFILE_COLUMNS}), addresses(${ADDRESS_COLUMNS}), order_items(${ORDER_ITEM_COLUMNS}), tracking_events(id, sequence, event_type, city, state, message, scheduled_at, occurred_at, is_manual)`
+      `${ORDER_COLUMNS}, profiles!orders_user_id_fkey(${PROFILE_COLUMNS}), addresses(${ADDRESS_COLUMNS}), order_items(${ORDER_ITEM_COLUMNS}), tracking_events(id, sequence, event_type, city, state, message, scheduled_at, occurred_at, is_manual)`
     )
     .order('created_at', { ascending: false })
     .order('sequence', { referencedTable: 'tracking_events', ascending: true })
