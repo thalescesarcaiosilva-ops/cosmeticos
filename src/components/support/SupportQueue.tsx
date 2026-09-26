@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
+import { SupportOrderDetails } from '@/components/support/SupportOrderDetails'
 import { fetchApi } from '@/lib/api/fetch-api'
 import type { SupportQueueItem } from '@/lib/support/types'
 import type { SupportQueuePeriod } from '@/lib/support/eligibility'
@@ -18,6 +19,14 @@ type QueuePayload = {
   storeName: string
   orders: SupportQueueItem[]
 }
+
+const CONTACT_FILTERS = [
+  { id: 'all', label: 'Todos os contatos' },
+  { id: 'pending', label: 'Sem mensagem' },
+  { id: 'sent', label: 'Mensagem enviada' },
+] as const
+
+type ContactFilter = (typeof CONTACT_FILTERS)[number]['id']
 
 const PERIODS: Array<{ id: SupportQueuePeriod; label: string }> = [
   { id: '24h', label: 'Últimas 24 horas' },
@@ -54,6 +63,9 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
   const [loading, setLoading] = useState(true)
   const [now, setNow] = useState(() => Date.now())
   const [copied, setCopied] = useState<string | null>(null)
+  const [contactFilter, setContactFilter] = useState<ContactFilter>('all')
+  const [details, setDetails] = useState<SupportQueueItem | null>(null)
+  const [savingId, setSavingId] = useState<string | null>(null)
 
   const load = useCallback(async () => {
     const params = new URLSearchParams({ period })
@@ -69,6 +81,60 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
     setNow(Date.now())
     setLoading(false)
   }, [period, search])
+
+  const visibleOrders = orders.filter((order) => {
+    if (contactFilter === 'sent') return Boolean(order.messageSentAt)
+    if (contactFilter === 'pending') return !order.messageSentAt
+    return true
+  })
+  const sentCount = orders.filter((order) => order.messageSentAt).length
+  const pendingCount = orders.length - sentCount
+
+  async function setMessageSent(order: SupportQueueItem, sent: boolean) {
+    const previous = order.messageSentAt
+    const optimistic = sent ? new Date().toISOString() : null
+    setOrders((current) =>
+      current.map((item) => (item.id === order.id ? { ...item, messageSentAt: optimistic } : item))
+    )
+    setDetails((current) =>
+      current?.id === order.id ? { ...current, messageSentAt: optimistic } : current
+    )
+    setSavingId(order.id)
+    const { data, error: apiError } = await fetchApi<{ messageSentAt: string | null }>(
+      '/api/suporte/pedidos',
+      {
+        method: 'PATCH',
+        body: JSON.stringify({ orderId: order.id, sent }),
+      }
+    )
+    setSavingId(null)
+    if (apiError || !data) {
+      setOrders((current) =>
+        current.map((item) => (item.id === order.id ? { ...item, messageSentAt: previous } : item))
+      )
+      setDetails((current) =>
+        current?.id === order.id ? { ...current, messageSentAt: previous } : current
+      )
+      setError(apiError ?? 'Não foi possível marcar a mensagem')
+      return
+    }
+    setOrders((current) =>
+      current.map((item) =>
+        item.id === order.id ? { ...item, messageSentAt: data.messageSentAt } : item
+      )
+    )
+    setDetails((current) =>
+      current?.id === order.id ? { ...current, messageSentAt: data.messageSentAt } : current
+    )
+  }
+
+  function openWhatsapp(order: SupportQueueItem) {
+    if (!order.whatsappUrl) return
+    window.open(order.whatsappUrl, '_blank', 'noopener,noreferrer')
+    if (!order.messageSentAt) {
+      void setMessageSent(order, true)
+    }
+  }
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -108,7 +174,7 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
           </p>
           <h1 className="text-xl font-semibold tracking-tight text-neutral-950">Fila de suporte</h1>
           <p className="text-sm text-neutral-500">
-            {role === 'admin' ? 'Acesso do administrador' : 'Somente leitura'}
+            {role === 'admin' ? 'Acesso do administrador' : 'Fila de contato'}
           </p>
         </div>
         <Button type="button" variant="secondary" className="!rounded-md" onClick={logout}>
@@ -154,6 +220,24 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
               </Button>
             </div>
           </div>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            {CONTACT_FILTERS.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setContactFilter(item.id)}
+                className={`rounded-md border px-3 py-2 text-sm ${
+                  contactFilter === item.id
+                    ? 'border-neutral-900 bg-neutral-900 text-white'
+                    : 'border-neutral-200 bg-white text-neutral-700'
+                }`}
+              >
+                {item.label}
+                {item.id === 'pending' ? ` (${pendingCount})` : ''}
+                {item.id === 'sent' ? ` (${sentCount})` : ''}
+              </button>
+            ))}
+          </div>
         </section>
 
         {error && <Alert type="error">{error}</Alert>}
@@ -163,9 +247,14 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
             Nenhum pedido nesta fila.
           </p>
         )}
+        {!loading && orders.length > 0 && visibleOrders.length === 0 && (
+          <p className="rounded-xl border border-neutral-200 bg-white px-4 py-8 text-center text-sm text-neutral-500">
+            Nenhum pedido neste filtro de mensagem.
+          </p>
+        )}
 
         <div className="flex flex-col gap-3">
-          {orders.map((order) => (
+          {visibleOrders.map((order) => (
             <article
               key={order.id}
               className="rounded-xl border border-neutral-200 bg-white p-4"
@@ -178,6 +267,17 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
                   </p>
                   <p className="mt-2 text-sm font-medium text-neutral-900">{order.statusLabel}</p>
                   <p className="text-sm text-neutral-600">Pagamento: {order.paymentMethod}</p>
+                  <p
+                    className={`mt-2 inline-flex rounded-md px-2 py-1 text-xs font-semibold ${
+                      order.messageSentAt
+                        ? 'bg-emerald-50 text-emerald-900'
+                        : 'bg-neutral-100 text-neutral-600'
+                    }`}
+                  >
+                    {order.messageSentAt
+                      ? `Mensagem enviada em ${formatDateTime(order.messageSentAt)}`
+                      : 'Ainda sem mensagem'}
+                  </p>
                   {order.proofPending && (
                     <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-950">
                       O cliente enviou comprovante e o pagamento ainda não foi confirmado.
@@ -205,15 +305,29 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
                   </span>
                 )}
                 {order.whatsappUrl && (
-                  <a
-                    href={order.whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => openWhatsapp(order)}
                     className="inline-flex items-center rounded-md border border-neutral-200 px-3 py-2 text-sm font-semibold text-neutral-900"
                   >
                     WhatsApp
-                  </a>
+                  </button>
                 )}
+                <button
+                  type="button"
+                  onClick={() => void setMessageSent(order, !order.messageSentAt)}
+                  disabled={savingId === order.id}
+                  className="rounded-md border border-neutral-200 px-3 py-2 text-sm text-neutral-800 disabled:opacity-50"
+                >
+                  {order.messageSentAt ? 'Desmarcar mensagem' : 'Marcar mensagem enviada'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDetails(order)}
+                  className="rounded-md bg-neutral-900 px-3 py-2 text-sm font-semibold text-white"
+                >
+                  Ver detalhes
+                </button>
                 <button
                   type="button"
                   disabled={!order.phone}
@@ -261,6 +375,7 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
             </article>
           ))}
         </div>
+        <SupportOrderDetails order={details} onClose={() => setDetails(null)} />
       </main>
     </div>
   )

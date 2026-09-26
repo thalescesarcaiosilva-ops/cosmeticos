@@ -46,6 +46,9 @@ const QUEUE_COLUMNS = [
   'customer_phone',
   'shipping_address',
   'payment_proof_pending',
+  'pix_qr_code',
+  'pix_expiration',
+  'support_message_sent_at',
   'created_at',
   'profiles(name, phone)',
   'addresses(street, number, complement, neighborhood, city, state, zip_code)',
@@ -161,6 +164,10 @@ function mapOrder(row: Record<string, unknown>, storeName: string): SupportQueue
     statusLabel,
     paymentMethod,
     proofPending: row.payment_proof_pending === true,
+    messageSentAt:
+      typeof row.support_message_sent_at === 'string' ? row.support_message_sent_at : null,
+    pixCopyPaste: typeof row.pix_qr_code === 'string' && row.pix_qr_code.trim() ? row.pix_qr_code : null,
+    pixExpiresAt: typeof row.pix_expiration === 'string' ? row.pix_expiration : null,
     customerName,
     customerEmail,
     phone: phoneDigits ? `+${phoneDigits}` : null,
@@ -241,4 +248,43 @@ export async function listSupportQueue(params: {
     .filter((item) => matchesSearch(item, params.search))
 
   return { storeName, orders }
+}
+
+export async function setSupportMessageSent(params: {
+  orderId: string
+  sent: boolean
+  userId: string
+}): Promise<{ messageSentAt: string | null } | null> {
+  const admin = createAdminClient()
+  const { data, error } = await admin
+    .from('orders')
+    .select('id, status, payment_status, created_at')
+    .eq('id', params.orderId)
+    .maybeSingle()
+
+  if (error || !data) return null
+  if (
+    !isSupportQueueEligible({
+      status: data.status,
+      payment_status: data.payment_status,
+      created_at: data.created_at,
+    })
+  ) {
+    return null
+  }
+
+  const messageSentAt = params.sent ? new Date().toISOString() : null
+  const { error: updateError } = await admin
+    .from('orders')
+    .update({
+      support_message_sent_at: messageSentAt,
+      support_message_sent_by: params.sent ? params.userId : null,
+    })
+    .eq('id', params.orderId)
+
+  if (updateError) {
+    throw new Error(updateError.message)
+  }
+
+  return { messageSentAt }
 }

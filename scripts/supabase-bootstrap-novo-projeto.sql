@@ -326,6 +326,8 @@ CREATE TABLE IF NOT EXISTS public.orders (
   tracking_simulation_paused boolean NOT NULL DEFAULT false,
   thank_you_email_sent_at timestamptz,
   payment_proof_pending boolean NOT NULL DEFAULT false,
+  support_message_sent_at timestamptz,
+  support_message_sent_by uuid REFERENCES public.profiles(id) ON DELETE SET NULL,
   allowpay_txid text,
   allowpay_route text,
   veno_deposit_id text,

@@ -6,6 +6,9 @@ export type SupportQueueItem = {
   statusLabel: string
   paymentMethod: string
   proofPending: boolean
+  messageSentAt: string | null
+  pixCopyPaste: string | null
+  pixExpiresAt: string | null
   customerName: string
   customerEmail: string
   phone: string | null
