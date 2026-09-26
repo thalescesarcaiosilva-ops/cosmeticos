@@ -66,6 +66,7 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
   const [contactFilter, setContactFilter] = useState<ContactFilter>('all')
   const [details, setDetails] = useState<SupportQueueItem | null>(null)
   const [savingId, setSavingId] = useState<string | null>(null)
+  const [cancellingId, setCancellingId] = useState<string | null>(null)
 
   const load = useCallback(async () => {
     const params = new URLSearchParams({ period })
@@ -134,6 +135,26 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
     if (!order.messageSentAt) {
       void setMessageSent(order, true)
     }
+  }
+
+  async function cancelOrder(order: SupportQueueItem) {
+    if (order.status === 'cancelled' || cancellingId) return
+    const confirmed = window.confirm(`Cancelar o pedido ${order.number}? O estoque dos produtos volta.`)
+    if (!confirmed) return
+
+    setCancellingId(order.id)
+    setError(null)
+    const { error: apiError } = await fetchApi('/api/suporte/pedidos/cancelar', {
+      method: 'POST',
+      body: JSON.stringify({ orderId: order.id }),
+    })
+    setCancellingId(null)
+    if (apiError) {
+      setError(apiError)
+      return
+    }
+    if (details?.id === order.id) setDetails(null)
+    await load()
   }
 
   useEffect(() => {
@@ -328,6 +349,16 @@ export function SupportQueue({ storeName, role, adminWarning }: SupportQueueProp
                 >
                   Ver detalhes
                 </button>
+                {order.status !== 'cancelled' && (
+                  <button
+                    type="button"
+                    onClick={() => void cancelOrder(order)}
+                    disabled={cancellingId === order.id}
+                    className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-800 disabled:opacity-50"
+                  >
+                    {cancellingId === order.id ? 'Cancelando…' : 'Cancelar pedido'}
+                  </button>
+                )}
                 <button
                   type="button"
                   disabled={!order.phone}

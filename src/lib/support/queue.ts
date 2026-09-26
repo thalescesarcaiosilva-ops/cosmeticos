@@ -288,3 +288,46 @@ export async function setSupportMessageSent(params: {
 
   return { messageSentAt }
 }
+
+export async function cancelSupportOrder(orderId: string): Promise<{ status: 'cancelled' } | null> {
+  const admin = createAdminClient()
+  const { data, error } = await admin
+    .from('orders')
+    .select('id, status, payment_status, created_at')
+    .eq('id', orderId)
+    .maybeSingle()
+
+  if (error || !data) return null
+  if (
+    !isSupportQueueEligible({
+      status: data.status,
+      payment_status: data.payment_status,
+      created_at: data.created_at,
+    })
+  ) {
+    return null
+  }
+
+  if (data.status === 'cancelled') {
+    return { status: 'cancelled' }
+  }
+
+  const { error: cancelError } = await admin.rpc('cancel_order_and_restore_stock', {
+    p_order_id: orderId,
+  })
+  if (cancelError) {
+    throw new Error(cancelError.message)
+  }
+
+  const { data: updated, error: readError } = await admin
+    .from('orders')
+    .select('status')
+    .eq('id', orderId)
+    .maybeSingle()
+
+  if (readError || updated?.status !== 'cancelled') {
+    throw new Error('Não foi possível cancelar o pedido')
+  }
+
+  return { status: 'cancelled' }
+}
