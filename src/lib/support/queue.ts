@@ -235,7 +235,7 @@ export async function listSupportQueue(params: {
   }
 
   const orders = (data ?? [])
-    .map((row) => mapOrder(row as Record<string, unknown>, storeName))
+    .map((row) => mapOrder(row as unknown as Record<string, unknown>, storeName))
     .filter((item): item is SupportQueueItem => item != null)
     .filter((item) => matchesSupportQueuePeriod(item.createdAt, params.period, now))
     .filter((item) => matchesSearch(item, params.search))
