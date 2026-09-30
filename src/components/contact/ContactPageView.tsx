@@ -10,6 +10,7 @@ import type { ContactPageData } from '@/lib/contact/get-contact-page-data'
 import { fetchApi } from '@/lib/api/fetch-api'
 import { contactFormSchema } from '@/schemas/contact-schema'
 import { SocialIcon } from '@/components/layout/SocialIcon'
+import { STORE_WHATSAPP_DISPLAY, STORE_WHATSAPP_HREF } from '@/components/layout/StoreWhatsappLink'
 
 type ContactFormProps = {
   data: ContactPageData
@@ -131,6 +132,20 @@ export function ContactPageView({ data }: ContactFormProps) {
           </p>
 
           <div className="mt-8 space-y-6">
+            <ContactChannel
+              icon={<SocialIcon type="whatsapp" className="size-5" />}
+              title="Fale conosco"
+            >
+              <a
+                href={STORE_WHATSAPP_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-brand"
+              >
+                WhatsApp {STORE_WHATSAPP_DISPLAY}
+              </a>
+            </ContactChannel>
+
             {data.address && (
               <ContactChannel icon={<MapPin className="size-5" aria-hidden />} title="Endereço">
                 <p>{data.address}</p>
@@ -138,13 +153,16 @@ export function ContactPageView({ data }: ContactFormProps) {
             )}
 
             {showPhoneBlock && (
-              <ContactChannel icon={<Phone className="size-5" aria-hidden />} title="Telefone">
+              <ContactChannel
+                icon={<Phone className="size-4 text-text-muted" aria-hidden />}
+                title="Telefone"
+              >
                 {phoneLine && data.phoneHref ? (
-                  <a href={data.phoneHref} className="hover:text-brand">
+                  <a href={data.phoneHref} className="text-xs text-text-muted">
                     {phoneLine}
                   </a>
                 ) : (
-                  <span>{phoneLine}</span>
+                  <span className="text-xs text-text-muted">{phoneLine}</span>
                 )}
               </ContactChannel>
             )}

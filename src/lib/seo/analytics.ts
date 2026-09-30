@@ -133,10 +133,15 @@ export function normalizeTrackingConfig(raw: unknown): StoreTrackingConfig {
 
 /** Lista única de IDs Google para gtag('config', …). */
 export function listGoogleConfigIds(tracking: StoreTrackingConfig): string[] {
+  const adsAccounts = listAdsConversionSendTos(tracking)
+    .map((sendTo) => sendTo.split('/')[0] ?? '')
+    .filter((id) => /^AW-\d+$/i.test(id))
+
   const ids = [
     tracking.googleTagId,
     tracking.googleAnalyticsId,
     tracking.googleAdsId,
+    ...adsAccounts,
   ].filter((id): id is string => Boolean(id))
 
   return [...new Set(ids)]

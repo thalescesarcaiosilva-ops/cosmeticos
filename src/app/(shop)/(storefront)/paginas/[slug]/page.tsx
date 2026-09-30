@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { getFooterData } from '@/lib/layout/get-footer-data'
 import { preparePolicyHtml } from '@/lib/content/policy-html'
 import { createPublicClient } from '@/lib/supabase/public'
 import { buildPageMetadata } from '@/lib/seo/metadata'
@@ -43,13 +44,17 @@ export default async function FooterContentPage({ params }: PageProps) {
 
   if (!page) notFound()
 
+  const footer = await getFooterData()
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 ">
       <h1 className="mb-8 text-3xl font-bold text-text-primary">{page.title}</h1>
       {page.content ? (
         <div
           className="prose prose-sm max-w-none text-text-secondary [&_a]:text-brand [&_h2]:text-text-primary [&_h3]:text-text-primary"
-          dangerouslySetInnerHTML={{ __html: preparePolicyHtml(page.content) }}
+          dangerouslySetInnerHTML={{
+            __html: preparePolicyHtml(page.content, { mutePhone: footer.contact.phoneDisplay }),
+          }}
         />
       ) : (
         <p className="text-text-secondary">Conteúdo em breve.</p>

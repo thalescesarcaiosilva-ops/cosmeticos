@@ -1,7 +1,8 @@
 import { SiteImage } from '@/components/ui/SiteImage'
 import Link from 'next/link'
-import { Clock, Mail, MapPin, Phone } from 'lucide-react'
+import { Clock, Mail, MapPin } from 'lucide-react'
 import { SocialIcon } from '@/components/layout/SocialIcon'
+import { StoreContactCallout } from '@/components/layout/StoreWhatsappLink'
 import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
 import { hasPaymentMethodsImage } from '@/lib/payment/payment-methods-image'
 import { toPublicHref } from '@/lib/navigation/public-href'
@@ -142,14 +143,6 @@ function FooterMenusSection({ menus }: { menus: FooterData['menus'] }) {
 }
 
 function FooterContactColumn({ contact }: { contact: FooterData['contact'] }) {
-  const hasContact =
-    Boolean(contact.address) ||
-    Boolean(contact.phoneDisplay) ||
-    Boolean(contact.email) ||
-    Boolean(contact.businessHours)
-
-  if (!hasContact) return null
-
   return (
     <div>
       <h3 className="mb-4 text-sm font-semibold text-text-primary">Contato</h3>
@@ -162,18 +155,7 @@ function FooterContactColumn({ contact }: { contact: FooterData['contact'] }) {
             </p>
           </div>
         )}
-        {contact.phoneDisplay && (
-          <div className="flex items-center gap-3">
-            <Phone className="size-4 shrink-0 text-brand" aria-hidden />
-            {contact.phoneHref ? (
-              <a href={contact.phoneHref} className="font-semibold text-brand hover:opacity-90">
-                {contact.phoneDisplay}
-              </a>
-            ) : (
-              <span className="font-semibold text-brand">{contact.phoneDisplay}</span>
-            )}
-          </div>
-        )}
+        <StoreContactCallout phoneDisplay={contact.phoneDisplay} phoneHref={contact.phoneHref} />
         {contact.email && (
           <div className="flex items-center gap-3">
             <Mail className="size-4 shrink-0 text-brand" aria-hidden />
@@ -259,11 +241,6 @@ export function Footer({ className, footerData }: FooterProps) {
     description: null,
   }
   const showMenus = menus.some((menu) => menu.items.length > 0)
-  const showContact =
-    Boolean(contact.address) ||
-    Boolean(contact.phoneDisplay) ||
-    Boolean(contact.email) ||
-    Boolean(contact.businessHours)
 
   const copyrightParts = [
     `© ${year} Todos os direitos reservados`,
@@ -274,8 +251,7 @@ export function Footer({ className, footerData }: FooterProps) {
   return (
     <footer className={`mt-auto border-t border-border bg-surface text-text-secondary ${className ?? ''}`}>
       <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-6 md:py-12">
-        {(showBrand || showMenus || showContact) && (
-          <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16">
             {showBrand && (
               <div className="w-full lg:w-64 lg:shrink-0">
                 <FooterBrandColumn brand={brandData} socialLinks={socialLinks} />
@@ -288,13 +264,10 @@ export function Footer({ className, footerData }: FooterProps) {
               </div>
             )}
 
-            {showContact && (
-              <div className="w-full lg:w-72 lg:shrink-0">
-                <FooterContactColumn contact={contact} />
-              </div>
-            )}
+            <div className="w-full lg:w-72 lg:shrink-0">
+              <FooterContactColumn contact={contact} />
+            </div>
           </div>
-        )}
 
         <FooterTrustStrip footerData={footerData} />
 

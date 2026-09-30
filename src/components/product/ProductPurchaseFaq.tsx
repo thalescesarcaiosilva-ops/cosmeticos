@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { STORE_WHATSAPP_DISPLAY, STORE_WHATSAPP_HREF } from '@/components/layout/StoreWhatsappLink'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
 
 type ProductPurchaseFaqProps = {
@@ -44,30 +45,6 @@ function buildFaqItems(assurances: ProductPurchaseAssurances): FaqItem[] {
       </>
     )
   })()
-
-  const contactParts: ReactNode[] = []
-  if (assurances.contactEmail) {
-    contactParts.push(
-      <a
-        key="email"
-        href={`mailto:${assurances.contactEmail}`}
-        className="font-semibold text-brand hover:underline"
-      >
-        {assurances.contactEmail}
-      </a>
-    )
-  }
-  if (assurances.phoneDisplay && assurances.phoneHref) {
-    contactParts.push(
-      <a
-        key="phone"
-        href={assurances.phoneHref}
-        className="font-semibold text-brand hover:underline"
-      >
-        {assurances.phoneDisplay}
-      </a>
-    )
-  }
 
   return [
     {
@@ -122,19 +99,39 @@ function buildFaqItems(assurances: ProductPurchaseAssurances): FaqItem[] {
       question: 'Como falar com o atendimento?',
       answer: (
         <>
-          {contactParts.length > 0 ? (
+          Entre em contato
+          {assurances.contactEmail ? (
             <>
-              Entre em contato por {contactParts.length === 1 ? contactParts[0] : (
-                <>
-                  {contactParts[0]}
-                  {contactParts.length > 1 ? <> ou {contactParts[1]}</> : null}
-                </>
-              )}
-              . Também você pode usar a página de{' '}
+              {' '}
+              por{' '}
+              <a
+                href={`mailto:${assurances.contactEmail}`}
+                className="font-semibold text-brand hover:underline"
+              >
+                {assurances.contactEmail}
+              </a>
             </>
-          ) : (
-            <>Use a página de </>
-          )}
+          ) : null}{' '}
+          pelo{' '}
+          <a
+            href={STORE_WHATSAPP_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-brand hover:underline"
+          >
+            WhatsApp {STORE_WHATSAPP_DISPLAY}
+          </a>
+          .{' '}
+          {assurances.phoneDisplay && assurances.phoneHref ? (
+            <>
+              <br />
+              <a href={assurances.phoneHref} className="text-[11px] font-normal text-text-muted">
+                Telefone: {assurances.phoneDisplay}
+              </a>
+              <br />
+            </>
+          ) : null}
+          Também você pode usar a página de{' '}
           <Link href={assurances.contactHref} className="font-semibold text-brand hover:underline">
             Fale Conosco
           </Link>
