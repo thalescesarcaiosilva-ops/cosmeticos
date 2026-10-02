@@ -44,6 +44,7 @@ const SECTIONS: NavSection[] = [
     links: [
       { href: '/admin/loja', label: 'Dados da loja' },
       { href: '/admin/frete', label: 'Frete' },
+      { href: '/admin/cupons', label: 'Cupons' },
       { href: '/admin/configuracoes', label: 'Pagamentos e SEO' },
       { href: '/admin/menu', label: 'Menu' },
       { href: '/admin/topbar', label: 'Top bar' },

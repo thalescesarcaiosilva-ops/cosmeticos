@@ -154,13 +154,16 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const selectedShipping = shippingOptions.find((o) => o.methodId === selectedShippingId) ?? null
   const shippingPrice = selectedShipping?.price ?? 0
   const merchandiseTotal = cart?.merchandiseTotal ?? cart?.subtotal ?? 0
+  const [couponCode, setCouponCode] = useState('')
+  const [couponDiscount, setCouponDiscount] = useState(0)
+  const merchandiseAfterCoupon = Math.max(merchandiseTotal - couponDiscount, 0)
   const bundleDiscountAmount = cart?.bundleDiscountAmount ?? 0
   const pixDiscountPercent = paymentConfig?.pixDiscount ?? 0
   const pixDiscountAmount =
     paymentMethod === 'pix'
-      ? calcPixDiscountAmount(merchandiseTotal, shippingPrice, pixDiscountPercent)
+      ? calcPixDiscountAmount(merchandiseAfterCoupon, shippingPrice, pixDiscountPercent)
       : 0
-  const total = Math.max(merchandiseTotal + shippingPrice - pixDiscountAmount, 0)
+  const total = Math.max(merchandiseAfterCoupon + shippingPrice - pixDiscountAmount, 0)
 
   useEffect(() => {
     async function loadProfile() {
@@ -413,6 +416,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
         companion_product_id: pair.companionProductId,
         discount_percent: pair.discountPercent,
       })),
+      coupon_code: couponCode || undefined,
     }
   }
 
@@ -631,6 +635,10 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     selectedShipping,
     shippingLoading,
     discountAmount: pixDiscountAmount,
+    onCouponChange: (applied: { code: string; discountAmount: number }) => {
+      setCouponCode(applied.code)
+      setCouponDiscount(applied.discountAmount)
+    },
     total,
     onFinalize: pixResult ? undefined : handleFinalizeOrder,
     finalizeDisabled:

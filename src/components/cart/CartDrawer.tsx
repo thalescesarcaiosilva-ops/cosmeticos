@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { X, ShoppingBag, ArrowRight, Truck, CreditCard, Zap } from 'lucide-react'
 import { CartLineItem } from '@/components/cart/CartLineItem'
+import { CouponField } from '@/components/checkout/CouponField'
 import { Button } from '@/components/ui/Button'
 import { useCartSync } from '@/hooks/useCartSync'
 import { usePaymentInfo } from '@/hooks/usePaymentInfo'
@@ -50,17 +51,19 @@ function DrawerSummary({
   loading: boolean
 }) {
   const total = data.merchandiseTotal
+  const [couponDiscount, setCouponDiscount] = useState(0)
+  const payable = Math.max(total - couponDiscount, 0)
   const hasBundle = data.bundleDiscountAmount > 0
 
   /* Pix */
   const pixEnabled = checkoutSettings?.pixEnabled !== false
   const pixDiscount = Number(checkoutSettings?.pixDiscount ?? 0) || 0
   const showPixBadge = pixEnabled && pixDiscount > 0
-  const pixPrice = showPixBadge ? calcPixPrice(total, pixDiscount) : total
+  const pixPrice = showPixBadge ? calcPixPrice(payable, pixDiscount) : payable
 
   /* Parcelas */
   const installment = paymentSettings
-    ? calcInstallmentDisplay(total, paymentSettings)
+            ? calcInstallmentDisplay(payable, paymentSettings)
     : null
   const showInstallments =
     checkoutSettings?.cardEnabled !== false &&
@@ -97,9 +100,14 @@ function DrawerSummary({
           {hasBundle ? 'Total produtos' : 'Subtotal'}
         </dt>
         <dd className="text-base font-bold text-text-primary tabular-nums">
-          {valuePlaceholder ?? formatCurrency(total)}
+          {valuePlaceholder ?? formatCurrency(payable)}
         </dd>
       </div>
+
+      <CouponField
+        merchandiseTotal={total}
+        onChange={(applied) => setCouponDiscount(applied.discountAmount)}
+      />
 
       {/* Frete */}
       <div className="flex items-center justify-between gap-3">

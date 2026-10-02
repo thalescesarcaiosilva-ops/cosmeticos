@@ -292,6 +292,22 @@ CREATE TABLE IF NOT EXISTS public.shipping_methods (
   )
 );
 
+CREATE TABLE IF NOT EXISTS public.coupons (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  code character varying(40) NOT NULL,
+  discount_type character varying(20) NOT NULL,
+  discount_value numeric(10,2) NOT NULL,
+  active boolean NOT NULL DEFAULT true,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  CONSTRAINT coupons_code_unique UNIQUE (code),
+  CONSTRAINT coupons_discount_type_check CHECK (discount_type IN ('percent', 'fixed')),
+  CONSTRAINT coupons_discount_value_check CHECK (
+    (discount_type = 'percent' AND discount_value > 0 AND discount_value <= 100)
+    OR (discount_type = 'fixed' AND discount_value > 0)
+  )
+);
+
 CREATE TABLE IF NOT EXISTS public.orders (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -312,6 +328,7 @@ CREATE TABLE IF NOT EXISTS public.orders (
   payout_transaction_id bigint,
   customer_document character varying(14),
   discount_amount numeric(10,2) NOT NULL DEFAULT 0,
+  coupon_code character varying(40),
   pix_qr_code text,
   pix_expiration timestamptz,
   customer_name text,
@@ -1275,6 +1292,11 @@ CREATE POLICY shipping_methods_public_read ON public.shipping_methods FOR SELECT
 DROP POLICY IF EXISTS shipping_methods_admin_all ON public.shipping_methods;
 CREATE POLICY shipping_methods_admin_all ON public.shipping_methods
   FOR ALL USING (is_admin()) WITH CHECK (is_admin());
+
+ALTER TABLE public.coupons ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS coupons_admin_all ON public.coupons;
+CREATE POLICY coupons_admin_all ON public.coupons
+  FOR ALL TO authenticated USING (is_admin()) WITH CHECK (is_admin());
 
 DROP POLICY IF EXISTS orders_select_own ON public.orders;
 CREATE POLICY orders_select_own ON public.orders FOR SELECT USING (auth.uid() = user_id);

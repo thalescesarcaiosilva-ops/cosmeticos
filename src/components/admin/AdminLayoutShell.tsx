@@ -21,6 +21,7 @@ const TITLES: Record<string, string> = {
   '/admin/topbar': 'Top bar',
   '/admin/rodape': 'Rodapé',
   '/admin/frete': 'Frete',
+  '/admin/cupons': 'Cupons',
 }
 
 type AdminLayoutShellProps = {

@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     return jsonError('Dados inválidos — verifique CPF, e-mail e endereço', 400)
   }
 
-  const { shipping_method_id, items, bundle_pairs, document, customer, shipping_address } =
+  const { shipping_method_id, items, bundle_pairs, document, customer, shipping_address, coupon_code } =
     parsed.data
   const userId = await getOptionalSessionUserId()
 
@@ -32,6 +32,7 @@ export async function POST(request: Request) {
       customer,
       shippingAddress: shipping_address,
       userId,
+      couponCode: coupon_code,
     })
 
     revalidatePath('/conta/pedidos')

@@ -4,6 +4,7 @@ import { SiteImage } from '@/components/ui/SiteImage'
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { CheckoutPolicyNotice } from '@/components/checkout/CheckoutPolicyNotice'
+import { CouponField } from '@/components/checkout/CouponField'
 import { Button } from '@/components/ui/Button'
 import { formatCurrency } from '@/lib/products/format'
 import type { ValidatedCartLine } from '@/types/cart'
@@ -17,6 +18,7 @@ type CheckoutOrderSummaryProps = {
   selectedShipping: ShippingQuoteLine | null
   shippingLoading?: boolean
   discountAmount?: number
+  onCouponChange?: (applied: { code: string; discountAmount: number }) => void
   total: number
   onFinalize?: () => void
   finalizeDisabled?: boolean
@@ -32,6 +34,7 @@ export function CheckoutOrderSummary({
   selectedShipping,
   shippingLoading = false,
   discountAmount = 0,
+  onCouponChange,
   total,
   onFinalize,
   finalizeDisabled = false,
@@ -78,6 +81,11 @@ export function CheckoutOrderSummary({
             <div className="flex justify-between gap-4 text-brand">
               <dt>Desconto Compre Junto</dt>
               <dd className="font-medium tabular-nums">- {formatCurrency(bundleDiscountAmount)}</dd>
+            </div>
+          )}
+          {onCouponChange && (
+            <div className="pt-1">
+              <CouponField merchandiseTotal={Math.max(subtotal - bundleDiscountAmount, 0)} onChange={onCouponChange} />
             </div>
           )}
           {discountAmount > 0 && (

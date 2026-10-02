@@ -29,6 +29,7 @@ export const checkoutBaseSchema = z.object({
   document: cpfSchema,
   customer: checkoutCustomerSchema,
   shipping_address: checkoutShippingAddressSchema,
+  coupon_code: z.string().trim().max(40).optional(),
 })
 
 export const checkoutPixSchema = checkoutBaseSchema

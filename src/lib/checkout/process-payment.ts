@@ -1,4 +1,6 @@
 import { syncCartItems } from '@/lib/cart/sync-cart'
+import { resolveActiveCoupon } from '@/lib/checkout/coupon'
+import { roundMoney } from '@/lib/checkout/coupon-math'
 import { isValidCpf } from '@/lib/checkout/cpf'
 import {
   cancelCheckoutOrder,
@@ -37,6 +39,7 @@ type CheckoutInput = {
   shippingAddress: CheckoutShippingAddressInput
   userId?: string | null
   addressId?: string | null
+  couponCode?: string | null
 }
 
 function onlyDigits(value: string): string {
@@ -106,6 +109,7 @@ async function findReusablePendingOrder(params: {
   customerEmail: string
   shippingMethodId: string
   lines: Array<{ productId: string; quantity: number }>
+  couponCode?: string | null
 }): Promise<{
   orderId: string
   guestAccessToken: string | null
@@ -125,7 +129,7 @@ async function findReusablePendingOrder(params: {
     .from('orders')
     .select(
       `id, total, discount_amount, guest_access_token, pix_qr_code, pix_expiration,
-       shipping_method_id, created_at,
+       shipping_method_id, coupon_code, created_at,
        order_items(product_id, quantity)`
     )
     .ilike('customer_email', email)
@@ -153,6 +157,9 @@ async function findReusablePendingOrder(params: {
     )
 
     if (candidateSignature !== targetSignature) continue
+
+    const storedCoupon = typeof candidate.coupon_code === 'string' ? candidate.coupon_code : ''
+    if (storedCoupon !== (params.couponCode ?? '')) continue
 
     return {
       orderId: candidate.id,
@@ -195,6 +202,18 @@ export async function processPixCheckout(params: CheckoutInput) {
 
   const { cart, availableLines } = await prepareCheckoutCart(params.items, params.bundlePairs)
 
+  let couponCode: string | null = null
+  let couponDiscount = 0
+  const requestedCoupon = params.couponCode?.trim() ?? ''
+  if (requestedCoupon) {
+    const coupon = await resolveActiveCoupon(requestedCoupon, cart.merchandiseTotal)
+    if (!coupon) {
+      throw new CheckoutError('Cupom inválido', 'INVALID_COUPON')
+    }
+    couponCode = coupon.code
+    couponDiscount = coupon.discountAmount
+  }
+
   // Evita duplicar pedido/pagamento se o mesmo carrinho já tem um Pix
   // pendente e ainda válido (double-click, retry antes do estado local
   // ser restaurado, etc.). Pedidos com itens/frete diferentes não são
@@ -203,6 +222,7 @@ export async function processPixCheckout(params: CheckoutInput) {
     customerEmail: params.customer.email,
     shippingMethodId: params.shippingMethodId,
     lines: availableLines.map((line) => ({ productId: line.productId, quantity: line.quantity })),
+    couponCode,
   })
 
   if (reusable) {
@@ -226,7 +246,7 @@ export async function processPixCheckout(params: CheckoutInput) {
       product_id: line.productId,
       quantity: line.quantity,
     })),
-    discountAmount: cart.bundleDiscountAmount,
+    discountAmount: roundMoney(cart.bundleDiscountAmount + couponDiscount),
     pixDiscountPercent: checkoutSettings.pixDiscount,
     usedBuyTogether: cart.bundleDiscountAmount > 0,
     userId: params.userId,
@@ -235,6 +255,10 @@ export async function processPixCheckout(params: CheckoutInput) {
     shippingAddress: params.shippingAddress,
     document: params.document,
   })
+
+  if (couponCode) {
+    await createAdminClient().from('orders').update({ coupon_code: couponCode }).eq('id', order.id)
+  }
 
   try {
     const amountCents = toCents(order.total)

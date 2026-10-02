@@ -15,6 +15,7 @@ export const RATE_LIMITS = {
   register: { limit: 5, windowMs: 60_000 },
   forgotPassword: { limit: 3, windowMs: 60_000 },
   general: { limit: 100, windowMs: 60_000 },
+  coupon: { limit: 20, windowMs: 60_000 },
 } satisfies Record<string, RateLimitConfig>
 
 export type RateLimitResult =
