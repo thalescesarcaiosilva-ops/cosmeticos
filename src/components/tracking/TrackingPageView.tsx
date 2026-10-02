@@ -84,24 +84,46 @@ function formatTrack7HistoryDate(iso: string | null | undefined) {
 function trackingTextBlob(result: PublicTrackingResult): string {
   return [
     result.currentStatus ?? '',
+    result.status ?? '',
     ...result.events.map(
       (event) => `${event.statusLabel ?? ''} ${event.message} ${event.eventType}`
     ),
   ]
     .join(' ')
     .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
 }
 
-function resolveTrack7MacroIndex(result: PublicTrackingResult): number {
+function looksLikeTrack7Result(result: PublicTrackingResult): boolean {
+  if (result.source === 'track7') return true
+  if (result.carrier?.toLowerCase() === 'track7') return true
+  if (result.events.some((event) => Boolean(event.statusLabel))) return true
+  const status = (result.currentStatus ?? '').toLowerCase()
+  return status.includes('seu pacote') || status.includes('em movimento')
+}
+
+/** 0 postado … 5 entregue — baseado no texto real da Track7/histórico. */
+function resolveProgressStage(result: PublicTrackingResult): number {
   const text = trackingTextBlob(result)
-  if (text.includes('entreg') || text.includes('deliver') || result.deliveredAt) {
+  const types = new Set(result.events.map((event) => String(event.eventType)))
+
+  if (
+    text.includes('entreg') ||
+    text.includes('deliver') ||
+    result.deliveredAt ||
+    types.has('delivered') ||
+    result.status === 'delivered'
+  ) {
     return 5
   }
   if (
-    text.includes('saiu') ||
+    text.includes('saiu p') ||
+    text.includes('saiu para') ||
     text.includes('out for') ||
     text.includes('rota de entrega') ||
-    text.includes('para entrega')
+    text.includes('para entrega') ||
+    types.has('out_for_delivery')
   ) {
     return 4
   }
@@ -109,41 +131,51 @@ function resolveTrack7MacroIndex(result: PublicTrackingResult): number {
     text.includes('destino') ||
     text.includes('tratamento regional') ||
     text.includes('cidade de destino') ||
-    result.events.some((event) => event.eventType === 'arrived_hub')
+    types.has('arrived_hub')
   ) {
     return 3
   }
   if (
     text.includes('movimento') ||
-    text.includes('trâns') ||
+    text.includes('em transit') ||
     text.includes('transito') ||
-    text.includes('trânsito') ||
+    text.includes('transit') ||
     text.includes('hub') ||
-    text.includes('centro') ||
-    text.includes('logística') ||
-    result.events.some((event) => event.eventType === 'in_transit')
+    text.includes('centro de distribu') ||
+    text.includes('logistica') ||
+    text.includes('pronto para transporte') ||
+    text.includes('unidade de tratamento') ||
+    types.has('in_transit')
   ) {
     return 2
   }
-  if (text.includes('colet') || result.events.some((event) => event.eventType === 'departed')) {
+  if (text.includes('colet') || types.has('departed')) {
     return 1
   }
-  if (text.includes('postad') || result.trackingCode || result.shippedAt) return 0
+  if (
+    text.includes('postad') ||
+    text.includes('despach') ||
+    types.has('packed') ||
+    result.trackingCode ||
+    result.shippedAt
+  ) {
+    return 0
+  }
   return 0
 }
 
-function resolveLocalMacroIndex(result: PublicTrackingResult): number {
-  if (result.status === 'delivered' || result.deliveredAt) return 4
-  const types = new Set(result.events.map((event) => event.eventType))
-  if (types.has('out_for_delivery')) return 3
-  if (types.has('in_transit') || types.has('arrived_hub')) return 2
-  if (types.has('departed') || types.has('packed') || result.shippedAt) return 1
+/** Converte estágio 0–5 para o índice da barra local (5 passos). */
+function stageToLocalIndex(stage: number): number {
+  if (stage >= 5) return 4
+  if (stage >= 4) return 3
+  if (stage >= 2) return 2
+  if (stage >= 1) return 1
   return 0
 }
 
-function resolveActiveMacroIndex(result: PublicTrackingResult): number {
-  if (result.source === 'track7') return resolveTrack7MacroIndex(result)
-  return resolveLocalMacroIndex(result)
+function resolveActiveMacroIndex(result: PublicTrackingResult, track7Ui: boolean): number {
+  const stage = resolveProgressStage(result)
+  return track7Ui ? stage : stageToLocalIndex(stage)
 }
 
 function stepDate(
@@ -155,25 +187,32 @@ function stepDate(
       (event) => types.includes(String(event.eventType)) && event.occurredAt
     )?.occurredAt ?? null
 
+  const byMessage = (...needles: string[]) =>
+    result.events.find((event) => {
+      if (!event.occurredAt) return false
+      const blob = `${event.statusLabel ?? ''} ${event.message}`
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+      return needles.some((needle) => blob.includes(needle))
+    })?.occurredAt ?? null
+
   switch (key) {
     case 'posted':
-      return byType('packed') ?? result.shippedAt
+      return byType('packed') ?? byMessage('postad') ?? result.shippedAt
     case 'collected':
-      return byType('departed', 'packed') ?? result.shippedAt
+      return byType('departed', 'packed') ?? byMessage('colet', 'despach') ?? result.shippedAt
     case 'in_transit':
       return (
-        result.events.find(
-          (event) =>
-            (event.eventType === 'in_transit' || event.eventType === 'arrived_hub') &&
-            event.occurredAt
-        )?.occurredAt ?? null
+        byType('in_transit', 'arrived_hub') ??
+        byMessage('movimento', 'transito', 'transit', 'logistica', 'pronto para transporte')
       )
     case 'destination':
-      return byType('arrived_hub')
+      return byType('arrived_hub') ?? byMessage('destino', 'tratamento regional')
     case 'out_for_delivery':
-      return byType('out_for_delivery')
+      return byType('out_for_delivery') ?? byMessage('saiu p', 'saiu para', 'para entrega')
     case 'delivered':
-      return byType('delivered') ?? result.deliveredAt
+      return byType('delivered') ?? byMessage('entreg') ?? result.deliveredAt
     default:
       return null
   }
@@ -196,9 +235,9 @@ function StepIcon({
 }
 
 function TrackingResultCard({ result }: { result: PublicTrackingResult }) {
-  const isTrack7 = result.source === 'track7'
+  const isTrack7 = looksLikeTrack7Result(result)
   const macroSteps = isTrack7 ? TRACK7_MACRO_STEPS : LOCAL_MACRO_STEPS
-  const activeIndex = resolveActiveMacroIndex(result)
+  const activeIndex = resolveActiveMacroIndex(result, isTrack7)
   const shippedLabel = formatDateTime(result.shippedAt)
 
   const steps = useMemo(
