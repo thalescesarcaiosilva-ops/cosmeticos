@@ -25,6 +25,7 @@ import {
   buildOrderFunnel,
   filterNotFoundPaths,
   filterOrders,
+  gatewayNetRevenue,
   highViewLowConversion,
   isSoldOrder,
   methodStats,
@@ -117,6 +118,8 @@ export function AdminDashboardView({ data }: Props) {
     () => soldOrders.reduce((sum, o) => sum + o.total, 0),
     [soldOrders]
   )
+
+  const gateway = useMemo(() => gatewayNetRevenue(soldOrders), [soldOrders])
 
   const pendingOrders = useMemo(
     () => periodOrders.filter((o) => o.status === 'pending').length,
@@ -305,6 +308,38 @@ export function AdminDashboardView({ data }: Props) {
           />
         </Card>
       </div>
+
+      <Card title="Receita / gateway">
+        <p className="mb-4 text-sm text-text-secondary">
+          Quanto sobra dos pedidos pagos depois da taxa de 8% + R$ 1,50 por transação.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div>
+            <p className="text-xs text-text-muted">Receita bruta</p>
+            <p className="mt-1 text-xl font-semibold tabular-nums text-text-primary">
+              {formatCurrency(gateway.gross)}
+            </p>
+            <p className="mt-1 text-xs text-text-muted">
+              {gateway.transactions}{' '}
+              {gateway.transactions === 1 ? 'transação paga' : 'transações pagas'}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-text-muted">Taxa do gateway</p>
+            <p className="mt-1 text-xl font-semibold tabular-nums text-text-secondary">
+              {formatCurrency(gateway.fees)}
+            </p>
+            <p className="mt-1 text-xs text-text-muted">8% + R$ 1,50 por pedido</p>
+          </div>
+          <div>
+            <p className="text-xs text-text-muted">Líquido após a taxa</p>
+            <p className="mt-1 text-xl font-semibold tabular-nums text-success">
+              {formatCurrency(gateway.net)}
+            </p>
+            <p className="mt-1 text-xs text-text-muted">{periodLabel}</p>
+          </div>
+        </div>
+      </Card>
 
       <div className="grid gap-4 xl:grid-cols-[1.4fr_1fr]">
         <Card title={`Receita confirmada por dia · ${periodLabel}`}>

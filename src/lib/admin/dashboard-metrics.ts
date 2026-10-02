@@ -125,6 +125,39 @@ export type MethodStats = {
   conversion: number
 }
 
+/** Taxa do gateway: 8% do valor + R$ 1,50 por transação paga. */
+export const GATEWAY_FEE_RATE = 0.08
+export const GATEWAY_FEE_FIXED = 1.5
+
+export type GatewayNet = {
+  transactions: number
+  gross: number
+  fees: number
+  net: number
+}
+
+function roundMoney(value: number): number {
+  return Math.round(value * 100) / 100
+}
+
+export function gatewayNetRevenue(orders: DashboardOrderRow[]): GatewayNet {
+  let gross = 0
+  let fees = 0
+  for (const order of orders) {
+    const total = Number(order.total) || 0
+    gross += total
+    fees += total * GATEWAY_FEE_RATE + GATEWAY_FEE_FIXED
+  }
+  gross = roundMoney(gross)
+  fees = roundMoney(fees)
+  return {
+    transactions: orders.length,
+    gross,
+    fees,
+    net: roundMoney(gross - fees),
+  }
+}
+
 export function methodStats(
   orders: DashboardOrderRow[],
   method: 'pix' | 'credit_card',
