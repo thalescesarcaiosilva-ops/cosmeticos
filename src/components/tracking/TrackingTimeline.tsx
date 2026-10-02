@@ -13,7 +13,9 @@ export type TrackingTimelineEvent = {
 }
 
 function formatDateTime(iso: string) {
-  return new Date(iso).toLocaleString('pt-BR', {
+  const date = new Date(iso)
+  if (Number.isNaN(date.getTime())) return iso
+  return date.toLocaleString('pt-BR', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',

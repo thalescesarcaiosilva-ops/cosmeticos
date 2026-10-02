@@ -21,21 +21,32 @@ import type { PublicTrackingResult } from '@/lib/tracking/queries'
 const TRACKING_PATH = '/paginas/rastreio'
 
 type MacroStepKey =
-  | 'ordered'
-  | 'shipped'
+  | 'posted'
+  | 'collected'
   | 'in_transit'
+  | 'destination'
   | 'out_for_delivery'
   | 'delivered'
 
 type MacroStep = {
   key: MacroStepKey
   label: string
-  icon: 'check' | 'truck' | 'package' | 'pin' | 'done'
+  icon: 'check' | 'truck' | 'package' | 'pin' | 'done' | 'hub'
 }
 
-const MACRO_STEPS: MacroStep[] = [
-  { key: 'ordered', label: 'Pedido realizado', icon: 'check' },
-  { key: 'shipped', label: 'Despachado', icon: 'truck' },
+/** Etapas alinhadas ao painel da Track7. */
+const TRACK7_MACRO_STEPS: MacroStep[] = [
+  { key: 'posted', label: 'Postado', icon: 'check' },
+  { key: 'collected', label: 'Coletado', icon: 'truck' },
+  { key: 'in_transit', label: 'Em Trânsito', icon: 'package' },
+  { key: 'destination', label: 'Destino', icon: 'hub' },
+  { key: 'out_for_delivery', label: 'Saiu p/ Entrega', icon: 'pin' },
+  { key: 'delivered', label: 'Entregue', icon: 'done' },
+]
+
+const LOCAL_MACRO_STEPS: MacroStep[] = [
+  { key: 'posted', label: 'Pedido realizado', icon: 'check' },
+  { key: 'collected', label: 'Despachado', icon: 'truck' },
   { key: 'in_transit', label: 'Em trânsito', icon: 'package' },
   { key: 'out_for_delivery', label: 'Saiu para entrega', icon: 'pin' },
   { key: 'delivered', label: 'Entregue', icon: 'done' },
@@ -43,7 +54,9 @@ const MACRO_STEPS: MacroStep[] = [
 
 function formatDateTime(iso: string | null | undefined) {
   if (!iso) return null
-  return new Date(iso).toLocaleString('pt-BR', {
+  const date = new Date(iso)
+  if (Number.isNaN(date.getTime())) return null
+  return date.toLocaleString('pt-BR', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
@@ -52,38 +65,75 @@ function formatDateTime(iso: string | null | undefined) {
   })
 }
 
-function resolveActiveMacroIndex(result: PublicTrackingResult): number {
-  if (result.status === 'delivered' || result.deliveredAt) return 4
+function formatTrack7HistoryDate(iso: string | null | undefined) {
+  if (!iso) return null
+  const date = new Date(iso)
+  if (Number.isNaN(date.getTime())) return null
+  const day = date.toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+  const time = date.toLocaleTimeString('pt-BR', {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+  return `${day} - ${time}`
+}
 
-  if (result.source === 'track7') {
-    const text = `${result.currentStatus ?? ''} ${result.status}`.toLowerCase()
-    if (text.includes('entreg') || text.includes('deliver')) return 4
-    if (text.includes('saiu') || text.includes('out for') || text.includes('em rota de entrega')) {
-      return 3
-    }
-    if (
-      text.includes('trâns') ||
-      text.includes('transito') ||
-      text.includes('trânsito') ||
-      text.includes('hub') ||
-      text.includes('centro') ||
-      text.includes('em rota')
-    ) {
-      return 2
-    }
-    if (
-      text.includes('postad') ||
-      text.includes('coleta') ||
-      text.includes('despach') ||
-      text.includes('ship') ||
-      result.shippedAt ||
-      result.trackingCode
-    ) {
-      return 1
-    }
-    return 0
+function trackingTextBlob(result: PublicTrackingResult): string {
+  return [
+    result.currentStatus ?? '',
+    ...result.events.map(
+      (event) => `${event.statusLabel ?? ''} ${event.message} ${event.eventType}`
+    ),
+  ]
+    .join(' ')
+    .toLowerCase()
+}
+
+function resolveTrack7MacroIndex(result: PublicTrackingResult): number {
+  const text = trackingTextBlob(result)
+  if (text.includes('entreg') || text.includes('deliver') || result.deliveredAt) {
+    return 5
   }
+  if (
+    text.includes('saiu') ||
+    text.includes('out for') ||
+    text.includes('rota de entrega') ||
+    text.includes('para entrega')
+  ) {
+    return 4
+  }
+  if (
+    text.includes('destino') ||
+    text.includes('tratamento regional') ||
+    text.includes('cidade de destino') ||
+    result.events.some((event) => event.eventType === 'arrived_hub')
+  ) {
+    return 3
+  }
+  if (
+    text.includes('movimento') ||
+    text.includes('trâns') ||
+    text.includes('transito') ||
+    text.includes('trânsito') ||
+    text.includes('hub') ||
+    text.includes('centro') ||
+    text.includes('logística') ||
+    result.events.some((event) => event.eventType === 'in_transit')
+  ) {
+    return 2
+  }
+  if (text.includes('colet') || result.events.some((event) => event.eventType === 'departed')) {
+    return 1
+  }
+  if (text.includes('postad') || result.trackingCode || result.shippedAt) return 0
+  return 0
+}
 
+function resolveLocalMacroIndex(result: PublicTrackingResult): number {
+  if (result.status === 'delivered' || result.deliveredAt) return 4
   const types = new Set(result.events.map((event) => event.eventType))
   if (types.has('out_for_delivery')) return 3
   if (types.has('in_transit') || types.has('arrived_hub')) return 2
@@ -91,30 +141,35 @@ function resolveActiveMacroIndex(result: PublicTrackingResult): number {
   return 0
 }
 
+function resolveActiveMacroIndex(result: PublicTrackingResult): number {
+  if (result.source === 'track7') return resolveTrack7MacroIndex(result)
+  return resolveLocalMacroIndex(result)
+}
+
 function stepDate(
   result: PublicTrackingResult,
   key: MacroStepKey
 ): string | null {
-  const byType = (type: string) =>
-    result.events.find((event) => event.eventType === type && event.occurredAt)
-      ?.occurredAt ?? null
+  const byType = (...types: string[]) =>
+    result.events.find(
+      (event) => types.includes(String(event.eventType)) && event.occurredAt
+    )?.occurredAt ?? null
 
   switch (key) {
-    case 'ordered':
+    case 'posted':
       return byType('packed') ?? result.shippedAt
-    case 'shipped':
-      return byType('departed') ?? byType('packed') ?? result.shippedAt
+    case 'collected':
+      return byType('departed', 'packed') ?? result.shippedAt
     case 'in_transit':
       return (
-        [...result.events]
-          .reverse()
-          .find(
-            (event) =>
-              (event.eventType === 'in_transit' ||
-                event.eventType === 'arrived_hub') &&
-              event.occurredAt
-          )?.occurredAt ?? null
+        result.events.find(
+          (event) =>
+            (event.eventType === 'in_transit' || event.eventType === 'arrived_hub') &&
+            event.occurredAt
+        )?.occurredAt ?? null
       )
+    case 'destination':
+      return byType('arrived_hub')
     case 'out_for_delivery':
       return byType('out_for_delivery')
     case 'delivered':
@@ -135,22 +190,30 @@ function StepIcon({
   if (icon === 'truck') return <Truck className={className} aria-hidden />
   if (icon === 'package') return <Package className={className} aria-hidden />
   if (icon === 'pin') return <MapPin className={className} aria-hidden />
+  if (icon === 'hub') return <MapPin className={className} aria-hidden />
   if (icon === 'done') return <Check className={className} strokeWidth={3} aria-hidden />
   return <Check className={className} strokeWidth={3} aria-hidden />
 }
 
 function TrackingResultCard({ result }: { result: PublicTrackingResult }) {
+  const isTrack7 = result.source === 'track7'
+  const macroSteps = isTrack7 ? TRACK7_MACRO_STEPS : LOCAL_MACRO_STEPS
   const activeIndex = resolveActiveMacroIndex(result)
   const shippedLabel = formatDateTime(result.shippedAt)
 
   const steps = useMemo(
     () =>
-      MACRO_STEPS.map((step, index) => {
+      macroSteps.map((step, index) => {
         const done = index <= activeIndex
         const date = done ? formatDateTime(stepDate(result, step.key)) : null
         return { ...step, done, date }
       }),
-    [result, activeIndex]
+    [result, activeIndex, macroSteps]
+  )
+
+  const history = useMemo(
+    () => [...result.events].sort((a, b) => b.sequence - a.sequence),
+    [result.events]
   )
 
   return (
@@ -188,7 +251,13 @@ function TrackingResultCard({ result }: { result: PublicTrackingResult }) {
         )}
       </div>
 
-      <ol className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-5 md:gap-2">
+      <ol
+        className={`mt-8 grid gap-6 md:gap-2 ${
+          isTrack7
+            ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-6'
+            : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-5'
+        }`}
+      >
         {steps.map((step, index) => (
           <li key={step.key} className="relative flex flex-col items-center text-center">
             {index < steps.length - 1 && (
@@ -202,7 +271,9 @@ function TrackingResultCard({ result }: { result: PublicTrackingResult }) {
             <span
               className={`relative z-[1] flex size-10 items-center justify-center rounded-full ${
                 step.done
-                  ? 'bg-brand text-white shadow-[0_0_0_6px_rgba(216,100,135,0.15)]'
+                  ? index === activeIndex
+                    ? 'bg-badge-discount text-white shadow-[0_0_0_6px_rgba(216,100,135,0.15)]'
+                    : 'bg-brand text-white shadow-[0_0_0_6px_rgba(216,100,135,0.15)]'
                   : 'bg-surface-muted text-text-muted'
               }`}
             >
@@ -210,46 +281,86 @@ function TrackingResultCard({ result }: { result: PublicTrackingResult }) {
             </span>
             <p
               className={`mt-3 text-sm font-semibold ${
-                step.done ? 'text-text-primary' : 'text-text-muted'
+                step.done
+                  ? index === activeIndex
+                    ? 'text-badge-discount'
+                    : 'text-text-primary'
+                  : 'text-text-muted'
               }`}
             >
               {step.label}
             </p>
             <p className="mt-1 text-xs text-text-muted">
-              {step.done
-                ? step.date || 'Atualizado'
-                : 'Aguardando atualização'}
+              {step.done ? step.date || 'Atualizado' : 'Aguardando atualização'}
             </p>
           </li>
         ))}
       </ol>
 
-      {result.events.length > 0 ? (
+      {history.length > 0 ? (
         <div className="mt-8 border-t border-border pt-6">
           <h2 className="text-sm font-semibold text-text-primary">
             Histórico de movimentações
           </h2>
-          <ol className="mt-4 space-y-4 border-l border-border pl-5">
-            {[...result.events]
-              .sort((a, b) => b.sequence - a.sequence)
-              .map((event) => (
+          {isTrack7 ? (
+            <div className="mt-4 overflow-x-auto">
+              <table className="min-w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-border text-[11px] font-semibold uppercase tracking-wide text-text-muted">
+                    <th className="px-2 py-2">Data/Hora</th>
+                    <th className="px-2 py-2">Local</th>
+                    <th className="px-2 py-2">Status</th>
+                    <th className="px-2 py-2">Detalhes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {history.map((event, index) => {
+                    const location =
+                      event.state && event.state !== '--' && event.city !== event.state
+                        ? `${event.city}/${event.state}`
+                        : event.city
+                    return (
+                      <tr
+                        key={event.id}
+                        className={
+                          index === 0
+                            ? 'border-b border-border bg-brand/5'
+                            : 'border-b border-border last:border-0'
+                        }
+                      >
+                        <td className="whitespace-nowrap px-2 py-3 align-top text-text-secondary">
+                          {formatTrack7HistoryDate(event.occurredAt) ?? '—'}
+                        </td>
+                        <td className="px-2 py-3 align-top text-text-secondary">{location}</td>
+                        <td className="px-2 py-3 align-top font-semibold text-text-primary">
+                          {event.statusLabel || event.message}
+                        </td>
+                        <td className="px-2 py-3 align-top text-text-secondary">
+                          {event.message}
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <ol className="mt-4 space-y-4 border-l border-border pl-5">
+              {history.map((event) => (
                 <li key={event.id} className="relative">
                   <span
                     aria-hidden
                     className="absolute top-1.5 -left-[1.4rem] size-2.5 rounded-full bg-brand"
                   />
-                  <p className="text-sm font-medium text-text-primary">
-                    {event.message}
-                  </p>
+                  <p className="text-sm font-medium text-text-primary">{event.message}</p>
                   <p className="mt-0.5 text-xs text-text-muted">
                     {event.city}/{event.state}
-                    {event.occurredAt
-                      ? ` · ${formatDateTime(event.occurredAt)}`
-                      : ''}
+                    {event.occurredAt ? ` · ${formatDateTime(event.occurredAt)}` : ''}
                   </p>
                 </li>
               ))}
-          </ol>
+            </ol>
+          )}
         </div>
       ) : (
         <div className="mt-8 border-t border-border pt-6">

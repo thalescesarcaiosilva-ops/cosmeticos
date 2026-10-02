@@ -97,6 +97,40 @@ function pickString(...values: unknown[]): string | null {
   return null
 }
 
+/**
+ * Converte datas da Track7 (ISO, unix ou dd/MM/yyyy - HH:mm) para ISO.
+ * Sem isso o frontend mostra "Invalid Date".
+ */
+export function parseTrack7DateToIso(raw: string | null | undefined): string | null {
+  const value = (raw ?? '').trim()
+  if (!value) return null
+
+  if (/^\d{10,13}$/.test(value)) {
+    const n = Number(value)
+    const ms = value.length <= 10 ? n * 1000 : n
+    const fromUnix = new Date(ms)
+    if (!Number.isNaN(fromUnix.getTime())) return fromUnix.toISOString()
+  }
+
+  const br = value.match(
+    /^(\d{2})\/(\d{2})\/(\d{4})(?:\s*[-–—]?\s*(\d{2}):(\d{2})(?::(\d{2}))?)?/
+  )
+  if (br) {
+    const day = Number(br[1])
+    const month = Number(br[2])
+    const year = Number(br[3])
+    const hour = Number(br[4] ?? '0')
+    const minute = Number(br[5] ?? '0')
+    const second = Number(br[6] ?? '0')
+    const local = new Date(year, month - 1, day, hour, minute, second)
+    if (!Number.isNaN(local.getTime())) return local.toISOString()
+  }
+
+  const parsed = Date.parse(value)
+  if (Number.isFinite(parsed)) return new Date(parsed).toISOString()
+  return null
+}
+
 function normalizeEvents(raw: unknown): Track7TrackingEvent[] {
   if (!Array.isArray(raw)) return []
   return raw
@@ -110,30 +144,39 @@ function normalizeEvents(raw: unknown): Track7TrackingEvent[] {
         pickString(
           row.description,
           row.Description,
+          row.details,
+          row.Details,
           row.message,
           row.Message,
           row.event,
           status
         ) ?? status
+      const rawDate =
+        pickString(
+          row.date,
+          row.Date,
+          row.datetime,
+          row.date_time,
+          row.dateTime,
+          row.occurred_at,
+          row.occurredAt,
+          row.created_at,
+          row.createdAt,
+          row.timestamp,
+          row.Timestamp
+        ) ?? ''
+      const isoDate = parseTrack7DateToIso(rawDate)
       return {
-        date:
-          pickString(
-            row.date,
-            row.Date,
-            row.datetime,
-            row.date_time,
-            row.occurred_at,
-            row.occurredAt,
-            row.created_at,
-            row.createdAt
-          ) ?? '',
+        date: isoDate ?? rawDate,
         location:
           pickString(
             row.location,
             row.Location,
             row.city,
             row.City,
-            row.place
+            row.place,
+            row.local,
+            row.Local
           ) ?? '',
         status,
         description,

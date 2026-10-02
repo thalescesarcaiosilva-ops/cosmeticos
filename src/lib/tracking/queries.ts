@@ -17,6 +17,8 @@ export type PublicTrackingResult = {
     city: string
     state: string
     message: string
+    /** Texto da coluna STATUS da Track7 (ex.: "Seu pacote está em movimento") */
+    statusLabel?: string | null
     scheduledAt: string
     occurredAt: string | null
     isManual: boolean

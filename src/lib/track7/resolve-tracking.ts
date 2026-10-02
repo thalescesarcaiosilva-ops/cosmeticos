@@ -3,6 +3,7 @@ import {
   getTrackingByCode as getTrack7ByCode,
   getTrackingByOrderId as getTrack7ByOrderId,
   isTrack7Configured,
+  parseTrack7DateToIso,
   Track7Error,
   type Track7TrackingResult,
 } from '@/lib/track7/client'
@@ -30,18 +31,42 @@ function mapTrack7StatusToOrderStatus(status: string | null): string {
   ) {
     return 'cancelled'
   }
-  if (
-    normalized.includes('postad') ||
-    normalized.includes('trâns') ||
-    normalized.includes('trans') ||
-    normalized.includes('rota') ||
-    normalized.includes('saiu') ||
-    normalized.includes('coleta') ||
-    normalized.includes('ship')
-  ) {
-    return 'shipped'
-  }
   return 'shipped'
+}
+
+function mapTrack7EventType(status: string, description: string): string {
+  const text = `${status} ${description}`.toLowerCase()
+  if (text.includes('entreg') || text.includes('deliver')) return 'delivered'
+  if (
+    text.includes('saiu') ||
+    text.includes('out for') ||
+    text.includes('rota de entrega') ||
+    text.includes('para entrega')
+  ) {
+    return 'out_for_delivery'
+  }
+  if (
+    text.includes('destino') ||
+    text.includes('tratamento regional') ||
+    text.includes('cidade de destino') ||
+    text.includes('unidade de tratamento')
+  ) {
+    return 'arrived_hub'
+  }
+  if (text.includes('colet')) return 'departed'
+  if (text.includes('postad')) return 'packed'
+  if (
+    text.includes('movimento') ||
+    text.includes('trâns') ||
+    text.includes('transito') ||
+    text.includes('trânsito') ||
+    text.includes('hub') ||
+    text.includes('centro') ||
+    text.includes('logística')
+  ) {
+    return 'in_transit'
+  }
+  return 'in_transit'
 }
 
 function parseLocation(location: string): { city: string; state: string } {
@@ -51,10 +76,19 @@ function parseLocation(location: string): { city: string; state: string } {
   if (match) {
     return { city: match[1]!.trim() || '—', state: match[2]!.toUpperCase() }
   }
+  // UF sozinha (ex.: "DF")
+  if (/^[A-Za-z]{2}$/.test(trimmed)) {
+    return { city: trimmed.toUpperCase(), state: trimmed.toUpperCase() }
+  }
   return { city: trimmed, state: '--' }
 }
 
 function eventTimeMs(date: string): number {
+  const iso = parseTrack7DateToIso(date)
+  if (iso) {
+    const ms = Date.parse(iso)
+    if (Number.isFinite(ms)) return ms
+  }
   const ms = Date.parse(date)
   return Number.isFinite(ms) ? ms : 0
 }
@@ -70,37 +104,41 @@ export function mapTrack7ToPublicResult(
   }
 ): PublicTrackingResult {
   const current = tracking.current_status ?? tracking.status
-  // Mais recente → mais antigo (sequence alta = mais novo)
   const sorted = [...tracking.events].sort(
     (a, b) => eventTimeMs(b.date) - eventTimeMs(a.date)
   )
   const total = sorted.length
   const events = sorted.map((event, index) => {
     const { city, state } = parseLocation(event.location)
-    const occurredAt = event.date || null
+    const occurredAt = parseTrack7DateToIso(event.date) ?? (event.date || null)
+    const statusLabel = event.status?.trim() || null
+    const description = event.description?.trim() || statusLabel || 'Atualização'
     return {
       id: `track7-${index}-${occurredAt ?? 'na'}`,
       sequence: total - index,
-      eventType: 'in_transit' as const,
+      eventType: mapTrack7EventType(event.status, event.description),
       city,
       state,
-      message: event.description || event.status || 'Atualização',
+      message: description,
+      statusLabel,
       scheduledAt: occurredAt ?? new Date(0).toISOString(),
       occurredAt,
       isManual: false,
     }
   })
 
+  const orderStatus = mapTrack7StatusToOrderStatus(current)
+  const firstOccurred =
+    events.find((event) => event.occurredAt)?.occurredAt ?? null
+
   return {
     trackingCode: tracking.tracking_code ?? '',
-    status: mapTrack7StatusToOrderStatus(current),
+    status: orderStatus,
     carrier: extras?.carrier ?? 'Track7',
-    shippedAt: extras?.shippedAt ?? null,
+    shippedAt: extras?.shippedAt ?? firstOccurred,
     deliveredAt:
       extras?.deliveredAt ??
-      (mapTrack7StatusToOrderStatus(current) === 'delivered'
-        ? events[0]?.occurredAt ?? null
-        : null),
+      (orderStatus === 'delivered' ? events[0]?.occurredAt ?? null : null),
     destinationCity: extras?.destinationCity ?? null,
     destinationState: extras?.destinationState ?? null,
     events,
@@ -182,6 +220,14 @@ type Track7LookupExtras = {
   orderId?: string | null
 }
 
+function orderUsesTrack7(order: {
+  track7_synced_at?: string | null
+  carrier?: string | null
+} | null | undefined): boolean {
+  if (!order) return false
+  return Boolean(order.track7_synced_at) || order.carrier === 'Track7'
+}
+
 async function tryTrack7ByCode(
   code: string,
   orderExtras?: Track7LookupExtras
@@ -229,8 +275,8 @@ async function tryTrack7ByOrderId(
 }
 
 /**
- * Resolve rastreio local (BC…BR / tracking_events) ou Track7.
- * Pedidos antigos com simulação interna continuam pelo banco local.
+ * Resolve rastreio priorizando sempre a Track7 quando o pedido usa Track7.
+ * Simulação local só entra se a Track7 não tiver dados.
  */
 export async function resolvePublicTracking(params: {
   code?: string | null
@@ -255,7 +301,7 @@ export async function resolvePublicTracking(params: {
       orderId: order.id,
     }
 
-    if (order.track7_synced_at || order.carrier === 'Track7') {
+    if (orderUsesTrack7(order) || isTrack7Configured()) {
       const fromTrack7 = await tryTrack7ByOrderId(order.id, extras)
       if (fromTrack7) return fromTrack7
       if (order.tracking_code) {
@@ -266,16 +312,8 @@ export async function resolvePublicTracking(params: {
 
     if (order.tracking_code) {
       const local = await getLocalTrackingByCode(order.tracking_code)
-      if (local?.events.length) return withLocalSource(local)
-
-      const fromTrack7 = await tryTrack7ByCode(order.tracking_code, extras)
-      if (fromTrack7) return fromTrack7
-
       if (local) return withLocalSource(local)
     }
-
-    const pending = await tryTrack7ByOrderId(order.id, extras)
-    if (pending) return pending
 
     return null
   }
@@ -283,9 +321,6 @@ export async function resolvePublicTracking(params: {
   if (!rawCode) return null
 
   const normalized = normalizeTrackingCode(rawCode) || rawCode.toUpperCase()
-  const local = await getLocalTrackingByCode(normalized)
-  if (local?.events.length) return withLocalSource(local)
-
   const order = await loadOrderByTrackingCode(normalized)
   const extras: Track7LookupExtras = {
     carrier: order?.carrier ?? 'Track7',
@@ -297,16 +332,17 @@ export async function resolvePublicTracking(params: {
     orderId: order?.id ?? null,
   }
 
-  if (order?.track7_synced_at || order?.carrier === 'Track7') {
-    const fromTrack7 = await tryTrack7ByCode(normalized, extras)
-    if (fromTrack7) return fromTrack7
-  }
-
+  // Track7 primeiro — nunca preferir eventos locais simulados sobre a API.
   if (isTrack7Configured()) {
     const fromTrack7 = await tryTrack7ByCode(normalized, extras)
     if (fromTrack7) return fromTrack7
+    if (order?.id) {
+      const byOrder = await tryTrack7ByOrderId(order.id, extras)
+      if (byOrder) return byOrder
+    }
   }
 
+  const local = await getLocalTrackingByCode(normalized)
   if (local) return withLocalSource(local)
   return null
 }
