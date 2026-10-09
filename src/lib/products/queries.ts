@@ -1,4 +1,5 @@
 import { cache } from 'react'
+import { isStorefrontCategoryNavHidden } from '@/lib/categories/storefront'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createPublicClient } from '@/lib/supabase/public'
 import { buildProductCardSrcSet } from '@/lib/media/resolve-display-url'
@@ -75,6 +76,7 @@ function mapProductDetail(row: Record<string, unknown>): ProductDetail {
     (row.product_categories as ProductDetail['product_categories'])
       ?.map((pc) => pc.categories)
       .filter((c): c is { id: string; name: string; slug: string } => Boolean(c?.slug))
+      .filter((c) => !isStorefrontCategoryNavHidden(c.slug))
       .map((c) => ({ name: c.name, slug: c.slug })) ?? []
 
   const categorySlugs = categories.map((c) => c.slug)

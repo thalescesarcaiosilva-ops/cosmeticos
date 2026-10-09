@@ -46,6 +46,7 @@ export const PAYMENT_METHODS_ONLY_COLUMNS = [
   'payment_methods_config',
   'payment_methods',
   'payment_method_images',
+  'payment_checkout_config',
 ].join(', ')
 
 export const PAYMENT_SITE_SETTINGS_COLUMNS = `${INSTALLMENT_SITE_SETTINGS_COLUMNS}, ${PAYMENT_METHODS_ONLY_COLUMNS}`
@@ -140,8 +141,9 @@ const PAYMENT_METHOD_KEYS = [
   'payment_methods_config',
   'payment_methods',
   'payment_method_images',
-  'payment_checkout_config',
 ] as const
+
+const CHECKOUT_PAYMENT_KEYS = ['payment_checkout_config'] as const
 
 async function updatePaymentFields(
   supabase: SupabaseClient,
@@ -154,6 +156,24 @@ async function updatePaymentFields(
   const enriched = enrichPaymentPayload(payment)
   let paymentSaveSkipped = false
   let paymentConfigSkipped = false
+
+  const checkoutPayload = pickPaymentPayload(enriched, CHECKOUT_PAYMENT_KEYS)
+  if (Object.keys(checkoutPayload).length > 0) {
+    const { error } = await supabase
+      .from('site_settings')
+      .update(checkoutPayload)
+      .eq('id', SITE_SETTINGS_ID)
+
+    if (error && isMissingColumnError(error)) {
+      paymentSaveSkipped = true
+    } else if (error) {
+      return {
+        paymentSaveSkipped: true,
+        paymentConfigSkipped: false,
+        paymentUpdateError: error.message ?? 'Erro ao salvar desconto Pix / checkout',
+      }
+    }
+  }
 
   const methodsPayload = pickPaymentPayload(enriched, PAYMENT_METHOD_KEYS)
   if (Object.keys(methodsPayload).length > 0) {

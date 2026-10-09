@@ -1,6 +1,7 @@
 import {
   filterStorefrontCategories,
   isStorefrontCategoryHidden,
+  isStorefrontCategoryNavHidden,
 } from '@/lib/categories/storefront'
 import { createPublicClient } from '@/lib/supabase/public'
 import { toAbsoluteSiteMediaUrl, toSiteMediaUrl } from '@/lib/media/public-url'
@@ -261,7 +262,7 @@ export async function getCollectionFilterMeta(categoryId: string): Promise<Colle
   const categoryCounts = new Map<string, { id: string; name: string; slug: string; count: number }>()
   for (const link of catLinks ?? []) {
     const cat = readRelatedEntity(link.categories)
-    if (!cat?.active || isStorefrontCategoryHidden(cat.slug)) continue
+    if (!cat?.active || isStorefrontCategoryNavHidden(cat.slug)) continue
     const existing = categoryCounts.get(cat.id)
     if (existing) existing.count += 1
     else categoryCounts.set(cat.id, { id: cat.id, name: cat.name, slug: cat.slug, count: 1 })

@@ -1,4 +1,4 @@
-import { isStorefrontCategoryHidden } from '@/lib/categories/storefront'
+import { isStorefrontCategoryNavHidden } from '@/lib/categories/storefront'
 import { createPublicClient } from '@/lib/supabase/public'
 import { mapProductCard, PRODUCT_SELECT } from '@/lib/products/queries'
 import { attachReviewSummaries } from '@/lib/products/reviews'
@@ -174,7 +174,7 @@ export async function getBrandFilterMeta(brandId: string): Promise<CollectionFil
   const categoryCounts = new Map<string, { id: string; name: string; slug: string; count: number }>()
   for (const link of catLinks ?? []) {
     const cat = readRelatedEntity(link.categories)
-    if (!cat?.active || isStorefrontCategoryHidden(cat.slug)) continue
+    if (!cat?.active || isStorefrontCategoryNavHidden(cat.slug)) continue
     const existing = categoryCounts.get(cat.id)
     if (existing) existing.count += 1
     else categoryCounts.set(cat.id, { id: cat.id, name: cat.name, slug: cat.slug, count: 1 })

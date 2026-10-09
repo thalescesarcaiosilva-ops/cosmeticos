@@ -1,3 +1,4 @@
+import { isStorefrontCategoryNavHidden } from '@/lib/categories/storefront'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
 import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { getPrimaryProductImage, readBrandName } from '@/lib/products/product-images'
@@ -101,8 +102,11 @@ export async function GET() {
       .map((pc) => (Array.isArray(pc.categories) ? pc.categories[0] : pc.categories))
       .filter((c): c is { name: string; slug: string } => Boolean(c?.slug))
 
-    const googleCategory = resolveGoogleProductCategory(categories.map((c) => c.slug))
-    const storeCategoryPath = categories.map((c) => c.name).join(' > ') || null
+    // Coleções só-sitemap (ex.: mais-vendidos) não entram no product_type do Merchant.
+    const taxonomyCategories = categories.filter((c) => !isStorefrontCategoryNavHidden(c.slug))
+
+    const googleCategory = resolveGoogleProductCategory(taxonomyCategories.map((c) => c.slug))
+    const storeCategoryPath = taxonomyCategories.map((c) => c.name).join(' > ') || null
 
     const gtin = row.gtin && isValidGtin(row.gtin) ? row.gtin.replace(/\D/g, '') : null
     const hasIdentifier = Boolean(gtin || row.sku)

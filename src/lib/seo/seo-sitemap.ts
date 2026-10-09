@@ -1,4 +1,4 @@
-import { filterStorefrontCategories } from '@/lib/categories/storefront'
+import { filterSitemapCategories } from '@/lib/categories/storefront'
 import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
 import { getPrimaryProductImage } from '@/lib/products/product-images'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
@@ -158,7 +158,7 @@ async function fetchSupabaseCollectionUrls(now: Date): Promise<SitemapUrl[]> {
     .order('sort_order', { ascending: true })
     .limit(SITEMAP_MAX_URLS)
 
-  return filterStorefrontCategories(data ?? []).map((category) => ({
+  return filterSitemapCategories(data ?? []).map((category) => ({
     path: `/colecoes/${category.slug}`,
     lastModified: category.created_at ? new Date(category.created_at) : now,
     changeFrequency: 'weekly' as const,
