@@ -123,7 +123,7 @@ export const storeContent: StoreContent = {
       paragraphs: [
         'A Batista Cosméticos é uma loja de cosméticos, skincare, maquiagem e higiene pessoal com ponto físico em Salvador (BA), no bairro Boca do Rio — Avenida Octavio Mangabeira, 6929. Você pode comprar presencialmente ou pelo site www.batistacosmeticos.com.br, sempre com as mesmas informações de contato e políticas publicadas no rodapé.',
         'Operamos como e-commerce integrado à loja física: pedidos online são separados e conferidos antes do envio pelos Correios (PAC e SEDEX), com prazos e valores descritos na Política de Frete. Não revendemos produtos usados, abertos ou fora da embalagem original.',
-        'Nossa curadoria prioriza marcas reconhecidas e itens com validade e lacre conferidos. Quando você precisa de ajuda para escolher um produto, falar sobre um pedido ou solicitar troca, o canal oficial é atendimento@batistacosmeticos.com.br ou o telefone (71) 98603-5819, no horário informado nesta página.',
+        'Nossa curadoria prioriza marcas reconhecidas e itens com validade e lacre conferidos. Quando você precisa de ajuda para escolher um produto, falar sobre um pedido ou solicitar troca, o canal oficial é atendimento@batistacosmeticos.com.br ou o telefone (31) 97554-9608, no horário informado nesta página.',
         'Transparência faz parte do nosso trabalho: publicamos CNPJ, endereço, formas de pagamento aceitas (Pix e cartões Visa, Mastercard, Elo e American Express), prazos de entrega e regras de devolução em páginas dedicadas — sem esconder taxas de frete no checkout.',
       ],
     },
@@ -147,7 +147,7 @@ export const storeContent: StoreContent = {
           { label: 'CNPJ', value: '67.834.759/0001-40' },
           { label: 'E-mail', value: 'atendimento@batistacosmeticos.com.br' },
           { label: 'Site', value: 'www.batistacosmeticos.com.br' },
-          { label: 'Telefone', value: '(71) 98603-5819' },
+          { label: 'Telefone', value: '(31) 97554-9608' },
           {
             label: 'Endereço',
             value: 'Avenida Octavio Mangabeira, 6929, Boca do Rio, Salvador/BA, CEP: 41706-690',

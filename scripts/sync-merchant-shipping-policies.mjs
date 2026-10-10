@@ -19,7 +19,7 @@ const admin = createClient(url, key, {
 const CONTACT = `<p><strong>Contato</strong><br>
 Batista Cosméticos — CNPJ: 67.834.759/0001-40<br>
 Avenida Octavio Mangabeira, 6929, Boca do Rio, Salvador/BA, CEP: 41706-690<br>
-Telefone: (71) 98603-5819 · atendimento@batistacosmeticos.com.br<br>
+Telefone: (31) 97554-9608 · atendimento@batistacosmeticos.com.br<br>
 Horário de atendimento: Segunda-feira a Sexta-feira: 08:00h às 17:00h. Sábado: 08:00h às 12:00h. Domingo: Fechado. Exceto feriados.</p>`
 
 const POLITICA_FRETE = `<p>Como funciona o envio na <strong>Batista Cosméticos</strong> (CNPJ 67.834.759/0001-40).</p>
