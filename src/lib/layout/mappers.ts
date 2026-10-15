@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { isStorefrontCategoryNavHidden } from '@/lib/categories/storefront'
 import { filterStorefrontSocialLinks } from '@/lib/layout/social-links'
 import { toSiteMediaUrl } from '@/lib/media/public-url'
 import type { LayoutQueryResult } from '@/types/database-layout'
@@ -35,7 +36,7 @@ export function mapToSiteLayoutData(result: LayoutQueryResult): SiteLayoutData {
   }
 
   const rootItems = menuItems
-    .filter((item) => !item.parent_id)
+    .filter((item) => !item.parent_id && !isStorefrontCategoryNavHidden(item.slug))
     .sort((a, b) => a.sort_order - b.sort_order)
 
   return {

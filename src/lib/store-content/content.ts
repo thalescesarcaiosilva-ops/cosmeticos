@@ -126,7 +126,7 @@ export const storeContent: StoreContent = {
         'Trabalhamos exclusivamente com produtos novos, lacrados e na embalagem original. Antes de cada envio, conferimos lacre, aspecto da embalagem e validade. Não vendemos itens usados, abertos, reenvasados, “inspirados em” ou fora da embalagem de fábrica.',
         'O e-commerce é a extensão da loja física: o pedido online é separado e conferido no mesmo espaço onde atendemos o público, e o envio é feito pelos Correios (PAC e SEDEX), com prazos e valores descritos na Política de Frete. Frete, formas de pagamento e regras de troca ficam visíveis antes da finalização da compra — sem taxas escondidas no checkout.',
         'Nossos preços refletem a operação de uma loja independente (compra, estoque local e atendimento próprio). Eles podem diferir dos praticados em redes nacionais ou no canal oficial da marca; isso não muda o compromisso com produto lacrado e com as políticas publicadas neste site.',
-        'Transparência comercial: no rodapé e nesta página você encontra CNPJ, razão social, endereço físico, e-mail e telefone. Formas de pagamento aceitas (Pix e cartões Visa, Mastercard, Elo e American Express), frete, trocas e reembolso estão em páginas dedicadas. Em caso de dúvida sobre um pedido ou um item, o canal oficial é atendimento@batistacosmeticos.com.br ou o telefone (31) 97554-9608, no horário informado abaixo.',
+        'Transparência comercial: no rodapé e nesta página você encontra CNPJ, razão social, endereço físico, e-mail e telefone. Formas de pagamento aceitas (Pix e cartões Visa, Mastercard, Elo e American Express), frete, trocas e reembolso estão em páginas dedicadas. Em caso de dúvida sobre um pedido ou um item, o canal oficial é atendimento@batistacosmeticos.com.br ou o telefone (31) 7554-9608, no horário informado abaixo.',
       ],
     },
     storeImage: {
@@ -149,7 +149,7 @@ export const storeContent: StoreContent = {
           { label: 'CNPJ', value: '67.834.759/0001-40' },
           { label: 'E-mail', value: 'atendimento@batistacosmeticos.com.br' },
           { label: 'Site', value: 'www.batistacosmeticos.com.br' },
-          { label: 'Telefone', value: '(31) 97554-9608' },
+          { label: 'Telefone', value: '(31) 7554-9608' },
           {
             label: 'Endereço',
             value: 'Avenida Octavio Mangabeira, 6929, Boca do Rio, Salvador/BA, CEP: 41706-690',

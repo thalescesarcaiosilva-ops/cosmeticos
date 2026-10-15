@@ -2,8 +2,8 @@ import { Phone } from 'lucide-react'
 import { SocialIcon } from '@/components/layout/SocialIcon'
 
 /** Contato extra de WhatsApp. Não substitui o telefone oficial da loja. */
-export const STORE_WHATSAPP_HREF = 'https://wa.me/5531975549608'
-export const STORE_WHATSAPP_DISPLAY = '(31) 97554-9608'
+export const STORE_WHATSAPP_HREF = 'https://wa.me/553175549608'
+export const STORE_WHATSAPP_DISPLAY = '(31) 7554-9608'
 
 type StoreWhatsappLinkProps = {
   className?: string
