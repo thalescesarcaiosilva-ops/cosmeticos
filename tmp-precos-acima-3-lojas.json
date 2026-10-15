@@ -1,0 +1,1060 @@
+{
+  "generated_at": "2026-10-13T02:03:03.987Z",
+  "criterio": "Produto ativo; preço Batista (tabela) maior que o menor preço encontrado entre Época (VTEX/EAN), Sephora (Constructor+PDP) e Beleza na Web (VTEX/EAN, se disponível).",
+  "aviso_bnw": "Beleza na Web bloqueia acesso automatizado (Akamai) neste ambiente; API VTEX retorna indisponível. Preços BNW entram só se a API responder.",
+  "stats": {
+    "ativos": 706,
+    "com_epoca": 588,
+    "com_sephora": 217,
+    "com_bnw": 0,
+    "acima_min_concorrente": 55
+  },
+  "total_acima": 55,
+  "items": [
+    {
+      "name": "Kit Wella Professionals Invigo Nutri Enrich Salon Trio 3 Produtos",
+      "slug": "kit-wella-professionals-invigo-nutri-enrich-salon-trio-3-produtos",
+      "gtin": "7907093643387",
+      "loja_brl": 283.13,
+      "menor_preco_brl": 107,
+      "menor_loja": "sephora",
+      "diferenca_brl": 176.13,
+      "pct_acima": 164.6,
+      "epoca_brl": 629.9,
+      "sephora_brl": 107,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/kit-wella-professionals-invigo-nutri-enrich-salon-trio-3-produtos",
+        "epoca": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-nutri-enrich-salon-trio--3-produtos--68807/p",
+        "sephora": "https://www.sephora.com.br/wella-professionals-invigo-nutri-enrich-duo-kit29hair-kit29hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Kit Wella Professionals Invigo Nutri Enrich - Shampoo 1000ml + Condicionador 1000ml",
+      "slug": "kit-wella-professionals-invigo-nutri-enrich-shampoo-1000ml-condicionador-1000ml",
+      "gtin": "10104282065700",
+      "loja_brl": 239.26,
+      "menor_preco_brl": 107,
+      "menor_loja": "sephora",
+      "diferenca_brl": 132.26,
+      "pct_acima": 123.6,
+      "epoca_brl": null,
+      "sephora_brl": 107,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/kit-wella-professionals-invigo-nutri-enrich-shampoo-1000ml-condicionador-1000ml",
+        "epoca": null,
+        "sephora": "https://www.sephora.com.br/wella-professionals-invigo-nutri-enrich-duo-kit29hair-kit29hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Sérum Facial Skinceuticals HA Intensifier Multi-Glycan 30ml",
+      "slug": "serum-facial-skinceuticals-ha-intensifier-multi-glycan-30ml",
+      "gtin": "3606000436442",
+      "loja_brl": 284.02,
+      "menor_preco_brl": 182,
+      "menor_loja": "sephora",
+      "diferenca_brl": 102.02,
+      "pct_acima": 56.1,
+      "epoca_brl": null,
+      "sephora_brl": 182,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/serum-facial-skinceuticals-ha-intensifier-multi-glycan-30ml",
+        "epoca": null,
+        "sephora": "https://www.sephora.com.br/serum-facial-firmador-the-ordinary-multi-peptide-ha-serum-88990656-642935.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Perfume Azzaro Pour Homme Masculino Eau de Toilette 100ml",
+      "slug": "perfume-azzaro-pour-homme-masculino-eau-de-toilette-100ml",
+      "gtin": "3351500011476",
+      "loja_brl": 281.7,
+      "menor_preco_brl": 195.45,
+      "menor_loja": "epoca",
+      "diferenca_brl": 86.25,
+      "pct_acima": 44.1,
+      "epoca_brl": 195.45,
+      "sephora_brl": 539,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/perfume-azzaro-pour-homme-masculino-eau-de-toilette-100ml",
+        "epoca": "https://www.epocacosmeticos.com.br/azzaro-pour-homme-eau-de-toilette-azzaro-perfume-masculino/p",
+        "sephora": "https://www.sephora.com.br/kit-coffret-azzaro-pour-homme-eau-de-toilette-9090823686-823686.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Sérum Multi-Corretor Skinceuticals - Discoloration Defense 30ml",
+      "slug": "serum-multi-corretor-skinceuticals-discoloration-defense-30ml",
+      "gtin": "7899706156912",
+      "loja_brl": 264.6,
+      "menor_preco_brl": 182,
+      "menor_loja": "sephora",
+      "diferenca_brl": 82.6,
+      "pct_acima": 45.4,
+      "epoca_brl": 419.9,
+      "sephora_brl": 182,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/serum-multi-corretor-skinceuticals-discoloration-defense-30ml",
+        "epoca": "https://www.epocacosmeticos.com.br/serum-multicorretivo-skinceuticals-discoloration-defense/p",
+        "sephora": "https://www.sephora.com.br/serum-facial-firmador-the-ordinary-multi-peptide-ha-serum-88990656-642935.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Wella Professionals Invigo Nutri-Enrich - Máscara 500ml",
+      "slug": "wella-professionals-invigo-nutri-enrich-mascara-500ml",
+      "gtin": "7896235353706",
+      "loja_brl": 139.93,
+      "menor_preco_brl": 65,
+      "menor_loja": "sephora",
+      "diferenca_brl": 74.93,
+      "pct_acima": 115.3,
+      "epoca_brl": 133,
+      "sephora_brl": 65,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/wella-professionals-invigo-nutri-enrich-mascara-500ml",
+        "epoca": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-nutri-enrich-mascara/p",
+        "sephora": "https://www.sephora.com.br/wella-professionals-invigo-nutri-enrich-duo-kit29hair-kit29hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Condicionador Wella Professionals Ultimate Repair Passo 2 500ml",
+      "slug": "condicionador-wella-professionals-ultimate-repair-passo-2-500ml",
+      "gtin": "4015600830478",
+      "loja_brl": 240.03,
+      "menor_preco_brl": 167,
+      "menor_loja": "sephora",
+      "diferenca_brl": 73.03,
+      "pct_acima": 43.7,
+      "epoca_brl": null,
+      "sephora_brl": 167,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/condicionador-wella-professionals-ultimate-repair-passo-2-500ml",
+        "epoca": null,
+        "sephora": "https://www.sephora.com.br/kit-wella-professionals-ultimate-repair-duo-kit30hair-kit30hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "L’Oreal Professionnel Pro Longer Máscara Reparadora 500g",
+      "slug": "l-oreal-professionnel-pro-longer-mascara-reparadora-500g",
+      "gtin": "7899706189583",
+      "loja_brl": 211.33,
+      "menor_preco_brl": 141,
+      "menor_loja": "sephora",
+      "diferenca_brl": 70.33,
+      "pct_acima": 49.9,
+      "epoca_brl": 309.9,
+      "sephora_brl": 141,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/l-oreal-professionnel-pro-longer-mascara-reparadora-500g",
+        "epoca": "https://www.epocacosmeticos.com.br/loreal-professionnel-pro-longer-mascara-reparadora-500g/p",
+        "sephora": "https://www.sephora.com.br/shampoo-l-oreal-professionnel-serie-expert-pro-longer-prd45302-575498.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Wella Professionals Fusion - Máscara Capilar 500ml",
+      "slug": "wella-professionals-fusion-mascara-capilar-500ml",
+      "gtin": "7896235353744",
+      "loja_brl": 166.51,
+      "menor_preco_brl": 103,
+      "menor_loja": "sephora",
+      "diferenca_brl": 63.51,
+      "pct_acima": 61.7,
+      "epoca_brl": 219.55,
+      "sephora_brl": 103,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/wella-professionals-fusion-mascara-capilar-500ml",
+        "epoca": "https://www.epocacosmeticos.com.br/enrich-wella-professionals-mascara-capilar-/p",
+        "sephora": "https://www.sephora.com.br/kit-wella-professionals-fusion-trio-kit28hair-kit28hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Wella Professionals Invigo Color Brilliance - Máscara 500ml",
+      "slug": "wella-professionals-invigo-color-brilliance-mascara-500ml",
+      "gtin": "7896235353652",
+      "loja_brl": 123.74,
+      "menor_preco_brl": 65,
+      "menor_loja": "sephora",
+      "diferenca_brl": 58.74,
+      "pct_acima": 90.4,
+      "epoca_brl": 79.63,
+      "sephora_brl": 65,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/wella-professionals-invigo-color-brilliance-mascara-500ml",
+        "epoca": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-color-brilliance-mascara/p",
+        "sephora": "https://www.sephora.com.br/wella-professionals-invigo-nutri-enrich-duo-kit29hair-kit29hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Hidratante Facial em Gel Clinique - Moisture Surge 100H 50ml",
+      "slug": "hidratante-facial-em-gel-clinique-moisture-surge-100h-50ml",
+      "gtin": "0192333066935",
+      "loja_brl": 174.23,
+      "menor_preco_brl": 116.85,
+      "menor_loja": "epoca",
+      "diferenca_brl": 57.38,
+      "pct_acima": 49.1,
+      "epoca_brl": 116.85,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/hidratante-facial-em-gel-clinique-moisture-surge-100h-50ml",
+        "epoca": "https://www.epocacosmeticos.com.br/hidratante-facial-clinique-moisture-surge-100h/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Wella Professionals Invigo Nutri-Enrich - Shampoo 1L",
+      "slug": "wella-professionals-invigo-nutri-enrich-shampoo-1l",
+      "gtin": "7896235353676",
+      "loja_brl": 118.93,
+      "menor_preco_brl": 65,
+      "menor_loja": "sephora",
+      "diferenca_brl": 53.93,
+      "pct_acima": 83,
+      "epoca_brl": 153.05,
+      "sephora_brl": 65,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/wella-professionals-invigo-nutri-enrich-shampoo-1l",
+        "epoca": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-nutri-enrich-booster-shampoo/p",
+        "sephora": "https://www.sephora.com.br/wella-professionals-invigo-nutri-enrich-duo-kit29hair-kit29hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Wella Professionals Fusion - Shampoo 1L",
+      "slug": "wella-professionals-fusion-shampoo-1l",
+      "gtin": "4064666043715",
+      "loja_brl": 148.6,
+      "menor_preco_brl": 96.22,
+      "menor_loja": "epoca",
+      "diferenca_brl": 52.38,
+      "pct_acima": 54.4,
+      "epoca_brl": 96.22,
+      "sephora_brl": 103,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/wella-professionals-fusion-shampoo-1l",
+        "epoca": "https://www.epocacosmeticos.com.br/wella-professionals-shampoo-fusion/p",
+        "sephora": "https://www.sephora.com.br/kit-wella-professionals-fusion-trio-kit28hair-kit28hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Wella Professionals Invigo Nutri-Enrich - Condicionador 1L",
+      "slug": "wella-professionals-invigo-nutri-enrich-condicionador-1l",
+      "gtin": "7896235353690",
+      "loja_brl": 111.93,
+      "menor_preco_brl": 65,
+      "menor_loja": "sephora",
+      "diferenca_brl": 46.93,
+      "pct_acima": 72.2,
+      "epoca_brl": 158.63,
+      "sephora_brl": 65,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/wella-professionals-invigo-nutri-enrich-condicionador-1l",
+        "epoca": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-nutri-enrich-condicionador/p",
+        "sephora": "https://www.sephora.com.br/wella-professionals-invigo-nutri-enrich-duo-kit29hair-kit29hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Shampoo L'Oréal Professionnel Absolut Repair Com Proteína e Ômega 9 750ml",
+      "slug": "shampoo-l-oreal-professionnel-absolut-repair-com-proteina-e-omega-9-750ml",
+      "gtin": "7908615060798",
+      "loja_brl": 137.13,
+      "menor_preco_brl": 91.46,
+      "menor_loja": "epoca",
+      "diferenca_brl": 45.67,
+      "pct_acima": 49.9,
+      "epoca_brl": 91.46,
+      "sephora_brl": 121,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/shampoo-l-oreal-professionnel-absolut-repair-com-proteina-e-omega-9-750ml",
+        "epoca": "https://www.epocacosmeticos.com.br/loreal-professionnel-absolut-repair-gold-quinoa-protein-shampoo/p",
+        "sephora": "https://www.sephora.com.br/oleo-reparador-10in1-l-oreal-professionnel-absolut-repair-gold-quinoa-9090557746-730060.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "L’oréal Profissionnel Resveratrol Shampoo Vitamino Color 300ml",
+      "slug": "l-oreal-profissionnel-resveratrol-shampoo-vitamino-color-300ml",
+      "gtin": "7899706189781",
+      "loja_brl": 77.63,
+      "menor_preco_brl": 34,
+      "menor_loja": "sephora",
+      "diferenca_brl": 43.63,
+      "pct_acima": 128.3,
+      "epoca_brl": 112.16,
+      "sephora_brl": 34,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/l-oreal-profissionnel-resveratrol-shampoo-vitamino-color-300ml",
+        "epoca": "https://www.epocacosmeticos.com.br/loreal-profissionnel-resveratrol-serie-expert-vitamino-color-shampoo-300ml/p",
+        "sephora": "https://www.sephora.com.br/ampola-de-tratamento-loreal-professionnel-powerdose-vitamino-color-9090763660-763660.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Bioderma Gel de Limpeza Facial Antioleosidade Sébium Gel Moussant 500ml",
+      "slug": "bioderma-gel-de-limpeza-facial-antioleosidade-sebium-gel-moussant-500ml",
+      "gtin": "3401399277092",
+      "loja_brl": 89.19,
+      "menor_preco_brl": 47.78,
+      "menor_loja": "epoca",
+      "diferenca_brl": 41.41,
+      "pct_acima": 86.7,
+      "epoca_brl": 47.78,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/bioderma-gel-de-limpeza-facial-antioleosidade-sebium-gel-moussant-500ml",
+        "epoca": "https://www.epocacosmeticos.com.br/sebium-gel-moussant-bioderma-gel-de-limpeza/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Óleo de Banho Hidratante Bioderma Atoderm Higiene Diária 1L",
+      "slug": "oleo-de-banho-hidratante-bioderma-atoderm-higiene-diaria-1l",
+      "gtin": "3701129811627",
+      "loja_brl": 152.03,
+      "menor_preco_brl": 111.92,
+      "menor_loja": "epoca",
+      "diferenca_brl": 40.11,
+      "pct_acima": 35.8,
+      "epoca_brl": 111.92,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/oleo-de-banho-hidratante-bioderma-atoderm-higiene-diaria-1l",
+        "epoca": "https://www.epocacosmeticos.com.br/oleo-de-banho-bioderma-atoderm/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Wella Professionals Fusion - Condicionador 1L",
+      "slug": "wella-professionals-fusion-condicionador-1l",
+      "gtin": "7896235353720",
+      "loja_brl": 138.5,
+      "menor_preco_brl": 103,
+      "menor_loja": "sephora",
+      "diferenca_brl": 35.5,
+      "pct_acima": 34.5,
+      "epoca_brl": 113.05,
+      "sephora_brl": 103,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/wella-professionals-fusion-condicionador-1l",
+        "epoca": "https://www.epocacosmeticos.com.br/wella-professionals-condicionador--fusion/p",
+        "sephora": "https://www.sephora.com.br/kit-wella-professionals-fusion-trio-kit28hair-kit28hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Loção Hidratante corporal Mantecorp Hydraporin AI 450ml",
+      "slug": "locao-hidratante-corporal-mantecorp-hydraporin-ai-450ml",
+      "gtin": "7891142204554",
+      "loja_brl": 109.73,
+      "menor_preco_brl": 74.55,
+      "menor_loja": "epoca",
+      "diferenca_brl": 35.18,
+      "pct_acima": 47.2,
+      "epoca_brl": 74.55,
+      "sephora_brl": 216,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/locao-hidratante-corporal-mantecorp-hydraporin-ai-450ml",
+        "epoca": "https://www.epocacosmeticos.com.br/hidratante-intensivo-corporal-mantecorp-skincare-hydraporin-ai/p",
+        "sephora": "https://www.sephora.com.br/locao-hidratante-corporal-laces-cris-dios-organics-9090711753-711753.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Água Micelar Antioleosidade Bioderma Sébium H2O 500ml",
+      "slug": "agua-micelar-antioleosidade-bioderma-sebium-h2o-500ml",
+      "gtin": "3701129812013",
+      "loja_brl": 95.48,
+      "menor_preco_brl": 63.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 31.58,
+      "pct_acima": 49.4,
+      "epoca_brl": 63.9,
+      "sephora_brl": 136,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/agua-micelar-antioleosidade-bioderma-sebium-h2o-500ml",
+        "epoca": "https://www.epocacosmeticos.com.br/sebium-h2o-agua-micelar-para-pele-oleosa-bioderma/p",
+        "sephora": "https://www.sephora.com.br/agua-micelar-bioderma-sebium-H20-9090578107-578107.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Darrow Actine Gel de Limpeza Facial 400g",
+      "slug": "darrow-actine-gel-de-limpeza-facial-400g",
+      "gtin": "3282770153507",
+      "loja_brl": 53.83,
+      "menor_preco_brl": 22.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 30.93,
+      "pct_acima": 135.1,
+      "epoca_brl": 22.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/darrow-actine-gel-de-limpeza-facial-400g",
+        "epoca": "https://www.epocacosmeticos.com.br/gel-de-limpeza-darrow-actine-vitamina-c/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Gel De Limpeza Facial Darrow Actine Oil Control 400g",
+      "slug": "gel-de-limpeza-facial-darrow-actine-oil-control-400g",
+      "gtin": "3282770391466",
+      "loja_brl": 59.76,
+      "menor_preco_brl": 29.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 29.86,
+      "pct_acima": 99.9,
+      "epoca_brl": 29.9,
+      "sephora_brl": 194.25,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/gel-de-limpeza-facial-darrow-actine-oil-control-400g",
+        "epoca": "https://www.epocacosmeticos.com.br/actine-control-darrow-sabonete-liquido/p",
+        "sephora": "https://www.sephora.com.br/gel-de-limpeza-facial-suave-glow-recipe-blueberry-bounce-55990298-520035.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Avène Cicalfate+ Creme Reparador Facial 100ml",
+      "slug": "avene-cicalfate-creme-reparador-facial-100ml",
+      "gtin": "3282770391756",
+      "loja_brl": 74.47,
+      "menor_preco_brl": 49.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 24.57,
+      "pct_acima": 49.2,
+      "epoca_brl": 49.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/avene-cicalfate-creme-reparador-facial-100ml",
+        "epoca": "https://www.epocacosmeticos.com.br/creme-facial-reparador-avene-cicalfate/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Perfume Gabriela Sabatini Feminino Eau de Toilette 60ml",
+      "slug": "perfume-gabriela-sabatini-feminino-eau-de-toilette-60ml",
+      "gtin": "8005610325507",
+      "loja_brl": 132.99,
+      "menor_preco_brl": 108.74,
+      "menor_loja": "epoca",
+      "diferenca_brl": 24.25,
+      "pct_acima": 22.3,
+      "epoca_brl": 108.74,
+      "sephora_brl": 2150,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/perfume-gabriela-sabatini-feminino-eau-de-toilette-60ml",
+        "epoca": "https://www.epocacosmeticos.com.br/gabriela-sabatini-eau-de-toilette-gabriela-sabatini-perfume-feminino/p",
+        "sephora": "https://www.sephora.com.br/perfume-penhaligons-juniper-sling-unissex-eau-de-toilette-9090571748-571748.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Água Micelar Antioleosidade Bioderma Sébium H2O 250ml",
+      "slug": "agua-micelar-antioleosidade-bioderma-sebium-h2o-250ml",
+      "gtin": "3401572288297",
+      "loja_brl": 88.13,
+      "menor_preco_brl": 63.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 24.23,
+      "pct_acima": 37.9,
+      "epoca_brl": 63.9,
+      "sephora_brl": 136,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/agua-micelar-antioleosidade-bioderma-sebium-h2o-250ml",
+        "epoca": "https://www.epocacosmeticos.com.br/sebium-h2o-agua-micelar-para-pele-oleosa-bioderma/p",
+        "sephora": "https://www.sephora.com.br/agua-micelar-bioderma-sebium-H20-9090578107-578107.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Óleo Capilar Sebastian Dark Oil 100ml",
+      "slug": "oleo-capilar-sebastian-dark-oil-100ml",
+      "gtin": "7898973417023",
+      "loja_brl": 117.88,
+      "menor_preco_brl": 94.25,
+      "menor_loja": "epoca",
+      "diferenca_brl": 23.63,
+      "pct_acima": 25.1,
+      "epoca_brl": 94.25,
+      "sephora_brl": 220.15,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/oleo-capilar-sebastian-dark-oil-100ml",
+        "epoca": "https://www.epocacosmeticos.com.br/sebastian-dark-oil-oleo-capilar/p",
+        "sephora": "https://www.sephora.com.br/oleo-capilar-sebastian-dark-oil-prd42780-408094.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Óleo Capilar Wella Professionals Ultimate Luxe Oil 100ml",
+      "slug": "oleo-capilar-wella-professionals-ultimate-luxe-oil-100ml",
+      "gtin": "7898973417078",
+      "loja_brl": 123.68,
+      "menor_preco_brl": 100.61,
+      "menor_loja": "epoca",
+      "diferenca_brl": 23.07,
+      "pct_acima": 22.9,
+      "epoca_brl": 100.61,
+      "sephora_brl": 259,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/oleo-capilar-wella-professionals-ultimate-luxe-oil-100ml",
+        "epoca": "https://www.epocacosmeticos.com.br/wella-professionals-ultimate-luxe-oil-oleo-capilar/p",
+        "sephora": "https://www.sephora.com.br/oleo-capilar-wella-ultimate-luxe-oil-9090727595-727595.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Rouge Royal Marina de Bourbon - Perfume Feminino - Eau de Parfum 50ml",
+      "slug": "rouge-royal-marina-de-bourbon-perfume-feminino-eau-de-parfum-50ml",
+      "gtin": "3494800300021",
+      "loja_brl": 194.8,
+      "menor_preco_brl": 171.99,
+      "menor_loja": "sephora",
+      "diferenca_brl": 22.81,
+      "pct_acima": 13.3,
+      "epoca_brl": null,
+      "sephora_brl": 171.99,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/rouge-royal-marina-de-bourbon-perfume-feminino-eau-de-parfum-50ml",
+        "epoca": null,
+        "sephora": "https://www.sephora.com.br/perfume-shakira-dance-red-midnight-feminino-eau-de-toilette-9090565018-565018.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Gel de Limpeza Sébium Gel Moussant Actif 500ml",
+      "slug": "gel-de-limpeza-sebium-gel-moussant-actif-500ml",
+      "gtin": "3701129811337",
+      "loja_brl": 97.97,
+      "menor_preco_brl": 75.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 22.07,
+      "pct_acima": 29.1,
+      "epoca_brl": 75.9,
+      "sephora_brl": 95,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/gel-de-limpeza-sebium-gel-moussant-actif-500ml",
+        "epoca": "https://www.epocacosmeticos.com.br/sebium-gel-bioderma-moussant-actif/p",
+        "sephora": "https://www.sephora.com.br/gel-de-limpeza-sephora-collection-gentle-jelly-9090731503-731503.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Avène Cicalfate+ Creme Reparador Facial 40ml",
+      "slug": "avene-cicalfate-creme-reparador-facial-40ml",
+      "gtin": "3282770204667",
+      "loja_brl": 71.39,
+      "menor_preco_brl": 49.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 21.49,
+      "pct_acima": 43.1,
+      "epoca_brl": 49.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/avene-cicalfate-creme-reparador-facial-40ml",
+        "epoca": "https://www.epocacosmeticos.com.br/creme-facial-reparador-avene-cicalfate/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Creme Hidratante Bepantol Derma creme 40g",
+      "slug": "creme-hidratante-bepantol-derma-creme-40g",
+      "gtin": "7891106911733",
+      "loja_brl": 48.98,
+      "menor_preco_brl": 27.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 21.08,
+      "pct_acima": 75.6,
+      "epoca_brl": 27.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/creme-hidratante-bepantol-derma-creme-40g",
+        "epoca": "https://www.epocacosmeticos.com.br/bepantol-derma-creme-cuidado-para-areas-especificas/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Perfume Joop! Homme Masculino Eau de Toilette 200ml",
+      "slug": "perfume-joop-homme-masculino-eau-de-toilette-200ml",
+      "gtin": "3607345809915",
+      "loja_brl": 223.74,
+      "menor_preco_brl": 203.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 19.84,
+      "pct_acima": 9.7,
+      "epoca_brl": 203.9,
+      "sephora_brl": 1112,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/perfume-joop-homme-masculino-eau-de-toilette-200ml",
+        "epoca": "https://www.epocacosmeticos.com.br/joop-homme-eau-de-toilette-joop-perfume-masculino/p",
+        "sephora": "https://www.sephora.com.br/perfume-hugo-boss-bottled-masculino-eau-de-toilette-33330431-177616.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Shampoo Kérastase Blond Absolu Bain Lumière 250ml",
+      "slug": "shampoo-kerastase-blond-absolu-bain-lumiere-250ml",
+      "gtin": "7899706186285",
+      "loja_brl": 147.93,
+      "menor_preco_brl": 130,
+      "menor_loja": "sephora",
+      "diferenca_brl": 17.93,
+      "pct_acima": 13.8,
+      "epoca_brl": 241.9,
+      "sephora_brl": 130,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/shampoo-kerastase-blond-absolu-bain-lumiere-250ml",
+        "epoca": "https://www.epocacosmeticos.com.br/kerastase-blond-absolu-bain-lumiere-shampoo/p",
+        "sephora": "https://www.sephora.com.br/shampoo-kerastase-gloss-absolu-bain-hydra-glaze-88993368-769625.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Bioderma Sensibio H2O Água Micelar Calmante 1L",
+      "slug": "bioderma-sensibio-h2o-agua-micelar-calmante-1l",
+      "gtin": "0619205253724",
+      "loja_brl": 143.29,
+      "menor_preco_brl": 125.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 17.39,
+      "pct_acima": 13.8,
+      "epoca_brl": 125.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/bioderma-sensibio-h2o-agua-micelar-calmante-1l",
+        "epoca": "https://www.epocacosmeticos.com.br/agua-micelar-calmante-bioderma-sensibio-h2o-solution-micellaire/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Darrow Actine Gel de Limpeza Facial 240g",
+      "slug": "darrow-actine-gel-de-limpeza-facial-240g",
+      "gtin": "3282770153484",
+      "loja_brl": 39.76,
+      "menor_preco_brl": 22.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 16.86,
+      "pct_acima": 73.6,
+      "epoca_brl": 22.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/darrow-actine-gel-de-limpeza-facial-240g",
+        "epoca": "https://www.epocacosmeticos.com.br/gel-de-limpeza-darrow-actine-vitamina-c/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Hidratante Epidrat Calm B5 Mantecorp Skincare 50ml",
+      "slug": "hidratante-epidrat-calm-b5-mantecorp-skincare-50ml",
+      "gtin": "7891142205544",
+      "loja_brl": 64.33,
+      "menor_preco_brl": 47.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 16.43,
+      "pct_acima": 34.3,
+      "epoca_brl": 47.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/hidratante-epidrat-calm-b5-mantecorp-skincare-50ml",
+        "epoca": "https://www.epocacosmeticos.com.br/hidratante-mantecorp-skincare-epidrat-calm-b5/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Creme De Pentear Modelador Widi Care Encaracolando Juba 1L",
+      "slug": "creme-de-pentear-modelador-widi-care-encaracolando-juba-1l",
+      "gtin": "7898623242654",
+      "loja_brl": 63.68,
+      "menor_preco_brl": 48.84,
+      "menor_loja": "epoca",
+      "diferenca_brl": 14.84,
+      "pct_acima": 30.4,
+      "epoca_brl": 48.84,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/creme-de-pentear-modelador-widi-care-encaracolando-juba-1l",
+        "epoca": "https://www.epocacosmeticos.com.br/encaracolando-a-juba-widi-care-creme-de-pentear/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Máscara capilar Xapadinha Disciplinante Lola Cosmetics com 450g",
+      "slug": "mascara-capilar-xapadinha-disciplinante-lola-cosmetics-com-450g",
+      "gtin": "7899572813698",
+      "loja_brl": 32.33,
+      "menor_preco_brl": 18.91,
+      "menor_loja": "epoca",
+      "diferenca_brl": 13.42,
+      "pct_acima": 71,
+      "epoca_brl": 18.91,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/mascara-capilar-xapadinha-disciplinante-lola-cosmetics-com-450g",
+        "epoca": "https://www.epocacosmeticos.com.br/lola-cosmetics-xapadinha-mascara-disciplinante/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Shampoo Antiqueda Kérastase Genesis Bain Nutri-Fortifiant 250ml",
+      "slug": "shampoo-antiqueda-kerastase-genesis-bain-nutri-fortifiant-250ml",
+      "gtin": "7899706194747",
+      "loja_brl": 154,
+      "menor_preco_brl": 141,
+      "menor_loja": "sephora",
+      "diferenca_brl": 13,
+      "pct_acima": 9.2,
+      "epoca_brl": null,
+      "sephora_brl": 141,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/shampoo-antiqueda-kerastase-genesis-bain-nutri-fortifiant-250ml",
+        "epoca": null,
+        "sephora": "https://www.sephora.com.br/shampoo-antiqueda-fortificante-kerastase-para-cabelos-oleosos-e-finos-genesis-bain-hydra-fortifiant-prd45051-790011.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Shampoo Antiqueda Darrow Doctar Force 400ml",
+      "slug": "shampoo-antiqueda-darrow-doctar-force-400ml",
+      "gtin": "3282770153538",
+      "loja_brl": 97.87,
+      "menor_preco_brl": 84.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 12.97,
+      "pct_acima": 15.3,
+      "epoca_brl": 84.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/shampoo-antiqueda-darrow-doctar-force-400ml",
+        "epoca": "https://www.epocacosmeticos.com.br/darrow-doctar-force-shampoo-antiqueda/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Royal Marina Diamond Marina de Bourbon - Perfume Feminino - Eau de Parfum 100ml",
+      "slug": "royal-marina-diamond-marina-de-bourbon-perfume-feminino-eau-de-parfum-100ml",
+      "gtin": "3494800028035",
+      "loja_brl": 247.15,
+      "menor_preco_brl": 235.25,
+      "menor_loja": "epoca",
+      "diferenca_brl": 11.9,
+      "pct_acima": 5.1,
+      "epoca_brl": 235.25,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/royal-marina-diamond-marina-de-bourbon-perfume-feminino-eau-de-parfum-100ml",
+        "epoca": "https://www.epocacosmeticos.com.br/royal-marina-diamond-eau-de-parfum-marina-de-bourbon-perfume-feminino/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Shampoo Antiqueda Fortificante para Cabelos Oleosos e Finos Kérastase Genesis Bain Hydra-Fortifiant 250ml",
+      "slug": "shampoo-antiqueda-fortificante-para-cabelos-oleosos-e-finos-kerastase-genesis-bain-hydra-fortifiant-250ml",
+      "gtin": "7899706194662",
+      "loja_brl": 152.53,
+      "menor_preco_brl": 141,
+      "menor_loja": "sephora",
+      "diferenca_brl": 11.53,
+      "pct_acima": 8.2,
+      "epoca_brl": 222.79,
+      "sephora_brl": 141,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/shampoo-antiqueda-fortificante-para-cabelos-oleosos-e-finos-kerastase-genesis-bain-hydra-fortifiant-250ml",
+        "epoca": "https://www.epocacosmeticos.com.br/kerastase-genesis-bain-hydra-fortifiant-shampoo/p",
+        "sephora": "https://www.sephora.com.br/shampoo-antiqueda-fortificante-kerastase-para-cabelos-oleosos-e-finos-genesis-bain-hydra-fortifiant-prd45051-790011.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Loção Hidratante Corporal La Roche-Posay Lipikar 400ml",
+      "slug": "locao-hidratante-corporal-la-roche-posay-lipikar-400ml",
+      "gtin": "7899026493094",
+      "loja_brl": 136.18,
+      "menor_preco_brl": 125.09,
+      "menor_loja": "epoca",
+      "diferenca_brl": 11.09,
+      "pct_acima": 8.9,
+      "epoca_brl": 125.09,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/locao-hidratante-corporal-la-roche-posay-lipikar-400ml",
+        "epoca": "https://www.epocacosmeticos.com.br/lipikar-locao-la-roche-posay-hidratante-corporal/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Deva Curl Creme Estilizador Styling Cream - Modelador 500g",
+      "slug": "deva-curl-creme-estilizador-styling-cream-modelador-500g",
+      "gtin": "7898536549307",
+      "loja_brl": 69.3,
+      "menor_preco_brl": 59.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 9.4,
+      "pct_acima": 15.7,
+      "epoca_brl": 59.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/deva-curl-creme-estilizador-styling-cream-modelador-500g",
+        "epoca": "https://www.epocacosmeticos.com.br/creme-estilzador-styling-cream-deva-curl-modelador-para-os-cabelos/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Wella Professionals Invigo Nutri-Enrich - Máscara 150ml",
+      "slug": "wella-professionals-invigo-nutri-enrich-mascara-150ml",
+      "gtin": "7896235353713",
+      "loja_brl": 74.13,
+      "menor_preco_brl": 65,
+      "menor_loja": "sephora",
+      "diferenca_brl": 9.13,
+      "pct_acima": 14,
+      "epoca_brl": 133,
+      "sephora_brl": 65,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/wella-professionals-invigo-nutri-enrich-mascara-150ml",
+        "epoca": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-nutri-enrich-mascara/p",
+        "sephora": "https://www.sephora.com.br/wella-professionals-invigo-nutri-enrich-duo-kit29hair-kit29hair.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Darrow Suavié Sabonete Líquido para Pele Sensível 400ml",
+      "slug": "darrow-suavie-sabonete-liquido-para-pele-sensivel-400ml",
+      "gtin": "3282770144369",
+      "loja_brl": 72.03,
+      "menor_preco_brl": 63.25,
+      "menor_loja": "epoca",
+      "diferenca_brl": 8.78,
+      "pct_acima": 13.9,
+      "epoca_brl": 63.25,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/darrow-suavie-sabonete-liquido-para-pele-sensivel-400ml",
+        "epoca": "https://www.epocacosmeticos.com.br/sabonete-liquido-para-pele-sensivel-darrow-suavie/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Máscara de Cílios Lancôme Monsieur Big 10ml",
+      "slug": "mascara-de-cilios-lancome-monsieur-big-10ml",
+      "gtin": "3614271716156",
+      "loja_brl": 137.16,
+      "menor_preco_brl": 129,
+      "menor_loja": "epoca",
+      "diferenca_brl": 8.16,
+      "pct_acima": 6.3,
+      "epoca_brl": 129,
+      "sephora_brl": 345,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/mascara-de-cilios-lancome-monsieur-big-10ml",
+        "epoca": "https://www.epocacosmeticos.com.br/mascara-de-cilios-lancome-monsieur-big/p",
+        "sephora": "https://www.sephora.com.br/mascara-e-cilios-monsieur-big-8ml-391302.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Gloss Labial Fran by Franciny Ehlke Glossip Gold",
+      "slug": "gloss-labial-fran-by-franciny-ehlke-glossip-gold",
+      "gtin": "7898969501149",
+      "loja_brl": 36.24,
+      "menor_preco_brl": 28.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 7.34,
+      "pct_acima": 25.4,
+      "epoca_brl": 28.9,
+      "sephora_brl": 70,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/gloss-labial-fran-by-franciny-ehlke-glossip-gold",
+        "epoca": "https://www.epocacosmeticos.com.br/gloss-labial-fran-by-franciny-ehlke/p",
+        "sephora": "https://www.sephora.com.br/gloss-labial-fran-by-franciny-ehlke-franboesa-9090817075-817075.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Shampoo L'oreal Professionnel Absolut Repair Gold Quinoa + Protein 750ml",
+      "slug": "shampoo-l-oreal-professionnel-absolut-repair-gold-quinoa-protein-750ml",
+      "gtin": "7898522359019",
+      "loja_brl": 127.36,
+      "menor_preco_brl": 121,
+      "menor_loja": "sephora",
+      "diferenca_brl": 6.36,
+      "pct_acima": 5.3,
+      "epoca_brl": 199.57,
+      "sephora_brl": 121,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/shampoo-l-oreal-professionnel-absolut-repair-gold-quinoa-protein-750ml",
+        "epoca": "https://www.epocacosmeticos.com.br/shampoo-loreal-absolut-repair-gold-quinoa---protein-750ml-98343/p",
+        "sephora": "https://www.sephora.com.br/oleo-reparador-10in1-l-oreal-professionnel-absolut-repair-gold-quinoa-9090557746-730060.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Shampoo Anticaspa Vichy Dercos DS Cabelos Normais a Oleosos 300g",
+      "slug": "shampoo-anticaspa-vichy-dercos-ds-cabelos-normais-a-oleosos-300g",
+      "gtin": "7908615087610",
+      "loja_brl": 88.17,
+      "menor_preco_brl": 82.02,
+      "menor_loja": "epoca",
+      "diferenca_brl": 6.15,
+      "pct_acima": 7.5,
+      "epoca_brl": 82.02,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/shampoo-anticaspa-vichy-dercos-ds-cabelos-normais-a-oleosos-300g",
+        "epoca": "https://www.epocacosmeticos.com.br/vichy-dercos-shampoo-anticaspa-ds-cabelos-normais-a-oleosos/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Bioderma Gel de Limpeza Facial Antioleosidade Sébium Gel Moussant 200ml",
+      "slug": "bioderma-gel-de-limpeza-facial-antioleosidade-sebium-gel-moussant-200ml",
+      "gtin": "3401353806399",
+      "loja_brl": 53.49,
+      "menor_preco_brl": 47.78,
+      "menor_loja": "epoca",
+      "diferenca_brl": 5.71,
+      "pct_acima": 12,
+      "epoca_brl": 47.78,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/bioderma-gel-de-limpeza-facial-antioleosidade-sebium-gel-moussant-200ml",
+        "epoca": "https://www.epocacosmeticos.com.br/sebium-gel-moussant-bioderma-gel-de-limpeza/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Avène Água Termal Spray 150ml",
+      "slug": "avene-agua-termal-spray-150ml",
+      "gtin": "3282779003124",
+      "loja_brl": 100.09,
+      "menor_preco_brl": 98.9,
+      "menor_loja": "epoca",
+      "diferenca_brl": 1.19,
+      "pct_acima": 1.2,
+      "epoca_brl": 98.9,
+      "sephora_brl": null,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/avene-agua-termal-spray-150ml",
+        "epoca": "https://www.epocacosmeticos.com.br/eau-thermale-avene-agua-termal-a/p",
+        "sephora": null,
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Perfume Amor Amor Cacharel Feminino Eau de Toilette 100ml",
+      "slug": "perfume-amor-amor-cacharel-feminino-eau-de-toilette-100ml",
+      "gtin": "3360373063680",
+      "loja_brl": 308.27,
+      "menor_preco_brl": 307.48,
+      "menor_loja": "epoca",
+      "diferenca_brl": 0.79,
+      "pct_acima": 0.3,
+      "epoca_brl": 307.48,
+      "sephora_brl": 701,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/perfume-amor-amor-cacharel-feminino-eau-de-toilette-100ml",
+        "epoca": "https://www.epocacosmeticos.com.br/amor-amor-eau-de-toilette-cacharel-perfume-feminino/p",
+        "sephora": "https://www.sephora.com.br/amor-amor-feminino-eau-de-toilette-100-ml-53429.html",
+        "beleza_na_web": null
+      }
+    },
+    {
+      "name": "Avène Cleanance Gel de Limpeza Facial 400g",
+      "slug": "avene-cleanance-gel-de-limpeza-facial-400g",
+      "gtin": "3282770150599",
+      "loja_brl": 69.3,
+      "menor_preco_brl": 68.59,
+      "menor_loja": "epoca",
+      "diferenca_brl": 0.71,
+      "pct_acima": 1,
+      "epoca_brl": 68.59,
+      "sephora_brl": 95,
+      "bnw_brl": null,
+      "urls": {
+        "batista": "https://www.batistacosmeticos.com.br/produto/avene-cleanance-gel-de-limpeza-facial-400g",
+        "epoca": "https://www.epocacosmeticos.com.br/gel-de-limpeza-facial-avene-cleanance-gel/p",
+        "sephora": "https://www.sephora.com.br/gel-de-limpeza-sephora-collection-gentle-jelly-9090731503-731503.html",
+        "beleza_na_web": null
+      }
+    }
+  ]
+}

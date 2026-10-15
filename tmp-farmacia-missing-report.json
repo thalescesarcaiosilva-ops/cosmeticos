@@ -1,0 +1,1605 @@
+{
+  "csvTotalRows": 569,
+  "skippedPerfume": 62,
+  "skippedVariation": 0,
+  "skippedDraft": 2,
+  "csvCompared": 505,
+  "matchedInStore": 328,
+  "missingInStore": 177,
+  "fuzzyNameMatches": 3,
+  "storeActiveProducts": 783,
+  "missingByPrimaryCategory": [
+    {
+      "category": "Suplementos e Vitaminas",
+      "count": 54
+    },
+    {
+      "category": "Cuidados com a Pele",
+      "count": 42
+    },
+    {
+      "category": "Mamãe e Bebê",
+      "count": 26
+    },
+    {
+      "category": "Novidades",
+      "count": 13
+    },
+    {
+      "category": "Proteção Solar",
+      "count": 9
+    },
+    {
+      "category": "Kits em Promoção",
+      "count": 9
+    },
+    {
+      "category": "Cuidados Capilares",
+      "count": 7
+    },
+    {
+      "category": "Maquiagens e Acessórios",
+      "count": 7
+    },
+    {
+      "category": "Higiene Pessoal",
+      "count": 6
+    },
+    {
+      "category": "Beleza e Saúde",
+      "count": 3
+    },
+    {
+      "category": "Coleção 2025",
+      "count": 1
+    }
+  ],
+  "categoriesInMissingNotInStoreTable": [
+    "Coleção 2025",
+    "Proteção Solar",
+    "Kits em Promoção",
+    "Cuidados com a Pele",
+    "Cuidados Capilares",
+    "Suplementos e Vitaminas",
+    "Novidades",
+    "Higiene Pessoal",
+    "Mamãe e Bebê",
+    "Maquiagens e Acessórios",
+    "Beleza e Saúde"
+  ],
+  "sampleMissing": [
+    {
+      "title": "Rue Broca - Nexa Immortal - 100 ml",
+      "slug": "rue-broca-nexa-immortal",
+      "sku": "953-DYp0ZxnEvEgmvX7",
+      "wooId": "953",
+      "categories": [
+        "Novidades",
+        "Coleção 2025"
+      ],
+      "primaryCat": "Coleção 2025",
+      "brand": ""
+    },
+    {
+      "title": "Kit Vichy Hidratação e Proteção Clara a Média Clara (2 Produtos)",
+      "slug": "kit-vichy-hidratacao-e-protecao-clara-a-media-clara-2-produtos",
+      "sku": "6290-P5LNZ8Wa7z3aRye",
+      "wooId": "6290",
+      "categories": [
+        "Cuidados com a Pele",
+        "Kits em Promoção",
+        "Proteção Solar"
+      ],
+      "primaryCat": "Proteção Solar",
+      "brand": ""
+    },
+    {
+      "title": "Vichy Dercos Energizante Kit – Shampoo + Ampola – Kit",
+      "slug": "vichy-dercos-energizante-kit-shampoo-ampola-kit",
+      "sku": "6291-P5LNZ8Wa7z3aRye",
+      "wooId": "6291",
+      "categories": [
+        "Cuidados Capilares",
+        "Kits em Promoção"
+      ],
+      "primaryCat": "Kits em Promoção",
+      "brand": ""
+    },
+    {
+      "title": "Kit Dercos Shampoo + Condicionador + Super Ampola + Sérum",
+      "slug": "kit-dercos-shampoo-condicionador-super-ampola-serum",
+      "sku": "6292-P5LNZ8Wa7z3aRye",
+      "wooId": "6292",
+      "categories": [
+        "Cuidados Capilares",
+        "Kits em Promoção"
+      ],
+      "primaryCat": "Kits em Promoção",
+      "brand": ""
+    },
+    {
+      "title": "Kit Vichy Dercos Kera-Solutions Complete",
+      "slug": "kit-vichy-dercos-kera-solutions-complete",
+      "sku": "6293-P5LNZ8Wa7z3aRye",
+      "wooId": "6293",
+      "categories": [
+        "Cuidados Capilares",
+        "Kits em Promoção"
+      ],
+      "primaryCat": "Kits em Promoção",
+      "brand": ""
+    },
+    {
+      "title": "Kit Capilar Vichy Dercos Sensi-Scalp – Creme de Limpeza 300 ml + Sérum Capilar 50 ml",
+      "slug": "kit-capilar-vichy-dercos-sensi-scalp-creme-de-limpeza-300-ml-serum-capilar-50-ml",
+      "sku": "6294-P5LNZ8Wa7z3aRye",
+      "wooId": "6294",
+      "categories": [
+        "Cuidados Capilares",
+        "Kits em Promoção"
+      ],
+      "primaryCat": "Kits em Promoção",
+      "brand": ""
+    },
+    {
+      "title": "Kit Shampoo + Condicionador Dercos Oil Correction Vichy",
+      "slug": "kit-shampoo-condicionador-dercos-oil-correction-vichy",
+      "sku": "6295-P5LNZ8Wa7z3aRye",
+      "wooId": "6295",
+      "categories": [
+        "Cuidados Capilares",
+        "Kits em Promoção"
+      ],
+      "primaryCat": "Kits em Promoção",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Double Correction",
+      "slug": "normaderm-double-correction",
+      "sku": "6296-P5LNZ8Wa7z3aRye",
+      "wooId": "6296",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 300G",
+      "slug": "normaderm-phytosolution-gel-de-limpeza-anti-acne-com-acido-salicilico-300g",
+      "sku": "6297-P5LNZ8Wa7z3aRye",
+      "wooId": "6297",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "VICHY MINÉRAL 89 GEL PARA OLHOS",
+      "slug": "vichy-mineral-89-gel-para-olhos",
+      "sku": "6298-P5LNZ8Wa7z3aRye",
+      "wooId": "6298",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "NEOVADIOL CREME UNIFORMIZADOR DE TOM FPS 50",
+      "slug": "neovadiol-creme-uniformizador-de-tom-fps-50",
+      "sku": "6299-P5LNZ8Wa7z3aRye",
+      "wooId": "6299",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 300g",
+      "slug": "normaderm-gel-de-limpeza-profunda-anti-oleosidade-com-acido-glicolico-300g",
+      "sku": "6300-P5LNZ8Wa7z3aRye",
+      "wooId": "6300",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 150G",
+      "slug": "normaderm-phytosolution-gel-de-limpeza-anti-acne-com-acido-salicilico-150g",
+      "sku": "6301-P5LNZ8Wa7z3aRye",
+      "wooId": "6301",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Neovadiol Sérum Multicorretor De Sinais Da Idade Menopausa 30ml",
+      "slug": "neovadiol-serum-multicorretor-de-sinais-da-idade-menopausa-30ml",
+      "sku": "6302-P5LNZ8Wa7z3aRye",
+      "wooId": "6302",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Phytosolution Gel De Limpeza Anti-Acne Com Acido Salicílico 60g",
+      "slug": "normaderm-phytosolution-gel-de-limpeza-anti-acne-com-acido-salicilico-60g",
+      "sku": "6303-P5LNZ8Wa7z3aRye",
+      "wooId": "6303",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico Refil 240g",
+      "slug": "normaderm-gel-de-limpeza-profunda-anti-oleosidade-com-acido-glicolico-refil-240g",
+      "sku": "6304-P5LNZ8Wa7z3aRye",
+      "wooId": "6304",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "NORMADERM PROBIO BHA SÉRUM",
+      "slug": "normaderm-probio-bha-serum",
+      "sku": "6305-P5LNZ8Wa7z3aRye",
+      "wooId": "6305",
+      "categories": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "primaryCat": "Proteção Solar",
+      "brand": ""
+    },
+    {
+      "title": "NEOVADIOL CREME NUTRITIVO REDENSIFICADOR MENOUPAUSA – 50G",
+      "slug": "neovadiol-creme-nutritivo-redensificador-menoupausa-50g",
+      "sku": "6306-P5LNZ8Wa7z3aRye",
+      "wooId": "6306",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Gel De Limpeza Profunda 150ml",
+      "slug": "normaderm-gel-de-limpeza-profunda",
+      "sku": "6307-P5LNZ8Wa7z3aRye",
+      "wooId": "6307",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm 3 Em 1: Esfoliação + Limpeza + Máscara 125ml",
+      "slug": "normaderm-3-em-1-esfoliacao-limpeza-mascara-125ml",
+      "sku": "6308-P5LNZ8Wa7z3aRye",
+      "wooId": "6308",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Purete Thermale Vichy - Limpador Facial - 150ml",
+      "slug": "purete-thermale-vichy-limpador-facial-150ml",
+      "sku": "6309-P5LNZ8Wa7z3aRye",
+      "wooId": "6309",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Loção Purificante Redutora De Poros",
+      "slug": "normaderm-locao-purificante-redutora-de-poros",
+      "sku": "6310-P5LNZ8Wa7z3aRye",
+      "wooId": "6310",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 150g",
+      "slug": "normaderm-gel-de-limpeza-profunda-anti-oleosidade-com-acido-glicolico-150g",
+      "sku": "6311-P5LNZ8Wa7z3aRye",
+      "wooId": "6311",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Phytosolution Gel De Limpeza Anti-Acne Com Acido Salicílico Refil 240g",
+      "slug": "normaderm-phytosolution-gel-de-limpeza-anti-acne-com-acido-salicilico-refil-240g",
+      "sku": "6312-P5LNZ8Wa7z3aRye",
+      "wooId": "6312",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Dercos Shampoo Anticaspa Intensivo Ds Cabelos Secos",
+      "slug": "dercos-shampoo-anticaspa-intensivo-ds-cabelos-secos",
+      "sku": "6315-P5LNZ8Wa7z3aRye",
+      "wooId": "6315",
+      "categories": [
+        "Cuidados Capilares"
+      ],
+      "primaryCat": "Cuidados Capilares",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Skin Corrector",
+      "slug": "normaderm-skin-corrector",
+      "sku": "6316-P5LNZ8Wa7z3aRye",
+      "wooId": "6316",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Normaderm Sabonete Dermatológico 70g",
+      "slug": "normaderm-sabonete-dermatologico-70g",
+      "sku": "6317-P5LNZ8Wa7z3aRye",
+      "wooId": "6317",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Minéral 89 Sérum Fortalecedor Facial",
+      "slug": "mineral-89-serum-fortalecedor-facial",
+      "sku": "6318-P5LNZ8Wa7z3aRye",
+      "wooId": "6318",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Liftactiv Sérum Com Ação-Pró-Colágeno Peptide Aha",
+      "slug": "liftactiv-serum-com-acao-pro-colageno-peptide-aha",
+      "sku": "6319-P5LNZ8Wa7z3aRye",
+      "wooId": "6319",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "LIFTACTIV B3 SÉRUM UNIFORMIZADOR E CORRETOR DE LINHAS",
+      "slug": "liftactiv-b3-serum-uniformizador-e-corretor-de-linhas",
+      "sku": "6340-P5LNZ8Wa7z3aRye",
+      "wooId": "6340",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "MINÉRAL 89 FRAÇÕES PROBIÓTICAS – SÉRUM CONCENTRADO",
+      "slug": "mineral-89-fracoes-probioticas-serum-concentrado",
+      "sku": "6341-P5LNZ8Wa7z3aRye",
+      "wooId": "6341",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Liftactiv Sérum Vitamina C 20ml",
+      "slug": "liftactiv-serum-vitamina-c-20-ml",
+      "sku": "6342-P5LNZ8Wa7z3aRye",
+      "wooId": "6342",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Liftactiv Sérum H.A. Epidermic Filler",
+      "slug": "liftactiv-serum-h-a-epidermic-filler",
+      "sku": "6343-P5LNZ8Wa7z3aRye",
+      "wooId": "6343",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Liftactiv Colágeno Specialist",
+      "slug": "liftactiv-colageno-specialist",
+      "sku": "6370-P5LNZ8Wa7z3aRye",
+      "wooId": "6370",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Neovadiol Creme Leve Efeito Lifting Menopausa 50G",
+      "slug": "neovadiol-creme-leve-efeito-lifting-menopausa-50g",
+      "sku": "6371-P5LNZ8Wa7z3aRye",
+      "wooId": "6371",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": ""
+    },
+    {
+      "title": "Dercos Condicionador Reequilibrante Oil-Correction Com Ceramida R E Zinco Pca",
+      "slug": "dercos-condicionador-reequilibrante-oil-correction-com-ceramida-r-e-zinco-pca",
+      "sku": "6372-P5LNZ8Wa7z3aRye",
+      "wooId": "6372",
+      "categories": [
+        "Cuidados Capilares"
+      ],
+      "primaryCat": "Cuidados Capilares",
+      "brand": ""
+    },
+    {
+      "title": "Idéal Soleil Protetor Solar Corporal Hydrasoft FPS50",
+      "slug": "ideal-soleil-protetor-solar-corporal-hydrasoft-fps50",
+      "sku": "6374-P5LNZ8Wa7z3aRye",
+      "wooId": "6374",
+      "categories": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "primaryCat": "Proteção Solar",
+      "brand": ""
+    },
+    {
+      "title": "Neovadiol Creme Antirrugas para Contorno de Lábios e Olhos – 15 ml",
+      "slug": "creme-antirrugas-para-contorno-de-labios-e-olhos-15ml",
+      "sku": "6406-P5LNZ8Wa7z3aRye",
+      "wooId": "6406",
+      "categories": [
+        "Cuidados com a Pele"
+      ],
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Vichy"
+    },
+    {
+      "title": "Protetor Solar Vichy Idéal Soleil Corporal HydraSoft FPS70",
+      "slug": "ideal-soleil-protetor-solar-corporal-hydrasoft-fps70",
+      "sku": "6407-P5LNZ8Wa7z3aRye",
+      "wooId": "6407",
+      "categories": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "primaryCat": "Proteção Solar",
+      "brand": ""
+    },
+    {
+      "title": "Protetor Solar Vichy Idéal Soleil Corporal Hydra Soft FPS30",
+      "slug": "ideal-soleil-protetor-solar-corporal-hydrasoft-fps30",
+      "sku": "6409-P5LNZ8Wa7z3aRye",
+      "wooId": "6409",
+      "categories": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "primaryCat": "Proteção Solar",
+      "brand": ""
+    }
+  ],
+  "sampleFuzzyMatches": [
+    {
+      "csvTitle": "Creme Hidratante Cetaphil 453g",
+      "storeName": "Cetaphil Creme Hidratante 453g",
+      "how": "name_fuzzy_100"
+    },
+    {
+      "csvTitle": "Shampoo Wella Professionals Fusion 250ml",
+      "storeName": "Wella Professionals Fusion - Shampoo 250ml",
+      "how": "name_fuzzy_100"
+    },
+    {
+      "csvTitle": "Shampoo Wella Professionals Invigo Nutri Enrich 250ml",
+      "storeName": "Wella Professionals Invigo Nutri-Enrich - Shampoo 250ml",
+      "how": "name_fuzzy_100"
+    }
+  ],
+  "allMissingTitles": [
+    {
+      "title": "Rue Broca - Nexa Immortal - 100 ml",
+      "primaryCat": "Coleção 2025",
+      "brand": "",
+      "sku": "953-DYp0ZxnEvEgmvX7"
+    },
+    {
+      "title": "Kit Vichy Hidratação e Proteção Clara a Média Clara (2 Produtos)",
+      "primaryCat": "Proteção Solar",
+      "brand": "",
+      "sku": "6290-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Vichy Dercos Energizante Kit – Shampoo + Ampola – Kit",
+      "primaryCat": "Kits em Promoção",
+      "brand": "",
+      "sku": "6291-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Kit Dercos Shampoo + Condicionador + Super Ampola + Sérum",
+      "primaryCat": "Kits em Promoção",
+      "brand": "",
+      "sku": "6292-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Kit Vichy Dercos Kera-Solutions Complete",
+      "primaryCat": "Kits em Promoção",
+      "brand": "",
+      "sku": "6293-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Kit Capilar Vichy Dercos Sensi-Scalp – Creme de Limpeza 300 ml + Sérum Capilar 50 ml",
+      "primaryCat": "Kits em Promoção",
+      "brand": "",
+      "sku": "6294-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Kit Shampoo + Condicionador Dercos Oil Correction Vichy",
+      "primaryCat": "Kits em Promoção",
+      "brand": "",
+      "sku": "6295-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Double Correction",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6296-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 300G",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6297-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "VICHY MINÉRAL 89 GEL PARA OLHOS",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6298-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "NEOVADIOL CREME UNIFORMIZADOR DE TOM FPS 50",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6299-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 300g",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6300-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 150G",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6301-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Neovadiol Sérum Multicorretor De Sinais Da Idade Menopausa 30ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6302-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Phytosolution Gel De Limpeza Anti-Acne Com Acido Salicílico 60g",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6303-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico Refil 240g",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6304-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "NORMADERM PROBIO BHA SÉRUM",
+      "primaryCat": "Proteção Solar",
+      "brand": "",
+      "sku": "6305-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "NEOVADIOL CREME NUTRITIVO REDENSIFICADOR MENOUPAUSA – 50G",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6306-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Gel De Limpeza Profunda 150ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6307-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm 3 Em 1: Esfoliação + Limpeza + Máscara 125ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6308-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Purete Thermale Vichy - Limpador Facial - 150ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6309-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Loção Purificante Redutora De Poros",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6310-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 150g",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6311-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Phytosolution Gel De Limpeza Anti-Acne Com Acido Salicílico Refil 240g",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6312-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Dercos Shampoo Anticaspa Intensivo Ds Cabelos Secos",
+      "primaryCat": "Cuidados Capilares",
+      "brand": "",
+      "sku": "6315-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Skin Corrector",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6316-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Normaderm Sabonete Dermatológico 70g",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6317-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Minéral 89 Sérum Fortalecedor Facial",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6318-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Liftactiv Sérum Com Ação-Pró-Colágeno Peptide Aha",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6319-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "LIFTACTIV B3 SÉRUM UNIFORMIZADOR E CORRETOR DE LINHAS",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6340-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "MINÉRAL 89 FRAÇÕES PROBIÓTICAS – SÉRUM CONCENTRADO",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6341-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Liftactiv Sérum Vitamina C 20ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6342-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Liftactiv Sérum H.A. Epidermic Filler",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6343-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Liftactiv Colágeno Specialist",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6370-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Neovadiol Creme Leve Efeito Lifting Menopausa 50G",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6371-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Dercos Condicionador Reequilibrante Oil-Correction Com Ceramida R E Zinco Pca",
+      "primaryCat": "Cuidados Capilares",
+      "brand": "",
+      "sku": "6372-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Idéal Soleil Protetor Solar Corporal Hydrasoft FPS50",
+      "primaryCat": "Proteção Solar",
+      "brand": "",
+      "sku": "6374-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Neovadiol Creme Antirrugas para Contorno de Lábios e Olhos – 15 ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Vichy",
+      "sku": "6406-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Protetor Solar Vichy Idéal Soleil Corporal HydraSoft FPS70",
+      "primaryCat": "Proteção Solar",
+      "brand": "",
+      "sku": "6407-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Protetor Solar Vichy Idéal Soleil Corporal Hydra Soft FPS30",
+      "primaryCat": "Proteção Solar",
+      "brand": "",
+      "sku": "6409-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Condicionador Vichy Dercos Antiqueda Energy+",
+      "primaryCat": "Cuidados Capilares",
+      "brand": "",
+      "sku": "6410-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Neovadiol Antirrugas Redefinidor Do Pescoço 50ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6411-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Ideal Body Loção Serum Corporal 200G",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6412-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Liftactiv Retinol Specialist Sérum",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6413-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Condicionador Vichy Dercos Super Restaurador com Pro Keratin Complex",
+      "primaryCat": "Cuidados Capilares",
+      "brand": "",
+      "sku": "6415-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Vichy Dercos Kera-Solutions - Shampoo 300ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Vichy",
+      "sku": "6474-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Vichy Eau Thermale Minéralisante - Água Termal 150ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "",
+      "sku": "6475-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Máscara Facial Mineral Efeito Peeling",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Vichy",
+      "sku": "6476-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Kit Vichy Normaderm Phytosolution Skin Balance (3 Produtos)",
+      "primaryCat": "Kits em Promoção",
+      "brand": "Vichy",
+      "sku": "6477-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "MÁSCARA FACIAL MINERAL ARGILA PURIFICANTE",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Vichy",
+      "sku": "6478-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Ideal Body Pescoço, Colo e Mãos FPS 20 Vichy – Gel Creme Anti-Idade – 100g",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Vichy",
+      "sku": "6480-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Kit Vichy Hidratação e Proteção Clara a Média Clara (2 Produtos)",
+      "primaryCat": "Kits em Promoção",
+      "brand": "",
+      "sku": "6503-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Máscara Facial Mineral Reequilibrante",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Vichy",
+      "sku": "6504-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Kit Vichy Liftactiv Duplo Tratamento (2 Produtos)",
+      "primaryCat": "Kits em Promoção",
+      "brand": "Vichy",
+      "sku": "6505-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Kit Vichy Liftactiv Supreme H.A. Epidermic Filler & UV-Age Daily FPS 60 (2 Produtos)",
+      "primaryCat": "Kits em Promoção",
+      "brand": "Vichy",
+      "sku": "6539-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Sérum Capilar Vichy Sensi-Scalp Concentrado Calmante 50ml",
+      "primaryCat": "Cuidados Capilares",
+      "brand": "Vichy",
+      "sku": "6645-P5LNZ8Wa7z3aRye"
+    },
+    {
+      "title": "Barra de Proteína Crisp Bar Cookies and Cream com 12 unidades",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "IntegralMedica",
+      "sku": "7896311773268"
+    },
+    {
+      "title": "Alpha Women Puravida com 60 Cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Puravida",
+      "sku": "7898661011656"
+    },
+    {
+      "title": "BioTrimag Trimagnésio Puravida 60 cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Puravida",
+      "sku": "7898661013940"
+    },
+    {
+      "title": "Body Protein Equaliv sabor Neutro 450g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Equaliv",
+      "sku": "7898946434231"
+    },
+    {
+      "title": "Colágeno Collagen Derm Nutrify sabor Laranja 330g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Nutrify",
+      "sku": "7896311769681"
+    },
+    {
+      "title": "Colágeno Collagen Derm Nutrify sabor Abacaxi com Hortelã 300g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Nutrify",
+      "sku": "7896311774388"
+    },
+    {
+      "title": "Body Protein sabor Cacau Equaliv 600g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Equaliv",
+      "sku": "7898687730814"
+    },
+    {
+      "title": "Colágeno Hidrolisado em Pó sabor Laranja com 30 sachês",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Biolab",
+      "sku": "7896112401537"
+    },
+    {
+      "title": "Colágeno Hidrolisado 2 em 1 Verisol Natural Maxinutri 250g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Maxinutri",
+      "sku": "7793481667062"
+    },
+    {
+      "title": "Colágeno Collagen Derm Nutrify sabor Limão 330g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Nutrify",
+      "sku": "7896311769698"
+    },
+    {
+      "title": "Colágeno Sanavita Duo Balance Neutro 285g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Sanavita",
+      "sku": "7895094674915"
+    },
+    {
+      "title": "Colflex Trio Colágeno Hidrolisado 30 sachês",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Mantecorp",
+      "sku": "7896094920255"
+    },
+    {
+      "title": "Collagen Protein Puravida Sem sabor 450g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Puravida",
+      "sku": "7898661011267"
+    },
+    {
+      "title": "Condres Colágeno Não Hidrolisado Tipo II 40mg 90 cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "EMS",
+      "sku": "7894916515207"
+    },
+    {
+      "title": "Exímia Fortalize Kera D Kit com 2 caixas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Exímia",
+      "sku": "7898040325466-1"
+    },
+    {
+      "title": "Fish Oil Ômega 3 Dux Nutrition 120 Cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Dux Nutrition",
+      "sku": "430816001"
+    },
+    {
+      "title": "Guardian Sabor Limão 30 Sachês 8g Central Nutrition",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Central Nutrition",
+      "sku": "7898962163566"
+    },
+    {
+      "title": "Lognis Suplemento Alimentar com 60 Comprimidos",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Apsen",
+      "sku": "7896637032551"
+    },
+    {
+      "title": "Guardian Sabor Tangerina 30 Sachês 8g Central Nutrition",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Central Nutrition",
+      "sku": "7898962163504"
+    },
+    {
+      "title": "Motilex HA com 60 cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Apsen",
+      "sku": "7896637031844"
+    },
+    {
+      "title": "Multivitamínico Dux Nutrition 90 Cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Dux Nutrition",
+      "sku": "7898641070222"
+    },
+    {
+      "title": "Nutren Senior sabor Café com Leite 740g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891000287699"
+    },
+    {
+      "title": "Nutren Senior sabor Chocolate 740g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891000321843"
+    },
+    {
+      "title": "Nutren Senior sabor Mix de Frutas 740g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891000183205"
+    },
+    {
+      "title": "Oleo de Semente de Abobora 1000mg Katiguá 120 Cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7898714760661"
+    },
+    {
+      "title": "Ômega 3 Nutrify 120 cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7896311767854"
+    },
+    {
+      "title": "Ômega 3 Nutrify 60 cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7896311767854-1"
+    },
+    {
+      "title": "Spirulina Orgânica Puravida 200 Tabletes",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7898956903116"
+    },
+    {
+      "title": "Suplemento Alimentar Condres Ultra 90 comprimidos",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7894916515214"
+    },
+    {
+      "title": "Suplemento Alimentar Condres AH 30 cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7894916515672"
+    },
+    {
+      "title": "Suplemento Alimentar Colaten Force 60 Comprimidos",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7896226109732"
+    },
+    {
+      "title": "Suplemento Alimentar Centrum Homem 150 Comprimidos",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7896009498145"
+    },
+    {
+      "title": "Suplemento Alimentar Centrum A a Z Adulto com 90 cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7896015592998"
+    },
+    {
+      "title": "Suplemento Alimentar Extima sabor Banana 600g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7896637032513"
+    },
+    {
+      "title": "Suplemento Alimentar Extima Baunilha 600g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7896637032537"
+    },
+    {
+      "title": "Suplemento Alimentar de Fibras Fiber Mais sem sabor 260g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7896001303119"
+    },
+    {
+      "title": "Suplemento Alimentar FiberMais Sabor Laranja 170g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891000127452"
+    },
+    {
+      "title": "Suplemento Alimentar Nutren Beauty sabor chocolate 400g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891000250747"
+    },
+    {
+      "title": "Suplemento Alimentar Nutren Active sabor Morango 400g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891000234204"
+    },
+    {
+      "title": "Suplemento Alimentar Glucerna SR Chocolate 200ml Kit com 4 unidades",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891158102134"
+    },
+    {
+      "title": "Suplemento Alimentar Nutren Active sabor Baunilha 400g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891000234006"
+    },
+    {
+      "title": "Suplemento Alimentar Glucerna SR Baunilha 200ml Kit com 4 unidades",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891158102127"
+    },
+    {
+      "title": "Suplemento Alimentar Progress com 30 sachês sabor Baunilha",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "789 665 803 526-5"
+    },
+    {
+      "title": "Suplemento Alimentar OmegaPure Biobalance 60 cápsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7898935580017"
+    },
+    {
+      "title": "Suplemento Alimentar Nutridrink Protein Senior Sabor Chocolate 750g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891025121459"
+    },
+    {
+      "title": "Suplemento Alimentar Nutren Senior Zero Lactose Sem Sabor 2 Unidades de 740g",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891000320457-1"
+    },
+    {
+      "title": "Suplemento Alimentar Prosso D+ Km 2000UI com 30 Comprimidos",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891317022532"
+    },
+    {
+      "title": "Top Whey Bar Caixa com 12 Unidades Max Titanium Sabor Brigadeiro",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7899941202795"
+    },
+    {
+      "title": "Vitamina D3 Synergy Puravida 60 Capsulas",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7898661010499"
+    },
+    {
+      "title": "YoPRO Bebida Láctea UHT Chocolate15g de proteínas 250ml caixa com 12 unidades",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891025115656"
+    },
+    {
+      "title": "YoPRO Bebida Láctea UHT Baunilha 15g de proteínas 250ml caixa com 12 unidades",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891025124627"
+    },
+    {
+      "title": "YoPRO Bebida Láctea UHT Banana 15g de proteínas 250ml caixa com 12 unidades",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "",
+      "sku": "7891025115632"
+    },
+    {
+      "title": "LATTAFA BADE AL OUD NOBLE BLUSH 100ML",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "MAISON ALHAMBRA PERSEUS EXCLUSIF 100ML",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "MAISON ALHAMBRA COMO MOISELLE 100ML",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "SABRINA CARPENTER SWEET TOOTH 75ML EDP",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "RASASI HAWAS ICE 100ML",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "HIDRATANTANTE ORIGINAL ALIEN MUGLER 200ML",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "HAWAS BLACK 100ML",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "PACO RABANNE PURE XS 100ML",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "RASASI HAWAS ELIXIR 100ML",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "FERRARI BLACK SCUDERIA",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "PACO RABANNE OLYMPEA FLORA 80ML",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "Victoria’S Secret Amber Romance - 236ml",
+      "primaryCat": "Novidades",
+      "brand": "",
+      "sku": ""
+    },
+    {
+      "title": "Água Micelar Bioderma Sensibio H2O 250ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Bioderma",
+      "sku": "bderm-192312"
+    },
+    {
+      "title": "Antirrugas SkinCeuticals Retinol 0.3 com 30ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Skinceuticals",
+      "sku": "scekusn-19239"
+    },
+    {
+      "title": "Cicaplast Baume La Roche-Posay B5 Plus Hidratante 40ml",
+      "primaryCat": "Novidades",
+      "brand": "La Roche-Posay",
+      "sku": "llroadu-102313"
+    },
+    {
+      "title": "Creme Facial Nivea Anti-manchas Cellular Luminous Fps 50 40ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Nivea",
+      "sku": ""
+    },
+    {
+      "title": "Fixador Corega Ultra em pó 50g",
+      "primaryCat": "Higiene Pessoal",
+      "brand": "Corega",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Babysec Ultra Sec Galinha Pintadinha G Hiper 60 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Babysec",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Babysec UltraSec Galinha Pintadinha Hiper XG 56 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Babysec",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Calça Huggies Supreme Care Roupinha M 80 unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Huggies",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Calça Huggies Supreme Care XXXG 70 unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Huggies",
+      "sku": ""
+    },
+    {
+      "title": "Fralda calça MamyPoko Dia & Noite XG 42 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Mamypoko",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Descartável Babysec Galinha Pintadinha Hiper XXG 48 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Babysec",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Descartável Babysec Ultra Sec Hiper M 68 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Babysec",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Huggies Roupinha Supreme Care G 88 unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Huggies",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Huggies Roupinha Supreme Care XXG 72 unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Huggies",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Huggies Supreme Care G com 66 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Huggies",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Huggies Supreme Care P 48 unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Huggies",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Huggies Supreme Care Roupinha XG 80 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Huggies",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Confort Sec G Com 98 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Confort Sec M Com 70 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Confort Sec P Com 72 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Confort Sec XG 58 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Confort Sec XXG Com 52 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Confort Sec Xxxg 44 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Premium Care P com 40 unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Premium Care Tamanho G 68 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Premium Care Tamanho XXG Com 56 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fralda Pampers Premium Care XG 60 unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": ""
+    },
+    {
+      "title": "Fran Glosslicious by Franciny Ehlke Kit com 3 Unidades",
+      "primaryCat": "Maquiagens e Acessórios",
+      "brand": "Franciny Ehlke",
+      "sku": ""
+    },
+    {
+      "title": "Demaquilante Bi-facil Lancôme 125ml",
+      "primaryCat": "Maquiagens e Acessórios",
+      "brand": "Lancome",
+      "sku": "lancedamw"
+    },
+    {
+      "title": "Gel de Limpeza Facial Bioderma Sébium Gel Moussant 200ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Bioderma",
+      "sku": "baamentad-7623"
+    },
+    {
+      "title": "Gel de Limpeza Facial CeraVe 454g",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "CeraVe",
+      "sku": "camfead-2903"
+    },
+    {
+      "title": "Gel de Limpeza Micelar Bioderma Sensibio Gel Moussant 200ml",
+      "primaryCat": "Cuidados com a Pele",
+      "brand": "Bioderma",
+      "sku": "biopendomas-9021"
+    },
+    {
+      "title": "Gloss Glossip Girl – Fran by Franciny Ehlke",
+      "primaryCat": "Maquiagens e Acessórios",
+      "brand": "Franciny Ehlke",
+      "sku": "framondm-8490"
+    },
+    {
+      "title": "Gloss Labial Fran By Franciny Ehlke Lip Bunny",
+      "primaryCat": "Maquiagens e Acessórios",
+      "brand": "Franciny Ehlke",
+      "sku": "framasend-8739"
+    },
+    {
+      "title": "Gloss para Aumentos dos Lábios Fran by Franciny Ehlke Lip Chilli 1 unidade",
+      "primaryCat": "Maquiagens e Acessórios",
+      "brand": "Franciny Ehlke",
+      "sku": "frmendsd-9839"
+    },
+    {
+      "title": "Guardian Sabor Limão 30 Sachês 8g Central Nutrition",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Central Nutrition",
+      "sku": "cenkoamen-9830"
+    },
+    {
+      "title": "Guardian Sabor Tangerina 30 Sachês 8g Central Nutrition",
+      "primaryCat": "Suplementos e Vitaminas",
+      "brand": "Central Nutrition",
+      "sku": "cenkoamen-7639"
+    },
+    {
+      "title": "Kit de Lenços Umedecidos Pampers Aloe Vera com 576 Unidades",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": "pampmda-242"
+    },
+    {
+      "title": "Kit Lenço Umedecido Huggies Recém Nascido 192 unidades em 4 pacotes",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Huggies",
+      "sku": "kamdoaa-21415"
+    },
+    {
+      "title": "Kit Lenço Umedecido Pampers Aroma de Aloe Vera 4 pacotes",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Pampers",
+      "sku": "pamowm-1532"
+    },
+    {
+      "title": "Love Kit Franciny Elkhe Love Chilli + Lip Love + Love Liner",
+      "primaryCat": "Maquiagens e Acessórios",
+      "brand": "Franciny Ehlke",
+      "sku": ""
+    },
+    {
+      "title": "Máscara Capilar Kérastase Nutritive Masque Magistral 200ml",
+      "primaryCat": "Cuidados Capilares",
+      "brand": "Kérastase",
+      "sku": "kamwdaod-0290"
+    },
+    {
+      "title": "Máscara para Cílios Maybelline Sensacionais Efeito Leque À Prova D’água Preto 9ml",
+      "primaryCat": "Maquiagens e Acessórios",
+      "brand": "Maybeline",
+      "sku": "kmdadp-8390"
+    },
+    {
+      "title": "Óleo capilar Kérastase L’Huile Rose Elixir Ultime 100ml",
+      "primaryCat": "Cuidados Capilares",
+      "brand": "Kérastase",
+      "sku": "irmdasd-9820"
+    },
+    {
+      "title": "Óleo de Banho Hidratante Bioderma Atoderm 1 litro",
+      "primaryCat": "Higiene Pessoal",
+      "brand": "Bioderma",
+      "sku": "utmadmafh-9234"
+    },
+    {
+      "title": "Sérum Avène Cleanance Comedomed 30ml",
+      "primaryCat": "Beleza e Saúde",
+      "brand": "Avêne",
+      "sku": "3282770390414"
+    },
+    {
+      "title": "Protetor Solar Corporal Neutrogena Sun Fresh FPS 50 200ml",
+      "primaryCat": "Proteção Solar",
+      "brand": "Neutrogena",
+      "sku": "ywnapdm-0920"
+    },
+    {
+      "title": "Protetor Solar Darrow Actine Toque Seco FPS 60 40g",
+      "primaryCat": "Proteção Solar",
+      "brand": "Darrow",
+      "sku": "pamowmd-9982"
+    },
+    {
+      "title": "Protetor Solar Facial Eucerin Sun Pigment Control Fps 60 50ml",
+      "primaryCat": "Proteção Solar",
+      "brand": "Eucerin",
+      "sku": "utnaomda-0559"
+    },
+    {
+      "title": "Protetor Solar Facial Pó FPS 50 ISDIN sem cor 2g",
+      "primaryCat": "Proteção Solar",
+      "brand": "ISDIN",
+      "sku": "bmaodn-7876"
+    },
+    {
+      "title": "Rejuvenescedor Facial C E Ferulic Skinceuticals 30ml",
+      "primaryCat": "Beleza e Saúde",
+      "brand": "Skinceuticals",
+      "sku": "jksadowm-0920"
+    },
+    {
+      "title": "Sabonete Barra Darrow Soapelle 70g",
+      "primaryCat": "Higiene Pessoal",
+      "brand": "Darrow",
+      "sku": "kmawdmas-8293"
+    },
+    {
+      "title": "Sérum Facial Eucerin Anti-Pigment Dual Sérum 30ml",
+      "primaryCat": "Beleza e Saúde",
+      "brand": "Eucerin",
+      "sku": "7319470066786"
+    },
+    {
+      "title": "Sabonete Líquido Glicerina Granado Bebê Tradicional 500ml",
+      "primaryCat": "Mamãe e Bebê",
+      "brand": "Granado",
+      "sku": "oamwldsa-1643"
+    },
+    {
+      "title": "Shampoo Anticaspa Mantecorp Pielus DI 200ml",
+      "primaryCat": "Higiene Pessoal",
+      "brand": "Mantecorp",
+      "sku": "7891142982698"
+    },
+    {
+      "title": "Shampoo NutriOil L’Oréal Professionnel 1,5L",
+      "primaryCat": "Higiene Pessoal",
+      "brand": "L'Oréal Professionnel",
+      "sku": "7899706204972"
+    },
+    {
+      "title": "Shampoo Wella Professionals Invigo Nutri Enrich 1 litro",
+      "primaryCat": "Higiene Pessoal",
+      "brand": "Wella Professionals",
+      "sku": "4064666435459"
+    }
+  ]
+}

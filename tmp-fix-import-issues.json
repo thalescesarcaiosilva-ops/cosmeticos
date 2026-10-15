@@ -1,0 +1,86 @@
+{
+  "promoCleared": 58,
+  "perfumeMoves": [
+    "ferrari-black-scuderia"
+  ],
+  "imagesFixed": 1,
+  "imagesFailed": 13,
+  "imageErrors": [
+    {
+      "slug": "normaderm-sabonete-dermatologico-70g",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "liftactiv-serum-vitamina-c-20ml",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "liftactiv-serum-com-acao-pro-colageno-peptide-aha",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "liftactiv-serum-h-a-epidermic-filler",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "purete-thermale-vichy-limpador-facial-150ml",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "liftactiv-colageno-specialist",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "neovadiol-antirrugas-redefinidor-do-pescoco-50ml",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "vichy-eau-thermale-mineralisante-agua-termal-150ml",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "hidratantante-original-alien-mugler-200ml",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "gloss-glossip-girl-fran-by-franciny-ehlke",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "serum-facial-eucerin-anti-pigment-dual-serum-30ml",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "gloss-labial-fran-by-franciny-ehlke-lip-bunny",
+      "message": "Todas as imagens falharam"
+    },
+    {
+      "slug": "protetor-solar-facial-eucerin-sun-pigment-control-fps-60-50ml",
+      "message": "Todas as imagens falharam"
+    }
+  ],
+  "lipBunny": {
+    "price": 28.46,
+    "original": null,
+    "imgs": 0,
+    "cats": [
+      {
+        "categories": {
+          "name": "Maquiagem"
+        }
+      }
+    ]
+  },
+  "ferrari": {
+    "price": 120.45,
+    "original": null,
+    "imgs": 2,
+    "cats": [
+      {
+        "categories": {
+          "name": "Perfumes Masculinos"
+        }
+      }
+    ]
+  }
+}

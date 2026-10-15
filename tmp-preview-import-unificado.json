@@ -1,0 +1,2321 @@
+{
+  "uniTotal": 93,
+  "faltantesFarmaciaTotal": 123,
+  "coberturaDosFaltantes": {
+    "cobertos": 93,
+    "aindaFaltam": 30,
+    "pctCobertura": 75.6
+  },
+  "unificadoVsLoja": {
+    "jaExistemNaLoja": 4,
+    "novosDeVerdade": 89,
+    "jaAtivos": 4,
+    "jaInativos": 0
+  },
+  "projecaoLoja": {
+    "ativosHoje": 706,
+    "totalHoje": 783,
+    "novosImportados": 89,
+    "ativosAposImport": 795,
+    "totalAposImport": 872
+  },
+  "categoriasNovasNoCsv": [
+    "Kits em Promoção",
+    "Cuidados com a Pele",
+    "Novidades",
+    "Fraldas e Lenços Umedecidos",
+    "Mamãe e Bebê",
+    "Maquiagens e Acessórios",
+    "Beleza e Saúde",
+    "Higiene Pessoal",
+    "Coleção 2025"
+  ],
+  "novosPorCategoria": [
+    {
+      "c": "Cuidados com a Pele",
+      "n": 35
+    },
+    {
+      "c": "Mamãe e Bebê",
+      "n": 24
+    },
+    {
+      "c": "Fraldas e Lenços Umedecidos",
+      "n": 23
+    },
+    {
+      "c": "Novidades",
+      "n": 14
+    },
+    {
+      "c": "Cuidados Capilares",
+      "n": 7
+    },
+    {
+      "c": "Beleza e Saúde",
+      "n": 7
+    },
+    {
+      "c": "Proteção Solar",
+      "n": 6
+    },
+    {
+      "c": "Maquiagens e Acessórios",
+      "n": 5
+    },
+    {
+      "c": "Higiene Pessoal",
+      "n": 4
+    },
+    {
+      "c": "Kits em Promoção",
+      "n": 2
+    },
+    {
+      "c": "Coleção 2025",
+      "n": 1
+    }
+  ],
+  "aindaFaltamPorCategoria": [
+    {
+      "c": "Cuidados com a Pele",
+      "n": 13
+    },
+    {
+      "c": "Kits em Promoção",
+      "n": 7
+    },
+    {
+      "c": "Cuidados Capilares",
+      "n": 3
+    },
+    {
+      "c": "Proteção Solar",
+      "n": 2
+    },
+    {
+      "c": "Mamãe e Bebê",
+      "n": 2
+    },
+    {
+      "c": "Maquiagens e Acessórios",
+      "n": 2
+    },
+    {
+      "c": "Higiene Pessoal",
+      "n": 1
+    }
+  ],
+  "amostraCobertos": [
+    {
+      "uni": "Kit Vichy Dercos Kera-Solutions Complete",
+      "falt": "Kit Vichy Dercos Kera-Solutions Complete",
+      "how": "sku",
+      "precoUni": 243.49,
+      "precoFalt": 182
+    },
+    {
+      "uni": "Normaderm Double Correction",
+      "falt": "Normaderm Double Correction",
+      "how": "sku",
+      "precoUni": 214.97,
+      "precoFalt": 142
+    },
+    {
+      "uni": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 300G",
+      "falt": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 300G",
+      "how": "sku",
+      "precoUni": 97.67,
+      "precoFalt": 58.9
+    },
+    {
+      "uni": "NEOVADIOL CREME UNIFORMIZADOR DE TOM FPS 50",
+      "falt": "NEOVADIOL CREME UNIFORMIZADOR DE TOM FPS 50",
+      "how": "sku",
+      "precoUni": 178.17,
+      "precoFalt": 162.9
+    },
+    {
+      "uni": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 300g",
+      "falt": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 300g",
+      "how": "sku",
+      "precoUni": 75.01,
+      "precoFalt": 56.9
+    },
+    {
+      "uni": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 150G",
+      "falt": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 150G",
+      "how": "sku",
+      "precoUni": 55.79,
+      "precoFalt": 33.9
+    },
+    {
+      "uni": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico Refil 240g",
+      "falt": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico Refil 240g",
+      "how": "sku",
+      "precoUni": 52.69,
+      "precoFalt": 28.9
+    },
+    {
+      "uni": "NORMADERM PROBIO BHA SÉRUM",
+      "falt": "NORMADERM PROBIO BHA SÉRUM",
+      "how": "sku",
+      "precoUni": 185.37,
+      "precoFalt": 77.9
+    }
+  ],
+  "amostraAindaFaltam": [
+    {
+      "nome": "Kit Vichy Hidratação e Proteção Clara a Média Clara (2 Produtos)",
+      "cat": "Proteção Solar",
+      "preco": 49.9
+    },
+    {
+      "nome": "Vichy Dercos Energizante Kit – Shampoo + Ampola – Kit",
+      "cat": "Kits em Promoção",
+      "preco": 119
+    },
+    {
+      "nome": "Kit Dercos Shampoo + Condicionador + Super Ampola + Sérum",
+      "cat": "Kits em Promoção",
+      "preco": 238.9
+    },
+    {
+      "nome": "Kit Shampoo + Condicionador Dercos Oil Correction Vichy",
+      "cat": "Kits em Promoção",
+      "preco": 98
+    },
+    {
+      "nome": "VICHY MINÉRAL 89 GEL PARA OLHOS",
+      "cat": "Cuidados com a Pele",
+      "preco": 142
+    },
+    {
+      "nome": "Normaderm Phytosolution Gel De Limpeza Anti-Acne Com Acido Salicílico 60g",
+      "cat": "Cuidados com a Pele",
+      "preco": 29.9
+    },
+    {
+      "nome": "Normaderm Gel De Limpeza Profunda 150ml",
+      "cat": "Cuidados com a Pele",
+      "preco": 48.9
+    },
+    {
+      "nome": "Normaderm 3 Em 1: Esfoliação + Limpeza + Máscara 125ml",
+      "cat": "Cuidados com a Pele",
+      "preco": 96.9
+    },
+    {
+      "nome": "Normaderm Loção Purificante Redutora De Poros",
+      "cat": "Cuidados com a Pele",
+      "preco": 89.9
+    },
+    {
+      "nome": "Normaderm Phytosolution Gel De Limpeza Anti-Acne Com Acido Salicílico Refil 240g",
+      "cat": "Cuidados com a Pele",
+      "preco": 42.9
+    },
+    {
+      "nome": "Normaderm Skin Corrector",
+      "cat": "Cuidados com a Pele",
+      "preco": 79.9
+    },
+    {
+      "nome": "LIFTACTIV B3 SÉRUM UNIFORMIZADOR E CORRETOR DE LINHAS",
+      "cat": "Cuidados com a Pele",
+      "preco": 142.9
+    },
+    {
+      "nome": "Neovadiol Creme Antirrugas para Contorno de Lábios e Olhos – 15 ml",
+      "cat": "Cuidados com a Pele",
+      "preco": 255.99
+    },
+    {
+      "nome": "Máscara Facial Mineral Efeito Peeling",
+      "cat": "Cuidados com a Pele",
+      "preco": 32.12
+    },
+    {
+      "nome": "Kit Vichy Normaderm Phytosolution Skin Balance (3 Produtos)",
+      "cat": "Kits em Promoção",
+      "preco": 256.9
+    },
+    {
+      "nome": "MÁSCARA FACIAL MINERAL ARGILA PURIFICANTE",
+      "cat": "Cuidados com a Pele",
+      "preco": 39.9
+    },
+    {
+      "nome": "Ideal Body Pescoço, Colo e Mãos FPS 20 Vichy – Gel Creme Anti-Idade – 100g",
+      "cat": "Cuidados com a Pele",
+      "preco": 88.63
+    },
+    {
+      "nome": "Kit Vichy Hidratação e Proteção Clara a Média Clara (2 Produtos)",
+      "cat": "Kits em Promoção",
+      "preco": 146.8
+    },
+    {
+      "nome": "Máscara Facial Mineral Reequilibrante",
+      "cat": "Cuidados com a Pele",
+      "preco": 69.9
+    },
+    {
+      "nome": "Kit Vichy Liftactiv Duplo Tratamento (2 Produtos)",
+      "cat": "Kits em Promoção",
+      "preco": 189.9
+    },
+    {
+      "nome": "Kit Vichy Liftactiv Supreme H.A. Epidermic Filler & UV-Age Daily FPS 60 (2 Produtos)",
+      "cat": "Kits em Promoção",
+      "preco": 199.99
+    },
+    {
+      "nome": "Sérum Capilar Vichy Sensi-Scalp Concentrado Calmante 50ml",
+      "cat": "Cuidados Capilares",
+      "preco": 147.9
+    },
+    {
+      "nome": "Fralda calça MamyPoko Dia & Noite XG 42 Unidades",
+      "cat": "Mamãe e Bebê",
+      "preco": 69.32
+    },
+    {
+      "nome": "Fralda Pampers Confort Sec XXG Com 52 Unidades",
+      "cat": "Mamãe e Bebê",
+      "preco": 84.97
+    },
+    {
+      "nome": "Love Kit Franciny Elkhe Love Chilli + Lip Love + Love Liner",
+      "cat": "Maquiagens e Acessórios",
+      "preco": 99.99
+    }
+  ],
+  "amostraJaNaLoja": [
+    {
+      "uni": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 150G",
+      "store": "Normaderm Phytosolution Vichy - Gel de Limpeza Intensivo 150g",
+      "how": "gtin",
+      "active": true
+    },
+    {
+      "uni": "Gel de Limpeza Facial Bioderma Sébium Gel Moussant 200ml",
+      "store": "Bioderma Gel de Limpeza Facial Antioleosidade Sébium Gel Moussant 200ml",
+      "how": "name_fuzzy_88",
+      "active": true
+    },
+    {
+      "uni": "Protetor Solar Corporal Neutrogena Sun Fresh FPS 50 200ml",
+      "store": "Protetor Solar Neutrogena Sun Fresh FPS 50 200ml",
+      "how": "name_fuzzy_88",
+      "active": true
+    },
+    {
+      "uni": "Shampoo Wella Professionals Invigo Nutri Enrich 1 litro",
+      "store": "Wella Professionals Invigo Nutri-Enrich - Shampoo 1L",
+      "how": "name_fuzzy_86",
+      "active": true
+    }
+  ],
+  "amostraForaDoFaltantes": [],
+  "semImagem": 0,
+  "semPreco": 0,
+  "comGtin": 86,
+  "stillMissingAll": [
+    {
+      "nome": "Kit Vichy Hidratação e Proteção Clara a Média Clara (2 Produtos)",
+      "cat": "Proteção Solar",
+      "sku": "6290-P5LNZ8Wa7z3aRye",
+      "preco": 49.9
+    },
+    {
+      "nome": "Vichy Dercos Energizante Kit – Shampoo + Ampola – Kit",
+      "cat": "Kits em Promoção",
+      "sku": "6291-P5LNZ8Wa7z3aRye",
+      "preco": 119
+    },
+    {
+      "nome": "Kit Dercos Shampoo + Condicionador + Super Ampola + Sérum",
+      "cat": "Kits em Promoção",
+      "sku": "6292-P5LNZ8Wa7z3aRye",
+      "preco": 238.9
+    },
+    {
+      "nome": "Kit Shampoo + Condicionador Dercos Oil Correction Vichy",
+      "cat": "Kits em Promoção",
+      "sku": "6295-P5LNZ8Wa7z3aRye",
+      "preco": 98
+    },
+    {
+      "nome": "VICHY MINÉRAL 89 GEL PARA OLHOS",
+      "cat": "Cuidados com a Pele",
+      "sku": "6298-P5LNZ8Wa7z3aRye",
+      "preco": 142
+    },
+    {
+      "nome": "Normaderm Phytosolution Gel De Limpeza Anti-Acne Com Acido Salicílico 60g",
+      "cat": "Cuidados com a Pele",
+      "sku": "6303-P5LNZ8Wa7z3aRye",
+      "preco": 29.9
+    },
+    {
+      "nome": "Normaderm Gel De Limpeza Profunda 150ml",
+      "cat": "Cuidados com a Pele",
+      "sku": "6307-P5LNZ8Wa7z3aRye",
+      "preco": 48.9
+    },
+    {
+      "nome": "Normaderm 3 Em 1: Esfoliação + Limpeza + Máscara 125ml",
+      "cat": "Cuidados com a Pele",
+      "sku": "6308-P5LNZ8Wa7z3aRye",
+      "preco": 96.9
+    },
+    {
+      "nome": "Normaderm Loção Purificante Redutora De Poros",
+      "cat": "Cuidados com a Pele",
+      "sku": "6310-P5LNZ8Wa7z3aRye",
+      "preco": 89.9
+    },
+    {
+      "nome": "Normaderm Phytosolution Gel De Limpeza Anti-Acne Com Acido Salicílico Refil 240g",
+      "cat": "Cuidados com a Pele",
+      "sku": "6312-P5LNZ8Wa7z3aRye",
+      "preco": 42.9
+    },
+    {
+      "nome": "Normaderm Skin Corrector",
+      "cat": "Cuidados com a Pele",
+      "sku": "6316-P5LNZ8Wa7z3aRye",
+      "preco": 79.9
+    },
+    {
+      "nome": "LIFTACTIV B3 SÉRUM UNIFORMIZADOR E CORRETOR DE LINHAS",
+      "cat": "Cuidados com a Pele",
+      "sku": "6340-P5LNZ8Wa7z3aRye",
+      "preco": 142.9
+    },
+    {
+      "nome": "Neovadiol Creme Antirrugas para Contorno de Lábios e Olhos – 15 ml",
+      "cat": "Cuidados com a Pele",
+      "sku": "6406-P5LNZ8Wa7z3aRye",
+      "preco": 255.99
+    },
+    {
+      "nome": "Máscara Facial Mineral Efeito Peeling",
+      "cat": "Cuidados com a Pele",
+      "sku": "6476-P5LNZ8Wa7z3aRye",
+      "preco": 32.12
+    },
+    {
+      "nome": "Kit Vichy Normaderm Phytosolution Skin Balance (3 Produtos)",
+      "cat": "Kits em Promoção",
+      "sku": "6477-P5LNZ8Wa7z3aRye",
+      "preco": 256.9
+    },
+    {
+      "nome": "MÁSCARA FACIAL MINERAL ARGILA PURIFICANTE",
+      "cat": "Cuidados com a Pele",
+      "sku": "6478-P5LNZ8Wa7z3aRye",
+      "preco": 39.9
+    },
+    {
+      "nome": "Ideal Body Pescoço, Colo e Mãos FPS 20 Vichy – Gel Creme Anti-Idade – 100g",
+      "cat": "Cuidados com a Pele",
+      "sku": "6480-P5LNZ8Wa7z3aRye",
+      "preco": 88.63
+    },
+    {
+      "nome": "Kit Vichy Hidratação e Proteção Clara a Média Clara (2 Produtos)",
+      "cat": "Kits em Promoção",
+      "sku": "6503-P5LNZ8Wa7z3aRye",
+      "preco": 146.8
+    },
+    {
+      "nome": "Máscara Facial Mineral Reequilibrante",
+      "cat": "Cuidados com a Pele",
+      "sku": "6504-P5LNZ8Wa7z3aRye",
+      "preco": 69.9
+    },
+    {
+      "nome": "Kit Vichy Liftactiv Duplo Tratamento (2 Produtos)",
+      "cat": "Kits em Promoção",
+      "sku": "6505-P5LNZ8Wa7z3aRye",
+      "preco": 189.9
+    },
+    {
+      "nome": "Kit Vichy Liftactiv Supreme H.A. Epidermic Filler & UV-Age Daily FPS 60 (2 Produtos)",
+      "cat": "Kits em Promoção",
+      "sku": "6539-P5LNZ8Wa7z3aRye",
+      "preco": 199.99
+    },
+    {
+      "nome": "Sérum Capilar Vichy Sensi-Scalp Concentrado Calmante 50ml",
+      "cat": "Cuidados Capilares",
+      "sku": "6645-P5LNZ8Wa7z3aRye",
+      "preco": 147.9
+    },
+    {
+      "nome": "Fralda calça MamyPoko Dia & Noite XG 42 Unidades",
+      "cat": "Mamãe e Bebê",
+      "sku": "",
+      "preco": 69.32
+    },
+    {
+      "nome": "Fralda Pampers Confort Sec XXG Com 52 Unidades",
+      "cat": "Mamãe e Bebê",
+      "sku": "",
+      "preco": 84.97
+    },
+    {
+      "nome": "Love Kit Franciny Elkhe Love Chilli + Lip Love + Love Liner",
+      "cat": "Maquiagens e Acessórios",
+      "sku": "",
+      "preco": 99.99
+    },
+    {
+      "nome": "Máscara Capilar Kérastase Nutritive Masque Magistral 200ml",
+      "cat": "Cuidados Capilares",
+      "sku": "kamwdaod-0290",
+      "preco": 320
+    },
+    {
+      "nome": "Máscara para Cílios Maybelline Sensacionais Efeito Leque À Prova D’água Preto 9ml",
+      "cat": "Maquiagens e Acessórios",
+      "sku": "kmdadp-8390",
+      "preco": 45
+    },
+    {
+      "nome": "Óleo capilar Kérastase L’Huile Rose Elixir Ultime 100ml",
+      "cat": "Cuidados Capilares",
+      "sku": "irmdasd-9820",
+      "preco": 220
+    },
+    {
+      "nome": "Protetor Solar Facial Pó FPS 50 ISDIN sem cor 2g",
+      "cat": "Proteção Solar",
+      "sku": "bmaodn-7876",
+      "preco": 100
+    },
+    {
+      "nome": "Shampoo NutriOil L’Oréal Professionnel 1,5L",
+      "cat": "Higiene Pessoal",
+      "sku": "7899706204972",
+      "preco": 200
+    }
+  ],
+  "coveredAll": [
+    {
+      "uni": "Kit Vichy Dercos Kera-Solutions Complete",
+      "falt": "Kit Vichy Dercos Kera-Solutions Complete",
+      "how": "sku",
+      "uniPrice": 243.49,
+      "faltPrice": 182,
+      "cats": [
+        "Cuidados Capilares",
+        "Kits em Promoção"
+      ]
+    },
+    {
+      "uni": "Normaderm Double Correction",
+      "falt": "Normaderm Double Correction",
+      "how": "sku",
+      "uniPrice": 214.97,
+      "faltPrice": 142,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 300G",
+      "falt": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 300G",
+      "how": "sku",
+      "uniPrice": 97.67,
+      "faltPrice": 58.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "NEOVADIOL CREME UNIFORMIZADOR DE TOM FPS 50",
+      "falt": "NEOVADIOL CREME UNIFORMIZADOR DE TOM FPS 50",
+      "how": "sku",
+      "uniPrice": 178.17,
+      "faltPrice": 162.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 300g",
+      "falt": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 300g",
+      "how": "sku",
+      "uniPrice": 75.01,
+      "faltPrice": 56.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 150G",
+      "falt": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 150G",
+      "how": "sku",
+      "uniPrice": 55.79,
+      "faltPrice": 33.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico Refil 240g",
+      "falt": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico Refil 240g",
+      "how": "sku",
+      "uniPrice": 52.69,
+      "faltPrice": 28.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "NORMADERM PROBIO BHA SÉRUM",
+      "falt": "NORMADERM PROBIO BHA SÉRUM",
+      "how": "sku",
+      "uniPrice": 185.37,
+      "faltPrice": 77.9,
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ]
+    },
+    {
+      "uni": "NEOVADIOL CREME NUTRITIVO REDENSIFICADOR MENOUPAUSA – 50G",
+      "falt": "NEOVADIOL CREME NUTRITIVO REDENSIFICADOR MENOUPAUSA – 50G",
+      "how": "sku",
+      "uniPrice": 257.46,
+      "faltPrice": 152.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Purete Thermale Vichy - Limpador Facial - 150ml",
+      "falt": "Purete Thermale Vichy - Limpador Facial - 150ml",
+      "how": "sku",
+      "uniPrice": 127.09,
+      "faltPrice": 78.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 150g",
+      "falt": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 150g",
+      "how": "sku",
+      "uniPrice": 49.45,
+      "faltPrice": 32.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Dercos Shampoo Anticaspa Intensivo Ds Cabelos Secos",
+      "falt": "Dercos Shampoo Anticaspa Intensivo Ds Cabelos Secos",
+      "how": "sku",
+      "uniPrice": 34.98,
+      "faltPrice": 58.9,
+      "cats": [
+        "Cuidados Capilares"
+      ]
+    },
+    {
+      "uni": "Normaderm Sabonete Dermatológico 70g",
+      "falt": "Normaderm Sabonete Dermatológico 70g",
+      "how": "sku",
+      "uniPrice": 47.11,
+      "faltPrice": 38.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Minéral 89 Sérum Fortalecedor Facial",
+      "falt": "Minéral 89 Sérum Fortalecedor Facial",
+      "how": "sku",
+      "uniPrice": 83.69,
+      "faltPrice": 69.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Liftactiv Sérum Com Ação-Pró-Colágeno Peptide Aha",
+      "falt": "Liftactiv Sérum Com Ação-Pró-Colágeno Peptide Aha",
+      "how": "sku",
+      "uniPrice": 173.54,
+      "faltPrice": 122.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "MINÉRAL 89 FRAÇÕES PROBIÓTICAS – SÉRUM CONCENTRADO",
+      "falt": "MINÉRAL 89 FRAÇÕES PROBIÓTICAS – SÉRUM CONCENTRADO",
+      "how": "sku",
+      "uniPrice": 223.97,
+      "faltPrice": 125.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Liftactiv Sérum Vitamina C 20ml",
+      "falt": "Liftactiv Sérum Vitamina C 20ml",
+      "how": "sku",
+      "uniPrice": 179.17,
+      "faltPrice": 138.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Liftactiv Sérum H.A. Epidermic Filler",
+      "falt": "Liftactiv Sérum H.A. Epidermic Filler",
+      "how": "sku",
+      "uniPrice": 176.07,
+      "faltPrice": 127.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Liftactiv Colágeno Specialist",
+      "falt": "Liftactiv Colágeno Specialist",
+      "how": "sku",
+      "uniPrice": 136.34,
+      "faltPrice": 139.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Neovadiol Creme Leve Efeito Lifting Menopausa 50G",
+      "falt": "Neovadiol Creme Leve Efeito Lifting Menopausa 50G",
+      "how": "sku",
+      "uniPrice": 257.46,
+      "faltPrice": 152.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Dercos Condicionador Reequilibrante Oil-Correction Com Ceramida R E Zinco Pca",
+      "falt": "Dercos Condicionador Reequilibrante Oil-Correction Com Ceramida R E Zinco Pca",
+      "how": "sku",
+      "uniPrice": 89.89,
+      "faltPrice": 46.9,
+      "cats": [
+        "Cuidados Capilares"
+      ]
+    },
+    {
+      "uni": "Idéal Soleil Protetor Solar Corporal Hydrasoft FPS50",
+      "falt": "Idéal Soleil Protetor Solar Corporal Hydrasoft FPS50",
+      "how": "sku",
+      "uniPrice": 91.13,
+      "faltPrice": 52.9,
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ]
+    },
+    {
+      "uni": "Condicionador Vichy Dercos Antiqueda Energy+",
+      "falt": "Condicionador Vichy Dercos Antiqueda Energy+",
+      "how": "sku",
+      "uniPrice": 38.98,
+      "faltPrice": 72.9,
+      "cats": [
+        "Cuidados Capilares"
+      ]
+    },
+    {
+      "uni": "Neovadiol Antirrugas Redefinidor Do Pescoço 50ml",
+      "falt": "Neovadiol Antirrugas Redefinidor Do Pescoço 50ml",
+      "how": "sku",
+      "uniPrice": 192.19,
+      "faltPrice": 169.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Ideal Body Loção Serum Corporal 200G",
+      "falt": "Ideal Body Loção Serum Corporal 200G",
+      "how": "sku",
+      "uniPrice": 101.92,
+      "faltPrice": 89.12,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Liftactiv Retinol Specialist Sérum",
+      "falt": "Liftactiv Retinol Specialist Sérum",
+      "how": "sku",
+      "uniPrice": 136.34,
+      "faltPrice": 102.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Condicionador Vichy Dercos Super Restaurador com Pro Keratin Complex",
+      "falt": "Condicionador Vichy Dercos Super Restaurador com Pro Keratin Complex",
+      "how": "sku",
+      "uniPrice": 89.89,
+      "faltPrice": 62.3,
+      "cats": [
+        "Cuidados Capilares"
+      ]
+    },
+    {
+      "uni": "Vichy Dercos Kera-Solutions - Shampoo 300ml",
+      "falt": "Vichy Dercos Kera-Solutions - Shampoo 300ml",
+      "how": "sku",
+      "uniPrice": 34.98,
+      "faltPrice": 75.99,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Vichy Eau Thermale Minéralisante - Água Termal 150ml",
+      "falt": "Vichy Eau Thermale Minéralisante - Água Termal 150ml",
+      "how": "sku",
+      "uniPrice": 109.73,
+      "faltPrice": 96.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "HIDRATANTANTE ORIGINAL ALIEN MUGLER 200ML",
+      "falt": "HIDRATANTANTE ORIGINAL ALIEN MUGLER 200ML",
+      "how": "name_exact",
+      "uniPrice": 315.58,
+      "faltPrice": 289.8,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "Água Micelar Bioderma Sensibio H2O 250ml",
+      "falt": "Água Micelar Bioderma Sensibio H2O 250ml",
+      "how": "sku",
+      "uniPrice": 90.99,
+      "faltPrice": 70,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Creme Facial Nivea Anti-manchas Cellular Luminous Fps 50 40ml",
+      "falt": "Creme Facial Nivea Anti-manchas Cellular Luminous Fps 50 40ml",
+      "how": "gtin",
+      "uniPrice": 58.38,
+      "faltPrice": 63.12,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Fralda Babysec Ultra Sec Galinha Pintadinha G Hiper 60 Unidades",
+      "falt": "Fralda Babysec Ultra Sec Galinha Pintadinha G Hiper 60 Unidades",
+      "how": "gtin",
+      "uniPrice": 56.69,
+      "faltPrice": 59.13,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Calça Huggies Supreme Care XXXG 70 unidades",
+      "falt": "Fralda Calça Huggies Supreme Care XXXG 70 unidades",
+      "how": "gtin",
+      "uniPrice": 63.34,
+      "faltPrice": 89.17,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Huggies Roupinha Supreme Care G 88 unidades",
+      "falt": "Fralda Huggies Roupinha Supreme Care G 88 unidades",
+      "how": "gtin",
+      "uniPrice": 57.78,
+      "faltPrice": 94.37,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Huggies Roupinha Supreme Care XXG 72 unidades",
+      "falt": "Fralda Huggies Roupinha Supreme Care XXG 72 unidades",
+      "how": "gtin",
+      "uniPrice": 57.78,
+      "faltPrice": 97.46,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Huggies Supreme Care G com 66 Unidades",
+      "falt": "Fralda Huggies Supreme Care G com 66 Unidades",
+      "how": "gtin",
+      "uniPrice": 69.29,
+      "faltPrice": 74.97,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Huggies Supreme Care P 48 unidades",
+      "falt": "Fralda Huggies Supreme Care P 48 unidades",
+      "how": "gtin",
+      "uniPrice": 35.95,
+      "faltPrice": 47.53,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Huggies Supreme Care Roupinha XG 80 Unidades",
+      "falt": "Fralda Huggies Supreme Care Roupinha XG 80 Unidades",
+      "how": "gtin",
+      "uniPrice": 57.78,
+      "faltPrice": 97.53,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Pampers Confort Sec G Com 98 Unidades",
+      "falt": "Fralda Pampers Confort Sec G Com 98 Unidades",
+      "how": "gtin",
+      "uniPrice": 107.09,
+      "faltPrice": 104.77,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Pampers Confort Sec M Com 70 Unidades",
+      "falt": "Fralda Pampers Confort Sec M Com 70 Unidades",
+      "how": "gtin",
+      "uniPrice": 63.85,
+      "faltPrice": 69.57,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Pampers Confort Sec P Com 72 Unidades",
+      "falt": "Fralda Pampers Confort Sec P Com 72 Unidades",
+      "how": "gtin",
+      "uniPrice": 63.85,
+      "faltPrice": 69.73,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Pampers Confort Sec XG 58 Unidades",
+      "falt": "Fralda Pampers Confort Sec XG 58 Unidades",
+      "how": "gtin",
+      "uniPrice": 63.85,
+      "faltPrice": 87.13,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Pampers Premium Care P com 40 unidades",
+      "falt": "Fralda Pampers Premium Care P com 40 unidades",
+      "how": "gtin",
+      "uniPrice": 88.11,
+      "faltPrice": 49.35,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Pampers Premium Care Tamanho G 68 Unidades",
+      "falt": "Fralda Pampers Premium Care Tamanho G 68 Unidades",
+      "how": "gtin",
+      "uniPrice": 83.07,
+      "faltPrice": 117.88,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Pampers Premium Care Tamanho XXG Com 56 Unidades",
+      "falt": "Fralda Pampers Premium Care Tamanho XXG Com 56 Unidades",
+      "how": "gtin",
+      "uniPrice": 63.2,
+      "faltPrice": 124.9,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Pampers Premium Care XG 60 unidades",
+      "falt": "Fralda Pampers Premium Care XG 60 unidades",
+      "how": "gtin",
+      "uniPrice": 70.05,
+      "faltPrice": 119.42,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fran Glosslicious by Franciny Ehlke Kit com 3 Unidades",
+      "falt": "Fran Glosslicious by Franciny Ehlke Kit com 3 Unidades",
+      "how": "gtin",
+      "uniPrice": 49.45,
+      "faltPrice": 74.97,
+      "cats": [
+        "Maquiagens e Acessórios"
+      ]
+    },
+    {
+      "uni": "Gel de Limpeza Facial Bioderma Sébium Gel Moussant 200ml",
+      "falt": "Gel de Limpeza Facial Bioderma Sébium Gel Moussant 200ml",
+      "how": "sku",
+      "uniPrice": 17,
+      "faltPrice": 55,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Gel de Limpeza Facial CeraVe 454g",
+      "falt": "Gel de Limpeza Facial CeraVe 454g",
+      "how": "sku",
+      "uniPrice": 63.34,
+      "faltPrice": 70,
+      "cats": [
+        "Beleza e Saúde",
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Gel de Limpeza Micelar Bioderma Sensibio Gel Moussant 200ml",
+      "falt": "Gel de Limpeza Micelar Bioderma Sensibio Gel Moussant 200ml",
+      "how": "sku",
+      "uniPrice": 38.05,
+      "faltPrice": 60,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Gloss Glossip Girl – Fran by Franciny Ehlke",
+      "falt": "Gloss Glossip Girl – Fran by Franciny Ehlke",
+      "how": "sku",
+      "uniPrice": 28.46,
+      "faltPrice": 30,
+      "cats": [
+        "Maquiagens e Acessórios"
+      ]
+    },
+    {
+      "uni": "Gloss Labial Fran By Franciny Ehlke Lip Bunny",
+      "falt": "Gloss Labial Fran By Franciny Ehlke Lip Bunny",
+      "how": "sku",
+      "uniPrice": 28.46,
+      "faltPrice": 58,
+      "cats": [
+        "Maquiagens e Acessórios"
+      ]
+    },
+    {
+      "uni": "Óleo de Banho Hidratante Bioderma Atoderm 1 litro",
+      "falt": "Óleo de Banho Hidratante Bioderma Atoderm 1 litro",
+      "how": "sku",
+      "uniPrice": 101.34,
+      "faltPrice": 175,
+      "cats": [
+        "Beleza e Saúde",
+        "Cuidados com a Pele",
+        "Higiene Pessoal"
+      ]
+    },
+    {
+      "uni": "Sérum Avène Cleanance Comedomed 30ml",
+      "falt": "Sérum Avène Cleanance Comedomed 30ml",
+      "how": "sku",
+      "uniPrice": 91.29,
+      "faltPrice": 115,
+      "cats": [
+        "Beleza e Saúde"
+      ]
+    },
+    {
+      "uni": "Protetor Solar Corporal Neutrogena Sun Fresh FPS 50 200ml",
+      "falt": "Protetor Solar Corporal Neutrogena Sun Fresh FPS 50 200ml",
+      "how": "sku",
+      "uniPrice": 42.09,
+      "faltPrice": 50,
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ]
+    },
+    {
+      "uni": "Protetor Solar Darrow Actine Toque Seco FPS 60 40g",
+      "falt": "Protetor Solar Darrow Actine Toque Seco FPS 60 40g",
+      "how": "sku",
+      "uniPrice": 57.72,
+      "faltPrice": 52.5,
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ]
+    },
+    {
+      "uni": "Protetor Solar Facial Eucerin Sun Pigment Control Fps 60 50ml",
+      "falt": "Protetor Solar Facial Eucerin Sun Pigment Control Fps 60 50ml",
+      "how": "sku",
+      "uniPrice": 71.6,
+      "faltPrice": 80,
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ]
+    },
+    {
+      "uni": "Rejuvenescedor Facial C E Ferulic Skinceuticals 30ml",
+      "falt": "Rejuvenescedor Facial C E Ferulic Skinceuticals 30ml",
+      "how": "sku",
+      "uniPrice": 257.45,
+      "faltPrice": 250,
+      "cats": [
+        "Beleza e Saúde"
+      ]
+    },
+    {
+      "uni": "Sabonete Barra Darrow Soapelle 70g",
+      "falt": "Sabonete Barra Darrow Soapelle 70g",
+      "how": "sku",
+      "uniPrice": 52.9,
+      "faltPrice": 30,
+      "cats": [
+        "Cuidados com a Pele",
+        "Higiene Pessoal"
+      ]
+    },
+    {
+      "uni": "Sérum Facial Eucerin Anti-Pigment Dual Sérum 30ml",
+      "falt": "Sérum Facial Eucerin Anti-Pigment Dual Sérum 30ml",
+      "how": "sku",
+      "uniPrice": 125.03,
+      "faltPrice": 190,
+      "cats": [
+        "Beleza e Saúde"
+      ]
+    },
+    {
+      "uni": "Sabonete Líquido Glicerina Granado Bebê Tradicional 500ml",
+      "falt": "Sabonete Líquido Glicerina Granado Bebê Tradicional 500ml",
+      "how": "sku",
+      "uniPrice": 25.41,
+      "faltPrice": 25,
+      "cats": [
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Shampoo Anticaspa Mantecorp Pielus DI 200ml",
+      "falt": "Shampoo Anticaspa Mantecorp Pielus DI 200ml",
+      "how": "sku",
+      "uniPrice": 29.98,
+      "faltPrice": 86.9,
+      "cats": [
+        "Cuidados Capilares",
+        "Higiene Pessoal"
+      ]
+    },
+    {
+      "uni": "Shampoo Wella Professionals Invigo Nutri Enrich 1 litro",
+      "falt": "Shampoo Wella Professionals Invigo Nutri Enrich 1 litro",
+      "how": "sku",
+      "uniPrice": 71.68,
+      "faltPrice": 100,
+      "cats": [
+        "Cuidados com a Pele",
+        "Higiene Pessoal"
+      ]
+    },
+    {
+      "uni": "Rue Broca - Nexa Immortal - 100 ml",
+      "falt": "Rue Broca - Nexa Immortal - 100 ml",
+      "how": "sku",
+      "uniPrice": 267.25,
+      "faltPrice": 219,
+      "cats": [
+        "Novidades",
+        "Coleção 2025"
+      ]
+    },
+    {
+      "uni": "Kit Capilar Vichy Dercos Sensi-Scalp – Creme de Limpeza 300 ml + Sérum Capilar 50 ml",
+      "falt": "Kit Capilar Vichy Dercos Sensi-Scalp – Creme de Limpeza 300 ml + Sérum Capilar 50 ml",
+      "how": "sku",
+      "uniPrice": 321.2,
+      "faltPrice": 119,
+      "cats": [
+        "Cuidados Capilares",
+        "Kits em Promoção"
+      ]
+    },
+    {
+      "uni": "Neovadiol Sérum Multicorretor De Sinais Da Idade Menopausa 30ml",
+      "falt": "Neovadiol Sérum Multicorretor De Sinais Da Idade Menopausa 30ml",
+      "how": "sku",
+      "uniPrice": 159.89,
+      "faltPrice": 127.9,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Protetor Solar Vichy Idéal Soleil Corporal HydraSoft FPS70",
+      "falt": "Protetor Solar Vichy Idéal Soleil Corporal HydraSoft FPS70",
+      "how": "sku",
+      "uniPrice": 80.8,
+      "faltPrice": 42.9,
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ]
+    },
+    {
+      "uni": "Protetor Solar Vichy Idéal Soleil Corporal Hydra Soft FPS30",
+      "falt": "Protetor Solar Vichy Idéal Soleil Corporal Hydra Soft FPS30",
+      "how": "sku",
+      "uniPrice": 80.8,
+      "faltPrice": 42.9,
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ]
+    },
+    {
+      "uni": "LATTAFA BADE AL OUD NOBLE BLUSH 100ML",
+      "falt": "LATTAFA BADE AL OUD NOBLE BLUSH 100ML",
+      "how": "gtin",
+      "uniPrice": 118.25,
+      "faltPrice": 217.55,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "MAISON ALHAMBRA PERSEUS EXCLUSIF 100ML",
+      "falt": "MAISON ALHAMBRA PERSEUS EXCLUSIF 100ML",
+      "how": "gtin",
+      "uniPrice": 88.55,
+      "faltPrice": 160.55,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "MAISON ALHAMBRA COMO MOISELLE 100ML",
+      "falt": "MAISON ALHAMBRA COMO MOISELLE 100ML",
+      "how": "gtin",
+      "uniPrice": 164.45,
+      "faltPrice": 160.55,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "SABRINA CARPENTER SWEET TOOTH 75ML EDP",
+      "falt": "SABRINA CARPENTER SWEET TOOTH 75ML EDP",
+      "how": "gtin",
+      "uniPrice": 131.45,
+      "faltPrice": 188.3,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "RASASI HAWAS ICE 100ML",
+      "falt": "RASASI HAWAS ICE 100ML",
+      "how": "gtin",
+      "uniPrice": 142.45,
+      "faltPrice": 249,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "HAWAS BLACK 100ML",
+      "falt": "HAWAS BLACK 100ML",
+      "how": "name_exact",
+      "uniPrice": 164.45,
+      "faltPrice": 209.3,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "PACO RABANNE PURE XS 100ML",
+      "falt": "PACO RABANNE PURE XS 100ML",
+      "how": "gtin",
+      "uniPrice": 303.88,
+      "faltPrice": 391.3,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "RASASI HAWAS ELIXIR 100ML",
+      "falt": "RASASI HAWAS ELIXIR 100ML",
+      "how": "name_exact",
+      "uniPrice": 148.5,
+      "faltPrice": 326.9,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "FERRARI BLACK SCUDERIA",
+      "falt": "FERRARI BLACK SCUDERIA",
+      "how": "gtin",
+      "uniPrice": 120.45,
+      "faltPrice": 180.32,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "PACO RABANNE OLYMPEA FLORA 80ML",
+      "falt": "PACO RABANNE OLYMPEA FLORA 80ML",
+      "how": "gtin",
+      "uniPrice": 329.45,
+      "faltPrice": 349.3,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "Victoria’S Secret Amber Romance - 236ml",
+      "falt": "Victoria’S Secret Amber Romance - 236ml",
+      "how": "gtin",
+      "uniPrice": 87.95,
+      "faltPrice": 90.85,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "Antirrugas SkinCeuticals Retinol 0.3 com 30ml",
+      "falt": "Antirrugas SkinCeuticals Retinol 0.3 com 30ml",
+      "how": "sku",
+      "uniPrice": 270,
+      "faltPrice": 429,
+      "cats": [
+        "Cuidados com a Pele"
+      ]
+    },
+    {
+      "uni": "Cicaplast Baume La Roche-Posay B5 Plus Hidratante 40ml",
+      "falt": "Cicaplast Baume La Roche-Posay B5 Plus Hidratante 40ml",
+      "how": "sku",
+      "uniPrice": 39.54,
+      "faltPrice": 52.99,
+      "cats": [
+        "Novidades"
+      ]
+    },
+    {
+      "uni": "Fixador Corega Ultra em pó 50g",
+      "falt": "Fixador Corega Ultra em pó 50g",
+      "how": "gtin",
+      "uniPrice": 82.49,
+      "faltPrice": 69.43,
+      "cats": [
+        "Beleza e Saúde",
+        "Higiene Pessoal"
+      ]
+    },
+    {
+      "uni": "Fralda Babysec UltraSec Galinha Pintadinha Hiper XG 56 Unidades",
+      "falt": "Fralda Babysec UltraSec Galinha Pintadinha Hiper XG 56 Unidades",
+      "how": "gtin",
+      "uniPrice": 33.48,
+      "faltPrice": 61.47,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Calça Huggies Supreme Care Roupinha M 80 unidades",
+      "falt": "Fralda Calça Huggies Supreme Care Roupinha M 80 unidades",
+      "how": "gtin",
+      "uniPrice": 76.99,
+      "faltPrice": 79.51,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Descartável Babysec Galinha Pintadinha Hiper XXG 48 Unidades",
+      "falt": "Fralda Descartável Babysec Galinha Pintadinha Hiper XXG 48 Unidades",
+      "how": "gtin",
+      "uniPrice": 31.47,
+      "faltPrice": 62.47,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Descartável Babysec Ultra Sec Hiper M 68 Unidades",
+      "falt": "Fralda Descartável Babysec Ultra Sec Hiper M 68 Unidades",
+      "how": "gtin",
+      "uniPrice": 31.75,
+      "faltPrice": 59.87,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Fralda Pampers Confort Sec Xxxg 44 Unidades",
+      "falt": "Fralda Pampers Confort Sec Xxxg 44 Unidades",
+      "how": "gtin",
+      "uniPrice": 60.49,
+      "faltPrice": 79.15,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Demaquilante Bi-facil Lancôme 125ml",
+      "falt": "Demaquilante Bi-facil Lancôme 125ml",
+      "how": "sku",
+      "uniPrice": 171.33,
+      "faltPrice": 280,
+      "cats": [
+        "Beleza e Saúde",
+        "Maquiagens e Acessórios"
+      ]
+    },
+    {
+      "uni": "Gloss para Aumentos dos Lábios Fran by Franciny Ehlke Lip Chilli 1 unidade",
+      "falt": "Gloss para Aumentos dos Lábios Fran by Franciny Ehlke Lip Chilli 1 unidade",
+      "how": "sku",
+      "uniPrice": 18.64,
+      "faltPrice": 32,
+      "cats": [
+        "Maquiagens e Acessórios"
+      ]
+    },
+    {
+      "uni": "Kit de Lenços Umedecidos Pampers Aloe Vera com 576 Unidades",
+      "falt": "Kit de Lenços Umedecidos Pampers Aloe Vera com 576 Unidades",
+      "how": "sku",
+      "uniPrice": 90.19,
+      "faltPrice": 95,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Kit Lenço Umedecido Huggies Recém Nascido 192 unidades em 4 pacotes",
+      "falt": "Kit Lenço Umedecido Huggies Recém Nascido 192 unidades em 4 pacotes",
+      "how": "sku",
+      "uniPrice": 16.49,
+      "faltPrice": 32,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    },
+    {
+      "uni": "Kit Lenço Umedecido Pampers Aroma de Aloe Vera 4 pacotes",
+      "falt": "Kit Lenço Umedecido Pampers Aroma de Aloe Vera 4 pacotes",
+      "how": "sku",
+      "uniPrice": 31.89,
+      "faltPrice": 35,
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ]
+    }
+  ],
+  "trulyNewAll": [
+    {
+      "nome": "Kit Vichy Dercos Kera-Solutions Complete",
+      "sku": "6293-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados Capilares",
+        "Kits em Promoção"
+      ],
+      "preco": 243.49,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Normaderm Double Correction",
+      "sku": "6296-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 214.97,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 300G",
+      "sku": "6297-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 97.67,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "NEOVADIOL CREME UNIFORMIZADOR DE TOM FPS 50",
+      "sku": "6299-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 178.17,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 300g",
+      "sku": "6300-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 75.01,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico Refil 240g",
+      "sku": "6304-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 52.69,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "NORMADERM PROBIO BHA SÉRUM",
+      "sku": "6305-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "preco": 185.37,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "NEOVADIOL CREME NUTRITIVO REDENSIFICADOR MENOUPAUSA – 50G",
+      "sku": "6306-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 257.46,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Purete Thermale Vichy - Limpador Facial - 150ml",
+      "sku": "6309-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 127.09,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 150g",
+      "sku": "6311-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 49.45,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Dercos Shampoo Anticaspa Intensivo Ds Cabelos Secos",
+      "sku": "6315-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados Capilares"
+      ],
+      "preco": 34.98,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Normaderm Sabonete Dermatológico 70g",
+      "sku": "6317-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 47.11,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Minéral 89 Sérum Fortalecedor Facial",
+      "sku": "6318-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 83.69,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Liftactiv Sérum Com Ação-Pró-Colágeno Peptide Aha",
+      "sku": "6319-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 173.54,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "MINÉRAL 89 FRAÇÕES PROBIÓTICAS – SÉRUM CONCENTRADO",
+      "sku": "6341-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 223.97,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Liftactiv Sérum Vitamina C 20ml",
+      "sku": "6342-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 179.17,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Liftactiv Sérum H.A. Epidermic Filler",
+      "sku": "6343-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 176.07,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Liftactiv Colágeno Specialist",
+      "sku": "6370-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 136.34,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Neovadiol Creme Leve Efeito Lifting Menopausa 50G",
+      "sku": "6371-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 257.46,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Dercos Condicionador Reequilibrante Oil-Correction Com Ceramida R E Zinco Pca",
+      "sku": "6372-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados Capilares"
+      ],
+      "preco": 89.89,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Idéal Soleil Protetor Solar Corporal Hydrasoft FPS50",
+      "sku": "6374-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "preco": 91.13,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Condicionador Vichy Dercos Antiqueda Energy+",
+      "sku": "6410-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados Capilares"
+      ],
+      "preco": 38.98,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Neovadiol Antirrugas Redefinidor Do Pescoço 50ml",
+      "sku": "6411-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 192.19,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Ideal Body Loção Serum Corporal 200G",
+      "sku": "6412-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 101.92,
+      "brand": ""
+    },
+    {
+      "nome": "Liftactiv Retinol Specialist Sérum",
+      "sku": "6413-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 136.34,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Condicionador Vichy Dercos Super Restaurador com Pro Keratin Complex",
+      "sku": "6415-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados Capilares"
+      ],
+      "preco": 89.89,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Vichy Dercos Kera-Solutions - Shampoo 300ml",
+      "sku": "6474-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 34.98,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Vichy Eau Thermale Minéralisante - Água Termal 150ml",
+      "sku": "6475-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 109.73,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "HIDRATANTANTE ORIGINAL ALIEN MUGLER 200ML",
+      "sku": "FF99035",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 315.58,
+      "brand": "Mugler"
+    },
+    {
+      "nome": "Água Micelar Bioderma Sensibio H2O 250ml",
+      "sku": "bderm-192312",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 90.99,
+      "brand": "Bioderma"
+    },
+    {
+      "nome": "Creme Facial Nivea Anti-manchas Cellular Luminous Fps 50 40ml",
+      "sku": "FF100181",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 58.38,
+      "brand": "Nivea"
+    },
+    {
+      "nome": "Fralda Babysec Ultra Sec Galinha Pintadinha G Hiper 60 Unidades",
+      "sku": "FF100197",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 56.69,
+      "brand": "Babysec"
+    },
+    {
+      "nome": "Fralda Calça Huggies Supreme Care XXXG 70 unidades",
+      "sku": "FF100213",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 63.34,
+      "brand": "Huggies"
+    },
+    {
+      "nome": "Fralda Huggies Roupinha Supreme Care G 88 unidades",
+      "sku": "FF100221",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 57.78,
+      "brand": "Huggies"
+    },
+    {
+      "nome": "Fralda Huggies Roupinha Supreme Care XXG 72 unidades",
+      "sku": "FF100223",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 57.78,
+      "brand": "Huggies"
+    },
+    {
+      "nome": "Fralda Huggies Supreme Care G com 66 Unidades",
+      "sku": "FF100225",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 69.29,
+      "brand": "Huggies"
+    },
+    {
+      "nome": "Fralda Huggies Supreme Care P 48 unidades",
+      "sku": "FF100227",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 35.95,
+      "brand": "Huggies"
+    },
+    {
+      "nome": "Fralda Huggies Supreme Care Roupinha XG 80 Unidades",
+      "sku": "FF100229",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 57.78,
+      "brand": "Huggies"
+    },
+    {
+      "nome": "Fralda Pampers Confort Sec G Com 98 Unidades",
+      "sku": "FF100231",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 107.09,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Fralda Pampers Confort Sec M Com 70 Unidades",
+      "sku": "FF100233",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 63.85,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Fralda Pampers Confort Sec P Com 72 Unidades",
+      "sku": "FF100235",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 63.85,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Fralda Pampers Confort Sec XG 58 Unidades",
+      "sku": "FF100237",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 63.85,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Fralda Pampers Premium Care P com 40 unidades",
+      "sku": "FF100243",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 88.11,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Fralda Pampers Premium Care Tamanho G 68 Unidades",
+      "sku": "FF100245",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 83.07,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Fralda Pampers Premium Care Tamanho XXG Com 56 Unidades",
+      "sku": "FF100247",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 63.2,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Fralda Pampers Premium Care XG 60 unidades",
+      "sku": "FF100249",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 70.05,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Fran Glosslicious by Franciny Ehlke Kit com 3 Unidades",
+      "sku": "FF100251",
+      "cats": [
+        "Maquiagens e Acessórios"
+      ],
+      "preco": 49.45,
+      "brand": "Franciny Ehlke"
+    },
+    {
+      "nome": "Gel de Limpeza Facial CeraVe 454g",
+      "sku": "camfead-2903",
+      "cats": [
+        "Beleza e Saúde",
+        "Cuidados com a Pele"
+      ],
+      "preco": 63.34,
+      "brand": "CeraVe"
+    },
+    {
+      "nome": "Gel de Limpeza Micelar Bioderma Sensibio Gel Moussant 200ml",
+      "sku": "biopendomas-9021",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 38.05,
+      "brand": "Bioderma"
+    },
+    {
+      "nome": "Gloss Glossip Girl – Fran by Franciny Ehlke",
+      "sku": "framondm-8490",
+      "cats": [
+        "Maquiagens e Acessórios"
+      ],
+      "preco": 28.46,
+      "brand": "Franciny Ehlke"
+    },
+    {
+      "nome": "Gloss Labial Fran By Franciny Ehlke Lip Bunny",
+      "sku": "framasend-8739",
+      "cats": [
+        "Maquiagens e Acessórios"
+      ],
+      "preco": 28.46,
+      "brand": "Franciny Ehlke"
+    },
+    {
+      "nome": "Óleo de Banho Hidratante Bioderma Atoderm 1 litro",
+      "sku": "utmadmafh-9234",
+      "cats": [
+        "Beleza e Saúde",
+        "Cuidados com a Pele",
+        "Higiene Pessoal"
+      ],
+      "preco": 101.34,
+      "brand": "Bioderma"
+    },
+    {
+      "nome": "Sérum Avène Cleanance Comedomed 30ml",
+      "sku": "3282770390414",
+      "cats": [
+        "Beleza e Saúde"
+      ],
+      "preco": 91.29,
+      "brand": "Avêne"
+    },
+    {
+      "nome": "Protetor Solar Darrow Actine Toque Seco FPS 60 40g",
+      "sku": "pamowmd-9982",
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "preco": 57.72,
+      "brand": "Darrow"
+    },
+    {
+      "nome": "Protetor Solar Facial Eucerin Sun Pigment Control Fps 60 50ml",
+      "sku": "utnaomda-0559",
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "preco": 71.6,
+      "brand": "Eucerin"
+    },
+    {
+      "nome": "Rejuvenescedor Facial C E Ferulic Skinceuticals 30ml",
+      "sku": "jksadowm-0920",
+      "cats": [
+        "Beleza e Saúde"
+      ],
+      "preco": 257.45,
+      "brand": "Skinceuticals"
+    },
+    {
+      "nome": "Sabonete Barra Darrow Soapelle 70g",
+      "sku": "kmawdmas-8293",
+      "cats": [
+        "Cuidados com a Pele",
+        "Higiene Pessoal"
+      ],
+      "preco": 52.9,
+      "brand": "Darrow"
+    },
+    {
+      "nome": "Sérum Facial Eucerin Anti-Pigment Dual Sérum 30ml",
+      "sku": "7319470066786",
+      "cats": [
+        "Beleza e Saúde"
+      ],
+      "preco": 125.03,
+      "brand": "Eucerin"
+    },
+    {
+      "nome": "Sabonete Líquido Glicerina Granado Bebê Tradicional 500ml",
+      "sku": "oamwldsa-1643",
+      "cats": [
+        "Mamãe e Bebê"
+      ],
+      "preco": 25.41,
+      "brand": "Granado"
+    },
+    {
+      "nome": "Shampoo Anticaspa Mantecorp Pielus DI 200ml",
+      "sku": "7891142982698",
+      "cats": [
+        "Cuidados Capilares",
+        "Higiene Pessoal"
+      ],
+      "preco": 29.98,
+      "brand": "Mantecorp"
+    },
+    {
+      "nome": "Rue Broca - Nexa Immortal - 100 ml",
+      "sku": "953-DYp0ZxnEvEgmvX7",
+      "cats": [
+        "Novidades",
+        "Coleção 2025"
+      ],
+      "preco": 267.25,
+      "brand": "Rue Broca"
+    },
+    {
+      "nome": "Kit Capilar Vichy Dercos Sensi-Scalp – Creme de Limpeza 300 ml + Sérum Capilar 50 ml",
+      "sku": "6294-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados Capilares",
+        "Kits em Promoção"
+      ],
+      "preco": 321.2,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Neovadiol Sérum Multicorretor De Sinais Da Idade Menopausa 30ml",
+      "sku": "6302-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 159.89,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Protetor Solar Vichy Idéal Soleil Corporal HydraSoft FPS70",
+      "sku": "6407-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "preco": 80.8,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "Protetor Solar Vichy Idéal Soleil Corporal Hydra Soft FPS30",
+      "sku": "6409-P5LNZ8Wa7z3aRye",
+      "cats": [
+        "Cuidados com a Pele",
+        "Proteção Solar"
+      ],
+      "preco": 80.8,
+      "brand": "Vichy"
+    },
+    {
+      "nome": "LATTAFA BADE AL OUD NOBLE BLUSH 100ML",
+      "sku": "FF99018",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 118.25,
+      "brand": "Lattafa"
+    },
+    {
+      "nome": "MAISON ALHAMBRA PERSEUS EXCLUSIF 100ML",
+      "sku": "FF99021",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 88.55,
+      "brand": "Maison Alhambra"
+    },
+    {
+      "nome": "MAISON ALHAMBRA COMO MOISELLE 100ML",
+      "sku": "FF99023",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 164.45,
+      "brand": "Maison Alhambra"
+    },
+    {
+      "nome": "SABRINA CARPENTER SWEET TOOTH 75ML EDP",
+      "sku": "FF99032",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 131.45,
+      "brand": "Sabrina Carpenter"
+    },
+    {
+      "nome": "RASASI HAWAS ICE 100ML",
+      "sku": "FF99034",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 142.45,
+      "brand": "Rasasi"
+    },
+    {
+      "nome": "HAWAS BLACK 100ML",
+      "sku": "FF99037",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 164.45,
+      "brand": "Rasasi"
+    },
+    {
+      "nome": "PACO RABANNE PURE XS 100ML",
+      "sku": "FF99038",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 303.88,
+      "brand": "Paco Rabanne"
+    },
+    {
+      "nome": "RASASI HAWAS ELIXIR 100ML",
+      "sku": "FF99039",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 148.5,
+      "brand": "Rasasi"
+    },
+    {
+      "nome": "FERRARI BLACK SCUDERIA",
+      "sku": "FF99044",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 120.45,
+      "brand": "Ferrari"
+    },
+    {
+      "nome": "PACO RABANNE OLYMPEA FLORA 80ML",
+      "sku": "FF99073",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 329.45,
+      "brand": "Paco Rabanne"
+    },
+    {
+      "nome": "Victoria’S Secret Amber Romance - 236ml",
+      "sku": "FF99463",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 87.95,
+      "brand": "Victoria S Secret"
+    },
+    {
+      "nome": "Antirrugas SkinCeuticals Retinol 0.3 com 30ml",
+      "sku": "scekusn-19239",
+      "cats": [
+        "Cuidados com a Pele"
+      ],
+      "preco": 270,
+      "brand": "Skinceuticals"
+    },
+    {
+      "nome": "Cicaplast Baume La Roche-Posay B5 Plus Hidratante 40ml",
+      "sku": "llroadu-102313",
+      "cats": [
+        "Novidades"
+      ],
+      "preco": 39.54,
+      "brand": "La Roche-Posay"
+    },
+    {
+      "nome": "Fixador Corega Ultra em pó 50g",
+      "sku": "FF100186",
+      "cats": [
+        "Beleza e Saúde",
+        "Higiene Pessoal"
+      ],
+      "preco": 82.49,
+      "brand": "Corega"
+    },
+    {
+      "nome": "Fralda Babysec UltraSec Galinha Pintadinha Hiper XG 56 Unidades",
+      "sku": "FF100202",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 33.48,
+      "brand": "Babysec"
+    },
+    {
+      "nome": "Fralda Calça Huggies Supreme Care Roupinha M 80 unidades",
+      "sku": "FF100208",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 76.99,
+      "brand": "Huggies"
+    },
+    {
+      "nome": "Fralda Descartável Babysec Galinha Pintadinha Hiper XXG 48 Unidades",
+      "sku": "FF100217",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 31.47,
+      "brand": "Babysec"
+    },
+    {
+      "nome": "Fralda Descartável Babysec Ultra Sec Hiper M 68 Unidades",
+      "sku": "FF100219",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 31.75,
+      "brand": "Babysec"
+    },
+    {
+      "nome": "Fralda Pampers Confort Sec Xxxg 44 Unidades",
+      "sku": "FF100241",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 60.49,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Demaquilante Bi-facil Lancôme 125ml",
+      "sku": "lancedamw",
+      "cats": [
+        "Beleza e Saúde",
+        "Maquiagens e Acessórios"
+      ],
+      "preco": 171.33,
+      "brand": "Lancome"
+    },
+    {
+      "nome": "Gloss para Aumentos dos Lábios Fran by Franciny Ehlke Lip Chilli 1 unidade",
+      "sku": "frmendsd-9839",
+      "cats": [
+        "Maquiagens e Acessórios"
+      ],
+      "preco": 18.64,
+      "brand": "Franciny Ehlke"
+    },
+    {
+      "nome": "Kit de Lenços Umedecidos Pampers Aloe Vera com 576 Unidades",
+      "sku": "pampmda-242",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 90.19,
+      "brand": "Pampers"
+    },
+    {
+      "nome": "Kit Lenço Umedecido Huggies Recém Nascido 192 unidades em 4 pacotes",
+      "sku": "kamdoaa-21415",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 16.49,
+      "brand": "Huggies"
+    },
+    {
+      "nome": "Kit Lenço Umedecido Pampers Aroma de Aloe Vera 4 pacotes",
+      "sku": "pamowm-1532",
+      "cats": [
+        "Fraldas e Lenços Umedecidos",
+        "Mamãe e Bebê"
+      ],
+      "preco": 31.89,
+      "brand": "Pampers"
+    }
+  ]
+}

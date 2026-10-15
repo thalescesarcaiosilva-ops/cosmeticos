@@ -3,14 +3,11 @@ import { ProductBuyPanel } from '@/components/product/ProductBuyPanel'
 import { ProductDetailTabs } from '@/components/product/ProductDetailTabs'
 import { ProductGallery } from '@/components/product/ProductGallery'
 import { ProductGalleryMeta } from '@/components/product/ProductGalleryMeta'
-import { ProductRatingStars } from '@/components/product/ProductRatingStars'
 import { ProductRelatedCarousel } from '@/components/product/ProductRelatedCarousel'
-import { ProductReviewsSection } from '@/components/product/ProductReviewsSection'
 import { FavoriteButton } from '@/components/product/FavoriteButton'
 import { TrackProductView } from '@/components/product/TrackProductView'
 import { calcDiscountPercent } from '@/lib/products/format'
 import type { BuyTogetherBundle } from '@/lib/products/buy-together'
-import type { ApprovedProductReview } from '@/lib/products/reviews'
 import type { CheckoutPaymentSettings, InstallmentDisplay, PaymentSettings } from '@/types/payment'
 import type { BuyTogetherSettings } from '@/types/buy-together-settings'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
@@ -18,8 +15,6 @@ import type { ProductCardData, ProductDetail } from '@/types/product'
 
 type ProductPageViewProps = {
   product: ProductDetail
-  reviewSummary: { average: number; count: number }
-  approvedReviews: ApprovedProductReview[]
   paymentSettings: PaymentSettings
   checkoutSettings: CheckoutPaymentSettings
   relatedProducts: ProductCardData[]
@@ -31,8 +26,6 @@ type ProductPageViewProps = {
 
 export function ProductPageView({
   product,
-  reviewSummary,
-  approvedReviews,
   paymentSettings,
   checkoutSettings,
   relatedProducts,
@@ -82,7 +75,6 @@ export function ProductPageView({
               </h1>
               <FavoriteButton productId={product.id} variant="product" />
             </div>
-            <ProductRatingStars average={reviewSummary.average} count={reviewSummary.count} />
 
             {product.brandName && (
               <p className="mt-3 text-[13px] font-semibold tracking-wide text-text-secondary">
@@ -125,12 +117,6 @@ export function ProductPageView({
           />
         </div>
       </div>
-
-      <ProductReviewsSection
-        productSlug={product.slug}
-        reviews={approvedReviews}
-        reviewSummary={reviewSummary}
-      />
 
       <ProductRelatedCarousel
         products={relatedProducts}

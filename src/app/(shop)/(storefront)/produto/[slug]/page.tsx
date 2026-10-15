@@ -8,7 +8,6 @@ import { getPaymentSettings } from '@/lib/payment/queries'
 import { getProductBySlug, getRelatedProducts } from '@/lib/products/queries'
 import { getBuyTogetherBundles } from '@/lib/products/buy-together-queries'
 import { getBuyTogetherSettings } from '@/lib/products/buy-together-settings'
-import { buildReviewSummary, getApprovedProductReviews } from '@/lib/products/reviews'
 import { buildBreadcrumbJsonLd } from '@/lib/seo/json-ld/breadcrumb'
 import { buildProductJsonLd } from '@/lib/seo/json-ld/product'
 import { buildPageMetadata } from '@/lib/seo/metadata'
@@ -98,9 +97,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
         )
       : Promise.resolve([]),
   ])
-  const approvedReviews = await getApprovedProductReviews(product.id)
-  const reviewSummary = buildReviewSummary(approvedReviews)
-
   const relatedInstallments = buildInstallmentMap(relatedProducts, paymentSettings)
 
   const primaryCategory = product.categories[0] ?? null
@@ -117,10 +113,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     { name: product.name, path: `/produto/${product.slug}` },
   ]
 
-  const productJsonLd = buildProductJsonLd(product, {
-    reviewSummary,
-    reviews: approvedReviews,
-  })
+  const productJsonLd = buildProductJsonLd(product)
   const breadcrumbJsonLd = buildBreadcrumbJsonLd(breadcrumbItems)
   const structuredData = [productJsonLd, breadcrumbJsonLd].filter(Boolean) as Record<
     string,
@@ -132,8 +125,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <JsonLd data={structuredData.length > 0 ? structuredData : null} />
       <ProductPageView
         product={product}
-        reviewSummary={reviewSummary}
-        approvedReviews={approvedReviews}
         paymentSettings={paymentSettings}
         checkoutSettings={checkoutSettings}
         relatedProducts={relatedProducts}

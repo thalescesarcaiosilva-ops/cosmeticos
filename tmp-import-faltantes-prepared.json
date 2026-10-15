@@ -1,0 +1,512 @@
+{
+  "toImportCount": 89,
+  "skipped": [
+    {
+      "name": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 150G",
+      "reason": "GTIN já existe"
+    },
+    {
+      "name": "Gel de Limpeza Facial Bioderma Sébium Gel Moussant 200ml",
+      "reason": "Nome parecido com bioderma-gel-de-limpeza-facial-antioleosidade-sebium-gel-moussant-200ml"
+    },
+    {
+      "name": "Protetor Solar Corporal Neutrogena Sun Fresh FPS 50 200ml",
+      "reason": "Nome parecido com protetor-solar-neutrogena-sun-fresh-fps-50-200ml"
+    },
+    {
+      "name": "Shampoo Wella Professionals Invigo Nutri Enrich 1 litro",
+      "reason": "Nome parecido com wella-professionals-invigo-nutri-enrich-shampoo-1l"
+    }
+  ],
+  "categoryCounts": {
+    "Cuidados Capilares": 9,
+    "Dermocosméticos": 36,
+    "Proteção Solar": 9,
+    "Fraldas e Lenços Umedecidos": 23,
+    "Maquiagem": 6,
+    "Mamãe e Bebê": 1,
+    "Perfumes Masculinos": 6,
+    "Perfumes Femininos": 3
+  },
+  "priceSource": {
+    "farmacia": 93,
+    "unificado": 0
+  },
+  "cleanedWarrantyOrStore": 5,
+  "sample": [
+    {
+      "wooId": 3199323463,
+      "name": "Kit Vichy Dercos Kera-Solutions Complete",
+      "slug": "kit-vichy-dercos-kera-solutions-complete",
+      "description": "Kit Vichy Dercos Kera-Solutions Complete (4 Produtos)",
+      "shortDescription": "Kit Vichy Dercos Kera-Solutions Complete (4 Produtos)",
+      "sku": "6293-P5LNZ8Wa7z3aRye",
+      "gtin": null,
+      "price": 182,
+      "originalPrice": 363,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Cuidados Capilares"
+      ],
+      "images": [
+        {
+          "url": "https://pschbbvgdgndnteevotg.supabase.co/storage/v1/object/public/produtos/resyla/kit-vichy-dercos-kera-solutions-complete-4-produtos-1.webp",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/284abd09-b1b2-4bd8-a99e-911235e8e9c6-kit-vichy-dercos-kerasolutions-complete-4-produtos-1.webp",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    },
+    {
+      "wooId": 3413247432,
+      "name": "Normaderm Double Correction",
+      "slug": "normaderm-double-correction",
+      "description": null,
+      "shortDescription": null,
+      "sku": "6296-P5LNZ8Wa7z3aRye",
+      "gtin": "3337875838641",
+      "price": 142,
+      "originalPrice": null,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Dermocosméticos"
+      ],
+      "images": [
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/serum_antiacne_vichy_normaderm_phytosolution_double_correction_50ml_8681_1_958bb31707f14838cb9b75da8b7a572b.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/serum_antiacne_vichy_normaderm_phytosolution_double_correction_50ml_8681_2_4597fef141a2a651bbd79ab5a9d16630.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/serum_antiacne_vichy_normaderm_phytosolution_double_correction_50ml_8681_3_17a5581d1472cf62be8d67b1eb1624d2.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/serum-antioleosidade-e-antiacne-vichy-normaderm-phytosolution-1.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/serum-antioleosidade-e-antiacne-vichy-normaderm-phytosolution-4.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/serum-antioleosidade-e-antiacne-vichy-normaderm-phytosolution-5.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/serum-antioleosidade-e-antiacne-vichy-normaderm-phytosolution-6.jpg",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    },
+    {
+      "wooId": 4317594955,
+      "name": "NORMADERM PHYTOSOLUTION GEL DE LIMPEZA ANTI-ACNE COM ACIDO SALICILICO 300G",
+      "slug": "normaderm-phytosolution-gel-de-limpeza-anti-acne-com-acido-salicilico-300g",
+      "description": null,
+      "shortDescription": null,
+      "sku": "6297-P5LNZ8Wa7z3aRye",
+      "gtin": null,
+      "price": 58.9,
+      "originalPrice": 78.9,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Dermocosméticos"
+      ],
+      "images": [
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/gel_de_limpeza_facial_vichy_normaderm_phytosolution_300g_anti_acne_com_acido_salicilico_8683_1_bb8210ecffa5f15e9eb9a128e7757c1c.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/gel_de_limpeza_facial_vichy_normaderm_phytosolution_300g_anti_acne_com_acido_salicilico_8683_2_45a97f7f9a0ba9461aa78815aedd0639.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/gel_de_limpeza_facial_vichy_normaderm_phytosolution_300g_anti_acne_com_acido_salicilico_8683_3_e4f06e3019a0491b3fe68071b4f0a1f9.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/gel-de-limpeza-anti-acne-com-acido-salicilico-300g-packshot-1.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/normaderm-vichy-gel-de-limpeza-profunda-1-3-1.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/normaderm-vichy-gel-de-limpeza-profunda-1-4.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/normaderm-vichy-gel-de-limpeza-profunda-1-6.jpg",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    },
+    {
+      "wooId": 3415775762,
+      "name": "NEOVADIOL CREME UNIFORMIZADOR DE TOM FPS 50",
+      "slug": "neovadiol-creme-uniformizador-de-tom-fps-50",
+      "description": "<strong> O que é e para que serve?</strong><br>Creme Uniformizador que ajuda a proteger a pele dos danos causados pelos raios UVA e UVB e auxilia na compensação dos impactos da menopausa e da exposição solar, para uma pele mais iluminada e uniforme.<br><br><strong>Benefícios:</strong><br>- Textura Nutritiva;<br>- Não pegajosa; <br>- Não oleosa e leve.<br><br><strong>Ativos:</strong><br>- Fórmula leve enriquecida por Proxylane<br>- Extrato de Cássia de origem vegetal<br>- Niacinamida (Vitamina B3) e Ômegas 3-6-9, que melhoram a firmeza da pele<br><br><strong>Modo de uso:</strong><br>Após a limpeza da pele, aplicar uma camada fina pela manhã.<br><br><strong>Resultado esperado:</strong><br>-41% Rugas<br>+26% Radiante<br>+11% Firmeza<br><br><strong>Precauções e avisos de segurança:</strong><br>Em caso de exposição solar intensa ou prolongada, utilizar um protetor solar<br>adequado. Evitar a área dos olhos. Não usar em crianças.<br><br><strong>Sobre a marca:</strong><br>Saúde que reflete na pele Vichy Laboratories é uma marca dermocosmética francesa que abrange múltiplas categorias incluindo skincare, higiene, proteção solar e cuidados com os cabelos. A marca foi fundada em 1931 pelo Dr Haller, um dermatologista que descobriu as propriedades fortalecedoras da Água Vulcânica de Vichy. Reconhecida pela sua capacidade de reparar e fortificar a barreira protetora da pele, essa água enriquecida com 15 minerais é a base da atuação dermocosmética da Vichy: com a eficácia e a segurança à frente de todas as formulações, dedicamos nossas pesquisas e inovações à melhora dos sinais visíveis de saúde da pele, em todas as fases da vida da mulher.",
+      "shortDescription": "O que é e para que serve? Creme Uniformizador que ajuda a proteger a pele dos danos causados pelos raios UVA e UVB e auxilia na compensação dos impactos da menopausa e da exposição solar, para uma pele mais iluminada e uniforme. Benefíci...",
+      "sku": "6299-P5LNZ8Wa7z3aRye",
+      "gtin": "3337875860222",
+      "price": 162.9,
+      "originalPrice": 289,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Proteção Solar"
+      ],
+      "images": [
+        {
+          "url": "https://epocacosmeticos.vteximg.com.br/arquivos/ids/598340/creme-facial-uniformizador-de-tom-vichy-neovadiol-fps50--1-.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://epocacosmeticos.vteximg.com.br/arquivos/ids/598341/creme-facial-uniformizador-de-tom-vichy-neovadiol-fps50--3-.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://epocacosmeticos.vteximg.com.br/arquivos/ids/598344/creme-facial-uniformizador-de-tom-vichy-neovadiol-fps50--4-.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://epocacosmeticos.vteximg.com.br/arquivos/ids/598345/creme-facial-uniformizador-de-tom-vichy-neovadiol-fps50--5-.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://epocacosmeticos.vteximg.com.br/arquivos/ids/598346/creme-facial-uniformizador-de-tom-vichy-neovadiol-fps50--2-.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://drogariasp.vteximg.com.br/arquivos/ids/1136366/Creme-Leve-Vichy-Neovadiol-Efeito-Lifting-50-g---855251_0009_64908f05055d9d0bf0226579_2.png",
+          "alt": ""
+        },
+        {
+          "url": "https://drogariasp.vteximg.com.br/arquivos/ids/1136367/Creme-Leve-Vichy-Neovadiol-Efeito-Lifting-50-g---855251_0010_64908f05055d9d0bf0226579_1.png",
+          "alt": ""
+        },
+        {
+          "url": "https://drogariasp.vteximg.com.br/arquivos/ids/1136368/Creme-Leve-Vichy-Neovadiol-Efeito-Lifting-50-g---855251_0008_64908f05055d9d0bf0226579_3.png",
+          "alt": ""
+        },
+        {
+          "url": "https://drogariasp.vteximg.com.br/arquivos/ids/1136369/Creme-Leve-Vichy-Neovadiol-Efeito-Lifting-50-g---855251_0007_64908f05055d9d0bf0226579_4.png",
+          "alt": ""
+        },
+        {
+          "url": "https://drogariasp.vteximg.com.br/arquivos/ids/1136370/Creme-Leve-Vichy-Neovadiol-Efeito-Lifting-50-g---855251_0006_64908f05055d9d0bf0226579_5.png",
+          "alt": ""
+        },
+        {
+          "url": "https://lopesfarma.online/img/p/creme-uniformizador-de-tom-vichy-neovadiol-fps50-50ml-146605-1.webp",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    },
+    {
+      "wooId": 3483518572,
+      "name": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 300g",
+      "slug": "normaderm-gel-de-limpeza-profunda-anti-oleosidade-com-acido-glicolico-300g",
+      "description": "O que é o Gel de Limpeza Facial Vichy Normaderm Limpeza Profunda para Pele Mista a Oleosa? O Gel de Limpeza Facial Vichy Normaderm Limpeza Profunda é uma solução de alta eficácia desenvolvida especialmente para a rotina de cuidados com o rosto de quem possui pele mista a oleosa, com tendência à acn",
+      "shortDescription": "O que é o Gel de Limpeza Facial Vichy Normaderm Limpeza Profunda para Pele Mista a Oleosa? O Gel de Limpeza Facial Vichy Normaderm Limpeza Profunda é uma solução de alta eficácia desenvolvida especialmente para a rotina de cuidados com o...",
+      "sku": "6300-P5LNZ8Wa7z3aRye",
+      "gtin": "7899706171748",
+      "price": 56.9,
+      "originalPrice": null,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Dermocosméticos"
+      ],
+      "images": [
+        {
+          "url": "https://lopesfarma.online/img/p/normaderm-vichy-gel-limpeza-profunda-para-pele-mista-a-oleosa-300g-54459-1.webp",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/gel_de_limpeza_profunda_vichy_normaderm_anti_oleosidade_acido_glicolico_300g_6491_1_70ec625d6d7f2a710de969f84eadb306.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/gel_de_limpeza_profunda_vichy_normaderm_anti_oleosidade_acido_glicolico_300g_6491_2_2246f5bfee3e55ddfd459ed143c728ac.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/normaderm-vichy-limpador-facial-300g-1.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/normaderm-vichy-limpador-facial-300g-6.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/normaderm-vichy-limpador-facial-300g-4.jpg",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    },
+    {
+      "wooId": 3484643964,
+      "name": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico Refil 240g",
+      "slug": "normaderm-gel-de-limpeza-profunda-anti-oleosidade-com-acido-glicolico-refil-240g",
+      "description": "O que é o Gel de Limpeza Facial Vichy Normaderm Phytosolution para Pele Oleosa e Acneica? O Gel de Limpeza Facial Vichy Normaderm Phytosolution é um produto de alta performance desenvolvido especialmente para a rotina de cuidados com a pele oleosa e acneica, incluindo as mais sensíveis. Sua fórmula",
+      "shortDescription": "O que é o Gel de Limpeza Facial Vichy Normaderm Phytosolution para Pele Oleosa e Acneica? O Gel de Limpeza Facial Vichy Normaderm Phytosolution é um produto de alta performance desenvolvido especialmente para a rotina de cuidados com a p...",
+      "sku": "6304-P5LNZ8Wa7z3aRye",
+      "gtin": "7899706188067",
+      "price": 28.9,
+      "originalPrice": null,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Dermocosméticos"
+      ],
+      "images": [
+        {
+          "url": "https://lopesfarma.online/img/p/normaderm-vichy-phytosolution-gel-de-limpeza-profunda-pele-oleosa-a-acneica-refil-240g-58977-1.webp",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/imagem-refil-normaderm.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/gel-de-limpeza-profunda-vichy-normaderm-refil-3.jpg",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    },
+    {
+      "wooId": 3358521278,
+      "name": "NORMADERM PROBIO BHA SÉRUM",
+      "slug": "normaderm-probio-bha-serum",
+      "description": "O que é o Sérum Facial Vichy Normaderm Phytosolution para Pele Oleosa e com Tendência à Acne? O Sérum Facial Vichy Normaderm Phytosolution é o primeiro cuidado diário desenvolvido especificamente para as necessidades da pele oleosa e acneica, oferecendo uma dupla ação corretora. Sua fórmula avançad",
+      "shortDescription": "O que é o Sérum Facial Vichy Normaderm Phytosolution para Pele Oleosa e com Tendência à Acne? O Sérum Facial Vichy Normaderm Phytosolution é o primeiro cuidado diário desenvolvido especificamente para as necessidades da pele oleosa e acn...",
+      "sku": "6305-P5LNZ8Wa7z3aRye",
+      "gtin": "3337875660617",
+      "price": 77.9,
+      "originalPrice": 131.9,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Proteção Solar"
+      ],
+      "images": [
+        {
+          "url": "https://lopesfarma.online/img/p/normaderm-vichy-phytosolution-serum-facial-para-pele-oleosa-e-com-tendencia-a-acne-54463-1.webp",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/serum_antiacne_vichy_normaderm_phytosolution_double_correction_50ml_8681_1_958bb31707f14838cb9b75da8b7a572b.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/serum_antiacne_vichy_normaderm_phytosolution_double_correction_50ml_8681_2_4597fef141a2a651bbd79ab5a9d16630.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/serum_antiacne_vichy_normaderm_phytosolution_double_correction_50ml_8681_3_17a5581d1472cf62be8d67b1eb1624d2.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/3337875791984-10.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/3337875791984-6.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/3337875791984-12.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/3337875791984-7.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/3337875791984-1.jpg",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    },
+    {
+      "wooId": 2503529972,
+      "name": "NEOVADIOL CREME NUTRITIVO REDENSIFICADOR MENOUPAUSA – 50G",
+      "slug": "neovadiol-creme-nutritivo-redensificador-menoupausa-50g",
+      "description": null,
+      "shortDescription": null,
+      "sku": "6306-P5LNZ8Wa7z3aRye",
+      "gtin": null,
+      "price": 152.9,
+      "originalPrice": 247.9,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Dermocosméticos"
+      ],
+      "images": [
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/creme_anti_idade_vichy_neovadiol_post_menopause_day_nutri_redensificador_50g_8103_1_5bde316170659ad7981f044c08894db8.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/creme_anti_idade_vichy_neovadiol_post_menopause_day_nutri_redensificador_50g_8103_2_71ba5eae3d8c1a91f488ac06d3dc1bc6.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://images.tcdn.com.br/img/img_prod/1449400/creme_anti_idade_vichy_neovadiol_post_menopause_day_nutri_redensificador_50g_8103_3_4174522d90695cf6315acfe988891021.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/creme-nutritivo-vichy-neovadiol-menopausa-1_e687d1f5-dbbd-43b4-b198-bc83401547fb.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/creme-nutritivo-vichy-neovadiol-menopausa-5_61aeef8e-c394-4f96-b686-0b8c95a103a5.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/creme-nutritivo-vichy-neovadiol-menopausa-7_afc655b2-4a66-4638-ae83-7248165b0e71.jpg",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    },
+    {
+      "wooId": 4013895406,
+      "name": "Purete Thermale Vichy - Limpador Facial - 150ml",
+      "slug": "purete-thermale-vichy-limpador-facial-150ml",
+      "description": "O que é a Espuma de Limpeza Facial Vichy Pureté Thermale?<br>A Espuma de Limpeza Facial Vichy Pureté Thermale é uma solução inovadora para a higiene diária, projetada para transformar sua rotina de cuidados com o rosto. Este produto de Dermo & Beleza se destaca por sua textura em espuma ultraleve, rica",
+      "shortDescription": "O que é a Espuma de Limpeza Facial Vichy Pureté Thermale? A Espuma de Limpeza Facial Vichy Pureté Thermale é uma solução inovadora para a higiene diária, projetada para transformar sua rotina de cuidados com o rosto. Este produto de Derm...",
+      "sku": "6309-P5LNZ8Wa7z3aRye",
+      "gtin": "3337871320980",
+      "price": 78.9,
+      "originalPrice": null,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Dermocosméticos"
+      ],
+      "images": [
+        {
+          "url": "https://lopesfarma.online/img/p/purete-thermale-vichy-espuma-de-limpeza-150ml-39687-1.webp",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/purete-thermale-vichy-limpador-facial.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/3337871320980.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/vichy-purete_71f63f43-f634-4a80-8021-e5f8832f06c4.jpg",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    },
+    {
+      "wooId": 3479138204,
+      "name": "Normaderm Gel De Limpeza Profunda Anti-Oleosidade Com Acido Glicólico 150g",
+      "slug": "normaderm-gel-de-limpeza-profunda-anti-oleosidade-com-acido-glicolico-150g",
+      "description": "<strong>Gel de Limpeza Profunda Vichy Normaderm para Oleosidade e Poros Obstruídos 150g</strong><br/><br/>O Gel de Limpeza Profunda Vichy Normaderm foi desenvolvido especialmente para quem busca uma rotina de cuidados eficaz para peles mistas a oleosas. Com fórmula refrescante e de alta performance, este produto se torna o aliado perfeito para sua rotina diária de beleza e bem-estar.<br/><br/><strong>Para que serve</strong><br/>Este gel de limpeza facial foi criado para combater os principais desafios das peles oleosas e mistas: excesso de oleosidade, poros obstruídos, brilho excessivo e imperfeições. Ele substitui o sabonete líquido tradicional, oferecendo uma limpeza mais profunda e específica para este tipo de pele.<br/><br/><strong>Como funciona</strong><br/>A fórmula do Vichy Normaderm age em duas frentes principais: primeiro, realiza uma limpeza profunda removendo impurezas, células mortas e excesso de sebo que obstruem os poros; depois, ajuda a controlar a produção de oleosidade ao longo do dia, reduzindo o brilho indesejado e a aparência de poros dilatados. O resultado é uma pele mais equilibrada, fresca e com aspecto mais uniforme.<br/><br/><strong>Modo de uso</strong><br/>• Aplique sobre a pele úmida do rosto, manhã e noite<br/>• Massageie suavemente com movimentos circulares até formar espuma<br/>• Dê atenção especial à zona T (testa, nariz e queixo), onde a oleosidade costuma ser maior<br/>• Enxágue abundantemente com água<br/>• Siga com os demais produtos da sua rotina de cuidados<br/><br/><strong>Precauções</strong><br/>• Evite o contato com os olhos<br/>• Em caso de contato com os olhos, lave-os imediatamente com água em abundância<br/>• Mantenha fora do alcance de crianças<br/>• Produto de uso externo<br/>• Descontinue o uso em caso de irritação ou sensibilidade<br/><br/><strong>Composição</strong><br/>Formulado com tecnologia avançada Vichy que combina agentes purificantes e reguladores de oleosidade. Contém água termal Vichy, reconhecida por suas propriedades mineralizantes e calmantes para a pele.<br/><br/><strong>Informações adicionais</strong><br/>O Gel de Limpeza Profunda Vichy Normaderm possui textura em gel refrescante e não resseca a pele. Com pH equilibrado, respeita a barreira natural da pele enquanto proporciona sensação de frescor e limpeza duradoura. É um produto dermatologicamente testado, da renomada marca Vichy, especialista em cuidados para pele oleosa.",
+      "shortDescription": "Gel de Limpeza Profunda Vichy Normaderm para Oleosidade e Poros Obstruídos 150g O Gel de Limpeza Profunda Vichy Normaderm foi desenvolvido especialmente para quem busca uma rotina de cuidados eficaz para peles mistas a oleosas. Com fórmu...",
+      "sku": "6311-P5LNZ8Wa7z3aRye",
+      "gtin": "7899706129602",
+      "price": 32.9,
+      "originalPrice": null,
+      "stock": 15,
+      "active": true,
+      "brandName": "Vichy",
+      "categoryNames": [
+        "Dermocosméticos"
+      ],
+      "images": [
+        {
+          "url": "https://drogariasp.vteximg.com.br/arquivos/ids/833092/569380---Gel-de-Limpeza-Facial-Vichy-Normaderm-Nettoyant-150g-1.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://drogariasp.vteximg.com.br/arquivos/ids/833093/569380---Gel-de-Limpeza-Facial-Vichy-Normaderm-Nettoyant-150g-2.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://drogariasp.vteximg.com.br/arquivos/ids/833094/569380---Gel-de-Limpeza-Facial-Vichy-Normaderm-Nettoyant-150g-3.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://drogariasp.vteximg.com.br/arquivos/ids/833095/569380---Gel-de-Limpeza-Facial-Vichy-Normaderm-Nettoyant-150g-4.jpg",
+          "alt": ""
+        },
+        {
+          "url": "https://lopesfarma.online/img/p/normaderm-vichy-limpeza-profunda-gel-150g-47053-1.webp",
+          "alt": ""
+        },
+        {
+          "url": "https://novaisimports.com/wp-content/uploads/2025/09/gel-de-limpeza-intensiva-anti-oleosidade-com-acido-glicolico-150g-packshiot.jpg",
+          "alt": ""
+        }
+      ],
+      "metaTitle": null,
+      "metaDescription": null,
+      "productType": "simple",
+      "variationCount": 0
+    }
+  ]
+}

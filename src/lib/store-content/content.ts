@@ -97,7 +97,7 @@ export const storeContent: StoreContent = {
       eyebrow: 'Nossa loja',
       title: 'Beleza é sinônimo de cuidado.',
       paragraphs: [
-        'Somos uma loja especializada em cosméticos, skincare, maquiagem e higiene pessoal, com produtos selecionados para oferecer qualidade, variedade e preços acessíveis.',
+        'Somos uma loja física e online em Salvador (BA), especializada em cosméticos, skincare, maquiagem e higiene pessoal — com produtos lacrados, selecionados e conferidos antes de cada envio.',
         'Da escolha da fórmula certa ao atendimento no pós-venda, estamos ao seu lado em cada etapa da sua rotina de beleza.',
       ],
       imageUrl: '/loja.webp',
@@ -121,10 +121,12 @@ export const storeContent: StoreContent = {
       eyebrow: 'Quem somos',
       title: 'Sobre Nós',
       paragraphs: [
-        'A Batista Cosméticos é uma loja de cosméticos, skincare, maquiagem e higiene pessoal com ponto físico em Salvador (BA), no bairro Boca do Rio — Avenida Octavio Mangabeira, 6929. Você pode comprar presencialmente ou pelo site www.batistacosmeticos.com.br, sempre com as mesmas informações de contato e políticas publicadas no rodapé.',
-        'Operamos como e-commerce integrado à loja física: pedidos online são separados e conferidos antes do envio pelos Correios (PAC e SEDEX), com prazos e valores descritos na Política de Frete. Não revendemos produtos usados, abertos ou fora da embalagem original.',
-        'Nossa curadoria prioriza marcas reconhecidas e itens com validade e lacre conferidos. Quando você precisa de ajuda para escolher um produto, falar sobre um pedido ou solicitar troca, o canal oficial é atendimento@batistacosmeticos.com.br ou o telefone (31) 97554-9608, no horário informado nesta página.',
-        'Transparência faz parte do nosso trabalho: publicamos CNPJ, endereço, formas de pagamento aceitas (Pix e cartões Visa, Mastercard, Elo e American Express), prazos de entrega e regras de devolução em páginas dedicadas — sem esconder taxas de frete no checkout.',
+        'A Batista Cosméticos é uma loja independente de cosméticos, skincare, maquiagem e higiene pessoal, com ponto físico em Salvador (BA), no bairro Boca do Rio — Avenida Octavio Mangabeira, 6929. Você pode comprar presencialmente ou pelo site www.batistacosmeticos.com.br, com as mesmas informações de contato, preços e políticas publicadas no rodapé.',
+        'Não somos a loja oficial das marcas que comercializamos, nem afiliada às suas matrizes. Atuamos como varejista independente: selecionamos o sortimento, operamos o estoque na nossa loja e enviamos os pedidos a partir do nosso endereço em Salvador. As marcas citadas no catálogo pertencem aos respectivos titulares; usamos os nomes apenas para identificar o produto original à venda.',
+        'Trabalhamos exclusivamente com produtos novos, lacrados e na embalagem original. Antes de cada envio, conferimos lacre, aspecto da embalagem e validade. Não vendemos itens usados, abertos, reenvasados, “inspirados em” ou fora da embalagem de fábrica.',
+        'O e-commerce é a extensão da loja física: o pedido online é separado e conferido no mesmo espaço onde atendemos o público, e o envio é feito pelos Correios (PAC e SEDEX), com prazos e valores descritos na Política de Frete. Frete, formas de pagamento e regras de troca ficam visíveis antes da finalização da compra — sem taxas escondidas no checkout.',
+        'Nossos preços refletem a operação de uma loja independente (compra, estoque local e atendimento próprio). Eles podem diferir dos praticados em redes nacionais ou no canal oficial da marca; isso não muda o compromisso com produto lacrado e com as políticas publicadas neste site.',
+        'Transparência comercial: no rodapé e nesta página você encontra CNPJ, razão social, endereço físico, e-mail e telefone. Formas de pagamento aceitas (Pix e cartões Visa, Mastercard, Elo e American Express), frete, trocas e reembolso estão em páginas dedicadas. Em caso de dúvida sobre um pedido ou um item, o canal oficial é atendimento@batistacosmeticos.com.br ou o telefone (31) 97554-9608, no horário informado abaixo.',
       ],
     },
     storeImage: {
