@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useCart } from '@/providers/CartProvider'
 
 function CartPlusIcon({ className }: { className?: string }) {
@@ -23,9 +24,11 @@ type ProductPurchaseBarProps = {
 }
 
 export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps) {
-  const { addItem, openCartDrawer } = useCart()
+  const router = useRouter()
+  const { addItem, upsertItem, openCartDrawer, closeCartDrawer } = useCart()
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
+  const [buyingNow, setBuyingNow] = useState(false)
 
   const inStock = stock > 0
   const maxQty = Math.min(99, stock)
@@ -38,12 +41,20 @@ export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps
     setQuantity((q) => Math.min(maxQty, q + 1))
   }
 
-  function handleBuy() {
+  function handleAddToCart() {
     if (!inStock) return
     addItem(productId, quantity)
     setAdded(true)
     openCartDrawer()
     window.setTimeout(() => setAdded(false), 2500)
+  }
+
+  function handleBuyNow() {
+    if (!inStock || buyingNow) return
+    setBuyingNow(true)
+    upsertItem(productId, quantity)
+    closeCartDrawer()
+    router.push('/checkout')
   }
 
   if (!inStock) {
@@ -59,14 +70,23 @@ export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps
   }
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-stretch gap-3">
-        <div className="flex shrink-0 items-center rounded-sm border border-border bg-surface">
+    <div className="space-y-2.5">
+      <button
+        type="button"
+        onClick={handleBuyNow}
+        disabled={buyingNow}
+        className="flex w-full items-center justify-center rounded-sm bg-brand px-4 py-3.5 text-base font-bold text-white transition-opacity duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:opacity-90 active:scale-[0.99] disabled:opacity-70"
+      >
+        {buyingNow ? 'Indo para o checkout…' : 'Compre agora'}
+      </button>
+
+      <div className="flex items-stretch gap-2">
+        <div className="flex h-11 shrink-0 items-center rounded-sm border border-border bg-surface">
           <button
             type="button"
             onClick={decrement}
             disabled={quantity <= 1}
-            className="flex size-11 items-center justify-center text-lg font-bold text-text-primary transition-colors duration-[400ms] hover:bg-surface-strong disabled:opacity-40"
+            className="flex h-full w-8 shrink-0 items-center justify-center text-lg font-bold text-text-primary transition-colors duration-[400ms] hover:bg-surface-strong disabled:opacity-40 sm:w-11"
             aria-label="Diminuir quantidade"
           >
             −
@@ -77,6 +97,7 @@ export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps
           <input
             id="product-qty"
             type="number"
+            inputMode="numeric"
             min={1}
             max={maxQty}
             value={quantity}
@@ -86,13 +107,13 @@ export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps
                 setQuantity(Math.min(maxQty, Math.max(1, next)))
               }
             }}
-            className="w-12 border-x border-border bg-transparent py-2 text-center text-sm font-bold text-text-primary [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="w-8 border-x border-border bg-transparent text-center text-base font-bold text-text-primary [appearance:textfield] sm:w-12 sm:text-sm [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
           <button
             type="button"
             onClick={increment}
             disabled={quantity >= maxQty}
-            className="flex size-11 items-center justify-center text-lg font-bold text-text-primary transition-colors duration-[400ms] hover:bg-surface-strong disabled:opacity-40"
+            className="flex h-full w-8 shrink-0 items-center justify-center text-lg font-bold text-text-primary transition-colors duration-[400ms] hover:bg-surface-strong disabled:opacity-40 sm:w-11"
             aria-label="Aumentar quantidade"
           >
             +
@@ -101,11 +122,11 @@ export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps
 
         <button
           type="button"
-          onClick={handleBuy}
-          className="flex flex-1 items-center justify-center gap-2 rounded-sm bg-brand px-4 py-3.5 text-base font-bold text-white transition-opacity duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:opacity-90 active:scale-[0.99]"
+          onClick={handleAddToCart}
+          className="flex min-w-0 flex-1 items-center justify-center gap-2 rounded-sm border border-brand bg-surface px-3 py-2.5 text-xs font-bold leading-tight text-brand transition-colors duration-[400ms] hover:bg-brand/5 active:scale-[0.99] sm:text-sm"
         >
-          <CartPlusIcon className="size-5 shrink-0 text-white" />
-          {added ? 'Adicionado!' : 'Comprar'}
+          <CartPlusIcon className="size-5 shrink-0" />
+          <span className="text-center">{added ? 'Adicionado!' : 'Adicionar ao carrinho'}</span>
         </button>
       </div>
 

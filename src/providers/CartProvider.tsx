@@ -96,6 +96,7 @@ type CartContextValue = {
   hydrated: boolean
   itemCount: number
   addItem: (productId: string, quantity?: number) => void
+  upsertItem: (productId: string, quantity: number) => void
   addBundlePair: (pair: StoredCartBundlePair) => void
   setQuantity: (productId: string, quantity: number) => void
   removeItem: (productId: string) => void
@@ -128,6 +129,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addItem = useCallback((productId: string, quantity = 1) => {
     dispatch({ type: 'ADD', productId, quantity })
   }, [])
+
+  const upsertItem = useCallback((productId: string, quantity: number) => {
+    const qty = Math.min(99, Math.max(1, Math.floor(quantity)))
+    const base = state.hydrated ? state.items : readStoredCart()
+    const existing = base.some((item) => item.productId === productId)
+    const next = existing
+      ? base.map((item) => (item.productId === productId ? { ...item, quantity: qty } : item))
+      : base.length >= 50
+        ? base
+        : [...base, { productId, quantity: qty }]
+    writeStoredCart(next)
+    dispatch({ type: 'SYNC_FROM_VALIDATED', items: next })
+  }, [state.hydrated, state.items])
 
   const setQuantity = useCallback((productId: string, quantity: number) => {
     dispatch({ type: 'SET_QUANTITY', productId, quantity })
@@ -168,6 +182,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       hydrated: state.hydrated,
       itemCount,
       addItem,
+      upsertItem,
       addBundlePair,
       setQuantity,
       removeItem,
@@ -183,6 +198,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       state.hydrated,
       itemCount,
       addItem,
+      upsertItem,
       addBundlePair,
       setQuantity,
       removeItem,

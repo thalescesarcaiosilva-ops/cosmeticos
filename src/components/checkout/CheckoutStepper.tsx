@@ -1,26 +1,28 @@
-type Step = {
-  id: number
-  label: string
-  status: 'done' | 'active' | 'pending'
-}
+type CheckoutStep = 1 | 2 | 3
 
-const STEPS: Step[] = [
-  { id: 1, label: 'Sacola', status: 'done' },
-  { id: 2, label: 'Pagamento', status: 'active' },
-  { id: 3, label: 'Recibo', status: 'pending' },
+const STEPS: { id: CheckoutStep; label: string }[] = [
+  { id: 1, label: 'Dados' },
+  { id: 2, label: 'Entrega' },
+  { id: 3, label: 'Pagamento' },
 ]
 
-export function CheckoutStepper() {
+const HINTS: Record<CheckoutStep, string> = {
+  1: 'Seus dados para enviarmos a confirmação do pedido',
+  2: 'Endereço e frete, com o prazo antes de pagar',
+  3: 'Pagamento seguro para concluir a compra',
+}
+
+export function CheckoutStepper({ currentStep }: { currentStep: CheckoutStep }) {
   return (
     <nav aria-label="Progresso do checkout" className="border-b border-border pb-6">
-      <ol className="flex items-center justify-center gap-2 sm:gap-4">
+      <ol className="flex items-start justify-center">
         {STEPS.map((step, index) => {
-          const isDone = step.status === 'done'
-          const isActive = step.status === 'active'
+          const isDone = step.id < currentStep
+          const isActive = step.id === currentStep
 
           return (
-            <li key={step.id} className="flex items-center">
-              <div className="flex flex-col items-center gap-1.5">
+            <li key={step.id} className="flex items-start">
+              <div className="flex w-[4.5rem] flex-col items-center gap-1.5 sm:w-24">
                 <span
                   className={`flex size-8 items-center justify-center rounded-full text-xs font-bold sm:size-9 sm:text-sm ${
                     isDone
@@ -46,7 +48,7 @@ export function CheckoutStepper() {
                   )}
                 </span>
                 <span
-                  className={`text-[10px] font-semibold sm:text-xs ${
+                  className={`text-center text-[11px] font-semibold sm:text-xs ${
                     isActive || isDone ? 'text-brand' : 'text-text-muted'
                   }`}
                 >
@@ -56,9 +58,7 @@ export function CheckoutStepper() {
 
               {index < STEPS.length - 1 && (
                 <div
-                  className={`mx-2 h-0.5 w-6 sm:mx-3 sm:w-10 ${
-                    isDone || isActive ? 'bg-brand' : 'bg-border'
-                  }`}
+                  className={`mt-4 h-0.5 w-8 sm:w-14 ${isDone ? 'bg-brand' : 'bg-border'}`}
                   aria-hidden
                 />
               )}
@@ -66,6 +66,7 @@ export function CheckoutStepper() {
           )
         })}
       </ol>
+      <p className="mt-4 text-center text-sm text-text-secondary">{HINTS[currentStep]}</p>
     </nav>
   )
 }

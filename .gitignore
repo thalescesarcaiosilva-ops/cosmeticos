@@ -42,3 +42,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# dumps locais de scrape, comparação de preço e importação
+/scripts/_scrape_cache/
+/scripts/_price_compare_cache/
+/scripts/__pycache__/
+/scripts/_price_summary.txt
+/tmp-*
+!/tmp-*.mjs
+!/tmp-*.cjs
+/*.csv
+/beleza-cosmeticos-report-*.json
+/relatorio-precos-concorrentes.json
+/import-wc-*.log

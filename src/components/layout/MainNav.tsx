@@ -100,17 +100,30 @@ function NavDropdownItem({ category, overlay }: NavDropdownItemProps) {
               : 'pointer-events-none invisible -translate-y-1 opacity-0'
           }`}
         >
-          <div className="min-w-[220px] border border-border bg-surface py-2 shadow-lg">
-            {children.map((child) => (
-              <Link
-                key={child.id}
-                href={child.href}
-                className="block px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-surface-muted"
-                onClick={closeMenu}
-              >
-                {child.label}
-              </Link>
-            ))}
+          <div
+            className={`border border-border bg-surface py-2 shadow-[0_8px_24px_rgba(36,29,31,0.12)] ${
+              children.length > 8 ? 'w-[26rem]' : 'min-w-[220px]'
+            }`}
+          >
+            <Link
+              href={category.href}
+              className="block border-b border-border px-4 py-2.5 text-[13px] font-bold text-text-primary transition-colors hover:bg-surface-muted"
+              onClick={closeMenu}
+            >
+              Ver tudo em {category.label}
+            </Link>
+            <div className={children.length > 8 ? 'grid grid-cols-2' : undefined}>
+              {children.map((child) => (
+                <Link
+                  key={child.id}
+                  href={child.href}
+                  className="block px-4 py-2.5 text-sm font-medium text-text-primary transition-colors hover:bg-surface-muted"
+                  onClick={closeMenu}
+                >
+                  {child.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -129,7 +142,7 @@ export function MainNav({ categories, className = '', overlay = false }: MainNav
       aria-label="Categorias principais"
     >
       <div className="mx-auto flex max-w-[1300px] items-center gap-3 overflow-visible px-4 md:px-6">
-        <ul className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto overflow-y-visible py-1">
+        <ul className="flex min-w-0 flex-1 items-center gap-1 overflow-visible py-1">
           {categories.map((category) => (
             <NavDropdownItem key={category.id} category={category} overlay={overlay} />
           ))}

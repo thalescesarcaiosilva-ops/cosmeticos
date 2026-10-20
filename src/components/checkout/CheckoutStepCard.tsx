@@ -22,11 +22,10 @@ export function CheckoutStepCard({
 }: CheckoutStepCardProps) {
   const isActive = status === 'active'
   const isCompleted = status === 'completed'
-  const isPending = status === 'pending'
 
   return (
     <section
-      className={`overflow-hidden rounded-lg border bg-surface transition-colors ${
+      className={`scroll-mt-24 overflow-hidden rounded-lg border bg-surface transition-colors ${
         isActive
           ? 'border-brand shadow-sm'
           : isCompleted
@@ -90,12 +89,6 @@ export function CheckoutStepCard({
 
       {isActive && children && (
         <div className="border-t border-border px-5 pb-5 pt-4 md:px-6 md:pb-6">{children}</div>
-      )}
-
-      {isPending && (
-        <div className="border-t border-border px-5 py-3 md:px-6">
-          <p className="text-xs text-text-muted">Complete a etapa anterior para continuar.</p>
-        </div>
       )}
     </section>
   )

@@ -17,7 +17,7 @@ function buildProductSelect(mediaCols: string) {
   price, original_price, stock, sku, gtin,
   meta_title, meta_description, active, brand_id, created_at, updated_at,
   brand:brands(id, name, slug, active),
-  product_categories(category_id, categories(id, name, slug)),
+  product_categories(category_id, categories(id, name, slug, parent_id)),
   product_images(id, sort_order, media:media_assets(${mediaCols}))
 `
 }
@@ -75,8 +75,17 @@ function mapProductDetail(row: Record<string, unknown>): ProductDetail {
   const categories =
     (row.product_categories as ProductDetail['product_categories'])
       ?.map((pc) => pc.categories)
-      .filter((c): c is { id: string; name: string; slug: string } => Boolean(c?.slug))
+      .filter(
+        (c): c is { id: string; name: string; slug: string; parent_id?: string | null } =>
+          Boolean(c?.slug)
+      )
       .filter((c) => !isStorefrontCategoryNavHidden(c.slug))
+      .sort((a, b) => {
+        const aRoot = a.parent_id ? 1 : 0
+        const bRoot = b.parent_id ? 1 : 0
+        if (aRoot !== bRoot) return aRoot - bRoot
+        return a.name.localeCompare(b.name, 'pt')
+      })
       .map((c) => ({ name: c.name, slug: c.slug })) ?? []
 
   const categorySlugs = categories.map((c) => c.slug)

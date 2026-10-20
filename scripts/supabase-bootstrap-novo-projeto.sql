@@ -126,6 +126,7 @@ CREATE TABLE IF NOT EXISTS public.categories (
   seal_image_url text,
   page_title character varying(200),
   description text,
+  parent_id uuid REFERENCES public.categories(id) ON DELETE CASCADE,
   CONSTRAINT categories_slug_key UNIQUE (slug)
 );
 
@@ -768,6 +769,7 @@ CREATE INDEX IF NOT EXISTS orders_veno_deposit_id_idx
   ON public.orders (veno_deposit_id) WHERE veno_deposit_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_product_bundles_primary
   ON public.product_bundles (primary_product_id, sort_order) WHERE active = true;
+CREATE INDEX IF NOT EXISTS idx_categories_parent_id ON public.categories (parent_id) WHERE parent_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_product_categories_category ON public.product_categories (category_id);
 CREATE INDEX IF NOT EXISTS idx_product_favorites_user ON public.product_favorites (user_id);
 CREATE INDEX IF NOT EXISTS idx_product_images_product ON public.product_images (product_id, sort_order);

@@ -1,13 +1,8 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { IconChevronLeft } from '@/components/icons/DotIcons'
 import { SiteImage } from '@/components/ui/SiteImage'
-
-const THUMB_SIZE = 72
-const THUMB_GAP = 8
-const VISIBLE_THUMBS = 4
 
 type ProductGalleryProps = {
   images: {
@@ -25,7 +20,13 @@ export function ProductGallery({ images, productName, discountPercent }: Product
   const [activeIndex, setActiveIndex] = useState(0)
   const thumbListRef = useRef<HTMLDivElement>(null)
   const active = images[activeIndex]
-  const thumbViewportHeight = VISIBLE_THUMBS * THUMB_SIZE + (VISIBLE_THUMBS - 1) * THUMB_GAP
+
+  useEffect(() => {
+    const root = thumbListRef.current
+    if (!root) return
+    const thumb = root.querySelector<HTMLElement>('[aria-current="true"]')
+    thumb?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+  }, [activeIndex])
 
   if (images.length === 0) {
     return (
@@ -35,61 +36,9 @@ export function ProductGallery({ images, productName, discountPercent }: Product
     )
   }
 
-  function scrollThumbs(direction: 'down' | 'up') {
-    const el = thumbListRef.current
-    if (!el) return
-    const step = THUMB_SIZE + THUMB_GAP
-    el.scrollBy({ top: direction === 'down' ? step : -step, behavior: 'smooth' })
-  }
-
   return (
-    <div className="flex gap-3 md:gap-4">
-      {images.length > 1 && (
-        <div className="flex w-[72px] shrink-0 flex-col">
-          <div
-            ref={thumbListRef}
-            className="flex flex-col gap-2 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            style={{ maxHeight: thumbViewportHeight }}
-          >
-            {images.map((img, index) => (
-              <button
-                key={img.id}
-                type="button"
-                onClick={() => setActiveIndex(index)}
-                className={`relative size-[72px] shrink-0 overflow-hidden rounded-sm border transition-colors duration-[400ms] ${
-                  index === activeIndex
-                    ? 'border-text-primary'
-                    : 'border-border hover:border-text-primary/40'
-                }`}
-                aria-label={`Ver imagem ${index + 1}`}
-                aria-current={index === activeIndex}
-              >
-                <SiteImage
-                  src={img.thumbUrl || img.url}
-                  alt=""
-                  fill
-                  sizes="72px"
-                  loading="lazy"
-                  bypassOptimizer={false}
-                  className="object-contain p-1.5"
-                />
-              </button>
-            ))}
-          </div>
-          {images.length > VISIBLE_THUMBS && (
-            <button
-              type="button"
-              onClick={() => scrollThumbs('down')}
-              className="mt-2 flex size-9 items-center justify-center self-center rounded-sm border border-border bg-surface text-text-primary transition-opacity duration-[400ms] hover:opacity-80"
-              aria-label="Ver mais miniaturas"
-            >
-              <ChevronDown className="size-5" aria-hidden />
-            </button>
-          )}
-        </div>
-      )}
-
-      <div className="relative min-w-0 flex-1">
+    <div>
+      <div className="relative min-w-0">
         <div className="relative aspect-square overflow-hidden rounded-sm border border-border">
           {discountPercent != null && (
             <span className="absolute left-3 top-3 z-10 rounded-sm border border-claret bg-surface px-2.5 py-1 text-[12px] font-bold text-claret">
@@ -130,30 +79,43 @@ export function ProductGallery({ images, productName, discountPercent }: Product
             priority={activeIndex === 0}
             fetchPriority={activeIndex === 0 ? 'high' : 'auto'}
             bypassOptimizer={false}
-            sizes="(max-width: 768px) 88vw, (max-width: 1024px) 50vw, 560px"
+            sizes="(max-width: 768px) 92vw, (max-width: 1024px) 50vw, 560px"
             className="object-contain p-4 md:p-6"
           />
         </div>
-
-        {images.length > 1 && (
-          <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
-            {images.map((img, index) => (
-              <button
-                key={img.id}
-                type="button"
-                onClick={() => setActiveIndex(index)}
-                className={`rounded-full border transition-all duration-200 ${
-                  index === activeIndex
-                    ? 'h-2 w-5 border-transparent bg-text-muted'
-                    : 'size-2 border-text-muted/50 bg-transparent hover:border-text-secondary'
-                }`}
-                aria-label={`Ir para imagem ${index + 1}`}
-                aria-current={index === activeIndex}
-              />
-            ))}
-          </div>
-        )}
       </div>
+
+      {images.length > 1 && (
+        <div
+          ref={thumbListRef}
+          className="mt-3 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {images.map((img, index) => (
+            <button
+              key={img.id}
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              className={`relative size-16 shrink-0 overflow-hidden rounded-sm border transition-colors duration-[400ms] md:size-[72px] ${
+                index === activeIndex
+                  ? 'border-text-primary'
+                  : 'border-border hover:border-text-primary/40'
+              }`}
+              aria-label={`Ver imagem ${index + 1}`}
+              aria-current={index === activeIndex}
+            >
+              <SiteImage
+                src={img.thumbUrl || img.url}
+                alt=""
+                fill
+                sizes="72px"
+                loading="lazy"
+                bypassOptimizer={false}
+                className="object-contain p-1.5"
+              />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

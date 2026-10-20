@@ -83,6 +83,134 @@ const CATEGORY_SLUG_TO_GOOGLE: Record<string, GoogleCategory> = {
     id: 543615,
     path: 'Saúde e beleza > Cuidados pessoais > Cuidados com os cabelos > Xampu e condicionador > Shampoos',
   },
+  condicionador: {
+    id: 486,
+    path: 'Saúde e beleza > Cuidados pessoais > Cuidados com os cabelos',
+  },
+  'mascara-capilar': {
+    id: 486,
+    path: 'Saúde e beleza > Cuidados pessoais > Cuidados com os cabelos',
+  },
+  'creme-capilar': {
+    id: 486,
+    path: 'Saúde e beleza > Cuidados pessoais > Cuidados com os cabelos',
+  },
+  'oleo-capilar': {
+    id: 486,
+    path: 'Saúde e beleza > Cuidados pessoais > Cuidados com os cabelos',
+  },
+  'serum-capilar': {
+    id: 486,
+    path: 'Saúde e beleza > Cuidados pessoais > Cuidados com os cabelos',
+  },
+  'kit-capilar': {
+    id: 486,
+    path: 'Saúde e beleza > Cuidados pessoais > Cuidados com os cabelos',
+  },
+  'acessorio-capilar': {
+    id: 486,
+    path: 'Saúde e beleza > Cuidados pessoais > Cuidados com os cabelos',
+  },
+  'limpeza-facial': {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  serum: {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  hidratante: {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  creme: {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  'tratamento-facial': {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  desodorante: {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  olhos: {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  labios: {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  banho: {
+    id: 474,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Banho e corpo',
+  },
+  unhas: {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  'agua-termal': {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  'kit-dermocosmetico': {
+    id: 567,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
+  },
+  base: {
+    id: 477,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Maquiagem',
+  },
+  batom: {
+    id: 477,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Maquiagem',
+  },
+  corretivo: {
+    id: 477,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Maquiagem',
+  },
+  gloss: {
+    id: 477,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Maquiagem',
+  },
+  'mascara-de-cilios': {
+    id: 477,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Maquiagem',
+  },
+  primer: {
+    id: 477,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Maquiagem',
+  },
+  demaquilante: {
+    id: 477,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Maquiagem',
+  },
+  pinceis: {
+    id: 477,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Maquiagem',
+  },
+  'protetor-facial': {
+    id: 2844,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele > Bloqueadores solares',
+  },
+  'protetor-corporal': {
+    id: 2844,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele > Bloqueadores solares',
+  },
+  'protetor-com-cor': {
+    id: 2844,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele > Bloqueadores solares',
+  },
+  'protetor-stick': {
+    id: 2844,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele > Bloqueadores solares',
+  },
+  'protetor-po': {
+    id: 2844,
+    path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele > Bloqueadores solares',
+  },
   'tratamentos-e-clareadores': {
     id: 567,
     path: 'Saúde e beleza > Cuidados pessoais > Cosméticos > Cuidados com a pele',
@@ -100,13 +228,27 @@ export type ResolvedGoogleCategory = GoogleCategory & { matched: boolean }
  * internas do produto. Usa a primeira categoria com correspondência na
  * taxonomia; se nenhuma corresponder, cai no fallback "Saúde e beleza".
  */
+function categoryDepth(path: string): number {
+  return path.split('>').length
+}
+
 export function resolveGoogleProductCategory(
   categorySlugs: Array<string | null | undefined>
 ): ResolvedGoogleCategory {
+  let best: GoogleCategory | null = null
+  let bestDepth = -1
+
   for (const slug of categorySlugs) {
     if (!slug) continue
     const match = CATEGORY_SLUG_TO_GOOGLE[slug]
-    if (match) return { ...match, matched: true }
+    if (!match) continue
+    const depth = categoryDepth(match.path)
+    if (depth >= bestDepth) {
+      best = match
+      bestDepth = depth
+    }
   }
-  return { ...DEFAULT_GOOGLE_CATEGORY, matched: false }
+
+  if (!best) return { ...DEFAULT_GOOGLE_CATEGORY, matched: false }
+  return { ...best, matched: true }
 }

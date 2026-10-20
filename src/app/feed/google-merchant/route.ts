@@ -71,7 +71,7 @@ export async function GET() {
       id, name, slug, description, price, original_price, stock, sku, gtin, updated_at,
       brand:brands(name),
       product_images(sort_order, media:media_assets(public_url)),
-      product_categories(categories(name, slug))
+      product_categories(categories(name, slug, parent_id))
     `
     )
     .eq('active', true)
@@ -96,11 +96,20 @@ export async function GET() {
     const regularPrice = hasSale ? `${Number(row.original_price).toFixed(2)} BRL` : price
 
     const categoryRows = (row.product_categories ?? []) as Array<{
-      categories: { name: string; slug: string } | { name: string; slug: string }[] | null
+      categories:
+        | { name: string; slug: string; parent_id?: string | null }
+        | { name: string; slug: string; parent_id?: string | null }[]
+        | null
     }>
     const categories = categoryRows
       .map((pc) => (Array.isArray(pc.categories) ? pc.categories[0] : pc.categories))
-      .filter((c): c is { name: string; slug: string } => Boolean(c?.slug))
+      .filter((c): c is { name: string; slug: string; parent_id?: string | null } => Boolean(c?.slug))
+      .sort((a, b) => {
+        const aRoot = a.parent_id ? 1 : 0
+        const bRoot = b.parent_id ? 1 : 0
+        if (aRoot !== bRoot) return aRoot - bRoot
+        return a.name.localeCompare(b.name, 'pt')
+      })
 
     // Coleções só-sitemap (ex.: mais-vendidos) não entram no product_type do Merchant.
     const taxonomyCategories = categories.filter((c) => !isStorefrontCategoryNavHidden(c.slug))

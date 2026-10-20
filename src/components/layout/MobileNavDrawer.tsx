@@ -136,6 +136,15 @@ export function MobileNavDrawer({
                   </div>
                   {hasChildren && expanded && (
                     <ul className="border-t border-border/60 bg-surface-muted/40">
+                      <li>
+                        <Link
+                          href={category.href}
+                          className="block px-6 py-3 text-[13px] font-bold text-text-primary transition-colors hover:bg-surface-muted"
+                          onClick={onClose}
+                        >
+                          Ver tudo em {category.label}
+                        </Link>
+                      </li>
                       {children.map((child) => (
                         <li key={child.id}>
                           <Link

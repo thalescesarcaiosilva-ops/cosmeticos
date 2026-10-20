@@ -24,6 +24,8 @@ type CheckoutOrderSummaryProps = {
   finalizeDisabled?: boolean
   finalizeLoading?: boolean
   finalizeLabel?: string
+  /** Esconde o botão de avanço no mobile, quando a etapa já tem o próprio CTA. */
+  hideFinalizeOnMobile?: boolean
 }
 
 export function CheckoutOrderSummary({
@@ -40,6 +42,7 @@ export function CheckoutOrderSummary({
   finalizeDisabled = false,
   finalizeLoading = false,
   finalizeLabel = 'Finalizar pedido',
+  hideFinalizeOnMobile = false,
 }: CheckoutOrderSummaryProps) {
   const [itemsOpen, setItemsOpen] = useState(true)
   const lineCount = lines.reduce((acc, line) => acc + line.quantity, 0)
@@ -104,7 +107,7 @@ export function CheckoutOrderSummary({
         </div>
 
         {onFinalize && (
-          <>
+          <div className={hideFinalizeOnMobile ? 'hidden lg:block' : undefined}>
             <div className="mt-4">
               <CheckoutPolicyNotice />
             </div>
@@ -117,7 +120,7 @@ export function CheckoutOrderSummary({
             >
               {finalizeLabel}
             </Button>
-          </>
+          </div>
         )}
 
         <div className="mt-5 border-t border-border pt-4">

@@ -288,6 +288,10 @@ export type CollectionsForCarouselOptions = {
   slugs?: string[]
 }
 
+function isRootCategoryRow(row: Record<string, unknown>): boolean {
+  return row.parent_id == null || row.parent_id === ''
+}
+
 function mapCollectionCarouselRow(row: Record<string, unknown>): CollectionCarouselItem {
   const raw =
     (row.image_url as string | null) ??
@@ -327,13 +331,15 @@ export async function getCollectionsForCarousel(
   const supabase = createPublicClient()
   const full = await supabase
     .from('categories')
-    .select('id, name, slug, image_url, sort_order')
+    .select('id, name, slug, image_url, sort_order, parent_id')
     .eq('active', true)
     .order('sort_order', { ascending: true })
 
   if (!full.error && full.data) {
     return filterCollectionsBySlugs(
-      full.data.map((row) => mapCollectionCarouselRow(row as Record<string, unknown>)),
+      full.data
+        .filter((row) => isRootCategoryRow(row as Record<string, unknown>))
+        .map((row) => mapCollectionCarouselRow(row as Record<string, unknown>)),
       options?.slugs
     )
   }

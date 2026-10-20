@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CreditCard, QrCode } from 'lucide-react'
 import { CheckoutOrderSummary } from '@/components/checkout/CheckoutOrderSummary'
-import { CheckoutPanel } from '@/components/checkout/CheckoutPanel'
+import { CheckoutPolicyNotice } from '@/components/checkout/CheckoutPolicyNotice'
+import { CheckoutStepCard } from '@/components/checkout/CheckoutStepCard'
 import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
 import { CheckoutPixPanel } from '@/components/checkout/CheckoutPixPanel'
 import { CardUnavailablePanel } from '@/components/checkout/CardUnavailablePanel'
@@ -93,6 +94,7 @@ const emptyAddressForm: AddressForm = {
 }
 
 type PaymentMethodChoice = 'pix' | 'card'
+type CheckoutStep = 1 | 2 | 3
 
 type CheckoutViewProps = {
   storeName: string
@@ -132,6 +134,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
   const [paymentConfig, setPaymentConfig] = useState<CheckoutPaymentSettings | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodChoice>('pix')
+  const [step, setStep] = useState<CheckoutStep>(1)
   const [cpf, setCpf] = useState('')
   const [pixResult, setPixResult] = useState<{
     orderId: string
@@ -580,6 +583,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
     const idResult = validateCheckoutIdentification(identification)
     if (!idResult.ok) {
+      setStep(1)
       setIdentificationFieldErrors(idResult.errors)
       const first = Object.values(idResult.errors)[0]
       if (first) setIdentificationError(first)
@@ -588,6 +592,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
     const addressResult = validateCheckoutAddress(addressForm)
     if (!addressResult.ok) {
+      setStep(2)
       setAddressFieldErrors(addressResult.errors)
       setDeliveryError(addressResult.message)
       return
@@ -603,6 +608,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     }
 
     if (!shippingId) {
+      setStep(2)
       setDeliveryError('Selecione uma forma de frete')
       return
     }
@@ -611,6 +617,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
     const cpfResult = validateCheckoutCpf(cpf)
     if (!cpfResult.ok) {
+      setStep(3)
       setCpfError(cpfResult.message)
       return
     }
@@ -625,7 +632,78 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     await handlePixPayment()
   }
 
+  function continueToDelivery() {
+    setSubmitError(null)
+    setIdentificationError(null)
+    const idResult = validateCheckoutIdentification(identification)
+    if (!idResult.ok) {
+      setIdentificationFieldErrors(idResult.errors)
+      const first = Object.values(idResult.errors)[0]
+      if (first) setIdentificationError(first)
+      return
+    }
+    setIdentificationFieldErrors({})
+    setStep(2)
+  }
+
+  function continueToPayment() {
+    setSubmitError(null)
+    setDeliveryError(null)
+    const addressResult = validateCheckoutAddress(addressForm)
+    if (!addressResult.ok) {
+      setAddressFieldErrors(addressResult.errors)
+      setDeliveryError(addressResult.message)
+      return
+    }
+    if (shippingLoading || cepLoading) {
+      setDeliveryError('Aguarde o cálculo do frete')
+      return
+    }
+    if (!selectedShippingId) {
+      setDeliveryError('Informe o CEP e escolha uma forma de frete')
+      return
+    }
+    setAddressFieldErrors({})
+    setStep(3)
+  }
+
+  const activeStep: CheckoutStep = pixResult ? 3 : step
+
+  function stepStatus(target: CheckoutStep): 'pending' | 'active' | 'completed' {
+    if (activeStep === target) return 'active'
+    if (activeStep > target) return 'completed'
+    return 'pending'
+  }
+
   const isEmpty = items.length === 0 && !cartLoading
+
+  const summaryAction =
+    activeStep === 1
+      ? {
+          onFinalize: pixResult ? undefined : continueToDelivery,
+          finalizeDisabled: profileLoading,
+          finalizeLabel: 'Continuar para entrega',
+          finalizeLoading: false,
+        }
+      : activeStep === 2
+        ? {
+            onFinalize: pixResult ? undefined : continueToPayment,
+            finalizeDisabled: shippingLoading || cepLoading,
+            finalizeLabel: 'Continuar para pagamento',
+            finalizeLoading: false,
+          }
+        : {
+            onFinalize: pixResult ? undefined : handleFinalizeOrder,
+            finalizeDisabled:
+              cartLoading ||
+              submitting ||
+              restoringPix ||
+              availableLines.length === 0 ||
+              paymentMethod === 'card' ||
+              paymentConfig?.pixEnabled === false,
+            finalizeLabel: 'Finalizar pedido',
+            finalizeLoading: submitting,
+          }
 
   const summaryProps = {
     lines: availableLines,
@@ -640,16 +718,11 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       setCouponDiscount(applied.discountAmount)
     },
     total,
-    onFinalize: pixResult ? undefined : handleFinalizeOrder,
-    finalizeDisabled:
-      cartLoading ||
-      submitting ||
-      restoringPix ||
-      availableLines.length === 0 ||
-      paymentMethod === 'card' ||
-      paymentConfig?.pixEnabled === false,
-    finalizeLoading: submitting,
-    finalizeLabel: 'Finalizar pedido',
+    onFinalize: summaryAction.onFinalize,
+    finalizeDisabled: summaryAction.finalizeDisabled,
+    finalizeLoading: summaryAction.finalizeLoading,
+    finalizeLabel: summaryAction.finalizeLabel,
+    hideFinalizeOnMobile: true,
   }
 
   if (isEmpty) {
@@ -672,7 +745,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       <CheckoutTopBar storeName={storeName} logo={logo} />
 
       <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-6 md:py-8">
-        <CheckoutStepper />
+        <CheckoutStepper currentStep={activeStep} />
 
         {restoringPix && (
           <div className="mt-6">
@@ -687,9 +760,22 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
           </div>
         )}
 
-        <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_320px] xl:items-start">
-          <div className="space-y-6">
-            <CheckoutPanel title="Identificação">
+        <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="space-y-4">
+            <CheckoutStepCard
+              step={1}
+              title="Seus dados"
+              subtitle="Usamos nome, e-mail e celular só para confirmar o pedido."
+              status={stepStatus(1)}
+              onEdit={pixResult ? undefined : () => setStep(1)}
+              summary={
+                <div className="space-y-0.5">
+                  <p className="font-medium text-text-primary">{identification.name}</p>
+                  <p>{identification.email}</p>
+                  <p>{identification.phone}</p>
+                </div>
+              }
+            >
               {profileLoading ? (
                 <p className="text-sm text-text-secondary">Carregando seus dados...</p>
               ) : (
@@ -753,9 +839,43 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                   </div>
                 </div>
               )}
-            </CheckoutPanel>
+              <div className="mt-5">
+                <Button
+                  type="button"
+                  className="w-full rounded-md py-3 text-sm font-bold"
+                  onClick={continueToDelivery}
+                  disabled={profileLoading}
+                >
+                  Continuar para entrega
+                </Button>
+              </div>
+            </CheckoutStepCard>
 
-            <CheckoutPanel title="Forma de entrega">
+            <CheckoutStepCard
+              step={2}
+              title="Entrega"
+              subtitle="O CEP mostra o prazo e o valor do frete antes do pagamento."
+              status={stepStatus(2)}
+              onEdit={pixResult ? undefined : () => setStep(2)}
+              summary={
+                <div className="space-y-0.5">
+                  <p className="font-medium text-text-primary">
+                    {addressForm.street}, {addressForm.number}
+                    {addressForm.complement ? ` — ${addressForm.complement}` : ''}
+                  </p>
+                  <p>
+                    {addressForm.neighborhood} — {addressForm.city}/{addressForm.state} · CEP{' '}
+                    {addressForm.zip_code}
+                  </p>
+                  {selectedShipping ? (
+                    <p>
+                      {selectedShipping.name} ·{' '}
+                      {selectedShipping.isFree ? 'Grátis' : formatCurrency(selectedShipping.price)}
+                    </p>
+                  ) : null}
+                </div>
+              }
+            >
               <div className="space-y-4">
                 {deliveryError && <Alert type="error">{deliveryError}</Alert>}
 
@@ -876,11 +996,32 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                   </div>
                 )}
               </div>
-            </CheckoutPanel>
-          </div>
+              <div className="mt-5 flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="rounded-md"
+                  onClick={() => setStep(1)}
+                >
+                  Voltar
+                </Button>
+                <Button
+                  type="button"
+                  className="flex-1 rounded-md py-3 text-sm font-bold"
+                  onClick={continueToPayment}
+                  disabled={shippingLoading || cepLoading}
+                >
+                  Continuar para pagamento
+                </Button>
+              </div>
+            </CheckoutStepCard>
 
-          <div className="space-y-6">
-            <CheckoutPanel title="Selecione a forma de pagamento">
+            <CheckoutStepCard
+              step={3}
+              title="Pagamento"
+              subtitle="Confira o total no resumo e finalize com Pix."
+              status={stepStatus(3)}
+            >
               <div className="space-y-4">
                 {paymentConfig?.pixDiscount ? (
                   <div className="flex flex-wrap items-center gap-2 rounded-md border border-brand/25 bg-brand/5 px-4 py-3">
@@ -909,37 +1050,42 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
                 {!pixResult && (
                   <div className="space-y-3">
-                    {paymentConfig?.cardEnabled !== false && (
-                      <div
-                        className={`rounded-md border transition-colors ${
-                          paymentMethod === 'card' ? 'border-brand' : 'border-border'
-                        }`}
+                    <div
+                      className={`rounded-md border transition-colors ${
+                        paymentMethod === 'card' ? 'border-amber-400' : 'border-border'
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMethod('card')}
+                        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
                       >
-                        <button
-                          type="button"
-                          onClick={() => setPaymentMethod('card')}
-                          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
-                        >
-                          <span className="flex items-center gap-2 text-sm font-semibold text-text-primary">
-                            <span
-                              className={`size-4 rounded-full border ${
-                                paymentMethod === 'card'
-                                  ? 'border-brand bg-brand'
-                                  : 'border-border-strong bg-surface'
-                              }`}
-                              aria-hidden
-                            />
-                            Pagar com cartão de crédito
+                        <span className="flex min-w-0 items-center gap-2">
+                          <span
+                            className={`size-4 shrink-0 rounded-full border ${
+                              paymentMethod === 'card'
+                                ? 'border-amber-500 bg-amber-500'
+                                : 'border-border-strong bg-surface'
+                            }`}
+                            aria-hidden
+                          />
+                          <span className="min-w-0">
+                            <span className="block text-sm font-semibold text-text-primary">
+                              Pagar com cartão de crédito
+                            </span>
+                            <span className="mt-0.5 block text-xs font-medium text-amber-800">
+                              Indisponível no momento
+                            </span>
                           </span>
-                          <CreditCard className="size-5 text-text-muted" aria-hidden />
-                        </button>
-                        {paymentMethod === 'card' && (
-                          <div className="space-y-4 border-t border-border px-4 pb-4 pt-3">
-                            <CardUnavailablePanel total={total} />
-                          </div>
-                        )}
-                      </div>
-                    )}
+                        </span>
+                        <CreditCard className="size-5 shrink-0 text-text-muted" aria-hidden />
+                      </button>
+                      {paymentMethod === 'card' && (
+                        <div className="border-t border-border px-4 pb-4 pt-3">
+                          <CardUnavailablePanel onUsePix={() => setPaymentMethod('pix')} />
+                        </div>
+                      )}
+                    </div>
 
                     {paymentConfig?.pixEnabled !== false && (
                       <div
@@ -975,7 +1121,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                         {paymentMethod === 'pix' && (
                           <div className="border-t border-border px-4 pb-4 pt-3">
                             <ol className="list-decimal space-y-1 pl-4 text-xs text-text-secondary">
-                              <li>Clique em Finalizar pedido no resumo.</li>
+                              <li>Clique em Finalizar pedido.</li>
                               <li>Copie o código Pix ou escaneie o QR Code.</li>
                               <li>Conclua o pagamento no app do seu banco.</li>
                             </ol>
@@ -1061,14 +1207,39 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                 )}
 
               </div>
-            </CheckoutPanel>
-
-            <div className="xl:hidden">
-              <CheckoutOrderSummary {...summaryProps} />
-            </div>
+              {!pixResult && (
+                <div className="mt-5 space-y-3 lg:hidden">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="rounded-md px-0"
+                    onClick={() => setStep(2)}
+                  >
+                    Voltar para entrega
+                  </Button>
+                  <CheckoutPolicyNotice />
+                  <Button
+                    type="button"
+                    className="w-full rounded-md py-3 text-sm font-bold uppercase tracking-wide"
+                    loading={submitting}
+                    disabled={
+                      cartLoading ||
+                      submitting ||
+                      restoringPix ||
+                      availableLines.length === 0 ||
+                      paymentMethod === 'card' ||
+                      paymentConfig?.pixEnabled === false
+                    }
+                    onClick={() => void handleFinalizeOrder()}
+                  >
+                    Finalizar pedido
+                  </Button>
+                </div>
+              )}
+            </CheckoutStepCard>
           </div>
 
-          <div className="hidden xl:block">
+          <div>
             <CheckoutOrderSummary {...summaryProps} />
           </div>
         </div>
