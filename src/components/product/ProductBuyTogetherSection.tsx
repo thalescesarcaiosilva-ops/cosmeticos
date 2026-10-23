@@ -19,6 +19,7 @@ import { formatCurrency } from '@/lib/products/format'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import { calcPixPrice } from '@/lib/payment/product-payment-summary'
 import { PixIcon } from '@/components/product/PixDiscountBadge'
+import { trackFunnel } from '@/lib/analytics/track-funnel'
 import { useCart } from '@/providers/CartProvider'
 import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 import type { BuyTogetherSettings } from '@/types/buy-together-settings'
@@ -157,6 +158,7 @@ export function ProductBuyTogetherSection({
     })
     addItem(primaryProduct.id, 1)
     addItem(bundle.companion.id, 1)
+    trackFunnel('cart_add')
     setAdded(true)
     openCartDrawer()
     window.setTimeout(() => setAdded(false), 2500)

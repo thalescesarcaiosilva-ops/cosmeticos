@@ -13,7 +13,10 @@ type NavSection = {
 const SECTIONS: NavSection[] = [
   {
     title: 'Início',
-    links: [{ href: '/admin', label: 'Dashboard', exact: true }],
+    links: [
+      { href: '/admin', label: 'Dashboard', exact: true },
+      { href: '/admin/funil', label: 'Funil' },
+    ],
   },
   {
     title: 'Atendimento',

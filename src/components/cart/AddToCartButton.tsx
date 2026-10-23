@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Check } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { trackFunnel } from '@/lib/analytics/track-funnel'
 import { useCart } from '@/providers/CartProvider'
 
 type AddToCartButtonProps = {
@@ -20,6 +21,7 @@ export function AddToCartButton({ productId, stock, className = '' }: AddToCartB
   function handleAdd() {
     if (!inStock) return
     addItem(productId, 1)
+    trackFunnel('cart_add')
     setAdded(true)
     // Abre o drawer lateral do carrinho
     openCartDrawer()

@@ -67,7 +67,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         <>
           <p className="mt-2 text-sm text-text-secondary">
             {products.length} produto{products.length === 1 ? '' : 's'} encontrado
-            {products.length === 1 ? '' : 's'}
+            {products.length === 1 ? '' : 's'}. A busca usa cada palavra, então o nome
+            não precisa ser idêntico ao que foi digitado.
           </p>
           <div className="mt-6">
             <ProductGrid products={products} installments={installments} />

@@ -6,6 +6,7 @@ import {
   escapeLikePattern,
   normalizeSearchText,
   sanitizeSearchQuery,
+  searchTokens,
 } from '@/lib/text/normalize-search'
 import type { ProductCardData } from '@/types/product'
 
@@ -58,6 +59,15 @@ async function fetchProductsByIds(ids: string[]): Promise<ProductCardData[]> {
   )
 }
 
+function textHasToken(value: string, token: string) {
+  const words = normalizeSearchText(value.replace(/[-/]/g, ' '))
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean)
+  return words.some(
+    (word) => word === token || (token.length >= 4 && (word === `${token}s` || word === `${token}es`))
+  )
+}
+
 async function searchProductIds(query: string, limit: number): Promise<string[]> {
   const supabase = createPublicClient()
   const { data, error } = await supabase.rpc('search_store_products', {
@@ -69,28 +79,45 @@ async function searchProductIds(query: string, limit: number): Promise<string[]>
     return data.filter((id): id is string => typeof id === 'string')
   }
 
-  const term = escapeLikePattern(sanitizeSearchQuery(query))
-  if (term.length < 2) return []
+  const tokens = searchTokens(query)
+  if (tokens.length === 0) return []
 
-  const pattern = `%${term}%`
+  const clauses = tokens.flatMap((token) => {
+    const pattern = `%${escapeLikePattern(token)}%`
+    return [`name.ilike.${pattern}`, `sku.ilike.${pattern}`]
+  })
+
   const { data: fallbackRows, error: fallbackError } = await supabase
     .from('products')
-    .select('id, name, sku')
+    .select('id, name, sku, product_type')
     .eq('active', true)
-    .or(`name.ilike.${pattern},sku.ilike.${pattern}`)
-    .order('name', { ascending: true })
-    .limit(limit)
+    .or(clauses.join(','))
+    .limit(80)
 
   if (fallbackError || !fallbackRows) return []
 
-  const normalizedTerm = normalizeSearchText(term)
-  return fallbackRows
-    .filter((row) => {
-      const name = normalizeSearchText(String(row.name ?? ''))
-      const sku = normalizeSearchText(String(row.sku ?? ''))
-      return name.includes(normalizedTerm) || sku.includes(normalizedTerm)
+  const ranked = fallbackRows
+    .map((row) => {
+      const name = String(row.name ?? '')
+      const sku = String(row.sku ?? '')
+      const hits = tokens.filter((token) => textHasToken(name, token) || textHasToken(sku, token)).length
+      return {
+        id: row.id as string,
+        name,
+        productType: row.product_type as string | null,
+        hits,
+      }
     })
-    .map((row) => row.id as string)
+    .filter((row) => row.hits > 0 && row.productType !== 'variation')
+
+  const best = ranked.reduce((max, row) => Math.max(max, row.hits), 0)
+  const floor = best >= 2 ? 2 : 1
+
+  return ranked
+    .filter((row) => row.hits >= floor)
+    .sort((a, b) => b.hits - a.hits || a.name.localeCompare(b.name, 'pt-BR'))
+    .slice(0, limit)
+    .map((row) => row.id)
 }
 
 export async function searchProducts(query: string): Promise<ProductCardData[]> {

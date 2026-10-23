@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { trackFunnel } from '@/lib/analytics/track-funnel'
 
 const SESSION_KEY = 'bc-product-views'
 
@@ -39,6 +40,8 @@ export function TrackProductView({ productId }: TrackProductViewProps) {
 
     const body = JSON.stringify({ productId })
     const url = '/api/analytics/product-view'
+
+    trackFunnel('product')
 
     if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
       const blob = new Blob([body], { type: 'application/json' })

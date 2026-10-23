@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { SiteImage } from '@/components/ui/SiteImage'
+import { trackFunnel } from '@/lib/analytics/track-funnel'
 import { formatCurrency } from '@/lib/products/format'
 import { useCart } from '@/providers/CartProvider'
 
@@ -57,6 +58,7 @@ export function ProductPurchaseBar({
   function handleAddToCart() {
     if (!inStock) return
     addItem(productId, quantity)
+    trackFunnel('cart_add')
     setAdded(true)
     openCartDrawer()
     window.setTimeout(() => setAdded(false), 2500)
@@ -66,6 +68,7 @@ export function ProductPurchaseBar({
     if (!inStock || buyingNow) return
     setBuyingNow(true)
     upsertItem(productId, quantity)
+    trackFunnel('cart_add')
     closeCartDrawer()
     router.push('/checkout')
   }

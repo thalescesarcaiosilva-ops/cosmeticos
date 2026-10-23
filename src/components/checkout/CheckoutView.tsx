@@ -18,6 +18,7 @@ import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { fetchApi } from '@/lib/api/fetch-api'
+import { trackFunnel } from '@/lib/analytics/track-funnel'
 import {
   guestOrderHeaders,
   guestOrderQuery,
@@ -669,6 +670,14 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   }
 
   const activeStep: CheckoutStep = pixResult ? 3 : step
+
+  useEffect(() => {
+    if (cartLoading || items.length === 0) return
+    trackFunnel('checkout')
+    if (activeStep >= 2) trackFunnel('shipping')
+    if (activeStep >= 3) trackFunnel('payment')
+    if (pixResult) trackFunnel('purchase')
+  }, [activeStep, cartLoading, items.length, pixResult])
 
   function stepStatus(target: CheckoutStep): 'pending' | 'active' | 'completed' {
     if (activeStep === target) return 'active'

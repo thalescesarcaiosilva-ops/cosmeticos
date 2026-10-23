@@ -1,11 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { CartEmptyState } from '@/components/cart/CartEmptyState'
 import { CartLineItem } from '@/components/cart/CartLineItem'
 import { CartSummary } from '@/components/cart/CartSummary'
 import { Alert } from '@/components/ui/Alert'
 import { useCartSync } from '@/hooks/useCartSync'
+import { trackFunnel } from '@/lib/analytics/track-funnel'
 import { useCart } from '@/providers/CartProvider'
 import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 
@@ -34,6 +36,10 @@ type CartPageViewProps = {
 export function CartPageView({ paymentSettings, checkoutSettings }: CartPageViewProps) {
   const { items } = useCart()
   const { data, loading, error } = useCartSync()
+
+  useEffect(() => {
+    if (items.length > 0) trackFunnel('cart')
+  }, [items.length])
 
   const isEmpty = items.length === 0 && !loading
   const showContent = data && data.lines.length > 0

@@ -10,6 +10,7 @@ import { GoogleAdsPurchaseConversion } from '@/components/seo/GoogleAdsPurchaseC
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { fetchApi } from '@/lib/api/fetch-api'
+import { trackFunnel } from '@/lib/analytics/track-funnel'
 import {
   clearGuestOrderToken,
   guestOrderHeaders,
@@ -80,6 +81,7 @@ export function OrderThankYouView({
   const [polling, setPolling] = useState(false)
 
   useEffect(() => {
+    trackFunnel('purchase')
     if (initialToken) {
       storeGuestOrderToken(orderId, initialToken)
     }

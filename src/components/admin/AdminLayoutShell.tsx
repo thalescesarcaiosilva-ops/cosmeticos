@@ -5,6 +5,7 @@ import { AdminShell } from '@/components/admin/AdminShell'
 
 const TITLES: Record<string, string> = {
   '/admin': 'Dashboard',
+  '/admin/funil': 'Funil',
   '/admin/produtos': 'Produtos',
   '/admin/midias': 'Biblioteca de mídia',
   '/admin/banners': 'Banners',

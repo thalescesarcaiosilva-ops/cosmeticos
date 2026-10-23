@@ -8,6 +8,7 @@ import { CartLineItem } from '@/components/cart/CartLineItem'
 import { CouponField } from '@/components/checkout/CouponField'
 import { Button } from '@/components/ui/Button'
 import { useCartSync } from '@/hooks/useCartSync'
+import { trackFunnel } from '@/lib/analytics/track-funnel'
 import { usePaymentInfo } from '@/hooks/usePaymentInfo'
 import { useCart } from '@/providers/CartProvider'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
@@ -243,8 +244,10 @@ export function CartDrawer() {
   }, [])
 
   useEffect(() => {
-    if (isCartDrawerOpen) setEverOpened(true)
-  }, [isCartDrawerOpen])
+    if (!isCartDrawerOpen) return
+    setEverOpened(true)
+    if (itemCount > 0) trackFunnel('cart')
+  }, [isCartDrawerOpen, itemCount])
 
   useEffect(() => {
     if (isCartDrawerOpen) {
