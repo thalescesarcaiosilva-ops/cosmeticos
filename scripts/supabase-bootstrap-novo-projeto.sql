@@ -1442,8 +1442,8 @@ ON CONFLICT (id) DO NOTHING;
 INSERT INTO public.shipping_methods (
   id, name, base_price, free_above, estimated_days_min, estimated_days_max, sort_order, active
 ) VALUES
-  ('2959697f-dd83-47e3-8481-4248e0dbc3d9', 'PAC', 19.90, 150.00, 3, 4, 0, true),
-  ('ea22a1fd-e71d-45c6-844e-19bdd58a3d28', 'SEDEX', 24.90, NULL, 2, 3, 1, true)
+  ('2959697f-dd83-47e3-8481-4248e0dbc3d9', 'PAC', 0, 0, 3, 4, 0, true),
+  ('ea22a1fd-e71d-45c6-844e-19bdd58a3d28', 'SEDEX', 19.90, NULL, 2, 3, 1, true)
 ON CONFLICT (id) DO NOTHING;
 
 COMMIT;

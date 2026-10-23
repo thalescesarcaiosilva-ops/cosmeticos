@@ -47,6 +47,7 @@ import {
   type FieldErrors,
 } from '@/lib/checkout/validation'
 import { formatCurrency } from '@/lib/products/format'
+import { ARRIVAL_WINDOW_NOTE } from '@/lib/shipping/arrival-window'
 import { useCartSync } from '@/hooks/useCartSync'
 import { useCart } from '@/providers/CartProvider'
 import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
@@ -980,8 +981,15 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                                       {option.name}
                                     </p>
                                     <p className="mt-0.5 text-xs text-text-muted">
-                                      {option.deliveryLabel}
+                                      {option.arrivalLabel
+                                        ? `${option.deliveryLabel} em trânsito`
+                                        : option.deliveryLabel}
                                     </p>
+                                    {option.arrivalLabel ? (
+                                      <p className="mt-0.5 text-xs font-medium text-text-primary">
+                                        {option.arrivalLabel}
+                                      </p>
+                                    ) : null}
                                   </div>
                                   <p className="shrink-0 text-sm font-bold text-brand tabular-nums">
                                     {option.isFree ? 'Grátis' : formatCurrency(option.price)}
@@ -993,6 +1001,9 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                         })}
                       </ul>
                     )}
+                    {shippingOptions.some((option) => option.arrivalLabel) ? (
+                      <p className="text-[11px] leading-relaxed text-text-muted">{ARRIVAL_WINDOW_NOTE}</p>
+                    ) : null}
                   </div>
                 )}
               </div>

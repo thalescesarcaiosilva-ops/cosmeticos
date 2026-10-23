@@ -40,7 +40,7 @@ export function ProductPageView({
     Boolean(buyTogetherSettings?.enabled) && buyTogetherBundles.length > 0
 
   return (
-    <div className="mx-auto max-w-[1300px] px-4 py-5 md:px-6 md:py-8">
+    <div className="mx-auto max-w-[1300px] px-4 pt-5 pb-28 md:px-6 md:pt-8 lg:pb-8">
       <TrackProductView productId={product.id} />
       <ProductBreadcrumb
         category={primaryCategory}
@@ -85,6 +85,9 @@ export function ProductPageView({
 
           <ProductBuyPanel
             productId={product.id}
+            productName={product.name}
+            imageUrl={product.images[0]?.url ?? null}
+            imageAlt={product.images[0]?.alt ?? product.name}
             stock={product.stock}
             price={product.price}
             originalPrice={product.original_price}

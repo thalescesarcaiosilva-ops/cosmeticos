@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { SiteImage } from '@/components/ui/SiteImage'
+import { formatCurrency } from '@/lib/products/format'
 import { useCart } from '@/providers/CartProvider'
 
 function CartPlusIcon({ className }: { className?: string }) {
@@ -21,9 +23,20 @@ function CartPlusIcon({ className }: { className?: string }) {
 type ProductPurchaseBarProps = {
   productId: string
   stock: number
+  productName?: string
+  price?: number
+  imageUrl?: string | null
+  imageAlt?: string
 }
 
-export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps) {
+export function ProductPurchaseBar({
+  productId,
+  stock,
+  productName,
+  price,
+  imageUrl,
+  imageAlt,
+}: ProductPurchaseBarProps) {
   const router = useRouter()
   const { addItem, upsertItem, openCartDrawer, closeCartDrawer } = useCart()
   const [quantity, setQuantity] = useState(1)
@@ -59,13 +72,47 @@ export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps
 
   if (!inStock) {
     return (
-      <button
-        type="button"
-        disabled
-        className="w-full rounded-sm bg-text-muted px-4 py-3.5 text-center text-base font-bold text-white opacity-80"
-      >
-        Indisponível
-      </button>
+      <>
+        <button
+          type="button"
+          disabled
+          className="w-full rounded-sm bg-text-muted px-4 py-3.5 text-center text-base font-bold text-white opacity-80"
+        >
+          Indisponível
+        </button>
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(74,32,42,0.08)] lg:hidden">
+          <div className="mx-auto flex max-w-[1300px] items-center gap-3">
+            {imageUrl ? (
+              <div className="relative size-12 shrink-0 overflow-hidden rounded-sm border border-border bg-surface">
+                <SiteImage
+                  src={imageUrl}
+                  alt={imageAlt || productName || ''}
+                  fill
+                  sizes="48px"
+                  className="object-contain p-1"
+                />
+              </div>
+            ) : null}
+            <div className="min-w-0 flex-1">
+              {productName ? (
+                <p className="truncate text-xs font-medium text-text-primary">{productName}</p>
+              ) : null}
+              {price != null ? (
+                <p className="mt-0.5 text-sm font-bold tabular-nums text-text-primary">
+                  {formatCurrency(price)}
+                </p>
+              ) : null}
+            </div>
+            <button
+              type="button"
+              disabled
+              className="shrink-0 rounded-sm bg-text-muted px-4 py-3 text-sm font-bold text-white opacity-80"
+            >
+              Indisponível
+            </button>
+          </div>
+        </div>
+      </>
     )
   }
 
@@ -135,6 +182,40 @@ export function ProductPurchaseBar({ productId, stock }: ProductPurchaseBarProps
           ✓ Adicionado ao carrinho
         </p>
       )}
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface px-3 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(74,32,42,0.08)] lg:hidden">
+        <div className="mx-auto flex max-w-[1300px] items-center gap-3">
+          {imageUrl ? (
+            <div className="relative size-12 shrink-0 overflow-hidden rounded-sm border border-border bg-surface">
+              <SiteImage
+                src={imageUrl}
+                alt={imageAlt || productName || ''}
+                fill
+                sizes="48px"
+                className="object-contain p-1"
+              />
+            </div>
+          ) : null}
+          <div className="min-w-0 flex-1">
+            {productName ? (
+              <p className="truncate text-xs font-medium text-text-primary">{productName}</p>
+            ) : null}
+            {price != null ? (
+              <p className="mt-0.5 text-sm font-bold tabular-nums text-text-primary">
+                {formatCurrency(price)}
+              </p>
+            ) : null}
+          </div>
+          <button
+            type="button"
+            onClick={handleBuyNow}
+            disabled={buyingNow}
+            className="shrink-0 rounded-sm bg-brand px-4 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-70"
+          >
+            {buyingNow ? '...' : 'Comprar'}
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

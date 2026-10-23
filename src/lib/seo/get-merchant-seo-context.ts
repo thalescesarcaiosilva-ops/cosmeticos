@@ -30,7 +30,7 @@ const DEFAULT_CONTEXT: MerchantSeoContext = {
   handlingDaysMax: MERCHANT_HANDLING_DAYS.max,
   transitDaysMin: 2,
   transitDaysMax: 4,
-  defaultShippingRate: 19.9,
+  defaultShippingRate: 0,
 }
 
 async function loadMerchantSeoContext(): Promise<MerchantSeoContext> {
@@ -44,7 +44,7 @@ async function loadMerchantSeoContext(): Promise<MerchantSeoContext> {
     getCachedStoreProfile(),
     supabase
       .from('shipping_methods')
-      .select('name, base_price')
+      .select('name, base_price, free_above')
       .eq('active', true)
       .order('sort_order', { ascending: true }),
   ])
@@ -73,6 +73,7 @@ async function loadMerchantSeoContext(): Promise<MerchantSeoContext> {
   const methods = (shippingResult.data ?? []) as Array<{
     name: string
     base_price: number
+    free_above: number | null
   }>
 
   let transitDaysMin = DEFAULT_CONTEXT.transitDaysMin
@@ -83,7 +84,13 @@ async function loadMerchantSeoContext(): Promise<MerchantSeoContext> {
     const transit = resolveMerchantTransitRange(methods.map((m) => m.name))
     transitDaysMin = transit.min
     transitDaysMax = transit.max
-    defaultShippingRate = Math.min(...methods.map((m) => Number(m.base_price)))
+    defaultShippingRate = Math.min(
+      ...methods.map((method) => {
+        const freeAbove = method.free_above != null ? Number(method.free_above) : null
+        if (freeAbove != null && freeAbove <= 0) return 0
+        return Number(method.base_price)
+      })
+    )
   }
 
   return {

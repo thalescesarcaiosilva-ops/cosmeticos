@@ -14,7 +14,7 @@ export type OrderShippedEmailInput = {
 
 const BRAND = {
   name: 'Batista Cosméticos',
-  rose: '#d86487',
+  rose: '#d33464',
   plum: '#4a202a',
   muted: '#6b7280',
   border: '#f1dfdd',

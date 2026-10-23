@@ -5,6 +5,8 @@ import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { formatCurrency } from '@/lib/products/format'
+import { ARRIVAL_WINDOW_NOTE } from '@/lib/shipping/arrival-window'
+import { FREE_SHIPPING_LABEL } from '@/lib/shipping/merchant-shipping'
 import type { ShippingQuoteLine, ShippingQuoteResult } from '@/types/shipping'
 
 const CEP_STORAGE_KEY = 'loja-cep-v1'
@@ -116,11 +118,9 @@ export function ShippingCalculator({
         <p className="text-sm font-semibold text-text-primary">
           {isProduct ? 'Calcular frete e prazo' : 'Calcular frete'}
         </p>
-        {!compact && !isProduct && (
-          <p className="mt-1 text-xs text-text-muted">
-            Informe seu CEP para ver prazos e valores de entrega.
-          </p>
-        )}
+        <p className="mt-1 text-xs text-text-muted">
+          {FREE_SHIPPING_LABEL}. O prazo de cada modalidade continua o mesmo.
+        </p>
       </div>
 
       <div className={isProduct ? 'relative' : 'flex gap-2'}>
@@ -198,7 +198,14 @@ export function ShippingCalculator({
                       {option.description && (
                         <p className="mt-0.5 text-xs text-text-secondary">{option.description}</p>
                       )}
-                      <p className="mt-1 text-xs text-text-muted">{option.deliveryLabel}</p>
+                      <p className="mt-1 text-xs text-text-muted">
+                        {option.arrivalLabel ? `${option.deliveryLabel} em trânsito` : option.deliveryLabel}
+                      </p>
+                      {option.arrivalLabel ? (
+                        <p className="mt-0.5 text-xs font-medium text-text-primary">
+                          {option.arrivalLabel}
+                        </p>
+                      ) : null}
                     </div>
                     <p className="shrink-0 text-sm font-bold text-brand tabular-nums">
                       {option.isFree ? 'Grátis' : formatCurrency(option.price)}
@@ -210,6 +217,10 @@ export function ShippingCalculator({
           })}
         </ul>
       )}
+
+      {quote && quote.options.some((option) => option.arrivalLabel) ? (
+        <p className="text-[11px] leading-relaxed text-text-muted">{ARRIVAL_WINDOW_NOTE}</p>
+      ) : null}
     </div>
   )
 }

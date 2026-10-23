@@ -57,8 +57,9 @@ function buildFaqItems(assurances: ProductPurchaseAssurances): FaqItem[] {
       question: 'Qual o tempo de entrega?',
       answer: (
         <>
-          O prazo depende do seu CEP e da modalidade escolhida no checkout. Use o calculador de
-          frete acima para ver as opções disponíveis. Após o envio, você pode acompanhar o pedido
+          O PAC é grátis em qualquer pedido. O SEDEX custa R$ 19,90. O prazo depende do seu CEP e da
+          modalidade: use o calculador de frete acima para ver as opções. Após o envio, você pode
+          acompanhar o pedido
           em{' '}
           <Link href={assurances.trackingHref} className="font-semibold text-brand hover:underline">
             Rastreio

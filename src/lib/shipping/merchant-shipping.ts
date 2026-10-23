@@ -2,14 +2,17 @@
 
 export const MERCHANT_HANDLING_DAYS = { min: 1, max: 2 } as const
 
-/** Valor mínimo para frete grátis no PAC. */
-export const MERCHANT_FREE_SHIPPING_ABOVE = 150
+/** PAC é grátis em qualquer pedido (free_above = 0 no método de frete). */
+export const MERCHANT_FREE_SHIPPING_ABOVE = 0
+
+/** SEDEX com taxa fixa. Não entra no frete grátis do PAC. */
+export const SEDEX_FIXED_PRICE = 19.9
 
 /**
  * Texto fixo do topbar. Não deriva de consulta ao banco: um valor defasado em
  * cache já apareceu no HTML público e divergiu da política de frete.
  */
-export const FREE_SHIPPING_LABEL = 'Frete grátis no PAC acima de R$ 150,00'
+export const FREE_SHIPPING_LABEL = 'Frete Grátis para pedidos no PAC'
 
 /** Trânsito após postagem (Correios), por modalidade. */
 export const MERCHANT_TRANSIT_BY_METHOD: Record<string, { min: number; max: number }> = {

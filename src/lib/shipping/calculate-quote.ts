@@ -1,4 +1,5 @@
 import { createPublicClient } from '@/lib/supabase/public'
+import { formatArrivalWindow } from '@/lib/shipping/arrival-window'
 import type { ShippingQuoteInput } from '@/schemas/shipping-schema'
 import type { CepRule, ShippingMethod, ShippingQuoteLine, ShippingQuoteResult } from '@/types/shipping'
 
@@ -51,6 +52,7 @@ function mapQuoteLine(method: ShippingRow, cep: string, subtotal: number): Shipp
     price,
     isFree,
     deliveryLabel: formatDeliveryLabel(minDays, maxDays),
+    arrivalLabel: formatArrivalWindow(minDays, maxDays),
   }
 }
 

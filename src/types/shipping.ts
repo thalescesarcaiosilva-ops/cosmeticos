@@ -26,6 +26,8 @@ export type ShippingQuoteLine = {
   price: number
   isFree: boolean
   deliveryLabel: string
+  /** Janela de chegada em datas, já com a separação do pedido. */
+  arrivalLabel?: string | null
 }
 
 export type ShippingQuoteResult = {

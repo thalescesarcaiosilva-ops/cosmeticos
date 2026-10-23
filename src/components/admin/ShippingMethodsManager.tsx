@@ -145,8 +145,9 @@ export function ShippingMethodsManager() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-text-secondary">
-        Configure PAC, Sedex, retirada e regras por faixa de CEP. O frete grátis usa o campo{' '}
-        <strong>Grátis acima de</strong> quando o subtotal atinge o valor.
+        O PAC fica sempre grátis com <strong>Grátis acima de</strong> em R$ 0. O SEDEX custa R$
+        19,90 e não entra nessa promoção. Os prazos de cada modalidade não mudam com o valor do
+        pedido.
       </p>
 
       <div className="flex justify-end">
@@ -258,8 +259,13 @@ export function ShippingMethodsManager() {
             <div>
               <p className="font-medium">{item.name}</p>
               <p className="text-xs text-text-secondary">
-                R$ {Number(item.base_price).toFixed(2)}
-                {item.free_above != null && ` · grátis acima de R$ ${Number(item.free_above).toFixed(2)}`}
+                {item.free_above != null && Number(item.free_above) <= 0
+                  ? 'Sempre grátis'
+                  : `R$ ${Number(item.base_price).toFixed(2)}${
+                      item.free_above != null
+                        ? ` · grátis acima de R$ ${Number(item.free_above).toFixed(2)}`
+                        : ''
+                    }`}
                 {' · ordem '}
                 {item.sort_order}
                 {!item.active && ' · inativa'}

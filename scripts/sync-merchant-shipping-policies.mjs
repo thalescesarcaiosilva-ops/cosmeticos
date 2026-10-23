@@ -31,14 +31,14 @@ const POLITICA_FRETE = `<p>Como funciona o envio na <strong>Batista Cosméticos<
 <ul>
   <li><strong>Tempo de separação:</strong> 1 a 2 dias úteis</li>
   <li><strong>Tempo em trânsito:</strong> 3 a 4 dias úteis (Correios, após a postagem)</li>
-  <li><strong>Valor:</strong> taxa fixa de <strong>R$ 19,90</strong> para pedidos abaixo de R$ 150,00 em produtos. <strong>Frete grátis no PAC</strong> a partir de R$ 150,00 em produtos (o valor do frete não entra no cálculo).</li>
+  <li><strong>Valor:</strong> <strong>frete grátis</strong> em todos os pedidos. O valor do frete não entra no cálculo.</li>
 </ul>
 
 <h2>SEDEX</h2>
 <ul>
   <li><strong>Tempo de separação:</strong> 1 a 2 dias úteis</li>
   <li><strong>Tempo em trânsito:</strong> 2 a 3 dias úteis (Correios, após a postagem)</li>
-  <li><strong>Valor:</strong> taxa fixa de <strong>R$ 24,90</strong> para todos os pedidos. O SEDEX não participa da promoção de frete grátis.</li>
+  <li><strong>Valor:</strong> taxa fixa de <strong>R$ 19,90</strong> para todos os pedidos. O SEDEX não participa do frete grátis do PAC.</li>
 </ul>
 
 <h2>Entrega e endereço</h2>
@@ -58,26 +58,26 @@ async function updateShipping() {
       const { error } = await admin
         .from('shipping_methods')
         .update({
-          base_price: 19.9,
-          free_above: 150,
+          base_price: 0,
+          free_above: 0,
           estimated_days_min: 3,
           estimated_days_max: 4,
         })
         .eq('id', method.id)
       if (error) throw error
-      console.log('PAC atualizado: trânsito 3–4, grátis ≥ R$ 150, R$ 19,90 abaixo')
+      console.log('PAC atualizado: trânsito 3–4, grátis em qualquer pedido')
     } else if (name === 'SEDEX') {
       const { error } = await admin
         .from('shipping_methods')
         .update({
-          base_price: 24.9,
+          base_price: 19.9,
           free_above: null,
           estimated_days_min: 2,
           estimated_days_max: 3,
         })
         .eq('id', method.id)
       if (error) throw error
-      console.log('SEDEX atualizado: trânsito 2–3, R$ 24,90 fixo')
+      console.log('SEDEX atualizado: trânsito 2–3, R$ 19,90 fixo')
     }
   }
 }

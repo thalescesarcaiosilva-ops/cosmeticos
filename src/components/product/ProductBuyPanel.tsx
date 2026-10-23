@@ -13,6 +13,9 @@ import type { ProductPurchaseAssurances } from '@/types/product-assurances'
 
 type ProductBuyPanelProps = {
   productId: string
+  productName: string
+  imageUrl?: string | null
+  imageAlt?: string
   stock: number
   price: number
   originalPrice: number | null
@@ -26,6 +29,9 @@ type ProductBuyPanelProps = {
 
 export function ProductBuyPanel({
   productId,
+  productName,
+  imageUrl,
+  imageAlt,
   stock,
   price,
   originalPrice,
@@ -51,7 +57,14 @@ export function ProductBuyPanel({
       />
 
       <div className="space-y-3">
-        <ProductPurchaseBar productId={productId} stock={stock} />
+        <ProductPurchaseBar
+          productId={productId}
+          stock={stock}
+          productName={productName}
+          price={price}
+          imageUrl={imageUrl}
+          imageAlt={imageAlt}
+        />
         <ProductTrustSignals assurances={assurances} />
       </div>
 

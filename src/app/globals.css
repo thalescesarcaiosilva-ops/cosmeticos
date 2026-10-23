@@ -9,7 +9,7 @@
   --color-text-secondary: #6d3d4d;
   --color-text-muted: #9a6b78;
   --color-text-on-dark: #f1dfdd;
-  --color-brand-primary: #d86487;
+  --color-brand-primary: #d33464;
   --color-brand-primary-hover: #76172c;
   --color-logo: #4a202a;
   --color-logo-light: #76172c;
@@ -45,7 +45,7 @@
   --color-brand: var(--color-brand-primary);
   --color-brand-hover: var(--color-brand-primary-hover);
   --color-claret: #76172c;
-  --color-blush: #d86487;
+  --color-blush: #d33464;
   --color-metallic-pink: #eeaac3;
   --color-pale-pink: #f1dfdd;
   --color-coffee: #4a202a;
@@ -68,7 +68,7 @@
   --color-cream: #fbf3ef;
   --color-plum: #3b1530;
   --color-plum2: #5b2249;
-  --color-rose: #c1577a;
+  --color-rose: #d33464;
   --color-rosed: #a63f62;
   --color-sage: #7c9473;
   --color-saged: #5f7857;
