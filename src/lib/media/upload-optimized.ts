@@ -39,24 +39,27 @@ export async function uploadOptimizedMediaVariants(params: {
   }
 
   const pathsToCleanup: string[] = []
-  const uploaded: { name: string; path: string; url: string; size: number }[] = []
-
-  for (const variant of [large, medium, thumb]) {
-    const storagePath = `${folder}${buildVariantStoragePath(baseId, variant.suffix)}`
-    const { error } = await admin.storage.from(params.bucket).upload(storagePath, variant.buffer, {
-      contentType: variant.mimeType,
-      upsert: false,
-    })
-    if (error) {
-      if (pathsToCleanup.length) {
-        await admin.storage.from(params.bucket).remove(pathsToCleanup)
-      }
-      throw new Error(error.message)
+  let uploaded: { name: string; path: string; url: string; size: number }[]
+  try {
+    uploaded = await Promise.all(
+      [large, medium, thumb].map(async (variant) => {
+        const storagePath = `${folder}${buildVariantStoragePath(baseId, variant.suffix)}`
+        const { error } = await admin.storage.from(params.bucket).upload(storagePath, variant.buffer, {
+          contentType: variant.mimeType,
+          upsert: false,
+        })
+        if (error) throw new Error(error.message)
+        pathsToCleanup.push(storagePath)
+        const { data: urlData } = admin.storage.from(params.bucket).getPublicUrl(storagePath)
+        const url = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
+        return { name: variant.name, path: storagePath, url, size: variant.size }
+      })
+    )
+  } catch (error) {
+    if (pathsToCleanup.length) {
+      await admin.storage.from(params.bucket).remove(pathsToCleanup)
     }
-    pathsToCleanup.push(storagePath)
-    const { data: urlData } = admin.storage.from(params.bucket).getPublicUrl(storagePath)
-    const url = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
-    uploaded.push({ name: variant.name, path: storagePath, url, size: variant.size })
+    throw error
   }
 
   const largeUp = uploaded.find((u) => u.name === 'large')!

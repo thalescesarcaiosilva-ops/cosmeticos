@@ -18,6 +18,8 @@ export type ImportBatchOptions = {
   createOnly?: boolean
   /** Aceita imagens de qualquer host não bloqueado (não só Época/VTEX). */
   relaxImageHosts?: boolean
+  /** Produtos processados ao mesmo tempo. Padrão 1. */
+  concurrency?: number
 }
 
 export type ImportItemResult = {
@@ -73,29 +75,38 @@ export async function importWooCommerceBatch(
     (existingBrands ?? []).map((b: BrandRow) => [b.name.toLowerCase(), b])
   )
 
-  for (const row of rows) {
-    try {
-      const itemResult = await importSingleProduct(
-        admin,
-        row,
-        options,
-        categoryBySlug,
-        categoryByName,
-        brandBySlug,
-        brandByName,
-        result
-      )
-      result.items.push(itemResult)
-      if (itemResult.action === 'created') result.created++
-      else if (itemResult.action === 'updated') result.updated++
-      else result.skipped++
-    } catch (e) {
-      const message = e instanceof Error ? e.message : 'Erro desconhecido'
-      result.errors.push({ slug: row.slug, message })
-      result.items.push({ slug: row.slug, name: row.name, action: 'skipped', message })
-      result.skipped++
+  const concurrency = Math.max(1, options.concurrency ?? 1)
+  let cursor = 0
+
+  async function worker() {
+    while (cursor < rows.length) {
+      const row = rows[cursor]
+      cursor += 1
+      try {
+        const itemResult = await importSingleProduct(
+          admin,
+          row,
+          options,
+          categoryBySlug,
+          categoryByName,
+          brandBySlug,
+          brandByName,
+          result
+        )
+        result.items.push(itemResult)
+        if (itemResult.action === 'created') result.created++
+        else if (itemResult.action === 'updated') result.updated++
+        else result.skipped++
+      } catch (e) {
+        const message = e instanceof Error ? e.message : 'Erro desconhecido'
+        result.errors.push({ slug: row.slug, message })
+        result.items.push({ slug: row.slug, name: row.name, action: 'skipped', message })
+        result.skipped++
+      }
     }
   }
+
+  await Promise.all(Array.from({ length: Math.min(concurrency, rows.length) }, () => worker()))
 
   return result
 }
@@ -111,9 +122,16 @@ async function importSingleProduct(
   batch: ImportBatchResult
 ): Promise<ImportItemResult> {
   const categoryIds: string[] = []
-  for (const name of row.categoryNames) {
-    const id = await ensureCategory(admin, name, categoryBySlug, categoryByName, batch)
-    if (id) categoryIds.push(id)
+  if (row.categorySlugs && row.categorySlugs.length > 0) {
+    for (const slug of row.categorySlugs) {
+      const hit = categoryBySlug.get(slug)
+      if (hit && !categoryIds.includes(hit.id)) categoryIds.push(hit.id)
+    }
+  } else {
+    for (const name of row.categoryNames) {
+      const id = await ensureCategory(admin, name, categoryBySlug, categoryByName, batch)
+      if (id && !categoryIds.includes(id)) categoryIds.push(id)
+    }
   }
 
   let brandId: string | null = null
@@ -157,12 +175,22 @@ async function importSingleProduct(
       ? bySlug
       : null)
 
+  let imagesOnly = false
   if (existing && options.createOnly) {
-    return {
-      slug: row.slug,
-      name: row.name,
-      action: 'skipped',
-      message: `Já existe (${existing.slug})`,
+    if (options.updateImages) {
+      const { count } = await admin
+        .from('product_images')
+        .select('id', { count: 'exact', head: true })
+        .eq('product_id', existing.id)
+      if (!count) imagesOnly = true
+    }
+    if (!imagesOnly) {
+      return {
+        slug: row.slug,
+        name: row.name,
+        action: 'skipped',
+        message: `Já existe (${existing.slug})`,
+      }
     }
   }
 
@@ -188,7 +216,9 @@ async function importSingleProduct(
 
   let productId: string
 
-  if (existing) {
+  if (imagesOnly && existing) {
+    productId = existing.id
+  } else if (existing) {
     const { data, error } = await admin
       .from('products')
       .update(productPayload)
@@ -223,7 +253,9 @@ async function importSingleProduct(
     }
   }
 
-  await syncProductRelations(productId, categoryIds, undefined)
+  if (!imagesOnly) {
+    await syncProductRelations(productId, categoryIds, undefined)
+  }
 
   const importableImages = options.relaxImageHosts
     ? filterNonBlockedImages(row.images)
@@ -232,24 +264,24 @@ async function importSingleProduct(
     importableImages.length > 0 && (isNew || options.updateImages)
 
   if (shouldImportImages) {
-    const mediaIds: string[] = []
-    for (const image of importableImages) {
-      try {
-        const mediaId = await importProductImage(
-          admin,
-          image.url,
-          image.alt || row.name,
-          options.adminUserId,
-          options.reuseExistingMedia ?? true
-        )
-        if (!mediaIds.includes(mediaId)) {
-          mediaIds.push(mediaId)
+    const imported = await Promise.all(
+      importableImages.map(async (image) => {
+        try {
+          const mediaId = await importProductImage(
+            admin,
+            image.url,
+            image.alt || row.name,
+            options.adminUserId,
+            options.reuseExistingMedia ?? true
+          )
+          batch.imagesImported++
+          return mediaId
+        } catch {
+          return null
         }
-        batch.imagesImported++
-      } catch {
-        // Continua importando produto mesmo se uma imagem falhar
-      }
-    }
+      })
+    )
+    const mediaIds = [...new Set(imported.filter((id): id is string => Boolean(id)))]
     if (mediaIds.length > 0) {
       await syncProductRelations(productId, undefined, mediaIds)
     }

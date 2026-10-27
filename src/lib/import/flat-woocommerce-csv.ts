@@ -156,7 +156,7 @@ function uniqueSlug(base: string, used: Set<string>, key: string): string {
 export type FlatWooImportOptions = {
   /** Mínimo de imagens na galeria (padrão 2). */
   minImages?: number
-  /** Força estoque (padrão DEFAULT_PRODUCT_STOCK = 99). */
+  /** Força estoque (padrão DEFAULT_PRODUCT_STOCK). */
   stock?: number
   /** active=false para revisão (padrão true neste parser = false). */
   active?: boolean

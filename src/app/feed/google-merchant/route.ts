@@ -1,7 +1,7 @@
 import { isStorefrontCategoryNavHidden } from '@/lib/categories/storefront'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
-import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
-import { getPrimaryProductImage, readBrandName } from '@/lib/products/product-images'
+import { toCrawlableMediaUrl } from '@/lib/media/public-url'
+import { readBrandName } from '@/lib/products/product-images'
 import { absoluteUrl } from '@/lib/seo/site-url'
 import { resolveGoogleProductCategory } from '@/lib/seo/google-product-taxonomy'
 import { isValidGtin } from '@/lib/seo/json-ld/merchant-schemas'
@@ -46,11 +46,34 @@ function collectAbsoluteImageUrls(productImages: ProductImageRow[] | null | unde
   for (const item of sorted) {
     const raw = readImageUrl(item.media)
     if (!raw) continue
-    const absolute = toAbsoluteSiteMediaUrl(raw)
+    const absolute = toCrawlableMediaUrl(raw)
     if (absolute && !urls.includes(absolute)) urls.push(absolute)
   }
 
   return urls
+}
+
+const FEED_PRODUCT_SELECT = `
+  id, name, slug, description, price, original_price, stock, sku, gtin, updated_at,
+  brand:brands(name),
+  product_images(sort_order, media:media_assets(public_url)),
+  product_categories(categories(name, slug, parent_id))
+`
+
+async function loadFeedPage(
+  supabase: ReturnType<typeof createPublicClient>,
+  from: number,
+  to: number
+) {
+  const { data, error } = await supabase
+    .from('products')
+    .select(FEED_PRODUCT_SELECT)
+    .eq('active', true)
+    .order('id', { ascending: true })
+    .range(from, to)
+
+  if (error || !data) return []
+  return data
 }
 
 export async function GET() {
@@ -64,25 +87,18 @@ export async function GET() {
   }
 
   const supabase = createPublicClient()
-  const { data: products } = await supabase
-    .from('products')
-    .select(
-      `
-      id, name, slug, description, price, original_price, stock, sku, gtin, updated_at,
-      brand:brands(name),
-      product_images(sort_order, media:media_assets(public_url)),
-      product_categories(categories(name, slug, parent_id))
-    `
-    )
-    .eq('active', true)
-    .order('updated_at', { ascending: false })
+  const pageSize = 1000
+  const products: Awaited<ReturnType<typeof loadFeedPage>> = []
+  for (let from = 0; ; from += pageSize) {
+    const page = await loadFeedPage(supabase, from, from + pageSize - 1)
+    products.push(...page)
+    if (page.length < pageSize) break
+  }
 
-  const items = (products ?? []).map((row) => {
+  const items = (products ?? []).flatMap((row) => {
     const imageUrls = collectAbsoluteImageUrls(row.product_images as ProductImageRow[])
-    const imageUrl =
-      imageUrls[0] ??
-      toAbsoluteSiteMediaUrl(getPrimaryProductImage(row.product_images, row.name).url) ??
-      ''
+    const imageUrl = imageUrls[0] ?? ''
+    if (!imageUrl) return []
     const additionalImageUrls = imageUrls.slice(1, 1 + MAX_ADDITIONAL_IMAGES)
 
     const link = absoluteUrl(`/produto/${row.slug}`) ?? ''
@@ -120,14 +136,14 @@ export async function GET() {
     const gtin = row.gtin && isValidGtin(row.gtin) ? row.gtin.replace(/\D/g, '') : null
     const hasIdentifier = Boolean(gtin || row.sku)
 
-    return `
+    return [`
     <item>
       <g:id>${escapeXml(row.id)}</g:id>
       <title>${escapeXml(row.name)}</title>
       <description>${escapeXml(description)}</description>
       <link>${escapeXml(link)}</link>
       <g:link>${escapeXml(link)}</g:link>
-      ${imageUrl ? `<g:image_link>${escapeXml(imageUrl)}</g:image_link>` : ''}
+      <g:image_link>${escapeXml(imageUrl)}</g:image_link>
       ${additionalImageUrls.map((url) => `<g:additional_image_link>${escapeXml(url)}</g:additional_image_link>`).join('\n      ')}
       <g:availability>${availability}</g:availability>
       <g:price>${escapeXml(regularPrice)}</g:price>
@@ -139,7 +155,7 @@ export async function GET() {
       <g:identifier_exists>${hasIdentifier ? 'yes' : 'no'}</g:identifier_exists>
       <g:google_product_category>${googleCategory.id}</g:google_product_category>
       ${storeCategoryPath ? `<g:product_type>${escapeXml(storeCategoryPath)}</g:product_type>` : ''}
-    </item>`
+    </item>`]
   })
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

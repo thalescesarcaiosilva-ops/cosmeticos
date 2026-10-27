@@ -17,6 +17,8 @@ export type WooCommerceProductRow = {
   active: boolean
   brandName: string | null
   categoryNames: string[]
+  /** Slugs de categorias já existentes. Quando preenchido, a importação não cria categoria. */
+  categorySlugs?: string[]
   images: { url: string; alt: string }[]
   metaTitle: string | null
   metaDescription: string | null

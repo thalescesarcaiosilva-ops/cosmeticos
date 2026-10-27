@@ -40,6 +40,27 @@ export function toSiteMediaUrl(url: string | null | undefined): string | null {
   return trimmed
 }
 
+/**
+ * URL absoluta que o Google consegue baixar.
+ * O arquivo público do Supabase responde com `X-Robots-Tag: none`, e o Merchant
+ * trata isso como imagem inacessível. `/img/` devolve o mesmo arquivo sem essa tag.
+ */
+export function toCrawlableMediaUrl(url: string | null | undefined): string | null {
+  const normalized = toSiteMediaUrl(url)
+  if (!normalized) return null
+
+  const storagePath = extractStoragePublicPath(normalized)
+  if (storagePath) {
+    const objectPath = storagePath.slice(STORAGE_PUBLIC_PREFIX.length).replace(/^\/+/, '')
+    if (!objectPath || objectPath.split('/').some((part) => !part || part === '.' || part === '..')) {
+      return null
+    }
+    return absoluteUrl(`/img/${objectPath}`)
+  }
+
+  return toAbsoluteSiteMediaUrl(normalized)
+}
+
 /** URL absoluta para feeds, JSON-LD e Open Graph. */
 export function toAbsoluteSiteMediaUrl(url: string | null | undefined): string | null {
   const normalized = toSiteMediaUrl(url)

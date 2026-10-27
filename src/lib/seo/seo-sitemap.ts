@@ -1,5 +1,5 @@
 import { filterSitemapCategories } from '@/lib/categories/storefront'
-import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
+import { toCrawlableMediaUrl } from '@/lib/media/public-url'
 import { getPrimaryProductImage } from '@/lib/products/product-images'
 import { createPublicClient, isSupabasePublicConfigured } from '@/lib/supabase/public'
 import { absoluteUrl, getSiteUrl } from '@/lib/seo/site-url'
@@ -116,22 +116,39 @@ export function getStaticSitemapUrls(now = new Date()): SitemapUrl[] {
   ]
 }
 
+async function fetchPaged<T>(
+  load: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>
+): Promise<T[]> {
+  const pageSize = 1000
+  const all: T[] = []
+  for (let from = 0; all.length < SITEMAP_MAX_URLS; from += pageSize) {
+    const to = Math.min(from + pageSize - 1, SITEMAP_MAX_URLS - 1)
+    const { data, error } = await load(from, to)
+    if (error || !data || data.length === 0) break
+    all.push(...data)
+    if (data.length < to - from + 1) break
+  }
+  return all
+}
+
 async function fetchSupabaseProductUrls(now: Date): Promise<SitemapUrl[]> {
   const supabase = createPublicClient()
-  const { data } = await supabase
-    .from('products')
-    .select(
-      'slug, name, updated_at, product_images(sort_order, media:media_assets(public_url, alt_text))'
-    )
-    .eq('active', true)
-    .order('updated_at', { ascending: false })
-    .limit(SITEMAP_MAX_URLS)
+  const data = await fetchPaged((from, to) =>
+    supabase
+      .from('products')
+      .select(
+        'slug, name, updated_at, product_images(sort_order, media:media_assets(public_url, alt_text))'
+      )
+      .eq('active', true)
+      .order('id', { ascending: true })
+      .range(from, to)
+  )
 
   const urls: SitemapUrl[] = []
 
   for (const product of data ?? []) {
     const primary = getPrimaryProductImage(product.product_images, product.name)
-    const primaryImageUrl = toAbsoluteSiteMediaUrl(primary.url)
+    const primaryImageUrl = toCrawlableMediaUrl(primary.url)
     const images =
       primaryImageUrl != null
         ? [{ loc: primaryImageUrl, ...(primary.alt ? { title: primary.alt } : {}) }]

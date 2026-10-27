@@ -1,5 +1,5 @@
 import { stripHtml } from '@/lib/content/strip-html'
-import { toAbsoluteSiteMediaUrl } from '@/lib/media/public-url'
+import { toCrawlableMediaUrl } from '@/lib/media/public-url'
 import { absoluteUrl } from '@/lib/seo/site-url'
 import { buildPriceValidUntil, isValidGtin } from '@/lib/seo/json-ld/merchant-schemas'
 import type { ApprovedProductReview } from '@/lib/products/reviews'
@@ -23,7 +23,7 @@ export function buildProductJsonLd(product: ProductDetail, options?: ProductJson
   if (!url) return null
 
   const images = product.images
-    .map((img) => toAbsoluteSiteMediaUrl(img.url))
+    .map((img) => toCrawlableMediaUrl(img.url))
     .filter((url): url is string => Boolean(url))
   const rawDescription =
     product.meta_description?.trim() ||
