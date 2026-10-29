@@ -99,50 +99,17 @@ export async function getCollectionBySlug(slug: string): Promise<CollectionDetai
   return mapCollection(base.data as Record<string, unknown>)
 }
 
-async function getCollectionProductIds(categoryId: string): Promise<string[]> {
-  const supabase = createPublicClient()
-  const { data } = await supabase
-    .from('product_categories')
-    .select('product_id')
-    .eq('category_id', categoryId)
-
-  return [...new Set((data ?? []).map((r) => r.product_id))]
-}
-
-function intersectIds(base: string[], filter: string[]): string[] {
-  if (filter.length === 0) return base
-  const set = new Set(filter)
-  return base.filter((id) => set.has(id))
-}
-
-async function filterByBrands(productIds: string[], brandIds: string[]): Promise<string[]> {
-  if (brandIds.length === 0 || productIds.length === 0) return productIds
-
-  const supabase = createPublicClient()
-  const { data } = await supabase
-    .from('products')
-    .select('id')
-    .in('id', productIds)
-    .in('brand_id', brandIds)
-    .eq('active', true)
-
-  return (data ?? []).map((r) => r.id)
-}
-
-async function filterByCategories(
-  productIds: string[],
-  categoryIds: string[]
-): Promise<string[]> {
-  if (categoryIds.length === 0 || productIds.length === 0) return productIds
-
-  const supabase = createPublicClient()
-  const { data } = await supabase
-    .from('product_categories')
-    .select('product_id')
-    .in('product_id', productIds)
-    .in('category_id', categoryIds)
-
-  return [...new Set((data ?? []).map((r) => r.product_id))]
+/**
+ * Filtra a coleção no banco (join), sem mandar centenas de IDs na URL.
+ * Listas grandes (Dermocosméticos, Cuidados Capilares) estouram o limite
+ * do request e a API responde Bad Request — a vitrine ficava vazia.
+ */
+function collectionSelect(select: string, extraCategoryIds: string[]): string {
+  const extra =
+    extraCategoryIds.length > 0
+      ? ', filter_link:product_categories!inner(category_id)'
+      : ''
+  return `${select}, collection_link:product_categories!inner(category_id)${extra}`
 }
 
 export async function getCollectionProducts(
@@ -151,20 +118,21 @@ export async function getCollectionProducts(
 ): Promise<CollectionProductsResult> {
   const supabase = createPublicClient()
   const page = filters.page ?? 1
-
-  let productIds = await getCollectionProductIds(categoryId)
-  productIds = await filterByBrands(productIds, filters.brands ?? [])
-  productIds = await filterByCategories(productIds, filters.categories ?? [])
-
-  if (productIds.length === 0) {
-    return { products: [], total: 0, page, pageSize: PAGE_SIZE, hasMore: false }
-  }
+  const extraCategoryIds = filters.categories ?? []
+  const brandIds = filters.brands ?? []
 
   let query = supabase
     .from('products')
-    .select(PRODUCT_SELECT, { count: 'exact' })
-    .in('id', productIds)
+    .select(collectionSelect(PRODUCT_SELECT, extraCategoryIds), { count: 'exact' })
+    .eq('collection_link.category_id', categoryId)
     .eq('active', true)
+
+  if (extraCategoryIds.length > 0) {
+    query = query.in('filter_link.category_id', extraCategoryIds)
+  }
+  if (brandIds.length > 0) {
+    query = query.in('brand_id', brandIds)
+  }
 
   if (filters.min_price != null) {
     query = query.gte('price', filters.min_price)
@@ -219,11 +187,42 @@ export async function getCollectionProducts(
   }
 }
 
-export async function getCollectionFilterMeta(categoryId: string): Promise<CollectionFilterMeta> {
-  const supabase = createPublicClient()
-  const productIds = await getCollectionProductIds(categoryId)
+const META_PAGE = 500
 
-  if (productIds.length === 0) {
+/** Lê o catálogo da coleção em páginas curtas, sem lista de IDs na URL. */
+async function loadCollectionMetaRows(categoryId: string) {
+  const supabase = createPublicClient()
+  const rows: Array<{
+    price: number | string
+    brand: unknown
+    product_categories: Array<{ category_id: string; categories: unknown }> | null
+  }> = []
+
+  for (let from = 0; ; from += META_PAGE) {
+    const { data, error } = await supabase
+      .from('products')
+      .select(
+        `price, brand:brands(id, name, slug, active),
+         product_categories(category_id, categories(id, name, slug, active)),
+         collection_link:product_categories!inner(category_id)`
+      )
+      .eq('collection_link.category_id', categoryId)
+      .eq('active', true)
+      .order('id', { ascending: true })
+      .range(from, from + META_PAGE - 1)
+
+    if (error || !data?.length) break
+    rows.push(...data)
+    if (data.length < META_PAGE) break
+  }
+
+  return rows
+}
+
+export async function getCollectionFilterMeta(categoryId: string): Promise<CollectionFilterMeta> {
+  const rows = await loadCollectionMetaRows(categoryId)
+
+  if (rows.length === 0) {
     return {
       brands: [],
       categories: [],
@@ -233,39 +232,29 @@ export async function getCollectionFilterMeta(categoryId: string): Promise<Colle
     }
   }
 
-  const { data: products } = await supabase
-    .from('products')
-    .select('id, price, brand_id, brand:brands(id, name, slug, active)')
-    .in('id', productIds)
-    .eq('active', true)
-
-  const rows = products ?? []
   const prices = rows.map((p) => Number(p.price))
-  const priceMin = prices.length ? Math.min(...prices) : 0
-  const priceMax = prices.length ? Math.max(...prices) : 0
+  const priceMin = Math.min(...prices)
+  const priceMax = Math.max(...prices)
 
   const brandCounts = new Map<string, { id: string; name: string; slug: string; count: number }>()
+  const categoryCounts = new Map<string, { id: string; name: string; slug: string; count: number }>()
+
   for (const row of rows) {
     const brand = readRelatedEntity(row.brand)
-    if (!brand?.active) continue
-    const existing = brandCounts.get(brand.id)
-    if (existing) existing.count += 1
-    else brandCounts.set(brand.id, { id: brand.id, name: brand.name, slug: brand.slug, count: 1 })
-  }
+    if (brand?.active) {
+      const existing = brandCounts.get(brand.id)
+      if (existing) existing.count += 1
+      else brandCounts.set(brand.id, { id: brand.id, name: brand.name, slug: brand.slug, count: 1 })
+    }
 
-  const { data: catLinks } = await supabase
-    .from('product_categories')
-    .select('category_id, categories(id, name, slug, active)')
-    .in('product_id', productIds)
-    .neq('category_id', categoryId)
-
-  const categoryCounts = new Map<string, { id: string; name: string; slug: string; count: number }>()
-  for (const link of catLinks ?? []) {
-    const cat = readRelatedEntity(link.categories)
-    if (!cat?.active || isStorefrontCategoryNavHidden(cat.slug)) continue
-    const existing = categoryCounts.get(cat.id)
-    if (existing) existing.count += 1
-    else categoryCounts.set(cat.id, { id: cat.id, name: cat.name, slug: cat.slug, count: 1 })
+    for (const link of row.product_categories ?? []) {
+      if (link.category_id === categoryId) continue
+      const cat = readRelatedEntity(link.categories)
+      if (!cat?.active || isStorefrontCategoryNavHidden(cat.slug)) continue
+      const existing = categoryCounts.get(cat.id)
+      if (existing) existing.count += 1
+      else categoryCounts.set(cat.id, { id: cat.id, name: cat.name, slug: cat.slug, count: 1 })
+    }
   }
 
   return {
@@ -273,7 +262,7 @@ export async function getCollectionFilterMeta(categoryId: string): Promise<Colle
     categories: [...categoryCounts.values()].sort((a, b) => a.name.localeCompare(b.name)),
     priceMin,
     priceMax,
-    totalProducts: productIds.length,
+    totalProducts: rows.length,
   }
 }
 

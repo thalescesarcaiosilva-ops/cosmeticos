@@ -165,18 +165,10 @@ export async function getProductsForCards(options?: {
 
       if (!category) return { data: [] as unknown[], error: null }
 
-      const { data: links } = await supabase
-        .from('product_categories')
-        .select('product_id')
-        .eq('category_id', category.id)
-
-      const ids = links?.map((l) => l.product_id) ?? []
-      if (ids.length === 0) return { data: [] as unknown[], error: null }
-
       return supabase
         .from('products')
-        .select(sel)
-        .in('id', ids)
+        .select(`${sel}, collection_link:product_categories!inner(category_id)`)
+        .eq('collection_link.category_id', category.id)
         .eq('active', true)
         .order('created_at', { ascending: false })
         .limit(limit)

@@ -1,0 +1,687 @@
+﻿====================================================================================================
+RELATORIO DE PRODUTOS DUPLICADOS / GTIN INVALIDO / IMAGENS REPETIDAS
+Loja: Batista Cosmeticos   |   Gerado em: 29/10/2026   |   Somente leitura (nada foi alterado no banco)
+====================================================================================================
+
+Produtos ativos analisados: 2743
+Grupos de duplicados encontrados: 106  (229 produtos envolvidos)
+  - CONFIRMADO: 8 grupos
+  - ALTA: 4 grupos
+  - MEDIA: 21 grupos
+  - PROVAVEL: 46 grupos
+  - POSSIVEL: 10 grupos
+  - REVISAR_GTIN: 17 grupos
+
+SUMARIO
+  PARTE 1 - Produtos duplicados (grupo a grupo, com URL)
+  PARTE 2 - Produtos com GTIN invalido / malformado / conflitante
+  PARTE 3 - Produtos com a MESMA IMAGEM
+
+Como ler a PARTE 1:
+  [MANTER]   = listagem sugerida para ficar (mais vendas > avaliacoes > views > imagens > GTIN).
+  [UNIFICAR] = listagem sugerida para desativar e redirecionar (301) para a [MANTER].
+  [DEFINIR TAMANHO] = produto sem tamanho cadastrado no meio de um grupo com tamanhos diferentes.
+  vendidos/views/imagens = dados do proprio banco (order_items, product_views_daily, product_images).
+  ATENCAO: produtos com vendidas > 0 NAO devem ser apagados; apenas desativar e redirecionar.
+
+====================================================================================================
+PARTE 1 - PRODUTOS DUPLICADOS
+====================================================================================================
+
+####################################################################################################
+NIVEL: CONFIRMADO - mesmo GTIN (ou GTIN com 1 digito a mais): e o mesmo produto
+Total: 8 grupos
+####################################################################################################
+
+
+
+
+####################################################################################################
+NIVEL: ALTA - nome igual depois de remover tamanho/marca/palavras de enchimento
+Total: 4 grupos
+####################################################################################################
+
+
+
+
+####################################################################################################
+NIVEL: MEDIA - mesmo produto e tamanho, com 1-2 palavras genericas de diferenca
+Total: 21 grupos
+####################################################################################################
+
+
+####################################################################################################
+NIVEL: PROVAVEL - mesmo produto, mas as palavras diferentes PODEM indicar variante (revisar)
+Total: 46 grupos
+####################################################################################################
+
+
+####################################################################################################
+NIVEL: POSSIVEL - um nome esta contido no outro (revisar com atencao)
+Total: 10 grupos
+####################################################################################################
+
+--- GRUPO 80 (id interno #80) 
+    Motivo da deteccao: nome contido (+cor)
+  1. [MANTER] Protetor Solar Facial Needs Firmeza & Antissinais FPS 50 Bastão 12g
+       URL:      https://www.batistacosmeticos.com.br/produto/protetor-solar-facial-needs-firmeza-antissinais-fps-50-bastao-12g
+       Marca: Needs | Tamanho: 12 G | Preco: R$ 75,91 | Estoque: 200
+       GTIN: (vazio) | SKU: needs-protetorsola-0991
+       Vendidos: 0 | Views: 0 | Imagens: 8 | Avaliacoes: 0
+  2. [UNIFICAR] Protetor Solar Facial Needs Firmeza & Antissinais FPS 50 Com Cor Bastão 12g
+       URL:      https://www.batistacosmeticos.com.br/produto/protetor-solar-facial-needs-firmeza-antissinais-fps-50-com-cor-bastao-12g
+       Marca: Needs | Tamanho: 12 G | Preco: R$ 80,66 | Estoque: 200
+       GTIN: (vazio) | SKU: needs-protetorsola-0992
+       Vendidos: 0 | Views: 0 | Imagens: 7 | Avaliacoes: 0
+
+--- GRUPO 81 (id interno #81) 
+    Motivo da deteccao: nome contido (+spray, clean, performance)
+  1. [MANTER] Condicionador Schwarzkopf Bonacure Repair Rescue
+       URL:      https://www.batistacosmeticos.com.br/produto/condicionador-schwarzkopf-bonacure-repair-rescue
+       Marca: Schwarzkopf | Tamanho: 200 ML | Preco: R$ 74,05 | Estoque: 200
+       GTIN: 4067971076720 | SKU: schwarzk-71076720
+       Vendidos: 0 | Views: 0 | Imagens: 1 | Avaliacoes: 0
+  2. [MANTER] Spray Condicionador Schwarzkopf Bonacure Clean Performance Repair Rescue
+       URL:      https://www.batistacosmeticos.com.br/produto/spray-condicionador-schwarzkopf-bonacure-clean-performance-repair-rescue
+       Marca: Schwarzkopf | Tamanho: (nao cadastrado) | Preco: R$ 95,92 | Estoque: 200
+       GTIN: 4045787723052 | SKU: schwarzk-87723052
+       Vendidos: 0 | Views: 0 | Imagens: 1 | Avaliacoes: 0
+
+--- GRUPO 82 (id interno #82) 
+    Motivo da deteccao: nome contido (+oleo, capilar, camellia)
+    ALERTA PRECO: diferenca de 67% entre as listagens
+  1. [MANTER] Tsubaki Premium Ex Repair Shampoo 450ml + Condicioandor 450ml
+       URL:      https://www.batistacosmeticos.com.br/produto/tsubaki-premium-ex-repair-shampoo-450ml-condicioandor-450ml
+       Marca: (sem marca) | Tamanho: 450 ML | Preco: R$ 306,75 | Estoque: 200
+       GTIN: (vazio) | SKU: outros-tsubakipremi-1653
+       Vendidos: 0 | Views: 0 | Imagens: 2 | Avaliacoes: 0
+  2. [MANTER] Tsubaki Premium Ex Repair Shampoo 450ml + Condicioandor 450ml + Oleo Capilar Camellia 60ml
+       URL:      https://www.batistacosmeticos.com.br/produto/tsubaki-premium-ex-repair-shampoo-450ml-condicioandor-450ml-oleo-capilar-camellia-60ml
+       Marca: (sem marca) | Tamanho: (nao cadastrado) | Preco: R$ 511,95 | Estoque: 200
+       GTIN: (vazio) | SKU: outros-tsubakipremi-1654
+       Vendidos: 0 | Views: 0 | Imagens: 2 | Avaliacoes: 0
+
+--- GRUPO 83 (id interno #83) 
+    Motivo da deteccao: nome contido (+lifting, clinique, rosto, pescoco)
+  1. [MANTER] Creme Antirrugas Smart Clinical Repair 50ml
+       URL:      https://www.batistacosmeticos.com.br/produto/creme-antirrugas-smart-clinical-repair-50ml
+       Marca: (sem marca) | Tamanho: 50 ML | Preco: R$ 531,05 | Estoque: 200
+       GTIN: (vazio) | SKU: outros-cremeantirru-1238
+       Vendidos: 0 | Views: 0 | Imagens: 7 | Avaliacoes: 0
+  2. [UNIFICAR] Creme Lifting Antirrugas Clinique Smart Clinical Repair Rosto e Pescoço 50ml
+       URL:      https://www.batistacosmeticos.com.br/produto/creme-lifting-antirrugas-clinique-smart-clinical-repair-rosto-e-pescoco-50ml
+       Marca: Clinique | Tamanho: 50 ML | Preco: R$ 559,55 | Estoque: 200
+       GTIN: (vazio) | SKU: clinique-cremelifting-0236
+       Vendidos: 0 | Views: 0 | Imagens: 8 | Avaliacoes: 0
+
+--- GRUPO 84 (id interno #84) 
+    Motivo da deteccao: nome contido (+peles, sensiveis, ou, depiladas)
+  1. [MANTER] Desodorante Antitranspirante Roll-On Vichy Peles Sensíveis ou Depiladas 48h 50ml
+       URL:      https://www.batistacosmeticos.com.br/produto/desodorante-antitranspirante-roll-on-vichy-peles-sensiveis-ou-depiladas-48h-50ml
+       Marca: Vichy | Tamanho: 50 ML | Preco: R$ 95,15 | Estoque: 200
+       GTIN: 3337871320324 | SKU: 3337871320324
+       Vendidos: 3 | Views: 30 | Imagens: 4 | Avaliacoes: 0   <-- TEM VENDAS, nao apagar
+  2. [UNIFICAR] Desodorante Antitranspirante Roll-On Vichy 48h 50ml
+       URL:      https://www.batistacosmeticos.com.br/produto/desodorante-antitranspirante-roll-on-vichy-48h-50ml
+       Marca: Vichy | Tamanho: 50 ML | Preco: R$ 94,42 | Estoque: 200
+       GTIN: 3337871320300 | SKU: 3337871320300
+       Vendidos: 0 | Views: 10 | Imagens: 4 | Avaliacoes: 0
+
+--- GRUPO 85 (id interno #85)   [tamanho aparece no nome de apenas um dos produtos]
+    Motivo da deteccao: nome contido (+hidratante, acido, hialuronico, vichy)
+    ALERTA PRECO: diferenca de 126% entre as listagens
+  1. [MANTER] Sérum Fortalecedor Facial Hidratante com Ácido Hialurônico Vichy Minéral 89 50ml
+       URL:      https://www.batistacosmeticos.com.br/produto/serum-fortalecedor-facial-hidratante-com-acido-hialuronico-vichy-mineral-89-50ml
+       Marca: Vichy | Tamanho: 50 ML | Preco: R$ 128,09 | Estoque: 200
+       GTIN: 3337875543248 | SKU: (vazio)
+       Vendidos: 0 | Views: 5 | Imagens: 4 | Avaliacoes: 0
+  2. [MANTER] Minéral 89 Sérum Fortalecedor Facial
+       URL:      https://www.batistacosmeticos.com.br/produto/mineral-89-serum-fortalecedor-facial
+       Marca: Vichy | Tamanho: (nao cadastrado) | Preco: R$ 56,62 | Estoque: 200
+       GTIN: 3612622958460 | SKU: 6318-P5LNZ8Wa7z3aRye
+       Vendidos: 0 | Views: 0 | Imagens: 8 | Avaliacoes: 0
+
+--- GRUPO 86 (id interno #86) 
+    Motivo da deteccao: nome contido (+intensivo, antiacne, eau, thermale)
+  1. [MANTER] Sérum Intensivo Antiacne Eau Thermale Avène Cleanance Comedomed+ 30ml
+       URL:      https://www.batistacosmeticos.com.br/produto/serum-intensivo-antiacne-eau-thermale-avene-cleanance-comedomed-30ml
+       Marca: Avène | Tamanho: 30 ML | Preco: R$ 88,40 | Estoque: 200
+       GTIN: 3282770399226 | SKU: (vazio)
+       Vendidos: 0 | Views: 69 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Sérum Avène Cleanance Comedomed 30ml
+       URL:      https://www.batistacosmeticos.com.br/produto/serum-avene-cleanance-comedomed-30ml
+       Marca: Avène | Tamanho: 30 ML | Preco: R$ 82,08 | Estoque: 200
+       GTIN: 3282770390414 | SKU: 3282770390414
+       Vendidos: 0 | Views: 7 | Imagens: 6 | Avaliacoes: 0
+
+--- GRUPO 87 (id interno #87) 
+    Motivo da deteccao: nome contido (+unhas, oleo, melaleuca, pro)
+  1. [MANTER] Spray Secante de Esmalte Impala 400ml
+       URL:      https://www.batistacosmeticos.com.br/produto/spray-secante-de-esmalte-impala-400ml
+       Marca: Impala | Tamanho: 400 ML | Preco: R$ 28,74 | Estoque: 200
+       GTIN: (vazio) | SKU: impala-spraysecante-0500
+       Vendidos: 0 | Views: 0 | Imagens: 3 | Avaliacoes: 0
+  2. [UNIFICAR] Spray Secante de Esmalte para Unhas com Óleo de Melaleuca Impala Pro 400ml
+       URL:      https://www.batistacosmeticos.com.br/produto/spray-secante-de-esmalte-para-unhas-com-oleo-de-melaleuca-impala-pro-400ml
+       Marca: Impala | Tamanho: 400 ML | Preco: R$ 30,30 | Estoque: 200
+       GTIN: (vazio) | SKU: impala-spraysecante-0501
+       Vendidos: 0 | Views: 0 | Imagens: 5 | Avaliacoes: 0
+
+--- GRUPO 88 (id interno #88) 
+    Motivo da deteccao: nome contido (+shampoo, suave, couro, cabeludo, sensivel)
+  1. [MANTER] Creme de Limpeza Calmante Dercos Sensi-scalp 300ml
+       URL:      https://www.batistacosmeticos.com.br/produto/creme-de-limpeza-calmante-dercos-sensi-scalp-300ml
+       Marca: Vichy | Tamanho: 300 ML | Preco: R$ 187,82 | Estoque: 200
+       GTIN: (vazio) | SKU: vichy-cremedelimpe-2025
+       Vendidos: 0 | Views: 0 | Imagens: 2 | Avaliacoes: 0
+  2. [UNIFICAR] Creme de Limpeza Calmante Dercos Sensi-Scalp Shampoo Suave para Couro Cabeludo Sensível 300ml
+       URL:      https://www.batistacosmeticos.com.br/produto/creme-de-limpeza-calmante-dercos-sensi-scalp-shampoo-suave-para-couro-cabeludo-sensivel-300ml
+       Marca: Vichy | Tamanho: 300 ML | Preco: R$ 151,91 | Estoque: 200
+       GTIN: (vazio) | SKU: vichy-cremedelimpe-2026
+       Vendidos: 0 | Views: 0 | Imagens: 8 | Avaliacoes: 0
+
+--- GRUPO 89 (id interno #89) 
+    Motivo da deteccao: nome contido (+capilar, there, s, on, road)
+  1. [MANTER] Pomada Capilar QOD Barber Shop There's a Killer on the Road 70g
+       URL:      https://www.batistacosmeticos.com.br/produto/pomada-capilar-qod-barber-shop-there-s-a-killer-on-the-road-70g
+       Marca: (sem marca) | Tamanho: 70 G | Preco: R$ 40,75 | Estoque: 200
+       GTIN: (vazio) | SKU: outros-pomadacapila-1516
+       Vendidos: 0 | Views: 0 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Pomada QOD Barber Shop Killer 70g
+       URL:      https://www.batistacosmeticos.com.br/produto/pomada-qod-barber-shop-killer-70g
+       Marca: (sem marca) | Tamanho: 70 G | Preco: R$ 40,75 | Estoque: 200
+       GTIN: (vazio) | SKU: outros-pomadaqodbar-1530
+       Vendidos: 0 | Views: 0 | Imagens: 4 | Avaliacoes: 0
+
+####################################################################################################
+NIVEL: REVISAR (GTIN DIFERENTE) - nome igual mas GTINs diferem: pode ser GTIN nacional x internacional OU variante real
+Total: 17 grupos
+####################################################################################################
+
+--- GRUPO 90 (id interno #90) 
+    Motivo da deteccao: nome ~ (calmante); tamanho igual; GTIN diferente
+  1. [MANTER] Água Micelar Bioderma Sensibio H2O 250ml
+       URL:      https://www.batistacosmeticos.com.br/produto/agua-micelar-bioderma-sensibio-h2o-250ml
+       Marca: Bioderma | Tamanho: 250 ML | Preco: R$ 59,56 | Estoque: 200
+       GTIN: 3401575390447 | SKU: bderm-192312
+       Vendidos: 0 | Views: 6 | Imagens: 10 | Avaliacoes: 0
+  2. [UNIFICAR] Bioderma Sensibio H2O Água Micelar Calmante 250ml
+       URL:      https://www.batistacosmeticos.com.br/produto/bioderma-sensibio-h2o-agua-micelar-calmante-250ml
+       Marca: Bioderma | Tamanho: 250 ML | Preco: R$ 71,39 | Estoque: 200
+       GTIN: 3701129812068 | SKU: (vazio)
+       Vendidos: 0 | Views: 6 | Imagens: 4 | Avaliacoes: 0
+
+--- GRUPO 91 (id interno #91)   [tamanho aparece no nome de apenas um dos produtos]
+    Motivo da deteccao: nome ~ (fortalecedor); tamanho igual; GTIN diferente
+  1. [MANTER] Condicionador Antiqueda e Fortalecedor Vichy Dercos Energy+ 200ml
+       URL:      https://www.batistacosmeticos.com.br/produto/condicionador-antiqueda-e-fortalecedor-vichy-dercos-energy-200ml
+       Marca: Vichy | Tamanho: 200 ML | Preco: R$ 29,62 | Estoque: 200
+       GTIN: 7899706254434 | SKU: (vazio)
+       Vendidos: 0 | Views: 41 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Condicionador Vichy Dercos Antiqueda Energy+
+       URL:      https://www.batistacosmeticos.com.br/produto/condicionador-vichy-dercos-antiqueda-energy
+       Marca: Vichy | Tamanho: 200 ML | Preco: R$ 31,57 | Estoque: 200
+       GTIN: 7899706179607 | SKU: 6410-P5LNZ8Wa7z3aRye
+       Vendidos: 0 | Views: 1 | Imagens: 4 | Avaliacoes: 0
+
+--- GRUPO 92 (id interno #92) 
+    Motivo da deteccao: nome ~ (crespos); tamanho igual; GTIN diferente
+  1. [MANTER] Condicionador Braé Go Curly
+       URL:      https://www.batistacosmeticos.com.br/produto/condicionador-brae-go-curly
+       Marca: Braé | Tamanho: 250 ML | Preco: R$ 64,74 | Estoque: 200
+       GTIN: 7898667821020 | SKU: brae-67821020
+       Vendidos: 0 | Views: 0 | Imagens: 1 | Avaliacoes: 0
+  2. [UNIFICAR] Condicionador Braé Go Curly Crespos
+       URL:      https://www.batistacosmeticos.com.br/produto/condicionador-brae-go-curly-crespos
+       Marca: Braé | Tamanho: 250 ML | Preco: R$ 64,74 | Estoque: 200
+       GTIN: 7898667821495 | SKU: brae-67821495
+       Vendidos: 0 | Views: 0 | Imagens: 1 | Avaliacoes: 0
+
+--- GRUPO 93 (id interno #93)   [tamanho aparece no nome de apenas um dos produtos]
+    Motivo da deteccao: nome ~ (creme, vichy); tamanho desconhecido; GTIN diferente
+  1. [MANTER] Creme Vichy Liftactiv Colágeno Specialist 50ml
+       URL:      https://www.batistacosmeticos.com.br/produto/creme-vichy-liftactiv-colageno-specialist-50ml
+       Marca: Vichy | Tamanho: 50 ML | Preco: R$ 150,77 | Estoque: 200
+       GTIN: 3337875607254 | SKU: 3337875607254
+       Vendidos: 0 | Views: 40 | Imagens: 4 | Avaliacoes: 0
+  2. [MANTER] Liftactiv Colágeno Specialist
+       URL:      https://www.batistacosmeticos.com.br/produto/liftactiv-colageno-specialist
+       Marca: Vichy | Tamanho: (nao cadastrado) | Preco: R$ 141,46 | Estoque: 200
+       GTIN: 3337875912600 | SKU: 6370-P5LNZ8Wa7z3aRye
+       Vendidos: 0 | Views: 1 | Imagens: 5 | Avaliacoes: 0
+
+--- GRUPO 94 (id interno #94) 
+    Motivo da deteccao: nome ~ (comfort); tamanho igual; GTIN diferente
+  1. [MANTER] Desodorante Roll-On Perspirex 20ml
+       URL:      https://www.batistacosmeticos.com.br/produto/desodorante-roll-on-perspirex-20ml
+       Marca: Perspirex | Tamanho: 20 ML | Preco: R$ 69,83 | Estoque: 200
+       GTIN: 5701943011386 | SKU: 5701943011386
+       Vendidos: 0 | Views: 11 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Desodorante Roll On Perspirex - Comfort Roll-on 20ml
+       URL:      https://www.batistacosmeticos.com.br/produto/desodorante-roll-on-perspirex-comfort-roll-on-20ml
+       Marca: Perspirex | Tamanho: 20 ML | Preco: R$ 72,21 | Estoque: 200
+       GTIN: 5701943100127 | SKU: 5701943100127
+       Vendidos: 0 | Views: 2 | Imagens: 2 | Avaliacoes: 0
+
+--- GRUPO 95 (id interno #95) 
+    Motivo da deteccao: nome ~ (repair, rich); tamanho igual; GTIN diferente
+  1. [MANTER] Hidratante Clinique Smart Clinical Repair Wrinkle Rich Cream
+       URL:      https://www.batistacosmeticos.com.br/produto/hidratante-clinique-smart-clinical-repair-wrinkle-rich-cream
+       Marca: Clinique | Tamanho: 50 ML | Preco: R$ 373,32 | Estoque: 200
+       GTIN: 0192333125113 | SKU: clinique-33125113
+       Vendidos: 0 | Views: 0 | Imagens: 1 | Avaliacoes: 0
+  2. [UNIFICAR] Hidratante Clinique Smart Clinical Wrinkle Cream
+       URL:      https://www.batistacosmeticos.com.br/produto/hidratante-clinique-smart-clinical-wrinkle-cream
+       Marca: Clinique | Tamanho: 50 ML | Preco: R$ 380,12 | Estoque: 200
+       GTIN: 0192333125120 | SKU: clinique-33125120
+       Vendidos: 0 | Views: 0 | Imagens: 1 | Avaliacoes: 0
+
+--- GRUPO 96 (id interno #96) 
+    Motivo da deteccao: nome ~ (skincare); tamanho igual; GTIN diferente
+  1. [MANTER] Hidratante Facial Mantecorp Skincare Epidrat Calm 40g
+       URL:      https://www.batistacosmeticos.com.br/produto/hidratante-facial-mantecorp-skincare-epidrat-calm-40g
+       Marca: Mantecorp Skincare | Tamanho: 40 G | Preco: R$ 43,04 | Estoque: 200
+       GTIN: 7891142200235 | SKU: (vazio)
+       Vendidos: 0 | Views: 21 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Hidratante Facial Mantecorp Epidrat Calm 40g
+       URL:      https://www.batistacosmeticos.com.br/produto/hidratante-facial-mantecorp-epidrat-calm-40g
+       Marca: Mantecorp Skincare | Tamanho: 40 G | Preco: R$ 47,61 | Estoque: 200
+       GTIN: 7891142982087 | SKU: 7891142982087
+       Vendidos: 0 | Views: 15 | Imagens: 4 | Avaliacoes: 0
+
+--- GRUPO 97 (id interno #97)   [tamanho aparece no nome de apenas um dos produtos]
+    Motivo da deteccao: nome ~ (antirrugas, vichy); tamanho igual; GTIN diferente
+  1. [MANTER] Sérum Antirrugas Vichy Liftactiv Retinol Specialist 30ml
+       URL:      https://www.batistacosmeticos.com.br/produto/serum-antirrugas-vichy-liftactiv-retinol-specialist-30ml
+       Marca: Vichy | Tamanho: 30 ML | Preco: R$ 148,84 | Estoque: 200
+       GTIN: 7908615007847 | SKU: 7908615007847
+       Vendidos: 0 | Views: 4 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Liftactiv Retinol Specialist Sérum
+       URL:      https://www.batistacosmeticos.com.br/produto/liftactiv-retinol-specialist-serum
+       Marca: Vichy | Tamanho: 30 ML | Preco: R$ 148,84 | Estoque: 200
+       GTIN: 3337875821636 | SKU: 6413-P5LNZ8Wa7z3aRye
+       Vendidos: 0 | Views: 0 | Imagens: 4 | Avaliacoes: 0
+
+--- GRUPO 98 (id interno #98)   [tamanho aparece no nome de apenas um dos produtos]
+    Motivo da deteccao: nome ~ (rejuvenescedor, vichy); tamanho igual; GTIN diferente
+  1. [MANTER] Sérum Rejuvenescedor Vichy Liftactiv H.A. Epidermic Filler 30ml
+       URL:      https://www.batistacosmeticos.com.br/produto/serum-rejuvenescedor-vichy-liftactiv-h-a-epidermic-filler-30ml
+       Marca: Vichy | Tamanho: 30 ML | Preco: R$ 132,54 | Estoque: 200
+       GTIN: 7899706187565 | SKU: 7899706187565
+       Vendidos: 0 | Views: 5 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Liftactiv Sérum H.A. Epidermic Filler
+       URL:      https://www.batistacosmeticos.com.br/produto/liftactiv-serum-h-a-epidermic-filler
+       Marca: Vichy | Tamanho: 30 ML | Preco: R$ 132,54 | Estoque: 200
+       GTIN: 7899706217071 | SKU: 6343-P5LNZ8Wa7z3aRye
+       Vendidos: 0 | Views: 0 | Imagens: 6 | Avaliacoes: 0
+
+--- GRUPO 99 (id interno #99) 
+    Motivo da deteccao: nome ~ (vichy, supreme); tamanho igual; GTIN diferente
+  1. [MANTER] Sérum Vichy Liftactiv Supreme Vitamina C 20ml
+       URL:      https://www.batistacosmeticos.com.br/produto/serum-vichy-liftactiv-supreme-vitamina-c-20ml
+       Marca: Vichy | Tamanho: 20 ML | Preco: R$ 141,40 | Estoque: 200
+       GTIN: 7899706220262 | SKU: 7899706220262
+       Vendidos: 0 | Views: 4 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Liftactiv Sérum Vitamina C 20ml
+       URL:      https://www.batistacosmeticos.com.br/produto/liftactiv-serum-vitamina-c-20ml
+       Marca: Vichy | Tamanho: 20 ML | Preco: R$ 141,40 | Estoque: 200
+       GTIN: 3337875796583 | SKU: 6342-P5LNZ8Wa7z3aRye
+       Vendidos: 0 | Views: 0 | Imagens: 6 | Avaliacoes: 0
+
+--- GRUPO 100 (id interno #100)   [tamanho aparece no nome de apenas um dos produtos]
+    Motivo da deteccao: nome ~ (higiene, diaria); tamanho igual; GTIN diferente
+  1. [MANTER] Óleo de Banho Hidratante Bioderma Atoderm Higiene Diária 1L
+       URL:      https://www.batistacosmeticos.com.br/produto/oleo-de-banho-hidratante-bioderma-atoderm-higiene-diaria-1l
+       Marca: Bioderma | Tamanho: 1 L | Preco: R$ 126,57 | Estoque: 200
+       GTIN: 3701129811627 | SKU: (vazio)
+       Vendidos: 12 | Views: 609 | Imagens: 4 | Avaliacoes: 0   <-- TEM VENDAS, nao apagar
+  2. [UNIFICAR] Óleo de Banho Hidratante Bioderma Atoderm 1 litro
+       URL:      https://www.batistacosmeticos.com.br/produto/oleo-de-banho-hidratante-bioderma-atoderm-1-litro
+       Marca: Bioderma | Tamanho: 1 L | Preco: R$ 126,57 | Estoque: 199
+       GTIN: 3401528520846 | SKU: utmadmafh-9234
+       Vendidos: 1 | Views: 17 | Imagens: 8 | Avaliacoes: 0   <-- TEM VENDAS, nao apagar
+
+--- GRUPO 101 (id interno #101) 
+    Motivo da deteccao: nome ~ (antisseptico); tamanho igual; GTIN diferente
+  1. [MANTER] Sabonete em Barra Antisséptico Darrow Soapelle 70g
+       URL:      https://www.batistacosmeticos.com.br/produto/sabonete-em-barra-antisseptico-darrow-soapelle-70g
+       Marca: Darrow | Tamanho: 70 G | Preco: R$ 24,60 | Estoque: 200
+       GTIN: 3282770388640 | SKU: 3282770388640
+       Vendidos: 0 | Views: 8 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Sabonete Barra Darrow Soapelle 70g
+       URL:      https://www.batistacosmeticos.com.br/produto/sabonete-barra-darrow-soapelle-70g
+       Marca: Darrow | Tamanho: 70 G | Preco: R$ 24,30 | Estoque: 200
+       GTIN: 7896290402593 | SKU: kmawdmas-8293
+       Vendidos: 0 | Views: 1 | Imagens: 3 | Avaliacoes: 0
+
+--- GRUPO 102 (id interno #102) 
+    Motivo da deteccao: nome ~ (antimanchas, idade, clareador); tamanho igual; GTIN diferente
+  1. [MANTER] Sérum Facial Antimanchas e Anti-idade Eucerin Anti-Pigment Clareador Dual Sérum 30ml
+       URL:      https://www.batistacosmeticos.com.br/produto/serum-facial-antimanchas-e-anti-idade-eucerin-anti-pigment-clareador-dual-serum-30ml
+       Marca: Eucerin | Tamanho: 30 ML | Preco: R$ 148,31 | Estoque: 200
+       GTIN: 4005805477183 | SKU: (vazio)
+       Vendidos: 16 | Views: 768 | Imagens: 4 | Avaliacoes: 0   <-- TEM VENDAS, nao apagar
+  2. [UNIFICAR] Sérum Facial Eucerin Anti-Pigment Dual Sérum 30ml
+       URL:      https://www.batistacosmeticos.com.br/produto/serum-facial-eucerin-anti-pigment-dual-serum-30ml
+       Marca: Eucerin | Tamanho: 30 ML | Preco: R$ 148,31 | Estoque: 200
+       GTIN: 7319470066786 | SKU: 7319470066786
+       Vendidos: 0 | Views: 13 | Imagens: 5 | Avaliacoes: 0
+
+--- GRUPO 103 (id interno #103) 
+    Motivo da deteccao: nome ~ (serie, expert, blue); tamanho igual; GTIN diferente | nome ~ (purple); tamanho igual; GTIN diferente
+  1. [MANTER] Shampoo L'Oreal Professionnel Série Expert Vitamino Color Spectrum Blue
+       URL:      https://www.batistacosmeticos.com.br/produto/shampoo-l-oreal-professionnel-serie-expert-vitamino-color-spectrum-blue
+       Marca: L'Oréal Professionnel | Tamanho: 300 ML | Preco: R$ 140,76 | Estoque: 200
+       GTIN: 3474637268268 | SKU: lorealpr-37268268
+       Vendidos: 0 | Views: 0 | Imagens: 1 | Avaliacoes: 0
+  2. [UNIFICAR] Shampoo L'oréal Professionnel Vitamino Color Spectrum
+       URL:      https://www.batistacosmeticos.com.br/produto/shampoo-l-oreal-professionnel-vitamino-color-spectrum
+       Marca: L'Oréal Professionnel | Tamanho: 300 ML | Preco: R$ 128,55 | Estoque: 200
+       GTIN: 3474637268527 | SKU: lorealpr-37268527
+       Vendidos: 0 | Views: 0 | Imagens: 1 | Avaliacoes: 0
+  3. [UNIFICAR] Shampoo L'oréal Professionnel Vitamino Color Spectrum Purple
+       URL:      https://www.batistacosmeticos.com.br/produto/shampoo-l-oreal-professionnel-vitamino-color-spectrum-purple
+       Marca: L'Oréal Professionnel | Tamanho: 300 ML | Preco: R$ 135,32 | Estoque: 200
+       GTIN: 3474637268398 | SKU: lorealpr-37268398
+       Vendidos: 0 | Views: 0 | Imagens: 1 | Avaliacoes: 0
+
+--- GRUPO 104 (id interno #104)   [tamanho aparece no nome de apenas um dos produtos]
+    Motivo da deteccao: nome ~ (reconstrutor); tamanho igual; GTIN diferente
+    ALERTA PRECO: diferenca de 168% entre as listagens
+  1. [MANTER] Shampoo Sebastian Penetraitt 250ml
+       URL:      https://www.batistacosmeticos.com.br/produto/shampoo-sebastian-penetraitt-250ml
+       Marca: Sebastian Professional | Tamanho: 250 ML | Preco: R$ 37,36 | Estoque: 200
+       GTIN: 4064666225326 | SKU: 4064666225326
+       Vendidos: 0 | Views: 6 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Shampoo Reconstrutor Sebastian Penetraitt
+       URL:      https://www.batistacosmeticos.com.br/produto/shampoo-reconstrutor-sebastian-penetraitt
+       Marca: Sebastian Professional | Tamanho: 250 ML | Preco: R$ 99,96 | Estoque: 200
+       GTIN: 8005610594019 | SKU: sebastia-10594019
+       Vendidos: 0 | Views: 3 | Imagens: 1 | Avaliacoes: 0
+
+--- GRUPO 105 (id interno #105) 
+    Motivo da deteccao: nome ~ (intense, repair, profissional); tamanho igual; GTIN diferente
+  1. [MANTER] Wella Professionals Fusion - Shampoo 1L
+       URL:      https://www.batistacosmeticos.com.br/produto/wella-professionals-fusion-shampoo-1l
+       Marca: Wella | Tamanho: 1 L | Preco: R$ 56,64 | Estoque: 200
+       GTIN: 4064666043715 | SKU: (vazio)
+       Vendidos: 0 | Views: 5 | Imagens: 4 | Avaliacoes: 0
+  2. [MANTER] Shampoo Wella Fusion Intense Repair 1000ml
+       URL:      https://www.batistacosmeticos.com.br/produto/shampoo-wella-fusion-intense-repair-1000ml
+       Marca: Wella | Tamanho: 1000 ML | Preco: R$ 118,96 | Estoque: 200
+       GTIN: 4064666318233 | SKU: 4064666318233
+       Vendidos: 0 | Views: 4 | Imagens: 2 | Avaliacoes: 0
+
+--- GRUPO 106 (id interno #106) 
+    Motivo da deteccao: nome ~ (profissional); tamanho igual; GTIN diferente
+  1. [MANTER] Shampoo Wella Oil Reflections 250ml
+       URL:      https://www.batistacosmeticos.com.br/produto/shampoo-wella-oil-reflections-250ml
+       Marca: Wella | Tamanho: 250 ML | Preco: R$ 22,08 | Estoque: 200
+       GTIN: 7896235353768 | SKU: 3997
+       Vendidos: 0 | Views: 5 | Imagens: 4 | Avaliacoes: 0
+  2. [UNIFICAR] Wella Professionals Oil Reflections Shampoo 250ml
+       URL:      https://www.batistacosmeticos.com.br/produto/wella-professionals-oil-reflections-shampoo-250ml
+       Marca: Wella | Tamanho: 250 ML | Preco: R$ 20,98 | Estoque: 200
+       GTIN: 4064666043623 | SKU: (vazio)
+       Vendidos: 0 | Views: 0 | Imagens: 4 | Avaliacoes: 0
+
+====================================================================================================
+PARTE 2 - PRODUTOS COM GTIN ERRADO / SUSPEITO
+====================================================================================================
+
+2.1 GTIN INVALIDO (nao passa na validacao oficial GS1) - 24 produtos
+    Esses codigos tendem a ser reprovados no Google Merchant Center. Corrigir ou esvaziar o campo.
+
+  1. Batom Líquido Longa Duração Efeito Gloss Acabamento Espelhado Maybelline SuperStay Vinyl Ink 4.2ml CHARMED
+       URL:   https://www.batistacosmeticos.com.br/produto/batom-liquido-longa-duracao-efeito-gloss-acabamento-espelhado-maybelline-superstay-vinyl-ink-4-2ml-charmed
+       GTIN cadastrado: 41554080414   | Marca: Maybelline | Tamanho: 4,2 ML
+       Problema: tamanho invalido (11 digitos; o padrao e 8, 12, 13 ou 14)
+  2. Condicionador Kérastase Gloss Absolu Insta Glaze Fondant 250ml
+       URL:   https://www.batistacosmeticos.com.br/produto/condicionador-kerastase-gloss-absolu-insta-glaze-fondant-250ml
+       GTIN cadastrado: 3474636874896   | Marca: Kérastase | Tamanho: 250 ML
+       Problema: digito verificador invalido (termina em 6, o correto seria 7)
+  3. Condicionador Wella Professionals Ultimate Repair Passo 2 500ml
+       URL:   https://www.batistacosmeticos.com.br/produto/condicionador-wella-professionals-ultimate-repair-passo-2-500ml
+       GTIN cadastrado: 4015600830478   | Marca: Wella | Tamanho: 500 ML
+       Problema: digito verificador invalido (termina em 8, o correto seria 2)
+  4. Creme Barriguinha Cream Beleza Brasileira 200g
+       URL:   https://www.batistacosmeticos.com.br/produto/creme-barriguinha-cream-beleza-brasileira-200g
+       GTIN cadastrado: 78989702330910   | Marca: Beleza Brasileira | Tamanho: 200 G
+       Problema: digito verificador invalido (termina em 0, o correto seria 6)
+  5. Creme Contorno De Olhos Cicatricure Rugas Bolsas E Olheiras 15g
+       URL:   https://www.batistacosmeticos.com.br/produto/creme-contorno-de-olhos-cicatricure-rugas-bolsas-e-olheiras-15g
+       GTIN cadastrado: 7896342510182   | Marca: Cicatricure | Tamanho: 15 G
+       Problema: digito verificador invalido (termina em 2, o correto seria 4)
+  6. Creme Facial Anti-idade Retinol 0.3 SkinCeuticals com Vitamina C 30ml
+       URL:   https://www.batistacosmeticos.com.br/produto/creme-facial-anti-idade-retinol-0-3-skinceuticals-com-vitamina-c-30ml
+       GTIN cadastrado: 36060005096030   | Marca: Skinceuticals | Tamanho: 30 ML
+       Problema: digito verificador invalido (termina em 0, o correto seria 8)
+  7. Creme Hidratante Corporal Fisiogel Hipoalergênico 450g
+       URL:   https://www.batistacosmeticos.com.br/produto/creme-hidratante-corporal-fisiogel-hipoalergenico-450g
+       GTIN cadastrado: 78960261726220   | Marca: Fisiogel | Tamanho: 450 G
+       Problema: digito verificador invalido (termina em 0, o correto seria 8)
+  8. Creme Hidratante Lancôme Hydra Zen Creme 50ml
+       URL:   https://www.batistacosmeticos.com.br/produto/creme-hidratante-lancome-hydra-zen-creme-50ml
+       GTIN cadastrado: 36055320260460   | Marca: Lancôme | Tamanho: 50 ML
+       Problema: digito verificador invalido (termina em 0, o correto seria 2)
+  9. Creme Preventivo de Assaduras Bepantol Baby 120g
+       URL:   https://www.batistacosmeticos.com.br/produto/creme-preventivo-de-assaduras-bepantol-baby-120g
+       GTIN cadastrado: 78911069102480   | Marca: Bepantol | Tamanho: 120 G
+       Problema: digito verificador invalido (termina em 0, o correto seria 6)
+  10. Kit Sabonete em Barra Nivea Creme Care 90g com 6 unidades
+       URL:   https://www.batistacosmeticos.com.br/produto/kit-sabonete-em-barra-nivea-creme-care-90g-com-6-unidades
+       GTIN cadastrado: 40059007013670   | Marca: Nivea | Tamanho: 90 G
+       Problema: digito verificador invalido (termina em 0, o correto seria 2)
+  11. Kit Wella Professionals Invigo Nutri Enrich - Shampoo 1000ml + Condicionador 1000ml
+       URL:   https://www.batistacosmeticos.com.br/produto/kit-wella-professionals-invigo-nutri-enrich-shampoo-1000ml-condicionador-1000ml
+       GTIN cadastrado: 10104282065700   | Marca: Wella | Tamanho: 1000 ML
+       Problema: digito verificador invalido (termina em 0, o correto seria 6)
+  12. Loção Facial Hidratante Hada Labo Gokujyun Lotion 170ml
+       URL:   https://www.batistacosmeticos.com.br/produto/locao-facial-hidratante-hada-labo-gokujyun-lotion-170ml
+       GTIN cadastrado: 49018720344010   | Marca: Hada Labo | Tamanho: 170 ML
+       Problema: digito verificador invalido (termina em 0, o correto seria 3)
+  13. Loção Hidratante Umiditá Gestante com 200ml
+       URL:   https://www.batistacosmeticos.com.br/produto/locao-hidratante-umidita-gestante-com-200ml
+       GTIN cadastrado: 78960942087041   | Marca: Libbs | Tamanho: 200 ML
+       Problema: digito verificador invalido (termina em 1, o correto seria 4)
+  14. Máscara Capilar L'Oréal Professionnel Absolut Repair Molecular 250ml
+       URL:   https://www.batistacosmeticos.com.br/produto/mascara-capilar-l-oreal-professionnel-absolut-repair-molecular-250ml
+       GTIN cadastrado: 34746372178840   | Marca: L'Oréal Professionnel | Tamanho: 250 ML
+       Problema: digito verificador invalido (termina em 0, o correto seria 4)
+  15. Máscara Capilar Wella Professionals Invigo Volume Boost 500ml
+       URL:   https://www.batistacosmeticos.com.br/produto/mascara-capilar-wella-professionals-invigo-volume-boost-500ml
+       GTIN cadastrado: 4015600891492   | Marca: Wella | Tamanho: 500 ML
+       Problema: digito verificador invalido (termina em 2, o correto seria 7)
+  16. Nutradeica Hidratante Facial Isdin 50ml
+       URL:   https://www.batistacosmeticos.com.br/produto/nutradeica-hidratante-facial-isdin-50ml
+       GTIN cadastrado: 8429971812611   | Marca: Isdin | Tamanho: 50 ML
+       Problema: digito verificador invalido (termina em 1, o correto seria 0)
+  17. Protetor Solar Facial Cicatricure FPS50 Efeito Matte Antissinais 40g
+       URL:   https://www.batistacosmeticos.com.br/produto/protetor-solar-facial-cicatricure-fps50-efeito-matte-antissinais-40g
+       GTIN cadastrado: 7896342510175   | Marca: Cicatricure | Tamanho: 40 G
+       Problema: digito verificador invalido (termina em 5, o correto seria 7)
+  18. Protetor Solar Facial Isdin UV Mineral Brush FPS50 sem cor 2g
+       URL:   https://www.batistacosmeticos.com.br/produto/protetor-solar-facial-isdin-uv-mineral-brush-fps50-sem-cor-2g
+       GTIN cadastrado: 84294202008210   | Marca: Isdin | Tamanho: 2 G
+       Problema: digito verificador invalido (termina em 0, o correto seria 2)
+  19. Protetor Solar SkinCeuticals UV Oil Defense FPS80 40g
+       URL:   https://www.batistacosmeticos.com.br/produto/protetor-solar-skinceuticals-uv-oil-defense-fps80-40g
+       GTIN cadastrado: 78997061621280   | Marca: Skinceuticals | Tamanho: 40 G
+       Problema: digito verificador invalido (termina em 0, o correto seria 6)
+  20. Sérum Capilar Antiqueda Vichy Dercos Energy+ 50ml
+       URL:   https://www.batistacosmeticos.com.br/produto/serum-capilar-antiqueda-vichy-dercos-energy-50ml
+       GTIN cadastrado: 78997062543110   | Marca: Vichy | Tamanho: 50 ML
+       Problema: digito verificador invalido (termina em 0, o correto seria 2)
+  21. Sérum Corretor Skinceuticals Phyto Corrective 30ml
+       URL:   https://www.batistacosmeticos.com.br/produto/serum-corretor-skinceuticals-phyto-corrective-30ml
+       GTIN cadastrado: 78997061870150   | Marca: Skinceuticals | Tamanho: 30 ML
+       Problema: digito verificador invalido (termina em 0, o correto seria 8)
+  22. Sérum Facial C E Ferulic Skinceuticals 30ml
+       URL:   https://www.batistacosmeticos.com.br/produto/serum-facial-c-e-ferulic-skinceuticals-30ml
+       GTIN cadastrado: 78997061409420   | Marca: Skinceuticals | Tamanho: 30 ML
+       Problema: digito verificador invalido (termina em 0, o correto seria 6)
+  23. Sérum Facial Reparador La Roche-Posay Cicaplast B5 30ml
+       URL:   https://www.batistacosmeticos.com.br/produto/serum-facial-reparador-la-roche-posay-cicaplast-b5-30ml
+       GTIN cadastrado: 78997062401540   | Marca: La Roche-Posay | Tamanho: 30 ML
+       Problema: digito verificador invalido (termina em 0, o correto seria 2)
+  24. Shampoo Truss Equilibrium Scalp Rpk 300ml
+       URL:   https://www.batistacosmeticos.com.br/produto/shampoo-truss-equilibrium-scalp-rpk-300ml
+       GTIN cadastrado: 7898625791893   | Marca: Truss Professional | Tamanho: 300 ML
+       Problema: digito verificador invalido (termina em 3, o correto seria 1)
+
+2.2 MESMO GTIN em produtos diferentes - 2 codigos (todos sao duplicados reais, ja listados na Parte 1)
+
+  1. GTIN 602883999619
+       - Gel de Limpeza Facial Micelar Calmante e Hidratante Bioderma Sensibio Gel Moussant 200ml
+         https://www.batistacosmeticos.com.br/produto/gel-de-limpeza-facial-micelar-calmante-e-hidratante-bioderma-sensibio-gel-moussant-200ml  (R$ 83,53)
+       - Gel de Limpeza Micelar Bioderma Sensibio Gel Moussant 200ml
+         https://www.batistacosmeticos.com.br/produto/gel-de-limpeza-micelar-bioderma-sensibio-gel-moussant-200ml  (R$ 44,67)
+  2. GTIN 3282770206036
+       - Protetor Solar Darrow Actine Toque Seco FPS 60 40g
+         https://www.batistacosmeticos.com.br/produto/protetor-solar-darrow-actine-toque-seco-fps-60-40g  (R$ 30,82)
+       - Protetor Solar Facial Darrow Actine Toque Seco FPS60 40g
+         https://www.batistacosmeticos.com.br/produto/protetor-solar-facial-darrow-actine-toque-seco-fps60-40g  (R$ 34,92)
+
+2.3 GTINs QUASE IGUAIS (um tem 1 digito a mais ou um zero deslocado) - 8 pares
+    Indica GTIN digitado errado em uma das duas listagens. Verificar na embalagem qual e o correto.
+    Obs.: o par Redken "Perfecting Concentrate" x "Color Gloss" sao produtos DIFERENTES com GTIN quase igual: um dos dois esta com GTIN errado.
+
+  1. GTIN 3606000509603  x  GTIN 36060005096030
+       - Antirrugas SkinCeuticals Retinol 0.3 com 30ml
+         https://www.batistacosmeticos.com.br/produto/antirrugas-skinceuticals-retinol-0-3-com-30ml
+       - Creme Facial Anti-idade Retinol 0.3 SkinCeuticals com Vitamina C 30ml
+         https://www.batistacosmeticos.com.br/produto/creme-facial-anti-idade-retinol-0-3-skinceuticals-com-vitamina-c-30ml
+  2. GTIN 0652418102281  x  GTIN 6524181022810
+       - Creme Leave-in N.P.P.E. SH-RD Protein Gold Deluxe Edition
+         https://www.batistacosmeticos.com.br/produto/creme-leave-in-n-p-p-e-sh-rd-protein-gold-deluxe-edition
+       - N.p.p.e. Sh-rd Protein Cream Leave-in 80ml
+         https://www.batistacosmeticos.com.br/produto/n-p-p-e-sh-rd-protein-cream-leave-in-80ml
+  3. GTIN 0884486456380  x  GTIN 8844864563804
+       - Leave-In Redken Acidic Color Gloss
+         https://www.batistacosmeticos.com.br/produto/leave-in-redken-acidic-color-gloss
+       - Leave-In Redken Acidic Perfecting Concentrate
+         https://www.batistacosmeticos.com.br/produto/leave-in-redken-acidic-perfecting-concentrate
+  4. GTIN 7896094208704  x  GTIN 78960942087041
+       - Loção Hidratante Umiditá Gestante 200ml
+         https://www.batistacosmeticos.com.br/produto/locao-hidratante-umidita-gestante-200ml
+       - Loção Hidratante Umiditá Gestante com 200ml
+         https://www.batistacosmeticos.com.br/produto/locao-hidratante-umidita-gestante-com-200ml
+  5. GTIN 34746372178840  x  GTIN 3474637217884
+       - Máscara Capilar L'Oréal Professionnel Absolut Repair Molecular 250ml
+         https://www.batistacosmeticos.com.br/produto/mascara-capilar-l-oreal-professionnel-absolut-repair-molecular-250ml
+       - Máscara de Tratamento L'Oréal Professionnel Absolut Repair Molecular 250ml
+         https://www.batistacosmeticos.com.br/produto/mascara-de-tratamento-l-oreal-professionnel-absolut-repair-molecular-250ml
+  6. GTIN 84294202008210  x  GTIN 8429420200821
+       - Protetor Solar Facial Isdin UV Mineral Brush FPS50 sem cor 2g
+         https://www.batistacosmeticos.com.br/produto/protetor-solar-facial-isdin-uv-mineral-brush-fps50-sem-cor-2g
+       - Protetor Solar Facial Pó FPS 50 ISDIN sem cor 2g
+         https://www.batistacosmeticos.com.br/produto/protetor-solar-facial-po-fps-50-isdin-sem-cor-2g
+  7. GTIN 7899706162128  x  GTIN 78997061621280
+       - Protetor Solar SkinCeuticals - UV Oil Defense FPS 80 40g
+         https://www.batistacosmeticos.com.br/produto/protetor-solar-skinceuticals-uv-oil-defense-fps-80-40g
+       - Protetor Solar SkinCeuticals UV Oil Defense FPS80 40g
+         https://www.batistacosmeticos.com.br/produto/protetor-solar-skinceuticals-uv-oil-defense-fps80-40g
+  8. GTIN 7899706140942  x  GTIN 78997061409420
+       - Rejuvenescedor Facial C E Ferulic Skinceuticals 30ml
+         https://www.batistacosmeticos.com.br/produto/rejuvenescedor-facial-c-e-ferulic-skinceuticals-30ml
+       - Sérum Facial C E Ferulic Skinceuticals 30ml
+         https://www.batistacosmeticos.com.br/produto/serum-facial-c-e-ferulic-skinceuticals-30ml
+
+2.4 MESMO PRODUTO COM GTINs DIFERENTES - 17 grupos (Parte 1, nivel "REVISAR (GTIN DIFERENTE)")
+    Se for de fato o mesmo produto, um dos GTINs esta errado ou e codigo internacional. Se forem variantes, esta ok.
+
+  - Água Micelar Bioderma Sensibio H2O 250ml [GTIN 3401575390447]
+    x Bioderma Sensibio H2O Água Micelar Calmante 250ml [GTIN 3701129812068]
+  - Condicionador Antiqueda e Fortalecedor Vichy Dercos Energy+ 200ml [GTIN 7899706254434]
+    x Condicionador Vichy Dercos Antiqueda Energy+ [GTIN 7899706179607]
+  - Condicionador Braé Go Curly [GTIN 7898667821020]
+    x Condicionador Braé Go Curly Crespos [GTIN 7898667821495]
+  - Creme Vichy Liftactiv Colágeno Specialist 50ml [GTIN 3337875607254]
+    x Liftactiv Colágeno Specialist [GTIN 3337875912600]
+  - Desodorante Roll-On Perspirex 20ml [GTIN 5701943011386]
+    x Desodorante Roll On Perspirex - Comfort Roll-on 20ml [GTIN 5701943100127]
+  - Hidratante Clinique Smart Clinical Repair Wrinkle Rich Cream [GTIN 0192333125113]
+    x Hidratante Clinique Smart Clinical Wrinkle Cream [GTIN 0192333125120]
+  - Hidratante Facial Mantecorp Skincare Epidrat Calm 40g [GTIN 7891142200235]
+    x Hidratante Facial Mantecorp Epidrat Calm 40g [GTIN 7891142982087]
+  - Sérum Antirrugas Vichy Liftactiv Retinol Specialist 30ml [GTIN 7908615007847]
+    x Liftactiv Retinol Specialist Sérum [GTIN 3337875821636]
+  - Sérum Rejuvenescedor Vichy Liftactiv H.A. Epidermic Filler 30ml [GTIN 7899706187565]
+    x Liftactiv Sérum H.A. Epidermic Filler [GTIN 7899706217071]
+  - Sérum Vichy Liftactiv Supreme Vitamina C 20ml [GTIN 7899706220262]
+    x Liftactiv Sérum Vitamina C 20ml [GTIN 3337875796583]
+  - Óleo de Banho Hidratante Bioderma Atoderm Higiene Diária 1L [GTIN 3701129811627]
+    x Óleo de Banho Hidratante Bioderma Atoderm 1 litro [GTIN 3401528520846]
+  - Sabonete em Barra Antisséptico Darrow Soapelle 70g [GTIN 3282770388640]
+    x Sabonete Barra Darrow Soapelle 70g [GTIN 7896290402593]
+  - Sérum Facial Antimanchas e Anti-idade Eucerin Anti-Pigment Clareador Dual Sérum 30ml [GTIN 4005805477183]
+    x Sérum Facial Eucerin Anti-Pigment Dual Sérum 30ml [GTIN 7319470066786]
+  - Shampoo L'Oreal Professionnel Série Expert Vitamino Color Spectrum Blue [GTIN 3474637268268]
+    x Shampoo L'oréal Professionnel Vitamino Color Spectrum [GTIN 3474637268527]
+    x Shampoo L'oréal Professionnel Vitamino Color Spectrum Purple [GTIN 3474637268398]
+  - Shampoo Sebastian Penetraitt 250ml [GTIN 4064666225326]
+    x Shampoo Reconstrutor Sebastian Penetraitt [GTIN 8005610594019]
+  - Wella Professionals Fusion - Shampoo 1L [GTIN 4064666043715]
+    x Shampoo Wella Fusion Intense Repair 1000ml [GTIN 4064666318233]
+  - Shampoo Wella Oil Reflections 250ml [GTIN 7896235353768]
+    x Wella Professionals Oil Reflections Shampoo 250ml [GTIN 4064666043623]
+
+====================================================================================================
+PARTE 3 - PRODUTOS COM A MESMA IMAGEM (mesmo arquivo na imagem principal)
+====================================================================================================
+
+7 grupos de produtos que usam exatamente o mesmo arquivo de imagem como foto principal.
+Pode ser duplicado real (mesma foto, mesmo produto) OU foto errada copiada em outro produto.
+
+  1. IMAGEM REPETIDA em 2 produtos
+       - NORMADERM PROBIO BHA SÉRUM  
+         https://www.batistacosmeticos.com.br/produto/normaderm-probio-bha-serum  (R$ 63,10)
+       - Normaderm Double Correction  
+         https://www.batistacosmeticos.com.br/produto/normaderm-double-correction  (R$ 115,02)
+       Avaliacao: NOMES DIFERENTES (Probio BHA Serum x Double Correction) -> mesma linha Vichy Normaderm; conferir na embalagem se e o mesmo produto ou se a foto foi copiada.
+
+  2. IMAGEM REPETIDA em 2 produtos
+       - NEOVADIOL CREME NUTRITIVO REDENSIFICADOR MENOUPAUSA – 50G  
+         https://www.batistacosmeticos.com.br/produto/neovadiol-creme-nutritivo-redensificador-menoupausa-50g  (R$ 123,85)
+       - Neovadiol Creme Leve Efeito Lifting Menopausa 50G  
+         https://www.batistacosmeticos.com.br/produto/neovadiol-creme-leve-efeito-lifting-menopausa-50g  (R$ 123,85)
+       Avaliacao: PRODUTOS DIFERENTES (Creme Nutritivo x Creme Leve) -> foto repetida/errada em um deles: trocar a imagem.
+
+  3. IMAGEM REPETIDA em 2 produtos
+       - LATTAFA BADE AL OUD NOBLE BLUSH 100ML  [INATIVO]
+         https://www.batistacosmeticos.com.br/produto/lattafa-bade-al-oud-noble-blush-100ml  (R$ 95,78)
+       - RASASI HAWAS ELIXIR 100ML  [INATIVO]
+         https://www.batistacosmeticos.com.br/produto/rasasi-hawas-elixir-100ml  (R$ 120,29)
+       Avaliacao: PRODUTOS INATIVOS e diferentes (Lattafa x Rasasi) -> foto errada, mas estao inativos.
+
+  4. IMAGEM REPETIDA em 2 produtos
+       - Protetor Solar Vichy Idéal Soleil Corporal HydraSoft FPS70  
+         https://www.batistacosmeticos.com.br/produto/protetor-solar-vichy-ideal-soleil-corporal-hydrasoft-fps70  (R$ 52,37)
+       - Protetor Solar Vichy Idéal Soleil Corporal Hydra Soft FPS30  
+         https://www.batistacosmeticos.com.br/produto/protetor-solar-vichy-ideal-soleil-corporal-hydra-soft-fps30  (R$ 34,75)
+       Avaliacao: PRODUTOS DIFERENTES (FPS70 x FPS30) -> verificar se a foto corresponde ao FPS de cada um.
+
+  5. IMAGEM REPETIDA em 2 produtos
+       - Shampoo L'oreal Professionnel Absolut Repair Gold Quinoa + Protein 750ml  
+         https://www.batistacosmeticos.com.br/produto/shampoo-l-oreal-professionnel-absolut-repair-gold-quinoa-protein-750ml  (R$ 103,16)
+       - Kit Loreal Absolut Repair Shampoo 750ml e Condicionador 750ml  
+         https://www.batistacosmeticos.com.br/produto/kit-loreal-absolut-repair-shampoo-750ml-e-condicionador-750ml  (R$ 221,41)
+       Avaliacao: PRODUTO x KIT -> shampoo 750ml usando foto do kit: trocar a imagem.
+
+  6. IMAGEM REPETIDA em 2 produtos
+       - Loção Hidratante Umiditá Gestante 200ml  
+         https://www.batistacosmeticos.com.br/produto/locao-hidratante-umidita-gestante-200ml  (R$ 61,90)
+       - Loção Hidratante Umiditá Gestante com 200ml  
+         https://www.batistacosmeticos.com.br/produto/locao-hidratante-umidita-gestante-com-200ml  (R$ 61,88)
+       Avaliacao: DUPLICADO REAL (mesma loção) -> unificar (ja esta na Parte 1).
+
+  7. IMAGEM REPETIDA em 2 produtos
+       - Nutren Control Baunilha 740g  [INATIVO]
+         https://www.batistacosmeticos.com.br/produto/nutren-control-baunilha-740g  (R$ 93,64)
+       - Nutren Control sabor Baunilha 740g  [INATIVO]
+         https://www.batistacosmeticos.com.br/produto/nutren-control-sabor-baunilha-740g  (R$ 93,64)
+       Avaliacao: DUPLICADO REAL INATIVO (Nutren Control) -> ja inativos, sem acao.
+
+Observacao: o sistema tambem tem produtos distintos com imagens de mesmo tamanho em bytes, mas isso e coincidencia de compressao e foi desconsiderado.
+
+FIM DO RELATORIO
