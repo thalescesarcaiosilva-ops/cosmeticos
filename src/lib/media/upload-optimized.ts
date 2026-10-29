@@ -77,4 +77,33 @@ export async function uploadOptimizedMediaVariants(params: {
   }
 }
 
+/** Envia o arquivo original quando a otimização em WebP falha. */
+export async function uploadOriginalMedia(params: {
+  bucket: string
+  fileBuffer: Buffer
+  contentType: string
+  extension: string
+}): Promise<UploadVariantsResult> {
+  const admin = createAdminClient()
+  const storagePath = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${params.extension}`
+  const { error } = await admin.storage.from(params.bucket).upload(storagePath, params.fileBuffer, {
+    contentType: params.contentType,
+    upsert: false,
+  })
+  if (error) throw new Error(error.message)
+
+  const { data: urlData } = admin.storage.from(params.bucket).getPublicUrl(storagePath)
+  const url = toSiteMediaUrl(urlData.publicUrl) ?? urlData.publicUrl
+
+  return {
+    storagePath,
+    publicUrl: url,
+    thumbUrl: url,
+    mediumUrl: url,
+    mimeType: params.contentType,
+    sizeBytes: params.fileBuffer.byteLength,
+    pathsToCleanup: [storagePath],
+  }
+}
+
 export { isRasterImageMime }

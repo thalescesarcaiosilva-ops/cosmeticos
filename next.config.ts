@@ -39,6 +39,7 @@ const LONG_CACHE = 'public, max-age=31536000, immutable'
 const MONTH_CACHE = 'public, max-age=2592000, stale-while-revalidate=86400'
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['sharp'],
   images: {
     // Loja usa SiteImage (unoptimized) + variantes WebP no storage.
     formats: ['image/webp'],

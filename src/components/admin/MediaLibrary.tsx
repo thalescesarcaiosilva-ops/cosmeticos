@@ -298,6 +298,7 @@ export function MediaLibrary({
                       src={asset.public_url}
                       alt={asset.alt_text ?? asset.filename}
                       fill
+                      unoptimized
                       sizes="160px"
                       className="object-contain p-2"
                     />

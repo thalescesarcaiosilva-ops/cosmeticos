@@ -10,7 +10,11 @@ import {
   MEDIA_PAGE_SIZE,
   type MediaBucket,
 } from '@/lib/media/buckets'
-import { isRasterImageMime, uploadOptimizedMediaVariants } from '@/lib/media/upload-optimized'
+import {
+  isRasterImageMime,
+  uploadOptimizedMediaVariants,
+  uploadOriginalMedia,
+} from '@/lib/media/upload-optimized'
 
 const MEDIA_COLUMNS =
   'id, filename, storage_path, bucket, public_url, thumb_url, medium_url, mime_type, size_bytes, alt_text, created_at'
@@ -32,7 +36,7 @@ async function requireAdmin() {
   }
 }
 
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
+const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
 const MAX_SIZE = 5 * 1024 * 1024
 
 function normalizeMediaAssetUrls<
@@ -125,7 +129,9 @@ export async function POST(request: Request) {
     return jsonError('Envie um arquivo de imagem', 400)
   }
 
-  if (!ALLOWED_TYPES.includes(file.type)) {
+  const mimeType = file.type === 'image/jpg' ? 'image/jpeg' : file.type
+
+  if (!ALLOWED_TYPES.includes(file.type) && mimeType !== 'image/jpeg') {
     return jsonError('Formato não permitido. Use JPEG, PNG, WebP, GIF ou SVG.', 400)
   }
 
@@ -139,12 +145,12 @@ export async function POST(request: Request) {
     typeof altText === 'string' && altText.trim() ? altText.trim() : null
 
   // SVG: sem sharp — upload direto
-  if (file.type === 'image/svg+xml' || !isRasterImageMime(file.type)) {
+  if (mimeType === 'image/svg+xml' || !isRasterImageMime(mimeType)) {
     const ext = file.name.split('.').pop()?.toLowerCase() ?? 'svg'
     const storagePath = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${ext}`
     const { error: uploadError } = await admin.storage
       .from(bucket)
-      .upload(storagePath, buffer, { contentType: file.type, upsert: false })
+      .upload(storagePath, buffer, { contentType: mimeType, upsert: false })
 
     if (uploadError) {
       return jsonError(
@@ -163,7 +169,7 @@ export async function POST(request: Request) {
         storage_path: storagePath,
         bucket,
         public_url: normalizedPublicUrl,
-        mime_type: file.type,
+        mime_type: mimeType,
         size_bytes: file.size,
         alt_text: alt,
         uploaded_by: auth.id,
@@ -195,10 +201,25 @@ export async function POST(request: Request) {
       fileBuffer: buffer,
     })
   } catch (err) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('[media/upload]', err)
+    console.error('[media/upload]', err)
+    const ext = file.name.split('.').pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg'
+    try {
+      uploaded = await uploadOriginalMedia({
+        bucket,
+        fileBuffer: buffer,
+        contentType: mimeType,
+        extension: ext,
+      })
+    } catch (fallbackErr) {
+      console.error('[media/upload:fallback]', fallbackErr)
+      const detail =
+        fallbackErr instanceof Error
+          ? fallbackErr.message
+          : err instanceof Error
+            ? err.message
+            : 'erro desconhecido'
+      return jsonError(`Falha ao enviar a imagem. ${detail}`, 400)
     }
-    return jsonError('Falha ao otimizar/enviar a imagem', 400)
   }
 
   const insertPayload = {

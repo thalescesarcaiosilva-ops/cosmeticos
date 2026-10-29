@@ -13,14 +13,6 @@ import type { BuyTogetherSettings } from '@/types/buy-together-settings'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
 import type { ProductCardData, ProductDetail } from '@/types/product'
 
-function formatSizeLabel(label: string) {
-  return label
-    .trim()
-    .replace(/\bml\b/gi, 'mL')
-    .replace(/\bkg\b/gi, 'kg')
-    .replace(/\bg\b/gi, 'g')
-}
-
 type ProductPageViewProps = {
   product: ProductDetail
   paymentSettings: PaymentSettings
@@ -84,18 +76,7 @@ export function ProductPageView({
                 )}
                 <h1 className="mt-1 text-[22px] font-bold leading-tight text-text-primary md:text-[28px]">
                   {product.name}
-                  {product.size_label ? (
-                    <span className="whitespace-nowrap"> — {formatSizeLabel(product.size_label)}</span>
-                  ) : null}
                 </h1>
-                {product.size_label ? (
-                  <p className="mt-3">
-                    <span className="inline-flex rounded-full bg-brand px-3 py-1 text-[12px] font-bold leading-none text-white">
-                      <span className="sr-only">Conteúdo: </span>
-                      {formatSizeLabel(product.size_label)}
-                    </span>
-                  </p>
-                ) : null}
               </div>
               <FavoriteButton productId={product.id} variant="product" />
             </div>
@@ -107,6 +88,7 @@ export function ProductPageView({
             imageUrl={product.images[0]?.url ?? null}
             imageAlt={product.images[0]?.alt ?? product.name}
             stock={product.stock}
+            sizeLabel={product.size_label}
             price={product.price}
             originalPrice={product.original_price}
             paymentSettings={paymentSettings}
