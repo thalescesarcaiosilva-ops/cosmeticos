@@ -1,0 +1,91 @@
+﻿GTIN status { ok: 1254, 'tamanho-11': 1, 'checksum-invalido': 23 }
+GTIN quase iguais 8
+  Antirrugas SkinCeuticals Retinol 0.3 com 30ml | 3606000509603 | Creme Facial Anti-idade Retinol 0.3 SkinCeuticals com Vitamina C 30ml | 36060005096030
+  Creme Leave-in N.P.P.E. SH-RD Protein Gold Deluxe Edition | 0652418102281 | N.p.p.e. Sh-rd Protein Cream Leave-in 80ml | 6524181022810
+  Leave-In Redken Acidic Color Gloss | 0884486456380 | Leave-In Redken Acidic Perfecting Concentrate | 8844864563804
+  Lo├º├úo Hidratante Umidit├í Gestante 200ml | 7896094208704 | Lo├º├úo Hidratante Umidit├í Gestante com 200ml | 78960942087041
+  M├íscara Capilar L'Or├®al Professionnel Absolut Repair Molecular 250ml | 34746372178840 | M├íscara de Tratamento L'Or├®al Professionnel Absolut Repair Molecular 250ml | 3474637217884
+  Protetor Solar Facial Isdin UV Mineral Brush FPS50 sem cor 2g | 84294202008210 | Protetor Solar Facial P├│ FPS 50 ISDIN sem cor 2g | 8429420200821
+  Protetor Solar SkinCeuticals - UV Oil Defense FPS 80 40g | 7899706162128 | Protetor Solar SkinCeuticals UV Oil Defense FPS80 40g | 78997061621280
+  Rejuvenescedor Facial C E Ferulic Skinceuticals 30ml | 7899706140942 | S├®rum Facial C E Ferulic Skinceuticals 30ml | 78997061409420
+rede larga novos: 132
+1 | Bioderma Sensibio H2O ├ügua Micelar Calmante 1L <=> Bioderma Sensibio H2O ├ügua Micelar Calmante Kit
+1 | Bioderma Sensibio H2O ├ügua Micelar Calmante 250ml <=> Bioderma Sensibio H2O ├ügua Micelar Calmante Kit
+1 | Bioderma Sensibio H2O ├ügua Micelar Calmante 500ml <=> Bioderma Sensibio H2O ├ügua Micelar Calmante Kit
+1 | Bior├® Kit - Protetor Solar + ├ôleo Demaquilante Facial <=> Bior├® Kit - Protetor Solar Fps50 + ├ôleo Demaquilante Facial
+1 | Blush em Bast├úo Oc├®ane Mini Blush Stick Edition 6g - Cloudy Pink <=> Blush em Bast├úo Oc├®ane Mini Blush Stick Edition 6g - Pink
+1 | Creme Hidratante Caudalie Niacinamida Vinoperfect <=> Creme Hidratante Caudalie Niacinamida Vinoperfect Refil
+1 | Creme Hidratante Caudalie Premier Cru O Creme <=> Creme Hidratante Caudalie Premier Cru O Creme - Refil
+1 | Creme Hidratante Caudalie Premier Cru O Creme <=> Creme Hidratante Caudalie Premier Cru O Creme Rico
+1 | Creme Hidratante Caudalie Premier Cru O Creme - Refil <=> Creme Hidratante Caudalie Premier Cru O Creme Rico - Refil
+1 | Creme Hidratante Caudalie Premier Cru O Creme Rico <=> Creme Hidratante Caudalie Premier Cru O Creme Rico - Refil
+1 | Creme Hidratante Guerlain Abeille Royale Clarify & Repair <=> Creme Hidratante Guerlain Abeille Royale Clarify & Repair Refil
+1 | Creme Hidratante La Prairie Pure Gold Radiance Cream <=> Creme Hidratante La Prairie Pure Gold Radiance Cream Refil
+1 | Creme para Olhos La Prairie Pure Gold Radiance Eye Cream <=> Creme para Olhos La Prairie Pure Gold Radiance Eye Cream Refil
+1 | Esmalte Colorama Hello Kitty and Friends 8ml - Glow Kitty <=> Esmalte Colorama Hello Kitty and Friends 8ml - Nuvem de Glow
+1 | Eudora Niina Secrets M├íscara De C├¡lios Super Bold 10g <=> M├íscara de C├¡lios Niina Secrets By Eudora - Super Bold 1 UN
+1 | Gel Condicionante Capilar QBS 3 Fixa├º├úo Forte 200g <=> Gel Condicionante Capilar QBS 3 Fixa├º├úo Super Forte 200g
+1 | Gel-Creme Anti-idade Av├¿ne Hyaluron Activ B3 Aqua Renovador Celular 50ml <=> Refil Gel-Creme Anti-idade Av├¿ne Hyaluron Activ B3 Aqua Renovador Celular 50ml
+1 | Hair Spray Care Liss Extra Forte 150ml <=> Hair Spray Care Liss Forte 150ml
+1 | Hidratante Facial Neutrogena Hydro Boost Water Gel 50g <=> Hidratante Facial Neutrogena Hydro Boost Water Gel Refil 50g
+1 | Hidratante Facial TIRTIR Ceramic Cream <=> Hidratante Facial TIRTIR Ceramic Cream Light
+1 | Hidratante La Prairie Skin Caviar Luxe Cream <=> Hidratante La Prairie Skin Caviar Luxe Cream Sheer
+1 | Hidratante Lanc├┤me Absolue L'Extrait Ultimate Elixir <=> Hidratante Lanc├┤me Absolue L'Extrait Ultimate Elixir Refil
+1 | Hidratante Multi-Prote├º├úo Anti-Oxidante 24 Horas FPS 15 Est├®e Lauder DayWear <=> Hidratante Multi-Prote├º├úo Anti-Oxidante 24 Horas FPS 15 Matte Est├®e Lauder DayWear
+1 | Hidratante Noturno Guerlain Abeille Royale Honey Treatment <=> Hidratante Noturno Guerlain Abeille Royale Honey Treatment Refil
+1 | Kit L'Or├®al Paris Elseve Pure Hialur├┤nico Shampoo 200ml + Condicionador 200ml + Creme de Tratamento 300g <=> Kit L'Or├®al Paris Elseve Pure Hialur├┤nico Shampoo 200ml + Creme de Tratamento 300g
+1 | Kit L'Or├®al Paris Elseve Pure Hialur├┤nico Shampoo 200ml + Condicionador 200ml + Creme de Tratamento 300g <=> Kit L'Or├®al Paris Elseve Pure Hialur├┤nico Shampoo 400ml + Creme de Tratamento 300g
+1 | Kit L'Or├®al Paris Elseve Pure Hialur├┤nico Shampoo 200ml + Creme de Tratamento 300g <=> Kit L'Or├®al Paris Elseve Pure Hialur├┤nico Shampoo 400ml + Condicionador 400ml + Creme de Tratamento 300g
+1 | Kit L'Or├®al Paris Elseve Pure Hialur├┤nico Shampoo 400ml + Condicionador 400ml + Creme de Tratamento 300g <=> Kit L'Or├®al Paris Elseve Pure Hialur├┤nico Shampoo 400ml + Creme de Tratamento 300g
+1 | Kit Protetor Solar FPS 70 Needs Facial 40g + Corporal 200g <=> Kit Protetor Solar Needs FPS 70 Facial 40g + Spray Corporal 180ml
+1 | M├íscara de Tratamento Schwarzkopf Bonacure Clean Performance Color Freeze <=> M├íscara de Tratamento Schwarzkopf Bonacure Clean Performance Color Freeze Silver
+1 | ├ôleo Capilar K├®rastase Elixir Ultime L'huile Originale <=> ├ôleo Capilar K├®rastase Elixir Ultime L'Huile Originale Refil
+1 | Protetor Solar com Cor Dermage ÔÇô Photoage Stick Color FPS99 M├®dio <=> Protetor Solar com Cor Dermage ÔÇô Photoage Stick Color FPS99 M├®dio Intense
+1 | Protetor Solar Facial Bioderma Photoderm Cover Touch Mineral FPS 50+ Claro <=> Protetor Solar Facial Bioderma Photoderm Cover Touch Mineral FPS 50+ Muito Claro
+1 | Protetor Solar Facial Com Cor Pink Stick FPS90 42km <=> Protetor Solar Facial Com Cor Pink Stick FPS90 42km Rio
+1 | Protetor Solar Facial em P├│ Compacto Mantecorp Skincare Episol Color FPS50 Clara <=> Protetor Solar Facial em P├│ Compacto Mantecorp Skincare Episol Color FPS50 Extra clara
+1 | Protetor Solar Facial em P├│ Compacto Mantecorp Skincare Episol Color FPS50 Morena <=> Protetor Solar Facial em P├│ Compacto Mantecorp Skincare Episol Color FPS50 Morena Mais
+1 | Protetor Solar Facial Needs Firmeza & Antissinais FPS 50 Bast├úo 12g <=> Protetor Solar Facial Needs Firmeza & Antissinais FPS 50 Com Cor Bast├úo 12g
+1 | Protetor Solar Facial Neostrata Minesol Oil Control FPS 70 Claro <=> Protetor Solar Facial Neostrata Minesol Oil Control FPS 70 M├®dio Claro
+1 | S├®rum Capilar Mise En Sc├¿ne Perfect Serum 30ml <=> S├®rum Capilar Mise En Sc├¿ne Perfect Serum Hydrating 30ml
+1 | S├®rum Capilar Mise En Sc├¿ne Perfect Serum 30ml <=> S├®rum Capilar Mise En Sc├¿ne Perfect Serum Styling 30ml
+1 | S├®rum Facial Beauty Of Joseon Glow 30ml <=> S├®rum Facial Beauty Of Joseon Glow Deep 30ml
+1 | Shampoo de Volume Revitalizante Sisley Hair Rituel <=> Shampoo Revitalizante Sisley Hair Rituel
+1 | Shampoo Revitalizante Alinhador Sisley Hair Rituel <=> Shampoo Revitalizante Sisley Hair Rituel
+1 | Shampoo Schwarzkopf Bonacure Clean Performance Color Freeze <=> Shampoo Schwarzkopf Bonacure Clean Performance Color Freeze Silver
+1 | Shampoo Wella Cool Blonde Recharge Invigo <=> Shampoo Wella Invigo Blonde Recharge 250ml
+1 | Tonalizante Grecin 5 Just For Men Color Gel Barba e Bigode - Castanho <=> Tonalizante Grecin 5 Just For Men Color Gel Barba e Bigode - Castanho Claro
+1 | Tonalizante Grecin 5 Just For Men Color Gel Barba e Bigode - Castanho <=> Tonalizante Grecin 5 Just For Men Color Gel Barba e Bigode - Castanho Escuro
+1 | T├┤nico Facial TIRTIR Milk Skin <=> T├┤nico Facial TIRTIR Milk Skin Light
+2 | ├ügua Micelar Bioderma Sensibio H2O 250ml <=> Bioderma Sensibio H2O ├ügua Micelar Calmante Kit
+2 | Condicionador para Cabelos Naturais Nioxin <=> Condicionador para Cabelos Naturais Sistema 2 Nioxin
+2 | Creme Hidratante Caudalie Premier Cru O Creme <=> Creme Hidratante Caudalie Premier Cru O Creme Rico - Refil
+2 | Creme Hidratante Facial Shiseido Essential Energy Cream Refil <=> Hidratante Facial Shiseido Essential Energy Cream
+2 | Darrow Actine Gel de Limpeza Facial 400g <=> Gel De Limpeza Facial Darrow Actine Oil Control 400g
+2 | Grooming Modelador Capilar Nerk Embaixador 250ml <=> Kit 3 Grooming Modelador Capilar Nerk Embaixador 250ml
+2 | Kit Elseve Repara├º├úo Total 5 Shampoo 375ml + Condicionador 170ml <=> Shampoo Elseve Repara├º├úo Total 5 200ml
+2 | Kit Protetor Solar FPS 70 Needs Facial 40g + Corporal 200g <=> Kit Protetor Solar Needs Facial FPS 70 40g + Corporal FPS 50 Aerossol 200ml
+2 | Kit Protetor Solar Needs FPS 70 Facial 40g + Spray Corporal 180ml <=> Protetor Solar Corporal FPS 70 Needs Solar Spray 180ml
+2 | Len├ºo Demaquilante Neutrogena Deep Clean C/25un <=> Neutrogena Deep Clean Len├ºo Demaquilante
+2 | Len├ºo Demaquilante Neutrogena Deep Clean com 25 unidades <=> Neutrogena Deep Clean Len├ºo Demaquilante
+2 | M├íscara Capilar K├®rastase Nutritive Masquintense Riche <=> M├íscara K├®rastase Nutritive Masquintense 200ml
+2 | M├íscara de C├¡lios Clinique High Impact Zero Gravity Preto <=> M├íscara de C├¡lios High Impact Zero Gravity 8ml
+2 | ├ôleo Capilar L'Or├®al Professionnel Absolut Repair 10 em 1 90ml <=> ├ôleo Capilar L'Or├®al Professionnel Absolut Repair 90ml
+2 | Protetor Solar Facial Needs Beauty FPS 70 40g <=> Protetor Solar Facial Needs Beauty FPS 70 Bege Claro 40g
+2 | Protetor Solar Facial Needs Controle de Oleosidade Bege M├®dio FPS 70 40g <=> Protetor Solar Facial Needs Controle de Oleosidade FPS 70 40g
+2 | Protetor Solar Facial Neostrata Minesol Oil Control FPS 70 Claro <=> Protetor Solar Neostrata - Minesol Oil Control FPS 70 40g
+2 | Protetor Solar Facial Neostrata Minesol Oil Control FPS 70 Negra <=> Protetor Solar Neostrata - Minesol Oil Control FPS 70 40g
+2 | Protetor Solar SkinCeuticals - UV Oil Defense FPS 80 40g <=> Protetor Solar Skinceuticals - UV Oil Defense FPS 80 Tinted Universal
+2 | Removedor de Esmalte Needs Argan sem Acetona 100ml <=> Removedor de Esmalte Needs com Acetona 100ml
+2 | Removedor de Esmalte Needs com Acetona 100ml <=> Removedor de Esmalte Needs Lavanda sem Acetona 100ml
+2 | Wella Professionals Invigo Nutri-Enrich - Condicionador 1L <=> Wella Professionals Invigo Nutri-enrich Shampoo+condicionador 1l + Mascara 150ml
+2 | Wella Professionals Invigo Nutri-Enrich - Condicionador 200ml <=> Wella Professionals Invigo Nutri-enrich Shampoo+condicionador 1l + Mascara 150ml
+2 | Wella Professionals Invigo Nutri-Enrich - M├íscara 150ml <=> Wella Professionals Invigo Nutri-enrich Shampoo+condicionador 1l + Mascara 150ml
+2 | Wella Professionals Invigo Nutri-Enrich - M├íscara 500ml <=> Wella Professionals Invigo Nutri-enrich Shampoo+condicionador 1l + Mascara 150ml
+2 | Wella Professionals Invigo Nutri-Enrich - Shampoo 1L <=> Wella Professionals Invigo Nutri-enrich Shampoo+condicionador 1l + Mascara 150ml
+2 | Wella Professionals Invigo Nutri-Enrich - Shampoo 250ml <=> Wella Professionals Invigo Nutri-enrich Shampoo+condicionador 1l + Mascara 150ml
+3 | Condicionador Schwarzkopf Bonacure Repair Rescue <=> Spray Condicionador Schwarzkopf Bonacure Clean Performance Repair Rescue
+3 | Epidrat Hyalu Lip Oil Berry 6ml <=> Kit C/ 3 Lip Oil - Epidrat Hyalu Berry
+3 | Kit Facial Principia Skincare Gel de Limpeza Suave GL-02 200ml + Protetor Solar PS-01 FPS 60 40ml + S├®rum Anti-Idade Mix-02 30ml <=> Kit Facial Principia Skincare Gel de Limpeza Suave GL-02 200ml + S├®rum Anti-Idade Mix-02 30ml + Creme Hidratante CH-01 50g + Protetor Solar PS-01 FPS 60 40ml
+3 | Kit Facial Principia Skincare Gel de Limpeza Suave GL-02 200ml + Protetor Solar PS-01 FPS 60 40ml + S├®rum Anti-Idade Mix-02 30ml <=> Kit Facial Principia Skincare Gel de Limpeza Suave GL-02 350ml + S├®rum Anti-Idade Mix-02 30ml + Creme Hidratante CH-01 50g + Protetor Solar PS-01 FPS 60 40ml
+3 | Kit Facial Principia Skincare Gel de Limpeza Suave GL-02 200ml + Protetor Solar PS-01 FPS 60 40ml + S├®rum Anti-Idade Mix-02 30ml <=> Kit Facial Principia Skincare Gel de Limpeza Suave GL-02 500ml + S├®rum Anti-Idade Mix-02 30ml + Creme Hidratante CH-01 50g + Protetor Solar PS-01 FPS 60 40ml

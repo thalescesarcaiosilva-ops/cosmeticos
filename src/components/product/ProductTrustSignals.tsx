@@ -1,4 +1,5 @@
-import { MapPinned, RefreshCcw, ShieldCheck, Truck } from 'lucide-react'
+import { Fragment } from 'react'
+import { RefreshCcw, ShieldCheck } from 'lucide-react'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
 
 type ProductTrustSignalsProps = {
@@ -44,17 +45,17 @@ export function ProductTrustSignals({ assurances }: ProductTrustSignalsProps) {
   if (items.length === 0) return null
 
   return (
-    <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-      {items.map(({ key, label, Icon }) => (
-        <li
-          key={key}
-          className="flex items-center gap-2.5 text-[12px] leading-snug text-text-secondary"
-        >
-          <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-md bg-surface-strong text-brand">
-            <Icon className="size-3.5" aria-hidden />
-          </span>
-          <span>{label}</span>
-        </li>
+    <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
+      {items.map(({ key, label, Icon }, index) => (
+        <Fragment key={key}>
+          {index > 0 ? <li className="hidden h-4 w-px bg-border sm:block" aria-hidden /> : null}
+          <li className="flex items-center gap-2 text-[13px] leading-snug text-text-secondary">
+            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+              <Icon className="size-3.5" aria-hidden />
+            </span>
+            <span>{label}</span>
+          </li>
+        </Fragment>
       ))}
     </ul>
   )

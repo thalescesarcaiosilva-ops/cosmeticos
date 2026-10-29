@@ -1,0 +1,299 @@
+﻿--- #1 CONFIRMADO 
+   M Gel de Limpeza Facial Micelar Calmante e Hidratante Bioderma Sensibio Gel Moussant 200ml [200 ML] R$83.53 v0 vw2 img4 g0602883999619
+   U Gel de Limpeza Micelar Bioderma Sensibio Gel Moussant 200ml [200 ML] R$44.67 v0 vw2 img10 g602883999619
+--- #2 CONFIRMADO 
+   M Protetor Solar Facial Darrow Actine Toque Seco FPS60 40g [40 G] R$34.92 v0 vw2 img4 g03282770206036
+   U Protetor Solar Darrow Actine Toque Seco FPS 60 40g [40 G] R$30.82 v0 vw2 img3 g3282770206036
+--- #3 ALTA 
+   M Bior├® ├ôleo Demaquilante Facial - Cleansing Oil Refil 210Ml [210 ML] R$103.55 v0 vw0 img4 
+   U ├ôleo de Limpeza Demaquilante Bior├® Cleansing Refil 210ml [210 ML] R$69.26 v0 vw0 img4 
+   U ├ôleo Demaquilante Facial Bior├® - Cleansing Oil Refil 210 ML [210 ML] R$66.78 v0 vw0 img4 
+--- #4 ALTA (tam so em um nome)
+   M Creme Hidratante Facial Tocobo Multi Ceramide [50 ML] R$197.13 v0 vw0 img1 g8809835060027
+   U Hidratante Facial Tocobo Multi Ceramide Cream 50ml [50 ML] R$218.41 v0 vw0 img8 
+--- #5 ALTA (tam so em um nome)
+   M L├ípis de Olhos Payot Marrom [1,1 G] R$31.39 v0 vw0 img4 
+   U L├ípis para Olhos Payot Marrom 1,10g [1,1 G] R$46.46 v0 vw0 img5 
+--- #6 ALTA (tam so em um nome)
+   M Shampoo Anti-quebra LÔÇÖOr├®al Professionnel Serie Expert Inforcer 300ml [300 ML] R$48.6 v0 vw7 img4 g7899706189385
+   U Shampoo Anti-Quebra L'Or├®al Professionnel Serie Expert Inforcer [300 ML] R$54.4 v0 vw0 img1 
+--- #7 MEDIA 
+   M Bior├® The Cleanse - Demaquilante 190Ml [190 ML] R$148.2 v0 vw0 img3 
+   U Demaquilante Facial Bior├® The Cleanse 190ml [190 ML] R$80.66 v0 vw0 img2 
+--- #8 MEDIA 
+   M Blush em Bast├úo Clinique Chubby 6g - Plumped Up Peony [6 G] R$274.55 v0 vw0 img8 
+   U Blush em Bast├úo Clinique Chubby Stick 6g - Plumped Up Peony [6 G] R$246.05 v0 vw0 img4 
+--- #9 MEDIA (tam so em um nome)
+   M Wella Professionals Fusion - Condicionador 200ml [200 ML] R$43.65 v0 vw12 img4 g7896235353874
+   U Wella Professionals Fusion - Condicionador 1L [1 L] R$63.14 v0 vw9 img4 g7896235353720
+   U Condicionador Reparador Wella Professionals Fusion [] R$90.32 v0 vw0 img1 
+--- #10 MEDIA 
+   M Creme ├ürea dos Olhos Skin1004 Probio-Cica Bakuchiol [20 ML] R$142.12 v0 vw0 img1 g8809913830177
+   U Creme para Olhos Probio-Cica Bakuchiol SKIN1004 [] R$163.97 v0 vw0 img1 
+--- #11 MEDIA (tam so em um nome)
+   M Hidratante Facial Beauty of Joseon Dynasty Cream [] R$224.33 v0 vw0 img1 g8809525249565
+   U Creme Facial Beauty Of Joseon Dynasty Cream 50ml [50 ML] R$284.9 v0 vw0 img3 
+--- #12 MEDIA 
+   M Creme Hidratante Clinique All About Eyes ├ürea dos Olhos 15ml [15 ML] R$341.05 v0 vw0 img8 
+   U Hidratante Gel-Creme Clinique All About Eyes ├ürea Dos Olhos 15ml [15 ML] R$341.05 v0 vw0 img8 
+--- #13 MEDIA 
+   M Eucerin Aquaphor Reparador Labial 10Ml [10 ML] R$62.61 v0 vw0 img4 
+   U Reparador Labial Eucerin Lip Aquaphor 10ml [10 ML] R$66.41 v0 vw0 img8 
+--- #14 MEDIA 
+   M Gel Antiacne Papuless Theraskin com 25g [25 G] R$53.16 v0 vw10 img4 g7897129302626
+   U Gel Antiacne Papuless Theraskin 25g [25 G] R$46.03 v0 vw6 img4 g7896658025747
+--- #15 MEDIA (tam so em um nome)
+   M Gloss Liphoney Franciny Ehlke 5g [5 G] R$39.28 v0 vw16 img4 g7898724572612
+   U Gloss Labial Franciny Ehlke Liphoney [5 G] R$34.1 v0 vw0 img8 
+--- #16 MEDIA (tam so em um nome)
+   M Hidratante Facial Antiacne Garnier Salic├¡lico Toque Seco 85g [85 G] R$23.8 v0 vw17 img2 g7908785422136
+   U Hidratante Facial Antiacne Garnier Skin Salic├¡lico Toque Seco [85 G] R$25.77 v0 vw0 img1 
+--- #17 MEDIA 
+   M Hidratante Labial La Mer The Lip Balm [9 G] R$585.48 v0 vw0 img1 g747930112433
+   U Hidratante Labial La Mer [] R$565.76 v0 vw0 img1 
+--- #18 MEDIA 
+   M La Roche-posay Pigmentclar Olhos S├®rum 15ml [15 ML] R$269.71 v0 vw1 img2 
+   U La Roche-posay Pigmentclar Olhos 15ml [15 ML] R$702.26 v0 vw0 img3 
+--- #19 MEDIA 
+   M Len├ºo De Limpeza Demaquilante Neutrogena Deep Clean 25 Unidades [] R$20.44 v0 vw0 img1 
+   U Len├ºo Demaquilante Neutrogena Deep Clean com 25 unidades [] R$36.09 v0 vw0 img5 
+--- #20 MEDIA 
+   M Lo├º├úo Hidratante Umidit├í Gestante com 200ml [200 ML] R$61.88 v9 vw100 img3 g78960942087041
+   U Lo├º├úo Hidratante Umidit├í Gestante 200ml [200 ML] R$61.9 v5 vw147 img3 g7896094208704
+--- #21 MEDIA (tam so em um nome)
+   M M├íscara Capilar LÔÇÖor├®al Professionnel Metal Detox 500ml [500 ML] R$115.48 v0 vw9 img4 g30163478
+   U M├íscara Capilar L'Or├®al Professionnel Metal Detox [] R$148.8 v0 vw0 img1 g30160606
+--- #22 MEDIA 
+   M Wella Professionals Invigo Nutri-Enrich - M├íscara 150ml [150 ML] R$37.16 v0 vw7 img4 g7896235353713
+   U M├íscara de Nutri├º├úo Wella Profissional Invigo Nutri-Enrich 150ml [150 ML] R$161.41 v0 vw0 img2 
+--- #23 MEDIA (tam so em um nome)
+   M ├ôleo Capilar Nutritivo Fino Premium Touch [70 ML] R$138.65 v0 vw2 img1 
+   U ├ôleo Capilar Leve Fino Premium Touch [70 ML] R$138.65 v0 vw0 img1 
+   U ├ôleo Capilar Fino Premium Touch Hair Oil 70ml [70 ML] R$170.91 v0 vw0 img0 
+--- #24 MEDIA (tam so em um nome)
+   M P├│ Solto Bruna Tavares BT Skinpowder 15g - Medium [15 G] R$75.91 v0 vw0 img3 
+   U P├│ Solto Facial Bruna Tavares Bt Skinpowder Medium [] R$48.89 v0 vw0 img2 
+--- #25 MEDIA 
+   M Pomada para Cabelo Nerk Efeito Matte Cream Embaixador - 85g [85 G] R$34.1 v0 vw0 img3 
+   U Pomada para Cabelo Nerk Efeito Matte Embaixador - 85g [85 G] R$34.1 v0 vw0 img3 
+--- #26 MEDIA 
+   M Protetor Solar SkinCeuticals - UV Oil Defense FPS 80 40g [40 G] R$47.98 v1 vw14 img4 g7899706162128
+   U Protetor Solar SkinCeuticals UV Oil Defense FPS80 40g [40 G] R$116.2 v1 vw8 img3 g78997061621280
+--- #27 MEDIA 
+   M S├®rum de Tratamento Opi Repair ModeÔäó 9ML [9 ML] R$98.71 v0 vw0 img7 
+   U S├®rum OPI Repair Mode 9ml [9 ML] R$156.74 v0 vw0 img8 
+--- #28 MEDIA (tam so em um nome)
+   M Shampoo L'Or├®al Professionnel Absolut Repair Refil 240ml [240 ML] R$39.68 v0 vw8 img4 g7908785404958
+   U Shampoo Repara├º├úo Profunda L'Or├®al Professionnel Absolut Repair Refil [240 ML] R$48.96 v0 vw0 img1 
+--- #29 MEDIA 
+   M Shampoo Wella Professionals Fusion 250ml [250 ML] R$92.4 v0 vw0 img1 g4064666316161
+   U Wella Professionals Fusion - Shampoo 250ml [250 ML] R$48.6 v0 vw0 img4 g4064666946740
+--- #30 MEDIA (tam so em um nome)
+   M Wella Professionals Invigo Nutri-Enrich - Shampoo 1L [1 L] R$57.34 v0 vw17 img4 g7896235353676
+   U Shampoo Wella Professionals Invigo Nutri Enrich 1 litro [1 L] R$67.32 v0 vw1 img1 g4064666435459
+--- #31 PROVAVEL 
+   M Acetona Beira Alta 450ml [450 ML] R$15.53 v0 vw0 img2 
+   U Removedor de Esmaltes Acetona Beira Alta 450ml [450 ML] R$28.4 v0 vw0 img2 
+--- #32 PROVAVEL 
+   M Australian Gold Shoothing Aloe Gel P├│s-sol Corporal 125g [125 G] R$34.1 v0 vw1 img2 
+   U Gel Hidratante P├│s Sol Australian Gold Shoothing Aloe 125g [125 G] R$38.85 v0 vw0 img6 
+--- #33 PROVAVEL 
+   M Balm Labial Musqu├®e 12g [12 G] R$20.43 v0 vw0 img3 
+   U Balm Labial Musqu├®e Herbarium com 12g [12 G] R$21.95 v0 vw0 img3 
+--- #34 PROVAVEL 
+   M B├ílsamo Demaquilante Clinique Take The Day Off Para Olhos e L├íbios 125ml [125 ML] R$303.05 v0 vw0 img6 
+   U Demaquilante Clinique Take The Day Off Olhos e L├íbios 125ml [125 ML] R$246.05 v0 vw0 img8 
+--- #35 PROVAVEL (tam so em um nome)
+   M Condicionador Fortalecedor Elizavecca CER-100 Collagen Coating Hair A+ Muscle [500 ML] R$198.49 v0 vw0 img1 g8809543253360
+   U Condicionador Elizavecca Cer-100 Collagen Coating Hair A+ Muscle Treatment 500ml [500 ML] R$332.41 v0 vw0 img2 
+--- #36 PROVAVEL 
+   M Condicionador Matizador Keune Care Silver Savior [1 L] R$245.52 v0 vw0 img1 g8719281058205
+   U Condicionador Keune Care Silver Savior [1 L] R$245.52 v0 vw0 img1 
+--- #37 PROVAVEL (tam so em um nome)
+   M Creme Hidratante Facial Creamy - Calming Cream [40 G] R$35.79 v0 vw0 img1 g7898965429195
+   U Hidratante Facial Calming Cream Creamy Skincare 40g [40 G] R$59.42 v0 vw0 img1 
+--- #38 PROVAVEL 
+   M Creme Hidratante Isdin Ureadin 20 com 50g [50 G] R$17.2 v0 vw9 img4 g7896422506564
+   U Hidratante Ureadin 20 50g [50 G] R$84.46 v0 vw0 img3 
+--- #39 PROVAVEL 
+   M Creme Hidratante Multirrestaurador Bepantol Derma Pele Extrasseca 20g [20 G] R$13.2 v1 vw20 img4 g7891106907286
+   U Creme Multirrestaurador Bepantol Derma 20g [20 G] R$41.07 v0 vw0 img6 
+--- #40 PROVAVEL 
+   M Creme Reparador Hidratante Mustela Cicastela 40ml [40 ML] R$40.47 v0 vw22 img4 g3504105033330
+   U Creme Reparador Hidratante Mustela Beb├¬ Cicastela Pele Sensibilizada com 40ml [40 ML] R$85.49 v0 vw1 img6 
+--- #41 PROVAVEL 
+   M Demaquilante Micelar Facial Esthederm Osmoclean Cleansing Oil 150ml [150 ML] R$234.1 v0 vw0 img6 
+   U Esthederm Osmoclean ├ôleo Demaquilante 150ml [150 ML] R$229.81 v0 vw0 img6 
+--- #42 PROVAVEL 
+   M M├íscara Capilar Si├áge Hair-Plastia da Eudora 250g [250 G] R$33.33 v0 vw3 img4 g7891033016440
+   U Eud Si├íge Hair Plastia M├íscara de Hidrata├º├úo 250g [250 G] R$52.15 v0 vw0 img5 
+   U M├íscara Capilar Si├áge Hair-Plastia 250g [250 G] R$76.94 v0 vw0 img0 
+--- #43 PROVAVEL (tam so em um nome)
+   M Gel Fixador Condicionante Bozzano A├º├úo Prolongada 150g [150 G] R$14.24 v0 vw0 img4 
+   U Gel Fixador Condicionante Bozzano A├º├úo Prolongada 300g [300 G] R$18.04 v0 vw0 img8 
+   U Gel Fixador A├º├úo Prolongada Bozzano [] R$17.09 v0 vw0 img2 
+--- #44 PROVAVEL (tam so em um nome)
+   M Protetor Solar Hidratante Epidrat Calm B5 FPS 50 Bisnaga 50ml [50 ML] R$99.66 v0 vw0 img3 
+   U Hidratante Epidrat Calm B5 Fps 50 [] R$99.66 v0 vw0 img3 
+--- #45 PROVAVEL 
+   M Hidratante Labial Carmed Fini Amoras com Cor 10g [10 G] R$28.4 v0 vw0 img3 
+   U Hidratante Labial Carmed Fini Amoras Intensas com Cor 10g [10 G] R$28.4 v0 vw0 img3 
+--- #46 PROVAVEL 
+   M Hidratante Labial Epidrat L├íbios Fps 30 5,5g [5,5 G] R$80.66 v0 vw0 img3 
+   U Hidratante Labial Epidrat L├íbios Mantecorp FPS 30 com 5,5g [5,5 G] R$80.66 v0 vw0 img4 
+--- #47 PROVAVEL (tam so em um nome)
+   M Hidratante Labial Moisture Surge Lip Hydro-Plump Treatment Clinique [10 ML] R$116 v0 vw0 img1 g0192333002261
+   U Hidratante Labial Moisture Surge Lip Hydro-Plump TreatmentÔÇï 10ml [10 ML] R$189.05 v0 vw0 img8 
+--- #48 PROVAVEL 
+   M Iluminador em Bast├úo Clinique Chubby Stick 6g [6 G] R$274.55 v0 vw0 img6 
+   U Iluminador em Bast├úo Clinique Chubby Stick 6g - Hefty Highlighter [6 G] R$246.05 v0 vw0 img7 
+--- #49 PROVAVEL 
+   M Kerasys Oriental Premium Treatment 200Ml [200 ML] R$96.81 v0 vw0 img5 
+   U M├íscara de Tratamento Kerasys Oriental Premium 200ml [200 ML] R$87.39 v0 vw0 img2 
+--- #50 PROVAVEL 
+   M Keune 1922 By J. M. Premier Paste - Pasta Modeladora 100ml [100 ML] R$161.31 v0 vw0 img3 
+   U Pasta Modeladora Keune 1922 Premier 100ml [100 ML] R$152.85 v0 vw0 img2 
+--- #51 PROVAVEL 
+   M LÔÇÖOr├®al Professionnel Curl Expression Long Lasting Leave-in [200 ML] R$128.51 v0 vw0 img1 g7899706203906
+   U Leave-In L'or├®al Professionnel Curl Expression Serie Expert Long Lasting [200 ML] R$138.72 v0 vw0 img1 
+--- #52 PROVAVEL (tam so em um nome)
+   M LÔÇÖOr├®al Professionnel Curl Expression M├íscara Rich 250ml [250 ML] R$130.92 v0 vw17 img4 g7899706203579
+   U M├íscara Capilar L'Or├®al Professionnel Serie Expert Curl Expression [250 ML] R$171.36 v0 vw0 img1 g7899706203944
+   U M├íscara De Tratamento L'Or├®al Professionnel Rich Curl Expression Serie Expert [] R$207.4 v0 vw0 img1 
+--- #53 PROVAVEL 
+   M LÔÇÖOr├®al Professionnel Inforcer - M├íscara Capilar 250g [250 G] R$54.83 v0 vw25 img4 g3474636975280
+   U M├íscara de Cabelo Fortalecedora L'Or├®al Professionnel Inforcer Cabelos Danificados 250g [250 G] R$181.36 v0 vw0 img6 
+--- #54 PROVAVEL 
+   M Len├ºo De Limpeza Facial Nivea 3 Em 1 A├º├úo Hidratante 25 unidades [] R$26.59 v0 vw0 img7 
+   U Lenco Demaquilante Nivea 3 Em 1 Com 25 Unidades Acao Hidratante [] R$13.6 v0 vw0 img1 
+--- #55 PROVAVEL 
+   M M├íscara de Tratamento para Cabelos Danificados Vichy Dercos Kera-Solutions 200ml [200 ML] R$141.29 v0 vw32 img4 g7899706183642
+   U M├íscara Capilar Concentrada Antirrigidez Vichy Dercos Kera-Solutions Tratamento Reconstructor para Cabelos Danificados 200ml [200 ML] R$176.61 v0 vw0 img8 
+--- #56 PROVAVEL 
+   M M├íscara Capilar L'Or├®al Professionnel Absolut Repair Molecular 250ml [250 ML] R$76 v0 vw2 img4 g34746372178840
+   U M├íscara de Tratamento L'Or├®al Professionnel Absolut Repair Molecular 250ml [250 ML] R$147.37 v0 vw2 img4 g3474637217884
+   U M├íscara de Cabelo L'Or├®al Professionnel Absolut Repair Molecular Cabelos Danificados 250ml [250 ML] R$196.64 v0 vw0 img7 
+--- #57 PROVAVEL 
+   M M├íscara Capilar Sebastian Professional Dark Oil 150ml [150 ML] R$72.92 v0 vw12 img4 g4064666210131
+   U M├íscara de Brilho Sebastian Professional Dark Oil 150 ml [150 ML] R$79.49 v0 vw1 img1 
+--- #58 PROVAVEL 
+   M M├íscara de C├¡lios Lav├ível Maybelline Ny - The Falsies Surreal 10ml [10 ML] R$78.98 v0 vw0 img8 
+   U M├íscara de C├¡lios Maybelline The Falsies Surreal 10ml [10 ML] R$101.64 v0 vw0 img2 
+   U M├íscara de C├¡lios Maybelline The Falsies Surreal Lav├ível 10ml [10 ML] R$101.64 v0 vw0 img2 
+--- #59 PROVAVEL 
+   M M├íscara de C├¡lios Vult Extreme Bombastic 10g [10 G] R$50.34 v0 vw0 img4 
+   U M├íscara de C├¡lios Vult Extreme Bombastic ├Ç Prova d'├ígua 10g [10 G] R$50.34 v0 vw0 img4 
+--- #60 PROVAVEL (tam so em um nome)
+   M M├íscara Nutritiva L'Or├®al Professionnel NutriOil 250ml [250 ML] R$112.78 v1 vw4 img4 g7899706205252
+   U M├íscara De Tratamento L'or├®al Professionnel Nutrioil [] R$135.32 v0 vw0 img1 
+--- #61 PROVAVEL 
+   M M├íscara de Tratamento Tsubaki Premium Moist e Repair 160g [160 G] R$122.55 v0 vw0 img2 
+   U Tsubaki Premium Moist & Repair Treatment - M├íscara Capilar 160G [160 G] R$151.05 v0 vw0 img2 
+--- #62 PROVAVEL 
+   M Wella Professionals Oil Reflections M├íscara de Hidrata├º├úo 500ml [500 ML] R$113.35 v2 vw62 img4 g7896235353775
+   U M├íscara de Tratamento Wella Professionals Oil Reflections 500ml [500 ML] R$237.41 v0 vw0 img2 
+--- #63 PROVAVEL (tam so em um nome)
+   M Wella Professionals Fusion - M├íscara Capilar 500ml [500 ML] R$134.87 v0 vw12 img4 g7896235353744
+   U Wella Professionals Fusion - M├íscara Capilar 150ml [150 ML] R$23.54 v0 vw5 img4 g7896235353737
+   U M├íscara Reparadora Wella Professionals Fusion [] R$101.93 v0 vw0 img1 
+--- #64 PROVAVEL 
+   M Mise En Sc├¿ne Perfect Serum Styling 30ml (cabelos Ondulados / Cacheados) [30 ML] R$75.91 v0 vw0 img3 
+   U S├®rum Capilar Mise En Sc├¿ne Perfect Serum Styling 30ml [30 ML] R$75.91 v0 vw0 img2 
+--- #65 PROVAVEL (tam so em um nome)
+   M ├ôleo Capilar L'Or├®al Professionnel Absolut Repair 90ml [90 ML] R$93.07 v1 vw35 img4 g3474636977369
+   U ├ôleo Capilar L'Or├®al Professionnel Absolut Repair Cabelos Danificados 90ml [90 ML] R$236.46 v0 vw0 img6 
+   U ├ôleo Capilar Bif├ísico L'Oreal Professionnel Absolut Repair Molecular [] R$155.04 v0 vw0 img1 
+--- #66 PROVAVEL (tam so em um nome)
+   M ├ôleo Capilar Bra├® Essential Blend Condicionante [60 ML] R$88.4 v0 vw0 img1 g7898667821440
+   U ├ôleo Capilar Bra├® Essential Oil Blend 60ml [60 ML] R$103.54 v0 vw0 img4 
+--- #67 PROVAVEL (tam so em um nome)
+   M ├ôleo Fortalecedor Elizavecca CER-100 Hair Muscle Essence [100 ML] R$171.97 v0 vw0 img1 g8809543253506
+   U ├ôleo Capilar Reparador Elizavecca CER-100 Hair Muscle Essence Oil 100ml [100 ML] R$284.9 v0 vw0 img2 
+--- #68 PROVAVEL 
+   M ├ôleo Capilar Wella Professionals Oil Reflections Smoothening 100ml [100 ML] R$156.55 v0 vw7 img4 g7898973417030
+   U ├ôleo Capilar Wella Professionals Oil Reflections 100ml [100 ML] R$195.69 v0 vw0 img2 
+--- #69 PROVAVEL 
+   M ├ôleo Demaquilante Facial Bior├® - Cleansing Oil 230ml [230 ML] R$43.04 v0 vw2 img4 g7898954042626
+   U ├ôleo de Limpeza Demaquilante Bior├® Cleansing 230ml [230 ML] R$84.46 v0 vw0 img4 
+--- #70 PROVAVEL 
+   M ├ôleo Reparador Danos Vorazes Lola Cosmetics 50ml [50 ML] R$15.81 v0 vw3 img4 g7899572812158
+   U ├ôleo Reparador Lola Danos Vorazes 50ml [50 ML] R$41.79 v0 vw0 img6 
+--- #71 PROVAVEL 
+   M Reparador Labial Profuse Nutrel Lip Repair 7,5g [7,5 G] R$29.02 v0 vw0 img2 g7896658033469
+   U Profuse Nutrel Lip Repair Hidratante Labial 7,5G [7,5 G] R$59.76 v0 vw0 img2 
+--- #72 PROVAVEL 
+   M S├®rum Rejuvenescedor La Roche-Posay Redermic Retinol 30ml [30 ML] R$202.5 v0 vw8 img4 g3337875660549
+   U Rejuvenescedor Facial La Roche-Posay - Redermic Retinol 30ml [30 ML] R$346.66 v0 vw0 img3 
+--- #73 PROVAVEL 
+   M Rejuvenescedor Facial Mantecorp Skincare Reviline Retinol S├®rum 30ml [30 ML] R$112.21 v2 vw99 img4 g7891142984005
+   U S├®rum Rejuvenescedor Reviline Retinol 30ml [30 ML] R$246.9 v0 vw0 img6 
+--- #74 PROVAVEL 
+   M Removedor de Esmalte Zulu 200ml [200 ML] R$12.35 v0 vw0 img3 
+   U Removedor de Esmalte Zulu Seducion com 200ml [200 ML] R$13.29 v0 vw0 img3 
+--- #75 PROVAVEL 
+   M S├®rum Facial Skinceuticals P-Tiox 30ml [30 ML] R$215.92 v3 vw271 img4 g7908785408000
+   U S├®rum Facial Anti-Idade Skinceuticals P-Tiox com Neuropept├¡deos 30ml [30 ML] R$375.25 v0 vw0 img8 
+--- #76 PROVAVEL 
+   M Shampoo Keune Care Silver Savior [1 L] R$127.13 v0 vw0 img1 g8719281058175
+   U Shampoo Matizador Keune Care Silver Savior [1000 ML] R$127.13 v0 vw0 img1 
+--- #77 PROVAVEL 
+   M Shampoo LÔÇÖOr├®al Professionnel Metal Detox 300ml [300 ML] R$60.98 v0 vw14 img4 g0000030158078
+   U Shampoo L'Or├®al Professionnel Metal Detox Cabelos Danificados 300ml [300 ML] R$214.61 v0 vw1 img6 
+--- #78 REVISAR_GTIN 
+   M ├ügua Micelar Bioderma Sensibio H2O 250ml [250 ML] R$59.56 v0 vw6 img10 g3401575390447
+   U Bioderma Sensibio H2O ├ügua Micelar Calmante 250ml [250 ML] R$71.39 v0 vw6 img4 g3701129812068
+--- #79 REVISAR_GTIN (tam so em um nome)
+   M Condicionador Antiqueda e Fortalecedor Vichy Dercos Energy+ 200ml [200 ML] R$29.62 v0 vw41 img4 g7899706254434
+   U Condicionador Vichy Dercos Antiqueda Energy+ [200 ML] R$31.57 v0 vw1 img4 g7899706179607
+--- #80 REVISAR_GTIN 
+   M Condicionador Bra├® Go Curly [250 ML] R$64.74 v0 vw0 img1 g7898667821020
+   U Condicionador Bra├® Go Curly Crespos [250 ML] R$64.74 v0 vw0 img1 g7898667821495
+--- #81 REVISAR_GTIN (tam so em um nome)
+   M N.p.p.e. Sh-rd Protein Cream Leave-in 80ml [80 ML] R$183.7 v0 vw4 img4 g6524181022810
+   U Creme Leave-in N.P.P.E. SH-RD Protein Gold Deluxe Edition [80 ML] R$61.88 v0 vw0 img1 g0652418102281
+--- #82 REVISAR_GTIN (tam so em um nome)
+   M Creme Vichy Liftactiv Col├ígeno Specialist 50ml [50 ML] R$150.77 v0 vw40 img4 g3337875607254
+   U Liftactiv Col├ígeno Specialist [] R$141.46 v0 vw1 img5 g3337875912600
+--- #83 REVISAR_GTIN 
+   M Desodorante Roll-On Perspirex 20ml [20 ML] R$69.83 v0 vw11 img4 g5701943011386
+   U Desodorante Roll On Perspirex - Comfort Roll-on 20ml [20 ML] R$72.21 v0 vw2 img2 g5701943100127
+--- #84 REVISAR_GTIN 
+   M Hidratante Clinique Smart Clinical Repair Wrinkle Rich Cream [50 ML] R$373.32 v0 vw0 img1 g0192333125113
+   U Hidratante Clinique Smart Clinical Wrinkle Cream [50 ML] R$380.12 v0 vw0 img1 g0192333125120
+--- #85 REVISAR_GTIN 
+   M Hidratante Facial Mantecorp Skincare Epidrat Calm 40g [40 G] R$43.04 v0 vw21 img4 g7891142200235
+   U Hidratante Facial Mantecorp Epidrat Calm 40g [40 G] R$47.61 v0 vw15 img4 g7891142982087
+--- #86 REVISAR_GTIN (tam so em um nome)
+   M S├®rum Antirrugas Vichy Liftactiv Retinol Specialist 30ml [30 ML] R$148.84 v0 vw4 img4 g7908615007847
+   U Liftactiv Retinol Specialist S├®rum [30 ML] R$148.84 v0 vw0 img4 g3337875821636
+--- #87 REVISAR_GTIN (tam so em um nome)
+   M S├®rum Rejuvenescedor Vichy Liftactiv H.A. Epidermic Filler 30ml [30 ML] R$132.54 v0 vw5 img4 g7899706187565
+   U Liftactiv S├®rum H.A. Epidermic Filler [30 ML] R$132.54 v0 vw0 img6 g7899706217071
+--- #88 REVISAR_GTIN 
+   M S├®rum Vichy Liftactiv Supreme Vitamina C 20ml [20 ML] R$141.4 v0 vw4 img4 g7899706220262
+   U Liftactiv S├®rum Vitamina C 20ml [20 ML] R$141.4 v0 vw0 img6 g3337875796583
+--- #89 REVISAR_GTIN (tam so em um nome)
+   M ├ôleo de Banho Hidratante Bioderma Atoderm Higiene Di├íria 1L [1 L] R$126.57 v12 vw609 img4 g3701129811627
+   U ├ôleo de Banho Hidratante Bioderma Atoderm 1 litro [1 L] R$126.57 v1 vw17 img8 g3401528520846
+--- #90 REVISAR_GTIN 
+   M S├®rum Facial C E Ferulic Skinceuticals 30ml [30 ML] R$333.28 v0 vw6 img4 g78997061409420
+   U Rejuvenescedor Facial C E Ferulic Skinceuticals 30ml [30 ML] R$202.5 v0 vw2 img10 g7899706140942
+--- #91 REVISAR_GTIN 
+   M Sabonete em Barra Antiss├®ptico Darrow Soapelle 70g [70 G] R$24.6 v0 vw8 img4 g3282770388640
+   U Sabonete Barra Darrow Soapelle 70g [70 G] R$24.3 v0 vw1 img3 g7896290402593
+--- #92 REVISAR_GTIN 
+   M S├®rum Facial Antimanchas e Anti-idade Eucerin Anti-Pigment Clareador Dual S├®rum 30ml [30 ML] R$148.31 v16 vw768 img4 g4005805477183
+   U S├®rum Facial Eucerin Anti-Pigment Dual S├®rum 30ml [30 ML] R$148.31 v0 vw13 img5 g7319470066786
+--- #93 REVISAR_GTIN 
+   M Shampoo L'Oreal Professionnel S├®rie Expert Vitamino Color Spectrum Blue [300 ML] R$140.76 v0 vw0 img1 g3474637268268
+   U Shampoo L'or├®al Professionnel Vitamino Color Spectrum [300 ML] R$128.55 v0 vw0 img1 g3474637268527
+   U Shampoo L'or├®al Professionnel Vitamino Color Spectrum Purple [300 ML] R$135.32 v0 vw0 img1 g3474637268398
+--- #94 REVISAR_GTIN (tam so em um nome)
+   M Shampoo Sebastian Penetraitt 250ml [250 ML] R$37.36 v0 vw6 img4 g4064666225326
+   U Shampoo Reconstrutor Sebastian Penetraitt [250 ML] R$99.96 v0 vw3 img1 g8005610594019
+--- #95 REVISAR_GTIN 
+   M Wella Professionals Fusion - Shampoo 1L [1 L] R$56.64 v0 vw5 img4 g4064666043715
+   U Shampoo Wella Fusion Intense Repair 1000ml [1000 ML] R$118.96 v0 vw4 img2 g4064666318233
+--- #96 REVISAR_GTIN 
+   M Shampoo Wella Oil Reflections 250ml [250 ML] R$22.08 v0 vw5 img4 g7896235353768
+   U Wella Professionals Oil Reflections Shampoo 250ml [250 ML] R$20.98 v0 vw0 img4 g4064666043623

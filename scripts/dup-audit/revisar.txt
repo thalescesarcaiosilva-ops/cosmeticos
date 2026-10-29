@@ -1,0 +1,111 @@
+﻿0 i G? [removedor,esmaltes] | Acetona Beira Alta 450ml R$15.53 <=> Removedor de Esmaltes Acetona Beira Alta 450ml R$28.4
+1 i G? [corporal,hidratante] | Australian Gold Shoothing Aloe Gel P├│s-sol Corporal 125g R$34.1 <=> Gel Hidratante P├│s Sol Australian Gold Shoothing Aloe 125g R$38.85
+2 i G? [herbarium] | Balm Labial Musqu├®e 12g R$20.43 <=> Balm Labial Musqu├®e Herbarium com 12g R$21.95
+3 i G? [balsamo] | B├ílsamo Demaquilante Clinique Take The Day Off Para Olhos e L├íbios 125ml R$303.05 <=> Demaquilante Clinique Take The Day Off Olhos e L├íbios 125ml R$246.05
+4 i G? [facial,limpeza] | Bior├® ├ôleo Demaquilante Facial - Cleansing Oil Refil 210Ml R$103.55 <=> ├ôleo de Limpeza Demaquilante Bior├® Cleansing Refil 210ml R$69.26
+5 i G? [cloudy] | Blush em Bast├úo Oc├®ane Mini Blush Stick Edition 6g - Cloudy Pink R$57.94 <=> Blush em Bast├úo Oc├®ane Mini Blush Stick Edition 6g - Pink R$57.86
+6 i G!= [crespos] | Condicionador Bra├® Go Curly R$64.74 <=> Condicionador Bra├® Go Curly Crespos R$64.74
+7 i G? [treatment,fortalecedor] | Condicionador Elizavecca Cer-100 Collagen Coating Hair A+ Muscle Treatment 500ml R$332.41 <=> Condicionador Fortalecedor Elizavecca CER-100 Collagen Coating Hair A+ Muscle R$198.49
+8 i G? [matizador] | Condicionador Keune Care Silver Savior R$245.52 <=> Condicionador Matizador Keune Care Silver Savior R$245.52
+9 i G? [contorno,facial,iluminador] | Contorno Facial em Bast├úo Clinique Chubby Stick 6g R$274.55 <=> Iluminador em Bast├úo Clinique Chubby Stick 6g R$274.55
+10 i G!= [rico] | Creme Hidratante Caudalie Premier Cru O Creme R$475.32 <=> Creme Hidratante Caudalie Premier Cru O Creme Rico R$475.32
+11 i G!= [rico] | Creme Hidratante Caudalie Premier Cru O Creme - Refil R$407.32 <=> Creme Hidratante Caudalie Premier Cru O Creme Rico - Refil R$407.32
+12 i G? [skincare] | Creme Hidratante Facial Creamy - Calming Cream R$35.79 <=> Hidratante Facial Calming Cream Creamy Skincare 40g R$59.42
+13 d G? [creme,facial,labial] | Creme Hidratante Facial Creme de La Mer R$771.8 <=> Hidratante Labial La Mer R$565.76
+14 i G? [creme,isdin] | Creme Hidratante Isdin Ureadin 20 com 50g R$17.2 <=> Hidratante Ureadin 20 50g R$84.46
+15 i G? [creme,facial,glow] | Creme Hidratante Lanc├┤me Hydra Zen Creme 50ml R$311.77 <=> Hidratante Facial Lanc├┤me - Hydra Zen Glow R$291.72
+16 i G? [hidratante,pele,extrasseca] | Creme Hidratante Multirrestaurador Bepantol Derma Pele Extrasseca 20g R$13.2 <=> Creme Multirrestaurador Bepantol Derma 20g R$41.07
+17 i G!= [gold,deluxe,edition] | Creme Leave-in N.P.P.E. SH-RD Protein Gold Deluxe Edition R$61.88 <=> N.p.p.e. Sh-rd Protein Cream Leave-in 80ml R$183.7
+18 i G? [bebe,pele,sensibilizada] | Creme Reparador Hidratante Mustela Beb├¬ Cicastela Pele Sensibilizada com 40ml R$85.49 <=> Creme Reparador Hidratante Mustela Cicastela 40ml R$40.47
+19 d G!= [creme,vichy] | Creme Vichy Liftactiv Col├ígeno Specialist 50ml R$150.77 <=> Liftactiv Col├ígeno Specialist R$141.46
+20 i G? [micelar,facial,cleansing] | Demaquilante Micelar Facial Esthederm Osmoclean Cleansing Oil 150ml R$234.1 <=> Esthederm Osmoclean ├ôleo Demaquilante 150ml R$229.81
+21 i G!= [comfort] | Desodorante Roll On Perspirex - Comfort Roll-on 20ml R$72.21 <=> Desodorante Roll-On Perspirex 20ml R$69.83
+22 i G? [nuvem] | Esmalte Colorama Hello Kitty and Friends 8ml - Glow Kitty R$8.54 <=> Esmalte Colorama Hello Kitty and Friends 8ml - Nuvem de Glow R$8.54
+23 i G? [eud,hidratante] | Eud Si├íge Hair Plastia M├íscara de Hidrata├º├úo 250g R$52.15 <=> M├íscara Capilar Si├áge Hair-Plastia 250g R$76.94
+24 i G? [serum,airy,smooth] | Fino Premium Touch Hair Oil Serum Airy Smooth - Serum Capilar 70ml R$165.21 <=> ├ôleo Capilar Fino Premium Touch Hair Oil 70ml R$170.91
+25 d G? [condicionante] | Gel Fixador A├º├úo Prolongada Bozzano R$17.09 <=> Gel Fixador Condicionante Bozzano A├º├úo Prolongada 150g R$14.24
+26 d G? [condicionante] | Gel Fixador A├º├úo Prolongada Bozzano R$17.09 <=> Gel Fixador Condicionante Bozzano A├º├úo Prolongada 300g R$18.04
+27 d G? [protetor,solar,bisnaga] | Hidratante Epidrat Calm B5 Fps 50 R$99.66 <=> Protetor Solar Hidratante Epidrat Calm B5 FPS 50 Bisnaga 50ml R$99.66
+28 i G!= [skincare] | Hidratante Facial Mantecorp Epidrat Calm 40g R$47.61 <=> Hidratante Facial Mantecorp Skincare Epidrat Calm 40g R$43.04
+29 i G!= [noturno,nutritivo] | Hidratante Facial NIVEA - Creme Facial Noturno R$22.43 <=> Hidratante Facial NIVEA - Creme Facial Nutritivo R$27.13
+30 i G!= [noturno,antissinais] | Hidratante Facial NIVEA - Creme Facial Noturno R$22.43 <=> Hidratante Facial N├¡vea Antissinais Creme 100g R$18.55
+31 i G!= [nutritivo,antissinais] | Hidratante Facial NIVEA - Creme Facial Nutritivo R$27.13 <=> Hidratante Facial N├¡vea Antissinais Creme 100g R$18.55
+32 d G? [sheer] | Hidratante La Prairie Skin Caviar Luxe Cream R$3569.32 <=> Hidratante La Prairie Skin Caviar Luxe Cream Sheer R$3569.32
+33 i G? [intensas] | Hidratante Labial Carmed Fini Amoras com Cor 10g R$28.4 <=> Hidratante Labial Carmed Fini Amoras Intensas com Cor 10g R$28.4
+34 i G? [mantecorp] | Hidratante Labial Epidrat L├íbios Fps 30 5,5g R$80.66 <=> Hidratante Labial Epidrat L├íbios Mantecorp FPS 30 com 5,5g R$80.66
+35 i G? [clinique] | Hidratante Labial Moisture Surge Lip Hydro-Plump TreatmentÔÇï 10ml R$189.05 <=> Hidratante Labial Moisture Surge Lip Hydro-Plump Treatment Clinique R$116
+36 i G? [hefty,highlighter] | Iluminador em Bast├úo Clinique Chubby Stick 6g R$274.55 <=> Iluminador em Bast├úo Clinique Chubby Stick 6g - Hefty Highlighter R$246.05
+37 i G? [treatment,mascara,tratamento] | Kerasys Oriental Premium Treatment 200Ml R$96.81 <=> M├íscara de Tratamento Kerasys Oriental Premium 200ml R$87.39
+38 i G? [j,m,paste] | Keune 1922 By J. M. Premier Paste - Pasta Modeladora 100ml R$161.31 <=> Pasta Modeladora Keune 1922 Premier 100ml R$152.85
+39 i G? [serie,expert] | LÔÇÖOr├®al Professionnel Curl Expression Long Lasting Leave-in R$128.51 <=> Leave-In L'or├®al Professionnel Curl Expression Serie Expert Long Lasting R$138.72
+40 d G? [tratamento,serie,expert] | LÔÇÖOr├®al Professionnel Curl Expression M├íscara Rich 250ml R$130.92 <=> M├íscara De Tratamento L'Or├®al Professionnel Rich Curl Expression Serie Expert R$207.4
+41 i G? [fortalecedora,danificados] | LÔÇÖOr├®al Professionnel Inforcer - M├íscara Capilar 250g R$54.83 <=> M├íscara de Cabelo Fortalecedora L'Or├®al Professionnel Inforcer Cabelos Danificados 250g R$181.36
+42 d G? [limpeza,facial,demaquilante] | Len├ºo De Limpeza Facial Nivea 3 Em 1 A├º├úo Hidratante 25 unidades R$26.59 <=> Lenco Demaquilante Nivea 3 Em 1 Com 25 Unidades Acao Hidratante R$13.6
+43 i G!= [antirrugas,vichy] | Liftactiv Retinol Specialist S├®rum R$148.84 <=> S├®rum Antirrugas Vichy Liftactiv Retinol Specialist 30ml R$148.84
+44 i G!= [rejuvenescedor,vichy] | Liftactiv S├®rum H.A. Epidermic Filler R$132.54 <=> S├®rum Rejuvenescedor Vichy Liftactiv H.A. Epidermic Filler 30ml R$132.54
+45 i G!= [vichy,supreme] | Liftactiv S├®rum Vitamina C 20ml R$141.4 <=> S├®rum Vichy Liftactiv Supreme Vitamina C 20ml R$141.4
+46 i G? [concentrada,antirrigidez,reconstructor] | M├íscara Capilar Concentrada Antirrigidez Vichy Dercos Kera-Solutions Tratamento Reconstructor para Cabelos Danificados 200ml R$176.61 <=> M├íscara de Tratamento para Cabelos Danificados Vichy Dercos Kera-Solutions 200ml R$141.29
+47 i G!= [capilar,riche] | M├íscara Capilar K├®rastase Nutritive Masquintense Riche R$203.93 <=> M├íscara K├®rastase Nutritive Masquintense 200ml R$104.66
+48 i G? [danificados] | M├íscara Capilar L'Or├®al Professionnel Absolut Repair Molecular 250ml R$76 <=> M├íscara de Cabelo L'Or├®al Professionnel Absolut Repair Molecular Cabelos Danificados 250ml R$196.64
+49 i G!= [capilar,tratamento] | M├íscara Capilar L'Or├®al Professionnel Absolut Repair Molecular 250ml R$76 <=> M├íscara de Tratamento L'Or├®al Professionnel Absolut Repair Molecular 250ml R$147.37
+50 d G? [capilar,tratamento,rich] | M├íscara Capilar L'Or├®al Professionnel Serie Expert Curl Expression R$171.36 <=> M├íscara De Tratamento L'Or├®al Professionnel Rich Curl Expression Serie Expert R$207.4
+51 i G? [capilar,brilho] | M├íscara Capilar Sebastian Professional Dark Oil 150ml R$72.92 <=> M├íscara de Brilho Sebastian Professional Dark Oil 150 ml R$79.49
+52 i G? [eudora] | M├íscara Capilar Si├áge Hair-Plastia 250g R$76.94 <=> M├íscara Capilar Si├áge Hair-Plastia da Eudora 250g R$33.33
+53 i G? [lavavel,ny] | M├íscara de C├¡lios Lav├ível Maybelline Ny - The Falsies Surreal 10ml R$78.98 <=> M├íscara de C├¡lios Maybelline The Falsies Surreal 10ml R$101.64
+54 i G? [ny] | M├íscara de C├¡lios Lav├ível Maybelline Ny - The Falsies Surreal 10ml R$78.98 <=> M├íscara de C├¡lios Maybelline The Falsies Surreal Lav├ível 10ml R$101.64
+55 i G? [lavavel] | M├íscara de C├¡lios Maybelline The Falsies Surreal 10ml R$101.64 <=> M├íscara de C├¡lios Maybelline The Falsies Surreal Lav├ível 10ml R$101.64
+56 i G? [prova,d,agua] | M├íscara de C├¡lios Vult Extreme Bombastic 10g R$50.34 <=> M├íscara de C├¡lios Vult Extreme Bombastic ├Ç Prova d'├ígua 10g R$50.34
+57 d G? [tratamento,nutritiva] | M├íscara De Tratamento L'or├®al Professionnel Nutrioil R$135.32 <=> M├íscara Nutritiva L'Or├®al Professionnel NutriOil 250ml R$112.78
+58 d G? [silver] | M├íscara de Tratamento Schwarzkopf Bonacure Clean Performance Color Freeze R$98.53 <=> M├íscara de Tratamento Schwarzkopf Bonacure Clean Performance Color Freeze Silver R$233.92
+59 i G? [tratamento,treatment,capilar] | M├íscara de Tratamento Tsubaki Premium Moist e Repair 160g R$122.55 <=> Tsubaki Premium Moist & Repair Treatment - M├íscara Capilar 160G R$151.05
+60 i G? [tratamento,hidratante] | M├íscara de Tratamento Wella Professionals Oil Reflections 500ml R$237.41 <=> Wella Professionals Oil Reflections M├íscara de Hidrata├º├úo 500ml R$113.35
+61 d G? [reparadora,capilar] | M├íscara Reparadora Wella Professionals Fusion R$101.93 <=> Wella Professionals Fusion - M├íscara Capilar 150ml R$23.54
+62 d G? [reparadora,capilar] | M├íscara Reparadora Wella Professionals Fusion R$101.93 <=> Wella Professionals Fusion - M├íscara Capilar 500ml R$134.87
+63 i G? [styling,ondulados,cacheados] | Mise En Sc├¿ne Perfect Serum Styling 30ml (cabelos Ondulados / Cacheados) R$75.91 <=> S├®rum Capilar Mise En Sc├¿ne Perfect Serum 30ml R$66.49
+64 i G? [ondulados,cacheados] | Mise En Sc├¿ne Perfect Serum Styling 30ml (cabelos Ondulados / Cacheados) R$75.91 <=> S├®rum Capilar Mise En Sc├¿ne Perfect Serum Styling 30ml R$75.91
+65 d G? [bifasico,molecular] | ├ôleo Capilar Bif├ísico L'Oreal Professionnel Absolut Repair Molecular R$155.04 <=> ├ôleo Capilar L'Or├®al Professionnel Absolut Repair 90ml R$93.07
+66 i G? [condicionante] | ├ôleo Capilar Bra├® Essential Blend Condicionante R$88.4 <=> ├ôleo Capilar Bra├® Essential Oil Blend 60ml R$103.54
+67 i G? [danificados] | ├ôleo Capilar L'Or├®al Professionnel Absolut Repair 90ml R$93.07 <=> ├ôleo Capilar L'Or├®al Professionnel Absolut Repair Cabelos Danificados 90ml R$236.46
+68 i G? [leve,nutritivo] | ├ôleo Capilar Leve Fino Premium Touch R$138.65 <=> ├ôleo Capilar Nutritivo Fino Premium Touch R$138.65
+69 i G? [reparador,fortalecedor] | ├ôleo Capilar Reparador Elizavecca CER-100 Hair Muscle Essence Oil 100ml R$284.9 <=> ├ôleo Fortalecedor Elizavecca CER-100 Hair Muscle Essence R$171.97
+70 i G? [smoothening] | ├ôleo Capilar Wella Professionals Oil Reflections 100ml R$195.69 <=> ├ôleo Capilar Wella Professionals Oil Reflections Smoothening 100ml R$156.55
+71 i G!= [higiene,diaria] | ├ôleo de Banho Hidratante Bioderma Atoderm 1 litro R$126.57 <=> ├ôleo de Banho Hidratante Bioderma Atoderm Higiene Di├íria 1L R$126.57
+72 i G? [limpeza,facial] | ├ôleo de Limpeza Demaquilante Bior├® Cleansing 230ml R$84.46 <=> ├ôleo Demaquilante Facial Bior├® - Cleansing Oil 230ml R$43.04
+73 i G? [limpeza,facial] | ├ôleo de Limpeza Demaquilante Bior├® Cleansing Refil 210ml R$69.26 <=> ├ôleo Demaquilante Facial Bior├® - Cleansing Oil Refil 210 ML R$66.78
+74 i G? [cosmetics] | ├ôleo Reparador Danos Vorazes Lola Cosmetics 50ml R$15.81 <=> ├ôleo Reparador Lola Danos Vorazes 50ml R$41.79
+75 i G? [brilho,seco] | Pomada para Cabelo Efeito Brilho Bth - 85g R$29.35 <=> Pomada para Cabelo Efeito Seco Bth - 85g R$29.35
+76 i G? [brilho,seco] | Pomada para Cabelo Efeito Brilho Embaixador 150g R$29.35 <=> Pomada para Cabelo Efeito Seco Embaixador 150g R$29.35
+77 i G? [brilho,seco] | Pomada para Cabelo Efeito Brilho Embaixador 250g R$40.75 <=> Pomada para Cabelo Efeito Seco Embaixador 250g R$35.06
+78 i G? [black,matte,creme] | Pomada para Cabelo Nerk Efeito Black Embaixador - 85g R$34.1 <=> Pomada para Cabelo Nerk Efeito Matte Cream Embaixador - 85g R$34.1
+79 i G? [black,matte] | Pomada para Cabelo Nerk Efeito Black Embaixador - 85g R$34.1 <=> Pomada para Cabelo Nerk Efeito Matte Embaixador - 85g R$34.1
+80 i G? [hidratante,reparador] | Profuse Nutrel Lip Repair Hidratante Labial 7,5G R$59.76 <=> Reparador Labial Profuse Nutrel Lip Repair 7,5g R$29.02
+81 d G!= [muito] | Protetor Solar Facial Bioderma Photoderm Cover Touch Mineral FPS 50+ Claro R$71.39 <=> Protetor Solar Facial Bioderma Photoderm Cover Touch Mineral FPS 50+ Muito Claro R$71.39
+82 i G!= [rio] | Protetor Solar Facial Com Cor Pink Stick FPS90 42km R$51.56 <=> Protetor Solar Facial Com Cor Pink Stick FPS90 42km Rio R$51.56
+83 d G!= [mais] | Protetor Solar Facial em P├│ Compacto Mantecorp Skincare Episol Color FPS50 Morena R$73.66 <=> Protetor Solar Facial em P├│ Compacto Mantecorp Skincare Episol Color FPS50 Morena Mais R$73.66
+84 i G!= [tinted,universal] | Protetor Solar SkinCeuticals - UV Oil Defense FPS 80 40g R$47.98 <=> Protetor Solar Skinceuticals - UV Oil Defense FPS 80 Tinted Universal R$102.06
+85 i G!= [tinted,universal] | Protetor Solar Skinceuticals - UV Oil Defense FPS 80 Tinted Universal R$102.06 <=> Protetor Solar SkinCeuticals UV Oil Defense FPS80 40g R$116.2
+86 i G!= [rejuvenescedor,serum] | Rejuvenescedor Facial C E Ferulic Skinceuticals 30ml R$202.5 <=> S├®rum Facial C E Ferulic Skinceuticals 30ml R$333.28
+87 i G? [facial,serum] | Rejuvenescedor Facial La Roche-Posay - Redermic Retinol 30ml R$346.66 <=> S├®rum Rejuvenescedor La Roche-Posay Redermic Retinol 30ml R$202.5
+88 i G? [facial,mantecorp,skincare] | Rejuvenescedor Facial Mantecorp Skincare Reviline Retinol S├®rum 30ml R$112.21 <=> S├®rum Rejuvenescedor Reviline Retinol 30ml R$246.9
+89 i G? [argan,sem,acetona] | Removedor de Esmalte Needs 100ml R$6.64 <=> Removedor de Esmalte Needs Argan sem Acetona 100ml R$8.54
+90 i G? [acetona] | Removedor de Esmalte Needs 100ml R$6.64 <=> Removedor de Esmalte Needs com Acetona 100ml R$5.61
+91 i G? [lavanda,sem,acetona] | Removedor de Esmalte Needs 100ml R$6.64 <=> Removedor de Esmalte Needs Lavanda sem Acetona 100ml R$6.64
+92 i G? [argan,sem] | Removedor de Esmalte Needs Argan sem Acetona 100ml R$8.54 <=> Removedor de Esmalte Needs com Acetona 100ml R$5.61
+93 i G? [lavanda,sem] | Removedor de Esmalte Needs com Acetona 100ml R$5.61 <=> Removedor de Esmalte Needs Lavanda sem Acetona 100ml R$6.64
+94 i G? [seducion] | Removedor de Esmalte Zulu 200ml R$12.35 <=> Removedor de Esmalte Zulu Seducion com 200ml R$13.29
+95 i G!= [antisseptico] | Sabonete Barra Darrow Soapelle 70g R$24.3 <=> Sabonete em Barra Antiss├®ptico Darrow Soapelle 70g R$24.6
+96 i G? [hydrating] | S├®rum Capilar Mise En Sc├¿ne Perfect Serum 30ml R$66.49 <=> S├®rum Capilar Mise En Sc├¿ne Perfect Serum Hydrating 30ml R$75.99
+97 i G? [styling] | S├®rum Capilar Mise En Sc├¿ne Perfect Serum 30ml R$66.49 <=> S├®rum Capilar Mise En Sc├¿ne Perfect Serum Styling 30ml R$75.91
+98 i G? [anti,idade,neuropeptideos] | S├®rum Facial Anti-Idade Skinceuticals P-Tiox com Neuropept├¡deos 30ml R$375.25 <=> S├®rum Facial Skinceuticals P-Tiox 30ml R$215.92
+99 i G? [iluminador,acido,glicolico] | S├®rum Facial Anti-Marcas L'or├®al Paris Glycolic Bright 30ml R$54.56 <=> S├®rum Facial Anti-Marcas L'or├®al Paris Glycolic Bright Iluminador com ├ücido Glic├│lico 30ml R$163.39
+100 i G!= [antimanchas,idade,clareador] | S├®rum Facial Antimanchas e Anti-idade Eucerin Anti-Pigment Clareador Dual S├®rum 30ml R$148.31 <=> S├®rum Facial Eucerin Anti-Pigment Dual S├®rum 30ml R$148.31
+101 d G? [seco,glow] | Shampoo a Seco Authentic Beauty Concept R$22.77 <=> Shampoo Authentic Beauty Concept Glow R$163.88
+102 i G? [matizador] | Shampoo Keune Care Silver Savior R$127.13 <=> Shampoo Matizador Keune Care Silver Savior R$127.13
+103 i G? [capilar,danificados] | Shampoo LÔÇÖOr├®al Professionnel Metal Detox 300ml R$60.98 <=> Shampoo L'Or├®al Professionnel Metal Detox Cabelos Danificados 300ml R$214.61
+104 i G!= [serie,expert,blue] | Shampoo L'Oreal Professionnel S├®rie Expert Vitamino Color Spectrum Blue R$140.76 <=> Shampoo L'or├®al Professionnel Vitamino Color Spectrum R$128.55
+105 i G!= [purple] | Shampoo L'or├®al Professionnel Vitamino Color Spectrum R$128.55 <=> Shampoo L'or├®al Professionnel Vitamino Color Spectrum Purple R$135.32
+106 i G!= [reconstrutor] | Shampoo Reconstrutor Sebastian Penetraitt R$99.96 <=> Shampoo Sebastian Penetraitt 250ml R$37.36
+107 i G!= [alinhador] | Shampoo Revitalizante Alinhador Sisley Hair Rituel R$455.6 <=> Shampoo Revitalizante Sisley Hair Rituel R$277.44
+108 d G? [silver] | Shampoo Schwarzkopf Bonacure Clean Performance Color Freeze R$87.92 <=> Shampoo Schwarzkopf Bonacure Clean Performance Color Freeze Silver R$87.92
+109 i G!= [intense,repair,profissional] | Shampoo Wella Fusion Intense Repair 1000ml R$118.96 <=> Wella Professionals Fusion - Shampoo 1L R$56.64
+110 i G? [forte,leve] | Spray de Fixa├º├úo Forte Authentic Beauty Concept R$116.28 <=> Spray de Fixa├º├úo Leve Authentic Beauty Concept R$116.28

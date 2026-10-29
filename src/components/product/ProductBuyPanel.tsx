@@ -1,5 +1,6 @@
 'use client'
 
+import { Truck } from 'lucide-react'
 import { ProductBuyTogetherSection } from '@/components/product/ProductBuyTogetherSection'
 import { ProductPricingBlock } from '@/components/product/ProductPricingBlock'
 import { ProductPurchaseBar } from '@/components/product/ProductPurchaseBar'
@@ -55,6 +56,15 @@ export function ProductBuyPanel({
         paymentSettings={paymentSettings}
         checkoutSettings={checkoutSettings}
       />
+
+      {stock > 0 ? (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl bg-surface-strong px-4 py-3 text-[13px]">
+          <Truck className="size-5 shrink-0 text-brand" aria-hidden />
+          <span className="font-bold tracking-wide text-brand">PRONTA ENTREGA</span>
+          <span className="hidden h-4 w-px bg-border sm:block" aria-hidden />
+          <span className="text-text-secondary">Entregamos em todo o Brasil</span>
+        </div>
+      ) : null}
 
       <div className="space-y-3">
         <ProductPurchaseBar

@@ -1,0 +1,66 @@
+﻿[
+ {
+  "a": "Antirrugas SkinCeuticals Retinol 0.3 com 30ml",
+  "ga": "3606000509603",
+  "b": "Creme Facial Anti-idade Retinol 0.3 SkinCeuticals com Vitamina C 30ml",
+  "gb": "36060005096030"
+ }
+]
+--- #1 CONFIRMADO
+   M Gel de Limpeza Facial Micelar Calmante e Hidratante Bioderma Sensibio Gel Moussant 200ml R$83.53
+   U Gel de Limpeza Micelar Bioderma Sensibio Gel Moussant 200ml R$44.67
+--- #2 CONFIRMADO
+   M Protetor Solar Facial Darrow Actine Toque Seco FPS60 40g R$34.92
+   U Protetor Solar Darrow Actine Toque Seco FPS 60 40g R$30.82
+--- #3 CONFIRMADO
+   M N.p.p.e. Sh-rd Protein Cream Leave-in 80ml R$183.7
+   U Creme Leave-in N.P.P.E. SH-RD Protein Gold Deluxe Edition R$61.88
+--- #4 CONFIRMADO
+   M Lo├º├úo Hidratante Umidit├í Gestante com 200ml R$61.88
+   U Lo├º├úo Hidratante Umidit├í Gestante 200ml R$61.9
+--- #5 CONFIRMADO
+   M M├íscara Capilar L'Or├®al Professionnel Absolut Repair Molecular 250ml R$76
+   U M├íscara de Tratamento L'Or├®al Professionnel Absolut Repair Molecular 250ml R$147.37
+   U M├íscara de Cabelo L'Or├®al Professionnel Absolut Repair Molecular Cabelos Danificados 250ml R$196.64
+--- #6 CONFIRMADO
+   M Protetor Solar SkinCeuticals - UV Oil Defense FPS 80 40g R$47.98
+   U Protetor Solar SkinCeuticals UV Oil Defense FPS80 40g R$116.2
+--- #7 CONFIRMADO
+   M S├®rum Facial C E Ferulic Skinceuticals 30ml R$333.28
+   U Rejuvenescedor Facial C E Ferulic Skinceuticals 30ml R$202.5
+--- #8 CONFIRMADO
+   M Leave-In Redken Acidic Perfecting Concentrate R$139.4
+   U Leave-In Redken Acidic Color Gloss R$139.4
+--- #9 CONFIRMADO
+   M Protetor Solar Facial Isdin UV Mineral Brush FPS50 sem cor 2g R$79.36
+   U Protetor Solar Facial P├│ FPS 50 ISDIN sem cor 2g R$154.81
+--- #81 POSSIVEL
+   M Protetor Solar Facial Needs Firmeza & Antissinais FPS 50 Bast├úo 12g R$75.91
+   U Protetor Solar Facial Needs Firmeza & Antissinais FPS 50 Com Cor Bast├úo 12g R$80.66
+--- #82 POSSIVEL
+   M Condicionador Schwarzkopf Bonacure Repair Rescue R$74.05
+   U Spray Condicionador Schwarzkopf Bonacure Clean Performance Repair Rescue R$95.92
+--- #83 POSSIVEL
+   M Tsubaki Premium Ex Repair Shampoo 450ml + Condicioandor 450ml R$306.75
+   U Tsubaki Premium Ex Repair Shampoo 450ml + Condicioandor 450ml + Oleo Capilar Camellia 60ml R$511.95
+--- #84 POSSIVEL
+   M Creme Antirrugas Smart Clinical Repair 50ml R$531.05
+   U Creme Lifting Antirrugas Clinique Smart Clinical Repair Rosto e Pesco├ºo 50ml R$559.55
+--- #85 POSSIVEL
+   M Desodorante Antitranspirante Roll-On Vichy Peles Sens├¡veis ou Depiladas 48h 50ml R$95.15
+   U Desodorante Antitranspirante Roll-On Vichy 48h 50ml R$94.42
+--- #86 POSSIVEL
+   M S├®rum Fortalecedor Facial Hidratante com ├ücido Hialur├┤nico Vichy Min├®ral 89 50ml R$128.09
+   U Min├®ral 89 S├®rum Fortalecedor Facial R$56.62
+--- #87 POSSIVEL
+   M S├®rum Intensivo Antiacne Eau Thermale Av├¿ne Cleanance Comedomed+ 30ml R$88.4
+   U S├®rum Av├¿ne Cleanance Comedomed 30ml R$82.08
+--- #88 POSSIVEL
+   M Spray Secante de Esmalte Impala 400ml R$28.74
+   U Spray Secante de Esmalte para Unhas com ├ôleo de Melaleuca Impala Pro 400ml R$30.3
+--- #89 POSSIVEL
+   M Creme de Limpeza Calmante Dercos Sensi-scalp 300ml R$187.82
+   U Creme de Limpeza Calmante Dercos Sensi-Scalp Shampoo Suave para Couro Cabeludo Sens├¡vel 300ml R$151.91
+--- #90 POSSIVEL
+   M Pomada Capilar QOD Barber Shop There's a Killer on the Road 70g R$40.75
+   U Pomada QOD Barber Shop Killer 70g R$40.75

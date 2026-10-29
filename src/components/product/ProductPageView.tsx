@@ -13,6 +13,14 @@ import type { BuyTogetherSettings } from '@/types/buy-together-settings'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
 import type { ProductCardData, ProductDetail } from '@/types/product'
 
+function formatSizeLabel(label: string) {
+  return label
+    .trim()
+    .replace(/\bml\b/gi, 'mL')
+    .replace(/\bkg\b/gi, 'kg')
+    .replace(/\bg\b/gi, 'g')
+}
+
 type ProductPageViewProps = {
   product: ProductDetail
   paymentSettings: PaymentSettings
@@ -70,23 +78,27 @@ export function ProductPageView({
         <div className="min-w-0 lg:row-span-2">
           <header className="mb-5 border-b border-border pb-5">
             <div className="flex items-start gap-3">
-              <h1 className="min-w-0 flex-1 text-[21px] font-bold leading-snug text-text-primary md:text-[26px]">
-                {product.name}
-                {product.size_label && (
-                  <span className="ml-2 inline-block translate-y-[-2px] whitespace-nowrap rounded-full bg-brand px-2.5 py-0.5 align-middle text-[12px] font-bold uppercase leading-5 tracking-wide text-white md:text-[13px]">
-                    <span className="sr-only">Conteúdo: </span>
-                    {product.size_label}
-                  </span>
+              <div className="min-w-0 flex-1">
+                {product.brandName && (
+                  <p className="text-[13px] font-medium text-text-muted">{product.brandName}</p>
                 )}
-              </h1>
+                <h1 className="mt-1 text-[22px] font-bold leading-tight text-text-primary md:text-[28px]">
+                  {product.name}
+                  {product.size_label ? (
+                    <span className="whitespace-nowrap"> — {formatSizeLabel(product.size_label)}</span>
+                  ) : null}
+                </h1>
+                {product.size_label ? (
+                  <p className="mt-3">
+                    <span className="inline-flex rounded-full bg-brand px-3 py-1 text-[12px] font-bold leading-none text-white">
+                      <span className="sr-only">Conteúdo: </span>
+                      {formatSizeLabel(product.size_label)}
+                    </span>
+                  </p>
+                ) : null}
+              </div>
               <FavoriteButton productId={product.id} variant="product" />
             </div>
-
-            {product.brandName && (
-              <p className="mt-3 text-[13px] font-semibold tracking-wide text-text-secondary">
-                {product.brandName}
-              </p>
-            )}
           </header>
 
           <ProductBuyPanel
