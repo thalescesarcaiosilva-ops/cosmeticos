@@ -60,6 +60,10 @@ export function buildProductJsonLd(product: ProductDetail, options?: ProductJson
     jsonLd.gtin = product.gtin.replace(/\D/g, '')
   }
 
+  if (product.size_label?.trim()) {
+    jsonLd.size = product.size_label.trim()
+  }
+
   if (product.brandName) {
     jsonLd.brand = {
       '@type': 'Brand',

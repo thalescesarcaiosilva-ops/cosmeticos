@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ProductPageView } from '@/components/product/ProductPageView'
+import { stripHtml } from '@/lib/content/strip-html'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { buildInstallmentMap } from '@/lib/payment/build-installment-map'
 import { getCheckoutPaymentSettings } from '@/lib/payment/queries'
@@ -28,7 +29,8 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   const title = product.meta_title ?? product.name
   const description =
-    product.meta_description ?? product.description?.slice(0, 160) ?? undefined
+    product.meta_description ??
+    (product.description ? stripHtml(product.description).slice(0, 160) : undefined)
 
   return buildPageMetadata({
     title,

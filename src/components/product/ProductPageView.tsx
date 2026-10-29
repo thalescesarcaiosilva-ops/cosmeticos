@@ -72,6 +72,12 @@ export function ProductPageView({
             <div className="flex items-start gap-3">
               <h1 className="min-w-0 flex-1 text-[21px] font-bold leading-snug text-text-primary md:text-[26px]">
                 {product.name}
+                {product.size_label && (
+                  <span className="ml-2 inline-block translate-y-[-2px] whitespace-nowrap rounded-full bg-brand px-2.5 py-0.5 align-middle text-[12px] font-bold uppercase leading-5 tracking-wide text-white md:text-[13px]">
+                    <span className="sr-only">Conteúdo: </span>
+                    {product.size_label}
+                  </span>
+                )}
               </h1>
               <FavoriteButton productId={product.id} variant="product" />
             </div>

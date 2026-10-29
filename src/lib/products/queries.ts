@@ -14,7 +14,7 @@ const PRODUCT_MEDIA_LEGACY = 'id, public_url, alt_text, filename'
 function buildProductSelect(mediaCols: string) {
   return `
   id, name, slug, description, short_description, benefits,
-  price, original_price, stock, sku, gtin,
+  price, original_price, stock, sku, gtin, size_label,
   meta_title, meta_description, active, brand_id, created_at, updated_at,
   brand:brands(id, name, slug, active),
   product_categories(category_id, categories(id, name, slug, parent_id)),

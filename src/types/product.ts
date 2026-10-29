@@ -64,6 +64,8 @@ export type Product = {
   stock: number
   sku: string | null
   gtin: string | null
+  /** Volume/peso exibido ao lado do nome (ex.: "240 ML"). Não altera name/slug. */
+  size_label?: string | null
   meta_title: string | null
   meta_description: string | null
   active: boolean

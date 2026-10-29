@@ -55,3 +55,5 @@ next-env.d.ts
 /beleza-cosmeticos-report-*.json
 /relatorio-precos-concorrentes.json
 /import-wc-*.log
+
+/scripts/size-enrich/.cache/
