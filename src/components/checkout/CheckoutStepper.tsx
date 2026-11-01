@@ -1,40 +1,35 @@
-type CheckoutStep = 1 | 2 | 3
+type CheckoutPhase = 1 | 2 | 3
 
-const STEPS: { id: CheckoutStep; label: string }[] = [
-  { id: 1, label: 'Dados' },
-  { id: 2, label: 'Entrega' },
-  { id: 3, label: 'Pagamento' },
+const STEPS: { id: CheckoutPhase; label: string }[] = [
+  { id: 1, label: 'Dados e entrega' },
+  { id: 2, label: 'Pagamento' },
+  { id: 3, label: 'Confirmação' },
 ]
 
-const HINTS: Record<CheckoutStep, string> = {
-  1: 'Seus dados para enviarmos a confirmação do pedido',
-  2: 'Endereço e frete, com o prazo antes de pagar',
-  3: 'Pagamento seguro para concluir a compra',
-}
-
-export function CheckoutStepper({ currentStep }: { currentStep: CheckoutStep }) {
+export function CheckoutStepper({ phase }: { phase: CheckoutPhase }) {
   return (
-    <nav aria-label="Progresso do checkout" className="border-b border-border pb-6">
-      <ol className="flex items-start justify-center">
+    <nav aria-label="Progresso do checkout">
+      <p className="mb-3 text-center text-[12px] text-text-muted md:hidden">
+        Etapa {phase} de 3 · {STEPS[phase - 1]?.label}
+      </p>
+      <ol className="flex items-center justify-center">
         {STEPS.map((step, index) => {
-          const isDone = step.id < currentStep
-          const isActive = step.id === currentStep
+          const isDone = step.id < phase
+          const isActive = step.id === phase
 
           return (
-            <li key={step.id} className="flex items-start">
-              <div className="flex w-[4.5rem] flex-col items-center gap-1.5 sm:w-24">
+            <li key={step.id} className="flex items-center">
+              <div className="flex items-center gap-2">
                 <span
-                  className={`flex size-8 items-center justify-center rounded-full text-xs font-bold sm:size-9 sm:text-sm ${
-                    isDone
+                  className={`flex size-8 items-center justify-center rounded-full text-xs font-bold ${
+                    isDone || isActive
                       ? 'bg-brand text-white'
-                      : isActive
-                        ? 'bg-brand text-white ring-4 ring-brand/15'
-                        : 'border-2 border-border-strong bg-surface text-text-muted'
+                      : 'border border-[#e7d5dc] bg-white text-text-muted'
                   }`}
                   aria-current={isActive ? 'step' : undefined}
                 >
                   {isDone ? (
-                    <svg viewBox="0 0 16 16" className="size-3.5 sm:size-4" fill="none" aria-hidden>
+                    <svg viewBox="0 0 16 16" className="size-3.5" fill="none" aria-hidden>
                       <path
                         d="M3 8.5L6.5 12L13 4"
                         stroke="currentColor"
@@ -48,8 +43,8 @@ export function CheckoutStepper({ currentStep }: { currentStep: CheckoutStep }) 
                   )}
                 </span>
                 <span
-                  className={`text-center text-[11px] font-semibold sm:text-xs ${
-                    isActive || isDone ? 'text-brand' : 'text-text-muted'
+                  className={`hidden text-sm font-semibold sm:inline ${
+                    isActive || isDone ? 'text-text-primary' : 'text-text-muted'
                   }`}
                 >
                   {step.label}
@@ -58,7 +53,7 @@ export function CheckoutStepper({ currentStep }: { currentStep: CheckoutStep }) 
 
               {index < STEPS.length - 1 && (
                 <div
-                  className={`mt-4 h-0.5 w-8 sm:w-14 ${isDone ? 'bg-brand' : 'bg-border'}`}
+                  className={`mx-3 h-px w-8 sm:w-16 ${isDone ? 'bg-brand' : 'bg-[#eadfe4]'}`}
                   aria-hidden
                 />
               )}
@@ -66,7 +61,6 @@ export function CheckoutStepper({ currentStep }: { currentStep: CheckoutStep }) 
           )
         })}
       </ol>
-      <p className="mt-4 text-center text-sm text-text-secondary">{HINTS[currentStep]}</p>
     </nav>
   )
 }

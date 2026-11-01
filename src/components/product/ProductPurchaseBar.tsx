@@ -108,13 +108,13 @@ export function ProductPurchaseBar({
 
   return (
     <div className="space-y-2.5">
-      <div className="flex items-stretch gap-3">
-        <div className="flex h-[52px] shrink-0 items-center rounded-xl border border-border bg-surface">
+      <div className="flex items-stretch gap-2 sm:gap-3">
+        <div className="flex h-14 w-[6.5rem] shrink-0 items-center overflow-hidden rounded-2xl border border-[#f3d0dc] bg-white">
           <button
             type="button"
             onClick={decrement}
             disabled={quantity <= 1}
-            className="flex h-full w-10 shrink-0 items-center justify-center text-lg text-text-primary transition-colors duration-[400ms] hover:bg-surface-strong disabled:opacity-40"
+            className="flex h-full w-8 shrink-0 items-center justify-center text-lg text-text-primary transition-colors duration-[400ms] hover:bg-surface-strong disabled:opacity-40"
             aria-label="Diminuir quantidade"
           >
             −
@@ -135,13 +135,13 @@ export function ProductPurchaseBar({
                 setQuantity(Math.min(maxQty, Math.max(1, next)))
               }
             }}
-            className="w-8 border-x border-border bg-transparent text-center text-base font-semibold text-text-primary [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="min-w-0 flex-1 border-x border-border bg-transparent text-center text-base font-semibold text-text-primary [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
           <button
             type="button"
             onClick={increment}
             disabled={quantity >= maxQty}
-            className="flex h-full w-10 shrink-0 items-center justify-center text-lg text-text-primary transition-colors duration-[400ms] hover:bg-surface-strong disabled:opacity-40"
+            className="flex h-full w-8 shrink-0 items-center justify-center text-lg text-text-primary transition-colors duration-[400ms] hover:bg-surface-strong disabled:opacity-40"
             aria-label="Aumentar quantidade"
           >
             +
@@ -152,20 +152,19 @@ export function ProductPurchaseBar({
           type="button"
           onClick={handleBuyNow}
           disabled={buyingNow}
-          className="flex h-[52px] min-w-0 flex-1 items-center justify-center gap-2 rounded-xl bg-brand px-4 text-[15px] font-bold text-white transition-opacity duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:opacity-90 active:scale-[0.99] disabled:opacity-70"
+          className="flex h-14 min-w-0 flex-1 items-center justify-center rounded-2xl bg-brand px-3 text-[13px] font-bold tracking-[0.06em] text-white shadow-[0_10px_24px_rgba(211,52,100,0.38)] transition-transform duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:bg-brand-hover active:translate-y-0 disabled:translate-y-0 disabled:opacity-70 sm:px-4 sm:text-[15px] sm:tracking-[0.08em]"
         >
-          <ShoppingCart className="size-5 shrink-0" aria-hidden />
-          {buyingNow ? 'Indo para o checkout…' : 'Comprar agora'}
+          {buyingNow ? 'INDO…' : 'COMPRAR AGORA'}
         </button>
       </div>
 
       <button
         type="button"
         onClick={handleAddToCart}
-        className="flex h-[52px] w-full items-center justify-center gap-2 rounded-xl border border-brand bg-surface px-4 text-[15px] font-bold text-brand transition-colors duration-[400ms] hover:bg-brand/5 active:scale-[0.99]"
+        className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl border border-brand/70 bg-white px-4 text-[13px] font-bold tracking-[0.08em] text-brand transition-colors duration-[400ms] hover:bg-brand/5 active:scale-[0.99]"
       >
         <ShoppingCart className="size-5 shrink-0" aria-hidden />
-        {added ? 'Adicionado!' : 'Adicionar ao carrinho'}
+        {added ? 'ADICIONADO' : 'ADICIONAR AO CARRINHO'}
       </button>
 
       {added && (

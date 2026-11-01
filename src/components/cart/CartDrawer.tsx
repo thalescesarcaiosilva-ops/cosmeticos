@@ -3,19 +3,16 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { X, ShoppingBag, ArrowRight, Truck, CreditCard, Zap } from 'lucide-react'
+import { X, ShoppingBag, ArrowRight, Truck } from 'lucide-react'
 import { CartLineItem } from '@/components/cart/CartLineItem'
-import { CouponField } from '@/components/checkout/CouponField'
-import { Button } from '@/components/ui/Button'
 import { useCartSync } from '@/hooks/useCartSync'
 import { trackFunnel } from '@/lib/analytics/track-funnel'
 import { usePaymentInfo } from '@/hooks/usePaymentInfo'
 import { useCart } from '@/providers/CartProvider'
-import { calcInstallmentDisplay } from '@/lib/payment/installments'
-import { calcPixPrice } from '@/lib/payment/product-payment-summary'
 import { formatCurrency } from '@/lib/products/format'
+import { CEP_STORAGE_KEY } from '@/lib/shipping/merchant-shipping'
 import type { CartSyncResult } from '@/types/cart'
-import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
+import type { CheckoutPaymentSettings } from '@/types/payment'
 
 /* --------------------------------------------------------------------------
    Skeleton
@@ -40,112 +37,125 @@ function DrawerSkeleton() {
 /* --------------------------------------------------------------------------
    Resumo financeiro (subtotal, descontos, pix, parcelas, frete)
 -------------------------------------------------------------------------- */
+function readStoredCep(): string {
+  if (typeof window === 'undefined') return ''
+  try {
+    return localStorage.getItem(CEP_STORAGE_KEY) ?? ''
+  } catch {
+    return ''
+  }
+}
+
 function DrawerSummary({
   data,
-  paymentSettings,
   checkoutSettings,
   loading,
 }: {
   data: CartSyncResult
-  paymentSettings: PaymentSettings | null
   checkoutSettings: CheckoutPaymentSettings | null
   loading: boolean
 }) {
-  const total = data.merchandiseTotal
-  const [couponDiscount, setCouponDiscount] = useState(0)
-  const payable = Math.max(total - couponDiscount, 0)
+  const payable = data.merchandiseTotal
+  const [deliveryPlace, setDeliveryPlace] = useState<string | null>(null)
   const hasBundle = data.bundleDiscountAmount > 0
 
-  /* Pix */
   const pixEnabled = checkoutSettings?.pixEnabled !== false
   const pixDiscount = Number(checkoutSettings?.pixDiscount ?? 0) || 0
-  const showPixBadge = pixEnabled && pixDiscount > 0
-  const pixPrice = showPixBadge ? calcPixPrice(payable, pixDiscount) : payable
-
-  /* Parcelas */
-  const installment = paymentSettings
-            ? calcInstallmentDisplay(payable, paymentSettings)
-    : null
-  const showInstallments =
-    checkoutSettings?.cardEnabled !== false &&
-    installment != null &&
-    installment.count > 1
-
+  const showPix = pixEnabled && pixDiscount > 0
+  const pixDiscountAmount = showPix
+    ? Math.round(payable * (pixDiscount / 100) * 100) / 100
+    : 0
+  const pixTotal = Math.max(payable - pixDiscountAmount, 0)
+  const productLabel = data.itemCount === 1 ? '1 produto' : `${data.itemCount} produtos`
   const valuePlaceholder = loading ? '…' : null
 
+  useEffect(() => {
+    const digits = readStoredCep().replace(/\D/g, '')
+    if (digits.length !== 8) return
+    let active = true
+    fetch(`https://viacep.com.br/ws/${digits}/json/`)
+      .then((res) => res.json())
+      .then((json: { localidade?: string; uf?: string; erro?: boolean }) => {
+        if (!active || json.erro || !json.localidade || !json.uf) return
+        setDeliveryPlace(`${json.localidade}/${json.uf}`)
+      })
+      .catch(() => {})
+    return () => {
+      active = false
+    }
+  }, [])
+
   return (
-    <dl className="space-y-2 text-sm">
-      {/* Subtotal (antes de descontos) */}
-      {hasBundle && (
+    <div className="space-y-3">
+      <div>
+        <p className="text-center text-[13px] font-bold text-[#178a45]">
+          Você ganhou frete grátis!
+        </p>
+        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#d9f3e4]">
+          <div className="h-full w-full rounded-full bg-[#178a45]" />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#f4f6f8] px-3.5 py-3 text-[13px]">
+        <p className="flex min-w-0 items-center gap-2 font-medium text-text-primary">
+          <Truck className="size-4 shrink-0 text-[#3b1530]" aria-hidden />
+          <span className="truncate">
+            {deliveryPlace ? `Entrega para ${deliveryPlace}` : 'Entrega para todo o Brasil'}
+          </span>
+        </p>
+        <p className="shrink-0 font-semibold text-text-primary">Grátis</p>
+      </div>
+
+      <dl className="space-y-2 text-[13px]">
+        {hasBundle ? (
+          <div className="flex justify-between gap-3">
+            <dt className="text-text-secondary">Produtos</dt>
+            <dd className="tabular-nums text-text-primary">
+              {valuePlaceholder ?? formatCurrency(data.subtotal)}
+            </dd>
+          </div>
+        ) : null}
+
+        {hasBundle ? (
+          <div className="flex justify-between gap-3 text-[#178a45]">
+            <dt>Desconto Compre Junto</dt>
+            <dd className="font-semibold tabular-nums">
+              − {valuePlaceholder ?? formatCurrency(data.bundleDiscountAmount)}
+            </dd>
+          </div>
+        ) : null}
+
         <div className="flex justify-between gap-3">
-          <dt className="text-text-secondary">Subtotal</dt>
-          <dd className="tabular-nums text-text-primary">
-            {valuePlaceholder ?? formatCurrency(data.subtotal)}
+          <dt className="text-text-secondary">Subtotal ({productLabel})</dt>
+          <dd className="font-medium tabular-nums text-text-primary">
+            {valuePlaceholder ?? formatCurrency(data.merchandiseTotal)}
           </dd>
         </div>
-      )}
 
-      {/* Desconto Compre Junto */}
-      {hasBundle && (
-        <div className="flex justify-between gap-3 text-claret">
-          <dt>Desconto Compre Junto</dt>
-          <dd className="font-semibold tabular-nums">
-            − {valuePlaceholder ?? formatCurrency(data.bundleDiscountAmount)}
-          </dd>
+        {showPix ? (
+          <div className="flex justify-between gap-3 text-[#178a45]">
+            <dt className="font-medium">Desconto no PIX</dt>
+            <dd className="font-semibold tabular-nums">
+              − {valuePlaceholder ?? formatCurrency(pixDiscountAmount)}
+            </dd>
+          </div>
+        ) : null}
+
+        <div className="flex justify-between gap-3">
+          <dt className="text-text-secondary">Entrega padrão</dt>
+          <dd className="font-medium text-text-primary">Grátis</dd>
         </div>
-      )}
 
-      {/* Subtotal dos produtos (após desconto CJ) */}
-      <div className="flex justify-between gap-3 border-t border-border pt-2">
-        <dt className="font-semibold text-text-primary">
-          {hasBundle ? 'Total produtos' : 'Subtotal'}
-        </dt>
-        <dd className="text-base font-bold text-text-primary tabular-nums">
-          {valuePlaceholder ?? formatCurrency(payable)}
-        </dd>
-      </div>
-
-      <CouponField
-        merchandiseTotal={total}
-        onChange={(applied) => setCouponDiscount(applied.discountAmount)}
-      />
-
-      {/* Frete */}
-      <div className="flex items-center justify-between gap-3">
-        <dt className="flex items-center gap-1.5 text-text-secondary">
-          <Truck className="size-3.5 shrink-0" />
-          Frete
-        </dt>
-        <dd className="text-xs text-text-muted">Calculado no checkout</dd>
-      </div>
-
-      {/* Pix */}
-      {showPixBadge && (
-        <div className="flex items-center justify-between gap-3 rounded-md bg-surface-strong/70 px-2.5 py-2">
-          <dt className="flex items-center gap-1.5 text-[12px] font-semibold text-text-primary">
-            <Zap className="size-3.5 shrink-0 text-brand" />
-            Pix ({pixDiscount}% off)
+        <div className="flex items-end justify-between gap-3 pt-1">
+          <dt className="text-base font-bold text-text-primary">
+            {showPix ? 'Total no PIX' : 'Total'}
           </dt>
-          <dd className="text-[13px] font-bold text-claret tabular-nums">
-            {valuePlaceholder ?? formatCurrency(pixPrice)}
+          <dd className="text-lg font-bold tabular-nums text-text-primary">
+            {valuePlaceholder ?? formatCurrency(showPix ? pixTotal : payable)}
           </dd>
         </div>
-      )}
-
-      {/* Parcelas */}
-      {showInstallments && installment && (
-        <div className="flex items-start gap-1.5 rounded-md bg-surface-strong/70 px-2.5 py-2">
-          <CreditCard className="mt-0.5 size-3.5 shrink-0 text-text-muted" />
-          <p className="text-[11px] leading-snug text-text-secondary">
-            Cartão: {installment.count}x de{' '}
-            <span className="font-semibold text-text-primary">
-              {formatCurrency(installment.value)}
-            </span>{' '}
-            {installment.interestFree ? 'sem juros' : 'com juros'}
-          </p>
-        </div>
-      )}
-    </dl>
+      </dl>
+    </div>
   )
 }
 
@@ -199,31 +209,36 @@ function CartDrawerInner({ onClose }: { onClose: () => void }) {
           {/* Resumo financeiro */}
           <DrawerSummary
             data={data}
-            paymentSettings={paymentInfo?.paymentSettings ?? null}
             checkoutSettings={paymentInfo?.checkoutSettings ?? null}
             loading={loading}
           />
 
-          {/* CTA principal */}
-          <Link href="/checkout" onClick={onClose} className="mt-4 block">
-            <Button
-              type="button"
-              className="w-full !rounded-md py-3.5 text-base"
-              disabled={loading}
-            >
-              Finalizar compra
-              <ArrowRight className="ml-2 size-4" />
-            </Button>
+          <Link
+            href="/checkout"
+            onClick={onClose}
+            aria-disabled={loading}
+            className={`mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-brand text-[15px] font-bold tracking-[0.04em] text-white shadow-[0_10px_24px_rgba(211,52,100,0.35)] transition-transform hover:-translate-y-0.5 ${loading ? 'pointer-events-none opacity-70' : ''}`}
+          >
+            Finalizar compra
+            <ArrowRight className="size-4" aria-hidden />
           </Link>
 
-          {/* Link secundário */}
-          <Link
-            href="/carrinho"
-            onClick={onClose}
-            className="mt-2.5 block text-center text-sm font-semibold text-brand underline-offset-2 hover:underline"
-          >
-            Ver carrinho completo
-          </Link>
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <Link
+              href="/carrinho"
+              onClick={onClose}
+              className="inline-flex h-11 flex-1 items-center justify-center rounded-full border border-[#e4d7de] bg-white text-sm font-semibold text-text-primary"
+            >
+              Ver sacola
+            </Link>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 text-center text-sm font-medium text-text-secondary hover:text-text-primary"
+            >
+              Continuar comprando
+            </button>
+          </div>
         </div>
       )}
     </>
@@ -297,22 +312,25 @@ export function CartDrawer() {
         }`}
       >
         {/* Cabeçalho */}
-        <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-4">
-          <h2 className="flex items-center gap-2 text-base font-bold text-text-primary">
-            <ShoppingBag className="size-5" />
-            Meu Carrinho
-            {itemCount > 0 && (
-              <span className="rounded-full bg-claret px-2 py-0.5 text-xs font-bold text-white">
-                {itemCount > 99 ? '99+' : itemCount}
-              </span>
-            )}
-          </h2>
+        <div className="flex shrink-0 items-center justify-between bg-[#1a1014] px-4 py-4 text-white">
+          <div>
+            <p className="text-[11px] font-bold tracking-[0.14em] text-brand">PRÉ BLACK FRIDAY</p>
+            <h2 className="mt-1 flex items-center gap-2 text-base font-bold">
+              <ShoppingBag className="size-5" />
+              Meu carrinho
+              {itemCount > 0 && (
+                <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-bold text-white">
+                  {itemCount > 99 ? '99+' : itemCount}
+                </span>
+              )}
+            </h2>
+          </div>
           <button
             ref={closeButtonRef}
             type="button"
             onClick={closeCartDrawer}
             aria-label="Fechar carrinho"
-            className="flex size-9 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-surface-muted hover:text-text-primary"
+            className="flex size-9 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white"
           >
             <X className="size-5" />
           </button>

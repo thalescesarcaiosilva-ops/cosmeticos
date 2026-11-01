@@ -2,6 +2,7 @@ import { Pencil } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 type CheckoutStepCardProps = {
+  id?: string
   step: number
   title: string
   subtitle?: string
@@ -12,6 +13,7 @@ type CheckoutStepCardProps = {
 }
 
 export function CheckoutStepCard({
+  id,
   step,
   title,
   subtitle,
@@ -25,12 +27,13 @@ export function CheckoutStepCard({
 
   return (
     <section
-      className={`scroll-mt-24 overflow-hidden rounded-lg border bg-surface transition-colors ${
+      id={id}
+      className={`scroll-mt-28 overflow-hidden rounded-3xl border bg-white transition-colors ${
         isActive
-          ? 'border-brand shadow-sm'
+          ? 'border-[#f3d0dc]'
           : isCompleted
-            ? 'border-border'
-            : 'border-border opacity-70'
+            ? 'border-[#f3d0dc]'
+            : 'border-[#f3d0dc] opacity-70'
       }`}
       aria-labelledby={`checkout-step-${step}-title`}
     >

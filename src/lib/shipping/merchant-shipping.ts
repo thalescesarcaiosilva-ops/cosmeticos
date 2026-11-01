@@ -14,6 +14,9 @@ export const SEDEX_FIXED_PRICE = 19.9
  */
 export const FREE_SHIPPING_LABEL = 'Frete Grátis para pedidos no PAC'
 
+/** CEP digitado na calculadora da página de produto. */
+export const CEP_STORAGE_KEY = 'loja-cep-v1'
+
 /** Trânsito após postagem (Correios), por modalidade. */
 export const MERCHANT_TRANSIT_BY_METHOD: Record<string, { min: number; max: number }> = {
   PAC: { min: 3, max: 4 },

@@ -54,7 +54,7 @@ function collectAbsoluteImageUrls(productImages: ProductImageRow[] | null | unde
 }
 
 const FEED_PRODUCT_SELECT = `
-  id, name, slug, description, price, original_price, stock, sku, gtin, updated_at,
+  id, name, slug, description, price, stock, sku, gtin, updated_at,
   brand:brands(name),
   product_images(sort_order, media:media_assets(public_url)),
   product_categories(categories(name, slug, parent_id))
@@ -106,10 +106,6 @@ export async function GET() {
     const description = stripHtml(row.description ?? row.name).slice(0, 5000)
     const availability = row.stock > 0 ? 'in_stock' : 'out_of_stock'
     const price = `${Number(row.price).toFixed(2)} BRL`
-    const hasSale =
-      row.original_price != null && Number(row.original_price) > Number(row.price)
-    const salePrice = hasSale ? `${Number(row.price).toFixed(2)} BRL` : null
-    const regularPrice = hasSale ? `${Number(row.original_price).toFixed(2)} BRL` : price
 
     const categoryRows = (row.product_categories ?? []) as Array<{
       categories:
@@ -146,8 +142,7 @@ export async function GET() {
       <g:image_link>${escapeXml(imageUrl)}</g:image_link>
       ${additionalImageUrls.map((url) => `<g:additional_image_link>${escapeXml(url)}</g:additional_image_link>`).join('\n      ')}
       <g:availability>${availability}</g:availability>
-      <g:price>${escapeXml(regularPrice)}</g:price>
-      ${salePrice ? `<g:sale_price>${escapeXml(salePrice)}</g:sale_price>` : ''}
+      <g:price>${escapeXml(price)}</g:price>
       <g:condition>new</g:condition>
       ${brand ? `<g:brand>${escapeXml(brand)}</g:brand>` : ''}
       ${gtin ? `<g:gtin>${escapeXml(gtin)}</g:gtin>` : ''}

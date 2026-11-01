@@ -26,7 +26,7 @@ export function ShopHeader({ className, ...props }: ShopHeaderProps) {
   return (
     <div
       data-header-mode="solid"
-      className={`shop-header sticky top-0 z-50 overflow-visible border-b border-[#e7e7e7] bg-surface text-[#272225] shadow-[0_1px_3px_rgba(36,29,31,0.08)] ${className ?? ''}`}
+      className={`shop-header z-50 overflow-visible border-b border-[#e7e7e7] bg-surface text-[#272225] shadow-[0_1px_3px_rgba(36,29,31,0.08)] md:sticky md:top-0 ${className ?? ''}`}
     >
       <TopBar
         storeName={props.storeName}

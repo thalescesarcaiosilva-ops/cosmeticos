@@ -10,7 +10,7 @@ import type { CartSyncInput } from '@/schemas/cart-schema'
 import type { CartSyncResult, ValidatedCartLine } from '@/types/cart'
 
 const CART_PRODUCT_SELECT = `
-  id, name, slug, price, original_price, stock, active,
+  id, name, slug, price, stock, active,
   product_images(sort_order, media:media_assets(public_url, alt_text))
 `
 
@@ -19,7 +19,6 @@ type ProductRow = {
   name: string
   slug: string
   price: number
-  original_price: number | null
   stock: number
   active: boolean
   product_images?: unknown
@@ -77,8 +76,7 @@ export async function syncCartItems(input: CartSyncInput): Promise<CartSyncResul
         slug: product.slug,
         name: product.name,
         price: Number(product.price),
-        originalPrice:
-          product.original_price != null ? Number(product.original_price) : null,
+        originalPrice: null,
         stock: product.stock,
         quantity,
         lineTotal: 0,
@@ -104,8 +102,7 @@ export async function syncCartItems(input: CartSyncInput): Promise<CartSyncResul
       slug: product.slug,
       name: product.name,
       price,
-      originalPrice:
-        product.original_price != null ? Number(product.original_price) : null,
+      originalPrice: null,
       stock: product.stock,
       quantity,
       lineTotal: price * quantity,

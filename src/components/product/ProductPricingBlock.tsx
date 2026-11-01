@@ -1,7 +1,6 @@
 'use client'
 
 import { CreditCard } from 'lucide-react'
-import { PixIcon } from '@/components/product/PixDiscountBadge'
 import { formatCurrency } from '@/lib/products/format'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import { calcPixPrice } from '@/lib/payment/product-payment-summary'
@@ -26,53 +25,60 @@ export function ProductPricingBlock({
   const pixPrice = showPixPrice ? calcPixPrice(price, pixDiscount) : price
 
   const heroPrice = showPixPrice ? pixPrice : price
-  const hasListPrice = originalPrice != null && originalPrice > price
-  const normalPrice = showPixPrice ? price : hasListPrice ? originalPrice : null
+  const listPrice = originalPrice != null && originalPrice > price ? originalPrice : null
+  const pixSavings = showPixPrice ? Math.max(0, price - pixPrice) : 0
 
   const installment = calcInstallmentDisplay(price, paymentSettings)
   const cardEnabled = checkoutSettings.cardEnabled !== false
   const showInstallments = cardEnabled && installment != null && installment.count > 1
 
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-2">
+      {showPixPrice ? (
+        <span className="inline-flex rounded-full bg-brand px-3 py-1 text-[11px] font-bold tracking-wide text-white">
+          PREÇO NO PIX · {pixDiscount}% OFF
+        </span>
+      ) : null}
+
       <div
-        className="flex flex-wrap items-center gap-x-3 gap-y-1"
         aria-label={
-          showPixPrice
-            ? `Pix com ${pixDiscount}% de desconto: ${formatCurrency(pixPrice)}`
+          listPrice != null
+            ? `De ${formatCurrency(listPrice)} por ${formatCurrency(heroPrice)}`
             : `Preço: ${formatCurrency(heroPrice)}`
         }
       >
-        {showPixPrice ? <PixIcon className="size-6 shrink-0 text-brand" /> : null}
-        <span className="text-[32px] font-black leading-none tracking-tight text-brand tabular-nums md:text-[36px]">
+        {listPrice != null ? (
+          <p className="mb-1 text-[15px] text-text-muted line-through tabular-nums">
+            {formatCurrency(listPrice)}
+          </p>
+        ) : null}
+        <span className="text-[34px] font-black leading-none tracking-tight text-brand tabular-nums md:text-[40px]">
           {formatCurrency(heroPrice)}
         </span>
-        {showPixPrice ? (
-          <span className="rounded-md bg-brand/10 px-2.5 py-1 text-[13px] font-bold text-brand">
-            no Pix
-          </span>
-        ) : null}
       </div>
 
-      {normalPrice != null ? (
-        <p className="text-[15px] leading-normal text-text-muted">
-          <span className="line-through tabular-nums">{formatCurrency(normalPrice)}</span>
+      {pixSavings > 0 ? (
+        <p className="text-[13px] text-text-secondary">
+          Você economiza{' '}
+          <span className="font-semibold text-text-primary tabular-nums">
+            {formatCurrency(pixSavings)}
+          </span>{' '}
+          pagando no Pix
         </p>
       ) : null}
 
       {showInstallments && installment ? (
-        <p className="flex items-start gap-2 text-[13px] leading-snug text-text-secondary">
+        <p className="flex items-start gap-2 border-t border-dashed border-[#f3d0dc] pt-3 text-[13px] leading-snug text-text-secondary">
           <CreditCard className="mt-0.5 size-4 shrink-0 text-text-muted" aria-hidden />
           <span>
             ou{' '}
-            <span className="font-semibold text-text-primary tabular-nums">
-              {formatCurrency(installment.interestFree ? price : installment.total)}
-            </span>{' '}
-            em até{' '}
             <span className="font-semibold text-text-primary">
               {installment.count}x de {formatCurrency(installment.value)}
             </span>{' '}
             {installment.interestFree ? 'sem juros' : 'com juros'} no cartão
+            {!installment.interestFree ? (
+              <span className="text-text-muted"> ({formatCurrency(installment.total)})</span>
+            ) : null}
           </span>
         </p>
       ) : null}

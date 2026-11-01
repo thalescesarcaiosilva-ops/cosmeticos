@@ -11,69 +11,69 @@ type TopBarProps = {
   socialLinks: SocialLink[]
 }
 
+function CampaignCluster() {
+  return (
+    <div className="flex max-w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-1 sm:gap-3 md:justify-end">
+      <span className="inline-flex items-center rounded-full bg-brand px-3 py-1 text-[10px] font-bold tracking-[0.08em] text-white sm:px-3.5 sm:text-[11px]">
+        PRÉ BLACK FRIDAY
+      </span>
+      <p className="text-center text-[11px] font-semibold text-white sm:whitespace-nowrap sm:text-[12px]">
+        {FREE_SHIPPING_LABEL}
+      </p>
+    </div>
+  )
+}
+
 export function TopBar({ storeName, policyLinks, socialLinks }: TopBarProps) {
   return (
-    <div className="bg-brand text-[11px] font-semibold text-white">
-      {/* Mobile: frete no centro + redes à direita */}
-      <div className="relative mx-auto flex max-w-[1300px] items-center justify-end px-4 py-3 md:hidden">
-        <p className="absolute left-1/2 max-w-[70%] -translate-x-1/2 truncate text-center whitespace-nowrap">
-          {FREE_SHIPPING_LABEL}
-        </p>
-        <div className="relative z-10 flex shrink-0 items-center gap-2.5">
-          {socialLinks.map((social) => (
-            <a
-              key={social.type}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex size-7 items-center justify-center rounded-full text-white transition-colors duration-200 hover:text-claret"
-              aria-label={social.label}
-            >
-              <SocialIcon type={social.type} className="size-3.5" />
-            </a>
-          ))}
-        </div>
-      </div>
-
-      {/* Desktop: conheça mais + políticas | frete | redes */}
-      <div className="mx-auto hidden max-w-[1300px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-6 py-2 md:grid">
-        <div className="flex min-w-0 items-center gap-2 overflow-hidden">
+    <div className="bg-black text-[11px] font-semibold text-white">
+      <div className="mx-auto flex max-w-[1300px] items-center justify-center gap-3 px-4 py-2.5 md:justify-between md:px-6">
+        <div className="hidden min-w-0 items-center gap-2 overflow-hidden md:flex">
           {storeName.trim() && (
-            <span className="hidden shrink-0 lg:inline">
+            <span className="hidden shrink-0 text-white/90 lg:inline">
               Conheça mais sobre a {storeName}:
             </span>
           )}
           <nav
-            className="flex min-w-0 items-center gap-2 overflow-x-auto whitespace-nowrap"
+            className="flex min-w-0 items-center overflow-x-auto whitespace-nowrap"
             aria-label="Links institucionais"
           >
-            {policyLinks.map((link) => (
-              <a
-                key={link.href}
-                href={toPublicHref(link.href)}
-                className="shrink-0 text-white transition-colors duration-200 hover:text-claret"
-              >
-                {link.label}
-              </a>
+            {policyLinks.map((link, index) => (
+              <span key={link.href} className="flex shrink-0 items-center">
+                {index > 0 ? (
+                  <span className="px-1.5 text-white/45" aria-hidden>
+                    ·
+                  </span>
+                ) : null}
+                <a
+                  href={toPublicHref(link.href)}
+                  className="text-white/90 transition-colors duration-200 hover:text-white"
+                >
+                  {link.label}
+                </a>
+              </span>
             ))}
           </nav>
         </div>
 
-        <p className="px-2 text-center whitespace-nowrap">{FREE_SHIPPING_LABEL}</p>
-
-        <div className="flex items-center justify-end gap-3">
-          {socialLinks.map((social) => (
-            <a
-              key={social.type}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex size-7 items-center justify-center rounded-full text-white transition-colors duration-200 hover:text-claret"
-              aria-label={social.label}
-            >
-              <SocialIcon type={social.type} className="size-3.5" />
-            </a>
-          ))}
+        <div className="flex min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-1 md:shrink-0 md:justify-end">
+          {socialLinks.length > 0 ? (
+            <div className="hidden items-center gap-2 xl:flex">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.type}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex size-6 items-center justify-center rounded-full text-white/80 transition-colors duration-200 hover:text-white"
+                  aria-label={social.label}
+                >
+                  <SocialIcon type={social.type} className="size-3.5" />
+                </a>
+              ))}
+            </div>
+          ) : null}
+          <CampaignCluster />
         </div>
       </div>
     </div>

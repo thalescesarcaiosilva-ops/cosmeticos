@@ -7,6 +7,7 @@ import { buildInstallmentMap } from '@/lib/payment/build-installment-map'
 import { getCheckoutPaymentSettings } from '@/lib/payment/queries'
 import { getPaymentSettings } from '@/lib/payment/queries'
 import { getProductBySlug, getRelatedProducts } from '@/lib/products/queries'
+import { storefrontListPrice } from '@/lib/products/storefront-list-price'
 import { getBuyTogetherBundles } from '@/lib/products/buy-together-queries'
 import { getBuyTogetherSettings } from '@/lib/products/buy-together-settings'
 import { buildBreadcrumbJsonLd } from '@/lib/seo/json-ld/breadcrumb'
@@ -87,7 +88,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const categoryIds =
     product.product_categories?.map((pc) => pc.category_id).filter(Boolean) ?? []
 
-  const [relatedProducts, buyTogetherBundles] = await Promise.all([
+  const [relatedProducts, buyTogetherBundles, listPrice] = await Promise.all([
     getRelatedProducts(product.id, categoryIds),
     buyTogetherSettings.enabled
       ? getBuyTogetherBundles(
@@ -98,6 +99,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
           buyTogetherSettings
         )
       : Promise.resolve([]),
+    storefrontListPrice(
+      product.id,
+      Number(product.price),
+      product.original_price == null ? null : Number(product.original_price)
+    ),
   ])
   const relatedInstallments = buildInstallmentMap(relatedProducts, paymentSettings)
 
@@ -132,6 +138,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         relatedProducts={relatedProducts}
         relatedInstallments={relatedInstallments}
         assurances={assurances}
+        listPrice={listPrice}
         {...(buyTogetherSettings.enabled && buyTogetherBundles.length > 0
           ? {
               buyTogetherBundles,

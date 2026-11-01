@@ -1,9 +1,9 @@
-import { Fragment } from 'react'
-import { RefreshCcw, ShieldCheck } from 'lucide-react'
+import { RefreshCcw, ShieldCheck, Truck } from 'lucide-react'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
 
 type ProductTrustSignalsProps = {
   assurances: ProductPurchaseAssurances
+  inStock: boolean
 }
 
 type TrustItem = {
@@ -12,8 +12,16 @@ type TrustItem = {
   Icon: typeof RefreshCcw
 }
 
-function buildItems(assurances: ProductPurchaseAssurances): TrustItem[] {
+function buildItems(assurances: ProductPurchaseAssurances, inStock: boolean): TrustItem[] {
   const items: TrustItem[] = []
+
+  if (inStock) {
+    items.push({
+      key: 'shipping',
+      Icon: Truck,
+      label: 'Entrega garantida para todo o Brasil',
+    })
+  }
 
   if (assurances.returnEnabled && assurances.returnDays != null && assurances.returnDays > 0) {
     items.push({
@@ -24,7 +32,6 @@ function buildItems(assurances: ProductPurchaseAssurances): TrustItem[] {
         : `Troca ou devolução em até ${assurances.returnDays} dias`,
     })
   }
-
 
   if (assurances.pixEnabled || assurances.cardEnabled) {
     const parts: string[] = []
@@ -40,22 +47,17 @@ function buildItems(assurances: ProductPurchaseAssurances): TrustItem[] {
   return items
 }
 
-export function ProductTrustSignals({ assurances }: ProductTrustSignalsProps) {
-  const items = buildItems(assurances)
+export function ProductTrustSignals({ assurances, inStock }: ProductTrustSignalsProps) {
+  const items = buildItems(assurances, inStock)
   if (items.length === 0) return null
 
   return (
-    <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
-      {items.map(({ key, label, Icon }, index) => (
-        <Fragment key={key}>
-          {index > 0 ? <li className="hidden h-4 w-px bg-border sm:block" aria-hidden /> : null}
-          <li className="flex items-center gap-2 text-[13px] leading-snug text-text-secondary">
-            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
-              <Icon className="size-3.5" aria-hidden />
-            </span>
-            <span>{label}</span>
-          </li>
-        </Fragment>
+    <ul className="grid grid-cols-1 gap-3 rounded-[1.35rem] bg-[#f6f3f8] px-4 py-4 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-[#e6dde8]">
+      {items.map(({ key, label, Icon }) => (
+        <li key={key} className="flex items-center gap-3 sm:px-4 sm:first:pl-1 sm:last:pr-1">
+          <Icon className="size-6 shrink-0 text-[#3b1530]" strokeWidth={1.75} aria-hidden />
+          <span className="text-[13px] font-medium leading-snug text-[#3b1530]">{label}</span>
+        </li>
       ))}
     </ul>
   )

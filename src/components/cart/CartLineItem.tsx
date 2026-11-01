@@ -29,7 +29,7 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
     >
       <Link
         href={`/produto/${line.slug}`}
-        className="relative size-[88px] shrink-0 overflow-hidden rounded-lg bg-surface-strong/70 sm:size-24"
+        className="relative size-[88px] shrink-0 overflow-hidden sm:size-24"
       >
         {line.imageUrl ? (
           <SiteImage
@@ -55,16 +55,9 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
             {line.name}
           </Link>
 
-          <div className="mt-2 flex flex-wrap items-baseline gap-2">
-            {line.originalPrice != null && line.originalPrice > line.price && (
-              <p className="text-xs text-text-muted line-through tabular-nums">
-                {formatCurrency(line.originalPrice)}
-              </p>
-            )}
-            <p className="text-base font-bold text-text-primary tabular-nums">
-              {formatCurrency(line.price)}
-            </p>
-          </div>
+          <p className="mt-2 text-base font-bold text-text-primary tabular-nums">
+            {formatCurrency(line.price)}
+          </p>
 
           {!line.available && (
             <p className="mt-2 text-xs font-medium text-badge-discount">Indisponível</p>

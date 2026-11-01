@@ -3,14 +3,13 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { CreditCard, QrCode } from 'lucide-react'
+import { CreditCard, Package, QrCode, Zap } from 'lucide-react'
 import { CheckoutOrderSummary } from '@/components/checkout/CheckoutOrderSummary'
 import { CheckoutPolicyNotice } from '@/components/checkout/CheckoutPolicyNotice'
 import { CheckoutStepCard } from '@/components/checkout/CheckoutStepCard'
 import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
 import { CheckoutPixPanel } from '@/components/checkout/CheckoutPixPanel'
 import { CardUnavailablePanel } from '@/components/checkout/CardUnavailablePanel'
-import { CheckoutSecurityBadges } from '@/components/checkout/CheckoutSecurityBadges'
 import { CheckoutStepper } from '@/components/checkout/CheckoutStepper'
 import { CheckoutTopBar } from '@/components/checkout/CheckoutTopBar'
 import { PixDiscountBadge } from '@/components/product/PixDiscountBadge'
@@ -48,7 +47,6 @@ import {
   type FieldErrors,
 } from '@/lib/checkout/validation'
 import { formatCurrency } from '@/lib/products/format'
-import { ARRIVAL_WINDOW_NOTE } from '@/lib/shipping/arrival-window'
 import { useCartSync } from '@/hooks/useCartSync'
 import { useCart } from '@/providers/CartProvider'
 import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
@@ -98,6 +96,38 @@ const emptyAddressForm: AddressForm = {
 type PaymentMethodChoice = 'pix' | 'card'
 type CheckoutStep = 1 | 2 | 3
 
+const CHECKOUT_FIELD_IDS = {
+  name: 'checkout-name',
+  email: 'checkout-email',
+  phone: 'checkout-phone',
+  zip_code: 'checkout-zip',
+  street: 'checkout-street',
+  number: 'checkout-number',
+  neighborhood: 'checkout-neighborhood',
+  city: 'checkout-city',
+  state: 'checkout-state',
+} as const
+
+const ADDRESS_FIELD_ORDER = [
+  'zip_code',
+  'street',
+  'number',
+  'neighborhood',
+  'city',
+  'state',
+] as const
+
+function focusCheckoutTarget(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  const input =
+    el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement
+      ? el
+      : el.querySelector('input, textarea, select')
+  if (input instanceof HTMLElement) input.focus({ preventScroll: true })
+}
+
 type CheckoutViewProps = {
   storeName: string
   logo: StoreLogo
@@ -137,6 +167,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const [paymentConfig, setPaymentConfig] = useState<CheckoutPaymentSettings | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodChoice>('pix')
   const [step, setStep] = useState<CheckoutStep>(1)
+  const [scrollToId, setScrollToId] = useState<string | null>(null)
   const [cpf, setCpf] = useState('')
   const [pixResult, setPixResult] = useState<{
     orderId: string
@@ -159,16 +190,30 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const selectedShipping = shippingOptions.find((o) => o.methodId === selectedShippingId) ?? null
   const shippingPrice = selectedShipping?.price ?? 0
   const merchandiseTotal = cart?.merchandiseTotal ?? cart?.subtotal ?? 0
-  const [couponCode, setCouponCode] = useState('')
-  const [couponDiscount, setCouponDiscount] = useState(0)
-  const merchandiseAfterCoupon = Math.max(merchandiseTotal - couponDiscount, 0)
   const bundleDiscountAmount = cart?.bundleDiscountAmount ?? 0
   const pixDiscountPercent = paymentConfig?.pixDiscount ?? 0
   const pixDiscountAmount =
     paymentMethod === 'pix'
-      ? calcPixDiscountAmount(merchandiseAfterCoupon, shippingPrice, pixDiscountPercent)
+      ? calcPixDiscountAmount(merchandiseTotal, shippingPrice, pixDiscountPercent)
       : 0
-  const total = Math.max(merchandiseAfterCoupon + shippingPrice - pixDiscountAmount, 0)
+  const total = Math.max(merchandiseTotal + shippingPrice - pixDiscountAmount, 0)
+  const pixPayLabel = `Pagar com Pix - ${formatCurrency(total)}`
+
+  useEffect(() => {
+    if (!scrollToId) return
+    const id = scrollToId
+    let inner = 0
+    const outer = requestAnimationFrame(() => {
+      inner = requestAnimationFrame(() => {
+        focusCheckoutTarget(id)
+        setScrollToId(null)
+      })
+    })
+    return () => {
+      cancelAnimationFrame(outer)
+      cancelAnimationFrame(inner)
+    }
+  }, [scrollToId, step])
 
   useEffect(() => {
     async function loadProfile() {
@@ -421,7 +466,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
         companion_product_id: pair.companionProductId,
         discount_percent: pair.discountPercent,
       })),
-      coupon_code: couponCode || undefined,
     }
   }
 
@@ -589,6 +633,8 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       setIdentificationFieldErrors(idResult.errors)
       const first = Object.values(idResult.errors)[0]
       if (first) setIdentificationError(first)
+      const firstKey = (['name', 'email', 'phone'] as const).find((key) => idResult.errors[key])
+      setScrollToId(firstKey ? CHECKOUT_FIELD_IDS[firstKey] : 'checkout-identification')
       return
     }
 
@@ -597,6 +643,8 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       setStep(2)
       setAddressFieldErrors(addressResult.errors)
       setDeliveryError(addressResult.message)
+      const firstKey = ADDRESS_FIELD_ORDER.find((key) => addressResult.errors[key])
+      setScrollToId(firstKey ? CHECKOUT_FIELD_IDS[firstKey] : 'checkout-delivery')
       return
     }
 
@@ -612,6 +660,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     if (!shippingId) {
       setStep(2)
       setDeliveryError('Selecione uma forma de frete')
+      setScrollToId('checkout-shipping-error')
       return
     }
 
@@ -621,6 +670,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     if (!cpfResult.ok) {
       setStep(3)
       setCpfError(cpfResult.message)
+      setScrollToId('checkout-cpf')
       return
     }
 
@@ -634,18 +684,21 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     await handlePixPayment()
   }
 
-  function continueToDelivery() {
+  function continueFromDetails() {
     setSubmitError(null)
     setIdentificationError(null)
     const idResult = validateCheckoutIdentification(identification)
     if (!idResult.ok) {
+      setStep(1)
       setIdentificationFieldErrors(idResult.errors)
       const first = Object.values(idResult.errors)[0]
       if (first) setIdentificationError(first)
+      const firstKey = (['name', 'email', 'phone'] as const).find((key) => idResult.errors[key])
+      setScrollToId(firstKey ? CHECKOUT_FIELD_IDS[firstKey] : 'checkout-identification')
       return
     }
     setIdentificationFieldErrors({})
-    setStep(2)
+    continueToPayment()
   }
 
   function continueToPayment() {
@@ -653,20 +706,31 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     setDeliveryError(null)
     const addressResult = validateCheckoutAddress(addressForm)
     if (!addressResult.ok) {
+      setStep(2)
       setAddressFieldErrors(addressResult.errors)
       setDeliveryError(addressResult.message)
+      const firstKey = ADDRESS_FIELD_ORDER.find((key) => addressResult.errors[key])
+      setScrollToId(firstKey ? CHECKOUT_FIELD_IDS[firstKey] : 'checkout-delivery')
       return
     }
+    setAddressFieldErrors({})
     if (shippingLoading || cepLoading) {
       setDeliveryError('Aguarde o cálculo do frete')
+      setScrollToId(
+        shippingLoading || shippingOptions.length > 0 || shippingError
+          ? 'checkout-shipping-error'
+          : 'checkout-delivery-error',
+      )
       return
     }
     if (!selectedShippingId) {
       setDeliveryError('Informe o CEP e escolha uma forma de frete')
+      setScrollToId(shippingOptions.length > 0 ? 'checkout-shipping-error' : 'checkout-zip')
       return
     }
     setAddressFieldErrors({})
     setStep(3)
+    setScrollToId('checkout-payment')
   }
 
   const activeStep: CheckoutStep = pixResult ? 3 : step
@@ -680,29 +744,21 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   }, [activeStep, cartLoading, items.length, pixResult])
 
   function stepStatus(target: CheckoutStep): 'pending' | 'active' | 'completed' {
-    if (activeStep === target) return 'active'
-    if (activeStep > target) return 'completed'
-    return 'pending'
+    if (activeStep < 3) return target === 3 ? 'pending' : 'active'
+    return target === 3 ? 'active' : 'completed'
   }
 
   const isEmpty = items.length === 0 && !cartLoading
 
   const summaryAction =
-    activeStep === 1
+    activeStep < 3
       ? {
-          onFinalize: pixResult ? undefined : continueToDelivery,
-          finalizeDisabled: profileLoading,
-          finalizeLabel: 'Continuar para entrega',
+          onFinalize: pixResult ? undefined : continueFromDetails,
+          finalizeDisabled: profileLoading || shippingLoading || cepLoading,
+          finalizeLabel: 'CONTINUAR PARA PAGAMENTO',
           finalizeLoading: false,
         }
-      : activeStep === 2
-        ? {
-            onFinalize: pixResult ? undefined : continueToPayment,
-            finalizeDisabled: shippingLoading || cepLoading,
-            finalizeLabel: 'Continuar para pagamento',
-            finalizeLoading: false,
-          }
-        : {
+      : {
             onFinalize: pixResult ? undefined : handleFinalizeOrder,
             finalizeDisabled:
               cartLoading ||
@@ -711,22 +767,19 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
               availableLines.length === 0 ||
               paymentMethod === 'card' ||
               paymentConfig?.pixEnabled === false,
-            finalizeLabel: 'Finalizar pedido',
+            finalizeLabel: paymentMethod === 'pix' ? pixPayLabel : 'Finalizar pedido',
             finalizeLoading: submitting,
           }
 
   const summaryProps = {
     lines: availableLines,
     subtotal: cart?.subtotal ?? 0,
+    merchandiseTotal,
     bundleDiscountAmount,
     loading: cartLoading,
     selectedShipping,
     shippingLoading,
     discountAmount: pixDiscountAmount,
-    onCouponChange: (applied: { code: string; discountAmount: number }) => {
-      setCouponCode(applied.code)
-      setCouponDiscount(applied.discountAmount)
-    },
     total,
     onFinalize: summaryAction.onFinalize,
     finalizeDisabled: summaryAction.finalizeDisabled,
@@ -755,7 +808,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       <CheckoutTopBar storeName={storeName} logo={logo} />
 
       <div className="mx-auto max-w-[1280px] px-4 py-6 md:px-6 md:py-8">
-        <CheckoutStepper currentStep={activeStep} />
+        <CheckoutStepper phase={pixResult ? 3 : activeStep >= 3 ? 2 : 1} />
 
         {restoringPix && (
           <div className="mt-6">
@@ -770,9 +823,10 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
           </div>
         )}
 
-        <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-          <div className="space-y-4">
+        <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="order-2 space-y-4 lg:order-1">
             <CheckoutStepCard
+              id="checkout-identification"
               step={1}
               title="Seus dados"
               subtitle="Usamos nome, e-mail e celular só para confirmar o pedido."
@@ -792,19 +846,22 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                 <div className="space-y-4">
                   {identificationError && <Alert type="error">{identificationError}</Alert>}
                   <Input
+                    id="checkout-name"
                     label="Nome completo"
                     value={identification.name}
                     onChange={(e) => {
                       setIdentification((prev) => ({ ...prev, name: e.target.value }))
                       setIdentificationFieldErrors((prev) => ({ ...prev, name: undefined }))
                     }}
-                    placeholder="Ex: Maria da Silva"
+                    placeholder="Como está no seu documento"
                     error={identificationFieldErrors.name}
                     required
                     autoComplete="name"
                     maxLength={120}
                   />
+                  <div className="grid gap-4 sm:grid-cols-2">
                   <Input
+                    id="checkout-email"
                     label="E-mail"
                     type="email"
                     value={identification.email}
@@ -812,7 +869,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                       setIdentification((prev) => ({ ...prev, email: e.target.value }))
                       setIdentificationFieldErrors((prev) => ({ ...prev, email: undefined }))
                     }}
-                    placeholder="seu@email.com"
+                    placeholder="voce@email.com"
                     error={identificationFieldErrors.email}
                     required
                     autoComplete="email"
@@ -837,7 +894,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                           }))
                           setIdentificationFieldErrors((prev) => ({ ...prev, phone: undefined }))
                         }}
-                        placeholder="(11) 96123-4567"
+                        placeholder="(00) 00000-0000"
                         className="min-w-0 flex-1 px-3 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
                         autoComplete="tel"
                         required
@@ -847,21 +904,13 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                       <p className="text-xs text-red-600">{identificationFieldErrors.phone}</p>
                     )}
                   </div>
+                  </div>
                 </div>
               )}
-              <div className="mt-5">
-                <Button
-                  type="button"
-                  className="w-full rounded-md py-3 text-sm font-bold"
-                  onClick={continueToDelivery}
-                  disabled={profileLoading}
-                >
-                  Continuar para entrega
-                </Button>
-              </div>
             </CheckoutStepCard>
 
             <CheckoutStepCard
+              id="checkout-delivery"
               step={2}
               title="Entrega"
               subtitle="O CEP mostra o prazo e o valor do frete antes do pagamento."
@@ -887,83 +936,112 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
               }
             >
               <div className="space-y-4">
-                {deliveryError && <Alert type="error">{deliveryError}</Alert>}
+                {deliveryError &&
+                  (Object.keys(addressFieldErrors).length > 0 ||
+                    !(shippingLoading || shippingOptions.length > 0 || shippingError)) && (
+                  <div id="checkout-delivery-error">
+                    <Alert type="error">{deliveryError}</Alert>
+                  </div>
+                )}
 
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Input
-                    label="CEP"
-                    value={addressForm.zip_code}
-                    onChange={(e) => updateAddressField('zip_code', e.target.value)}
-                    onBlur={() => lookupCep(addressForm.zip_code)}
-                    placeholder="00000-000"
-                    error={addressFieldErrors.zip_code}
-                    required
-                    autoComplete="postal-code"
-                    inputMode="numeric"
-                    maxLength={9}
-                  />
+                <div className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="flex items-end gap-2">
+                      <div className="min-w-0 flex-1">
+                        <Input
+                          id="checkout-zip"
+                          label="CEP"
+                          value={addressForm.zip_code}
+                          onChange={(e) => updateAddressField('zip_code', e.target.value)}
+                          onBlur={() => lookupCep(addressForm.zip_code)}
+                          placeholder="00000-000"
+                          error={addressFieldErrors.zip_code}
+                          required
+                          autoComplete="postal-code"
+                          inputMode="numeric"
+                          maxLength={9}
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => void lookupCep(addressForm.zip_code)}
+                        disabled={cepLoading}
+                        className="mb-px h-[42px] shrink-0 rounded-2xl border border-brand px-4 text-sm font-semibold text-brand disabled:opacity-60"
+                      >
+                        {cepLoading ? '...' : 'Buscar'}
+                      </button>
+                    </div>
+                    <Input
+                      id="checkout-street"
+                      label="Rua"
+                      value={addressForm.street}
+                      onChange={(e) => updateAddressField('street', e.target.value)}
+                      placeholder="Rua, avenida, etc."
+                      error={addressFieldErrors.street}
+                      required
+                      autoComplete="address-line1"
+                      maxLength={200}
+                    />
+                  </div>
                   {cepLoading && (
-                    <p className="-mt-2 text-xs text-text-muted sm:col-span-2">Buscando endereço...</p>
+                    <p className="text-xs text-text-muted">Buscando endereço...</p>
                   )}
-                  <Input
-                    label="Rua"
-                    value={addressForm.street}
-                    onChange={(e) => updateAddressField('street', e.target.value)}
-                    placeholder="Rua, Avenida, etc."
-                    className="sm:col-span-2"
-                    error={addressFieldErrors.street}
-                    required
-                    autoComplete="address-line1"
-                    maxLength={200}
-                  />
-                  <Input
-                    label="Número"
-                    value={addressForm.number}
-                    onChange={(e) => updateAddressField('number', e.target.value)}
-                    error={addressFieldErrors.number}
-                    required
-                    maxLength={10}
-                  />
-                  <Input
-                    label="Complemento"
-                    value={addressForm.complement}
-                    onChange={(e) => updateAddressField('complement', e.target.value)}
-                    placeholder="Apto, bloco..."
-                    autoComplete="address-line2"
-                    maxLength={100}
-                  />
-                  <Input
-                    label="Bairro"
-                    value={addressForm.neighborhood}
-                    onChange={(e) => updateAddressField('neighborhood', e.target.value)}
-                    placeholder="Seu bairro"
-                    error={addressFieldErrors.neighborhood}
-                    required
-                    maxLength={100}
-                  />
-                  <Input
-                    label="Cidade"
-                    value={addressForm.city}
-                    onChange={(e) => updateAddressField('city', e.target.value)}
-                    error={addressFieldErrors.city}
-                    required
-                    autoComplete="address-level2"
-                    maxLength={100}
-                  />
-                  <Input
-                    label="Estado"
-                    value={addressForm.state}
-                    onChange={(e) => updateAddressField('state', e.target.value)}
-                    placeholder="UF"
-                    maxLength={2}
-                    error={addressFieldErrors.state}
-                    required
-                    autoComplete="address-level1"
-                  />
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <Input
+                      id="checkout-number"
+                      label="Número"
+                      value={addressForm.number}
+                      onChange={(e) => updateAddressField('number', e.target.value)}
+                      error={addressFieldErrors.number}
+                      required
+                      maxLength={10}
+                    />
+                    <Input
+                      label="Complemento"
+                      value={addressForm.complement}
+                      onChange={(e) => updateAddressField('complement', e.target.value)}
+                      placeholder="Apto, bloco..."
+                      autoComplete="address-line2"
+                      maxLength={100}
+                    />
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1.2fr)_5.5rem]">
+                    <Input
+                      id="checkout-neighborhood"
+                      label="Bairro"
+                      value={addressForm.neighborhood}
+                      onChange={(e) => updateAddressField('neighborhood', e.target.value)}
+                      placeholder="Seu bairro"
+                      error={addressFieldErrors.neighborhood}
+                      required
+                      maxLength={100}
+                    />
+                    <Input
+                      id="checkout-city"
+                      label="Cidade"
+                      value={addressForm.city}
+                      onChange={(e) => updateAddressField('city', e.target.value)}
+                      error={addressFieldErrors.city}
+                      required
+                      autoComplete="address-level2"
+                      maxLength={100}
+                    />
+                    <Input
+                      id="checkout-state"
+                      label="Estado"
+                      value={addressForm.state}
+                      onChange={(e) => updateAddressField('state', e.target.value)}
+                      placeholder="UF"
+                      maxLength={2}
+                      error={addressFieldErrors.state}
+                      required
+                      autoComplete="address-level1"
+                    />
+                  </div>
                 </div>
 
                 {(shippingLoading || shippingOptions.length > 0 || shippingError) && (
-                  <div className="space-y-2 border-t border-border pt-4">
+                  <div id="checkout-shipping" className="space-y-2 border-t border-border pt-4">
                     <p className="text-sm font-semibold text-text-primary">Opções de frete</p>
                     {shippingLoading && (
                       <p className="text-sm text-text-secondary">Calculando frete...</p>
@@ -973,70 +1051,88 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                       <ul className="space-y-2" role="list">
                         {shippingOptions.map((option) => {
                           const selected = selectedShippingId === option.methodId
+                          const upper = option.name.toUpperCase()
+                          const isSedex = upper.includes('SEDEX')
+                          const badge = isSedex ? 'MAIS RÁPIDO' : 'MELHOR PREÇO'
+                          const Icon = isSedex ? Zap : Package
                           return (
                             <li key={option.methodId}>
                               <button
                                 type="button"
                                 onClick={() => setSelectedShippingId(option.methodId)}
-                                className={`w-full rounded-md border px-3 py-3 text-left transition-colors ${
+                                className={`flex w-full items-center gap-3 rounded-2xl border px-3 py-3 text-left transition-colors ${
                                   selected
-                                    ? 'border-brand bg-brand/5'
-                                    : 'border-border bg-surface hover:border-brand/40'
+                                    ? 'border-brand bg-white'
+                                    : 'border-[#f3d0dc] bg-white hover:border-brand/40'
                                 }`}
                               >
-                                <div className="flex items-start justify-between gap-3">
-                                  <div>
-                                    <p className="text-sm font-semibold text-text-primary">
-                                      {option.name}
-                                    </p>
-                                    <p className="mt-0.5 text-xs text-text-muted">
-                                      {option.arrivalLabel
-                                        ? `${option.deliveryLabel} em trânsito`
-                                        : option.deliveryLabel}
-                                    </p>
-                                    {option.arrivalLabel ? (
-                                      <p className="mt-0.5 text-xs font-medium text-text-primary">
-                                        {option.arrivalLabel}
-                                      </p>
-                                    ) : null}
-                                  </div>
-                                  <p className="shrink-0 text-sm font-bold text-brand tabular-nums">
-                                    {option.isFree ? 'Grátis' : formatCurrency(option.price)}
-                                  </p>
-                                </div>
+                                <span
+                                  className={`size-4 shrink-0 rounded-full border ${
+                                    selected
+                                      ? 'border-brand bg-brand shadow-[inset_0_0_0_3px_white]'
+                                      : 'border-[#e7d5dc] bg-white'
+                                  }`}
+                                  aria-hidden
+                                />
+                                <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#f6f3f8] text-[#3b1530]">
+                                  <Icon className="size-4" aria-hidden />
+                                </span>
+                                <span className="min-w-0 flex-1">
+                                  <span className="flex flex-wrap items-center gap-2">
+                                    <span className="text-sm font-bold text-text-primary">{option.name}</span>
+                                    <span
+                                      className={`rounded px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-white ${
+                                        isSedex ? 'bg-[#1a1014]' : 'bg-[#178a45]'
+                                      }`}
+                                    >
+                                      {badge}
+                                    </span>
+                                  </span>
+                                  <span className="mt-0.5 block text-xs text-text-muted">
+                                    {option.deliveryLabel}
+                                  </span>
+                                </span>
+                                <span
+                                  className={`shrink-0 text-sm font-bold tabular-nums ${
+                                    option.isFree ? 'text-[#178a45]' : 'text-text-primary'
+                                  }`}
+                                >
+                                  {option.isFree ? 'Grátis' : formatCurrency(option.price)}
+                                </span>
                               </button>
                             </li>
                           )
                         })}
                       </ul>
                     )}
-                    {shippingOptions.some((option) => option.arrivalLabel) ? (
-                      <p className="text-[11px] leading-relaxed text-text-muted">{ARRIVAL_WINDOW_NOTE}</p>
+                    {deliveryError && Object.keys(addressFieldErrors).length === 0 ? (
+                      <div id="checkout-shipping-error">
+                        <Alert type="error">{deliveryError}</Alert>
+                      </div>
                     ) : null}
                   </div>
                 )}
               </div>
-              <div className="mt-5 flex items-center gap-2">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="rounded-md"
-                  onClick={() => setStep(1)}
-                >
-                  Voltar
-                </Button>
-                <Button
-                  type="button"
-                  className="flex-1 rounded-md py-3 text-sm font-bold"
-                  onClick={continueToPayment}
-                  disabled={shippingLoading || cepLoading}
-                >
-                  Continuar para pagamento
-                </Button>
-              </div>
+              {activeStep < 3 && (
+                <div className="mt-5 lg:hidden">
+                  <Button
+                    type="button"
+                    className="w-full !rounded-2xl py-3.5 text-sm font-bold uppercase tracking-wide"
+                    onClick={continueFromDetails}
+                    disabled={profileLoading || shippingLoading || cepLoading}
+                  >
+                    Continuar para pagamento
+                  </Button>
+                  <p className="mt-3 text-center text-[12px] text-text-muted">
+                    Compra segura · Seus dados estão protegidos
+                  </p>
+                </div>
+              )}
             </CheckoutStepCard>
 
+            {activeStep >= 3 && (
             <CheckoutStepCard
+              id="checkout-payment"
               step={3}
               title="Pagamento"
               subtitle="Confira o total no resumo e finalize com Pix."
@@ -1053,6 +1149,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                 ) : null}
 
                 <Input
+                  id="checkout-cpf"
                   label="CPF"
                   value={cpf}
                   onChange={(e) => {
@@ -1068,11 +1165,79 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                   maxLength={14}
                 />
 
+                {addressForm.city ? (
+                  <div className="flex items-start justify-between gap-3 rounded-2xl border border-[#f3d0dc] px-4 py-3">
+                    <div className="min-w-0 text-sm">
+                      <p className="font-semibold text-text-primary">
+                        Entrega em {addressForm.city} - {addressForm.state}
+                      </p>
+                      <p className="mt-1 text-text-secondary">
+                        CEP {addressForm.zip_code}
+                        {selectedShipping
+                          ? ` · ${selectedShipping.name}${selectedShipping.isFree ? ' grátis' : ''}`
+                          : ''}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setStep(2)
+                        setScrollToId('checkout-delivery')
+                      }}
+                      className="shrink-0 text-sm font-semibold text-brand"
+                    >
+                      Alterar
+                    </button>
+                  </div>
+                ) : null}
+
                 {!pixResult && (
                   <div className="space-y-3">
+                    {paymentConfig?.pixEnabled !== false && (
+                      <div
+                        className={`rounded-2xl border transition-colors ${
+                          paymentMethod === 'pix' ? 'border-brand' : 'border-[#f3d0dc]'
+                        }`}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setPaymentMethod('pix')}
+                          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
+                        >
+                          <span className="flex min-w-0 items-center gap-2">
+                            <span
+                              className={`size-4 shrink-0 rounded-full border ${
+                                paymentMethod === 'pix'
+                                  ? 'border-brand bg-brand shadow-[inset_0_0_0_3px_white]'
+                                  : 'border-[#e7d5dc] bg-white'
+                              }`}
+                              aria-hidden
+                            />
+                            <span className="flex min-w-0 flex-wrap items-center gap-2">
+                              <span className="text-sm font-semibold text-text-primary">Pix</span>
+                              <span className="rounded bg-[#178a45] px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-white">
+                                APROVAÇÃO NA HORA
+                              </span>
+                              {pixDiscountPercent > 0 && (
+                                <PixDiscountBadge percent={pixDiscountPercent} />
+                              )}
+                            </span>
+                          </span>
+                          <QrCode className="size-5 shrink-0 text-text-muted" aria-hidden />
+                        </button>
+                        {paymentMethod === 'pix' && (
+                          <div className="border-t border-[#f3d0dc] px-4 pb-4 pt-3">
+                            <p className="text-xs text-text-secondary">
+                              O QR Code aparece na próxima etapa.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     <div
-                      className={`rounded-md border transition-colors ${
-                        paymentMethod === 'card' ? 'border-amber-400' : 'border-border'
+                      className={`rounded-2xl border transition-colors ${
+                        paymentMethod === 'card' ? 'border-amber-400' : 'border-[#f3d0dc]'
                       }`}
                     >
                       <button
@@ -1085,15 +1250,15 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                             className={`size-4 shrink-0 rounded-full border ${
                               paymentMethod === 'card'
                                 ? 'border-amber-500 bg-amber-500'
-                                : 'border-border-strong bg-surface'
+                                : 'border-[#e7d5dc] bg-white'
                             }`}
                             aria-hidden
                           />
                           <span className="min-w-0">
                             <span className="block text-sm font-semibold text-text-primary">
-                              Pagar com cartão de crédito
+                              Cartão de crédito
                             </span>
-                            <span className="mt-0.5 block text-xs font-medium text-amber-800">
+                            <span className="mt-0.5 block text-xs font-medium text-text-muted">
                               Indisponível no momento
                             </span>
                           </span>
@@ -1101,54 +1266,11 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                         <CreditCard className="size-5 shrink-0 text-text-muted" aria-hidden />
                       </button>
                       {paymentMethod === 'card' && (
-                        <div className="border-t border-border px-4 pb-4 pt-3">
+                        <div className="border-t border-[#f3d0dc] px-4 pb-4 pt-3">
                           <CardUnavailablePanel onUsePix={() => setPaymentMethod('pix')} />
                         </div>
                       )}
                     </div>
-
-                    {paymentConfig?.pixEnabled !== false && (
-                      <div
-                        className={`rounded-md border transition-colors ${
-                          paymentMethod === 'pix' ? 'border-brand' : 'border-border'
-                        }`}
-                      >
-                        <button
-                          type="button"
-                          onClick={() => setPaymentMethod('pix')}
-                          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
-                        >
-                          <span className="flex min-w-0 items-center gap-2">
-                            <span
-                              className={`size-4 shrink-0 rounded-full border ${
-                                paymentMethod === 'pix'
-                                  ? 'border-brand bg-brand'
-                                  : 'border-border-strong bg-surface'
-                              }`}
-                              aria-hidden
-                            />
-                            <span className="flex min-w-0 flex-wrap items-center gap-2">
-                              <span className="text-sm font-semibold text-text-primary">
-                                Pagar com Pix
-                              </span>
-                              {pixDiscountPercent > 0 && (
-                                <PixDiscountBadge percent={pixDiscountPercent} />
-                              )}
-                            </span>
-                          </span>
-                          <QrCode className="size-5 shrink-0 text-text-muted" aria-hidden />
-                        </button>
-                        {paymentMethod === 'pix' && (
-                          <div className="border-t border-border px-4 pb-4 pt-3">
-                            <ol className="list-decimal space-y-1 pl-4 text-xs text-text-secondary">
-                              <li>Clique em Finalizar pedido.</li>
-                              <li>Copie o código Pix ou escaneie o QR Code.</li>
-                              <li>Conclua o pagamento no app do seu banco.</li>
-                            </ol>
-                          </div>
-                        )}
-                      </div>
-                    )}
                   </div>
                 )}
 
@@ -1231,16 +1353,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                 <div className="mt-5 space-y-3 lg:hidden">
                   <Button
                     type="button"
-                    variant="ghost"
-                    className="rounded-md px-0"
-                    onClick={() => setStep(2)}
-                  >
-                    Voltar para entrega
-                  </Button>
-                  <CheckoutPolicyNotice />
-                  <Button
-                    type="button"
-                    className="w-full rounded-md py-3 text-sm font-bold uppercase tracking-wide"
+                    className="w-full !rounded-2xl py-3.5 text-sm font-bold"
                     loading={submitting}
                     disabled={
                       cartLoading ||
@@ -1252,23 +1365,31 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                     }
                     onClick={() => void handleFinalizeOrder()}
                   >
-                    Finalizar pedido
+                    {paymentMethod === 'pix' ? pixPayLabel : 'Finalizar pedido'}
                   </Button>
+                  <p className="text-center text-[12px] text-text-muted">
+                    Compra segura · Seus dados estão protegidos
+                  </p>
                 </div>
               )}
             </CheckoutStepCard>
+            )}
           </div>
 
-          <div>
+          <div className="order-1 lg:order-2">
             <CheckoutOrderSummary {...summaryProps} />
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center">
-          <PaymentMethodsImage size="lg" />
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 border-t border-[#f3d0dc] pt-6 text-center sm:flex-row sm:flex-wrap">
+          <PaymentMethodsImage size="md" />
+          <p className="text-[12px] text-text-muted">
+            Pix · Visa · Mastercard · Elo · American Express
+            <span className="mx-2 text-[#e7d5dc]">|</span>
+            Compra segura · Dados protegidos
+          </p>
+          <CheckoutPolicyNotice />
         </div>
-
-        <CheckoutSecurityBadges />
       </div>
     </div>
   )

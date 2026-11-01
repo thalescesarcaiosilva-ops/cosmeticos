@@ -1,6 +1,6 @@
 'use client'
 
-import { Truck } from 'lucide-react'
+import { FavoriteButton } from '@/components/product/FavoriteButton'
 import { ProductBuyTogetherSection } from '@/components/product/ProductBuyTogetherSection'
 import { ProductPricingBlock } from '@/components/product/ProductPricingBlock'
 import { ProductPurchaseBar } from '@/components/product/ProductPurchaseBar'
@@ -23,6 +23,7 @@ function formatSizeLabel(label: string) {
 type ProductBuyPanelProps = {
   productId: string
   productName: string
+  brandName?: string | null
   imageUrl?: string | null
   imageAlt?: string
   stock: number
@@ -40,6 +41,7 @@ type ProductBuyPanelProps = {
 export function ProductBuyPanel({
   productId,
   productName,
+  brandName = null,
   imageUrl,
   imageAlt,
   stock,
@@ -59,43 +61,65 @@ export function ProductBuyPanel({
     buyTogetherBundles.length > 0
 
   return (
-    <div className="space-y-5">
-      <ProductPricingBlock
-        price={price}
-        originalPrice={originalPrice}
-        paymentSettings={paymentSettings}
-        checkoutSettings={checkoutSettings}
-      />
+    <div className="space-y-4">
+      <section className="overflow-hidden rounded-3xl border border-[#f3d0dc] bg-white shadow-[0_10px_32px_rgba(211,52,100,0.06)]">
+        {stock > 0 ? (
+          <div className="bg-[#1a1014] px-5 py-4 sm:px-6">
+            <p className="text-[13px] font-bold tracking-[0.16em] text-brand">PRÉ BLACK FRIDAY</p>
+            <p className="mt-1 text-[12.5px] text-[#f6c9d8]">
+              Válido enquanto durarem os estoques
+            </p>
+          </div>
+        ) : null}
 
-      {stock > 0 ? (
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl bg-surface-strong px-4 py-3 text-[13px]">
-          <Truck className="size-5 shrink-0 text-brand" aria-hidden />
-          <span className="font-bold tracking-wide text-brand">PRONTA ENTREGA</span>
-          <span className="hidden h-4 w-px bg-border sm:block" aria-hidden />
-          <span className="text-text-secondary">Entregamos em todo o Brasil</span>
+        <div className="space-y-5 px-5 py-5 sm:px-6">
+          <header className="flex items-start gap-3">
+            <div className="min-w-0 flex-1">
+              {brandName ? (
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-muted">
+                  {brandName}
+                </p>
+              ) : null}
+              <h1 className="mt-1 text-[22px] font-bold leading-tight text-text-primary md:text-[26px]">
+                {productName}
+              </h1>
+            </div>
+            <FavoriteButton
+              productId={productId}
+              variant="product"
+              className="!size-10 !rounded-full !bg-transparent !text-text-muted !ring-0 hover:!text-brand"
+            />
+          </header>
+
+          <ProductPricingBlock
+            price={price}
+            originalPrice={originalPrice}
+            paymentSettings={paymentSettings}
+            checkoutSettings={checkoutSettings}
+          />
+
+          {sizeLabel ? (
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-text-secondary">Tamanho</span>
+              <span className="pointer-events-none inline-flex size-12 select-none items-center justify-center rounded-full border-2 border-brand bg-white px-1 text-center text-[12px] font-bold leading-tight text-brand">
+                <span className="sr-only">Conteúdo: </span>
+                {formatSizeLabel(sizeLabel)}
+              </span>
+            </div>
+          ) : null}
+
+          <ProductPurchaseBar
+            productId={productId}
+            stock={stock}
+            productName={productName}
+            price={price}
+            imageUrl={imageUrl}
+            imageAlt={imageAlt}
+          />
         </div>
-      ) : null}
+      </section>
 
-      {sizeLabel ? (
-        <div className="pointer-events-none select-none">
-          <span className="inline-flex size-[4.5rem] items-center justify-center rounded-full border-2 border-brand bg-brand px-2 text-center text-[11px] font-bold leading-tight text-white ring-2 ring-brand/25 ring-offset-2">
-            <span className="sr-only">Conteúdo: </span>
-            {formatSizeLabel(sizeLabel)}
-          </span>
-        </div>
-      ) : null}
-
-      <div className="space-y-3">
-        <ProductPurchaseBar
-          productId={productId}
-          stock={stock}
-          productName={productName}
-          price={price}
-          imageUrl={imageUrl}
-          imageAlt={imageAlt}
-        />
-        <ProductTrustSignals assurances={assurances} />
-      </div>
+      <ProductTrustSignals assurances={assurances} inStock={stock > 0} />
 
       {showBuyTogether && buyTogetherSettings && buyTogetherPrimary ? (
         <ProductBuyTogetherSection

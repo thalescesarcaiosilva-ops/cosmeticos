@@ -4,7 +4,6 @@ import { ProductDetailTabs } from '@/components/product/ProductDetailTabs'
 import { ProductGallery } from '@/components/product/ProductGallery'
 import { ProductGalleryMeta } from '@/components/product/ProductGalleryMeta'
 import { ProductRelatedCarousel } from '@/components/product/ProductRelatedCarousel'
-import { FavoriteButton } from '@/components/product/FavoriteButton'
 import { TrackProductView } from '@/components/product/TrackProductView'
 import { calcDiscountPercent } from '@/lib/products/format'
 import type { BuyTogetherBundle } from '@/lib/products/buy-together'
@@ -22,6 +21,7 @@ type ProductPageViewProps = {
   buyTogetherBundles?: BuyTogetherBundle[]
   buyTogetherSettings?: BuyTogetherSettings | null
   assurances: ProductPurchaseAssurances
+  listPrice: number | null
 }
 
 export function ProductPageView({
@@ -33,8 +33,9 @@ export function ProductPageView({
   buyTogetherBundles = [],
   buyTogetherSettings = null,
   assurances,
+  listPrice,
 }: ProductPageViewProps) {
-  const discount = calcDiscountPercent(product.price, product.original_price)
+  const discount = calcDiscountPercent(Number(product.price), listPrice)
   const primaryCategory = product.categories[0] ?? null
   const showBuyTogether =
     Boolean(buyTogetherSettings?.enabled) && buyTogetherBundles.length > 0
@@ -68,29 +69,16 @@ export function ProductPageView({
         </div>
 
         <div className="min-w-0 lg:row-span-2">
-          <header className="mb-5 border-b border-border pb-5">
-            <div className="flex items-start gap-3">
-              <div className="min-w-0 flex-1">
-                {product.brandName && (
-                  <p className="text-[13px] font-medium text-text-muted">{product.brandName}</p>
-                )}
-                <h1 className="mt-1 text-[22px] font-bold leading-tight text-text-primary md:text-[28px]">
-                  {product.name}
-                </h1>
-              </div>
-              <FavoriteButton productId={product.id} variant="product" />
-            </div>
-          </header>
-
           <ProductBuyPanel
             productId={product.id}
             productName={product.name}
+            brandName={product.brandName}
             imageUrl={product.images[0]?.url ?? null}
             imageAlt={product.images[0]?.alt ?? product.name}
             stock={product.stock}
             sizeLabel={product.size_label}
-            price={product.price}
-            originalPrice={product.original_price}
+            price={Number(product.price)}
+            originalPrice={listPrice}
             paymentSettings={paymentSettings}
             checkoutSettings={checkoutSettings}
             assurances={assurances}

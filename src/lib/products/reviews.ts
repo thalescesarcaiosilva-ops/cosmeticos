@@ -1,3 +1,4 @@
+import { maskStorefrontListPrices } from '@/lib/products/storefront-list-price'
 import { createPublicClient } from '@/lib/supabase/public'
 import type { ProductCardData } from '@/types/product'
 
@@ -88,7 +89,7 @@ export async function attachReviewSummaries(
 ): Promise<ProductCardData[]> {
   if (products.length === 0) return products
   const summaries = await getReviewSummariesByProductIds(products.map((p) => p.id))
-  return products.map((product) => {
+  const withRatings = products.map((product) => {
     const summary = summaries.get(product.id)
     return {
       ...product,
@@ -96,4 +97,5 @@ export async function attachReviewSummaries(
       ratingCount: summary?.count ?? 0,
     }
   })
+  return maskStorefrontListPrices(withRatings)
 }

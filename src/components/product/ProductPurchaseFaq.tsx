@@ -1,5 +1,7 @@
+'use client'
+
 import Link from 'next/link'
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { STORE_WHATSAPP_DISPLAY, STORE_WHATSAPP_HREF } from '@/components/layout/StoreWhatsappLink'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
@@ -145,31 +147,45 @@ function buildFaqItems(assurances: ProductPurchaseAssurances): FaqItem[] {
 
 export function ProductPurchaseFaq({ assurances }: ProductPurchaseFaqProps) {
   const items = buildFaqItems(assurances)
+  const [openId, setOpenId] = useState(items[0]?.id ?? null)
 
   return (
-    <section aria-labelledby="product-purchase-faq-heading" className="border-t border-border pt-4">
+    <section
+      aria-labelledby="product-purchase-faq-heading"
+      className="rounded-3xl border border-[#f3d0dc] bg-white px-5 py-5"
+    >
       <h2
         id="product-purchase-faq-heading"
-        className="mb-2 text-sm font-bold text-text-primary"
+        className="mb-2 text-[15px] font-bold text-[#3b1530]"
       >
         Dúvidas frequentes
       </h2>
 
-      <div className="divide-y divide-border rounded-md border border-border">
-        {items.map((item) => (
-          <details key={item.id} className="group px-3.5 py-2.5 open:bg-surface-strong/40">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-left text-[13px] font-semibold text-text-primary marker:content-none [&::-webkit-details-marker]:hidden">
-              <span>{item.question}</span>
-              <ChevronDown
-                className="size-4 shrink-0 text-text-muted transition-transform duration-200 group-open:rotate-180"
-                aria-hidden
-              />
-            </summary>
-            <p className="mt-2 pr-6 text-[12.5px] leading-relaxed text-text-secondary">
-              {item.answer}
-            </p>
-          </details>
-        ))}
+      <div className="divide-y divide-[#f3d0dc]">
+        {items.map((item) => {
+          const open = openId === item.id
+          return (
+            <div key={item.id} className="py-3">
+              <button
+                type="button"
+                aria-expanded={open}
+                onClick={() => setOpenId(open ? null : item.id)}
+                className="flex w-full items-center justify-between gap-3 text-left text-[13px] font-semibold text-text-primary"
+              >
+                <span>{item.question}</span>
+                <ChevronDown
+                  className={`size-4 shrink-0 text-text-muted transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+                  aria-hidden
+                />
+              </button>
+              {open ? (
+                <p className="mt-2 pr-6 text-[12.5px] leading-relaxed text-text-secondary">
+                  {item.answer}
+                </p>
+              ) : null}
+            </div>
+          )
+        })}
       </div>
     </section>
   )

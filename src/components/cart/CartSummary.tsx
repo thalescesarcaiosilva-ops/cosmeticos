@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { CouponField } from '@/components/checkout/CouponField'
 import { ShippingCalculator, type ShippingQuoteLine } from '@/components/shipping/ShippingCalculator'
 import { Button } from '@/components/ui/Button'
 import { buildProductPaymentSummary } from '@/lib/payment/product-payment-summary'
@@ -24,10 +23,9 @@ export function CartSummary({
   checkoutSettings,
 }: CartSummaryProps) {
   const [selectedShipping, setSelectedShipping] = useState<ShippingQuoteLine | null>(null)
-  const [couponDiscount, setCouponDiscount] = useState(0)
   const shippingPrice = selectedShipping?.price ?? 0
   const merchandiseTotal = data.merchandiseTotal
-  const total = Math.max(merchandiseTotal + shippingPrice - couponDiscount, 0)
+  const total = Math.max(merchandiseTotal + shippingPrice, 0)
   const availableLines = data.lines.filter((line) => line.available && line.quantity > 0)
   // Parcelas sobre o subtotal da mercadoria (sem frete) — frete fecha no checkout.
   const paymentSummary = buildProductPaymentSummary(
@@ -59,11 +57,6 @@ export function CartSummary({
               </dd>
             </div>
           )}
-
-          <CouponField
-            merchandiseTotal={merchandiseTotal}
-            onChange={(applied) => setCouponDiscount(applied.discountAmount)}
-          />
 
           {selectedShipping ? (
             <div className="flex justify-between gap-4">
