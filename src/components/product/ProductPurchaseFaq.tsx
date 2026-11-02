@@ -147,7 +147,7 @@ function buildFaqItems(assurances: ProductPurchaseAssurances): FaqItem[] {
 
 export function ProductPurchaseFaq({ assurances }: ProductPurchaseFaqProps) {
   const items = buildFaqItems(assurances)
-  const [openId, setOpenId] = useState(items[0]?.id ?? null)
+  const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null)
 
   return (
     <section
