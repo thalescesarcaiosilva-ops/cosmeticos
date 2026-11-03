@@ -11,6 +11,7 @@ type CheckoutOrderSummaryProps = {
   subtotal: number
   merchandiseTotal: number
   bundleDiscountAmount?: number
+  quantityDiscountAmount?: number
   loading?: boolean
   selectedShipping: ShippingQuoteLine | null
   shippingLoading?: boolean
@@ -29,6 +30,7 @@ export function CheckoutOrderSummary({
   subtotal,
   merchandiseTotal,
   bundleDiscountAmount = 0,
+  quantityDiscountAmount = 0,
   loading = false,
   selectedShipping,
   shippingLoading = false,
@@ -90,11 +92,19 @@ export function CheckoutOrderSummary({
         </ul>
 
         <dl className="mt-4 space-y-2 border-t border-[#f3d0dc] pt-4 text-[13px]">
-          {bundleDiscountAmount > 0 && (
+          {(bundleDiscountAmount > 0 || quantityDiscountAmount > 0) && (
             <div className="flex justify-between gap-4">
               <dt className="text-text-secondary">Produtos</dt>
               <dd className="tabular-nums text-text-primary">
                 {loading ? '...' : formatCurrency(subtotal)}
+              </dd>
+            </div>
+          )}
+          {quantityDiscountAmount > 0 && (
+            <div className="flex justify-between gap-4 text-[#178a45]">
+              <dt>Desconto por quantidade</dt>
+              <dd className="font-semibold tabular-nums">
+                − {loading ? '...' : formatCurrency(quantityDiscountAmount)}
               </dd>
             </div>
           )}

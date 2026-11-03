@@ -20,6 +20,8 @@ export type ValidatedCartLine = {
   quantity: number
   lineTotal: number
   bundleDiscountAmount?: number
+  quantityDiscountAmount?: number
+  quantityDiscountPercent?: number
   displayLineTotal?: number
   imageUrl: string | null
   imageAlt: string
@@ -39,8 +41,10 @@ export type CartSyncResult = {
   lines: ValidatedCartLine[]
   subtotal: number
   bundleDiscountAmount: number
+  /** Desconto por quantidade na mesma linha (2/3+ unidades). */
+  quantityDiscountAmount: number
   appliedBundles: AppliedCartBundle[]
-  /** Subtotal após desconto Compre Junto (somente nos pares elegíveis). */
+  /** Subtotal após descontos de quantidade e Compre Junto. */
   merchandiseTotal: number
   itemCount: number
   warnings: string[]

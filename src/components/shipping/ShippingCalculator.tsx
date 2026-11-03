@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { Calculator, Check, Info, Truck } from 'lucide-react'
 import { Alert } from '@/components/ui/Alert'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -113,25 +112,18 @@ export function ShippingCalculator({
 
   if (isProduct) {
     return (
-      <div className="overflow-hidden rounded-3xl border border-[#f3d0dc] bg-white">
-        <div className="flex flex-col gap-3 bg-[#e7f6ec] px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5">
-          <div className="flex min-w-0 items-center gap-3">
-            <Truck className="size-7 shrink-0 text-[#178a45]" strokeWidth={1.75} aria-hidden />
-            <p className="text-[15px] font-bold leading-tight text-[#178a45] sm:text-[17px]">
-              {FREE_SHIPPING_LABEL}
-            </p>
-          </div>
-          <span className="hidden h-8 w-px shrink-0 bg-[#178a45]/25 sm:block" aria-hidden />
-          <p className="flex items-center gap-2 text-[13px] font-semibold leading-snug text-[#178a45]">
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-[#178a45] text-white">
-              <Check className="size-3.5" strokeWidth={3} aria-hidden />
-            </span>
+      <div className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 rounded-2xl bg-[#e7f6ec] px-4 py-3.5">
+          <p className="text-[14px] font-bold leading-tight text-[#1d6b3a]">
+            {FREE_SHIPPING_LABEL}
+          </p>
+          <p className="text-[13px] font-semibold leading-tight text-[#1d6b3a]">
             Já vale para todo o Brasil
           </p>
         </div>
 
-        <div className="space-y-3 px-4 py-4 sm:px-5">
-          <label htmlFor="product-cep" className="block text-[13px] text-text-secondary">
+        <div className="space-y-2">
+          <label htmlFor="product-cep" className="block text-[12.5px] text-text-muted">
             Seu CEP
           </label>
           <div className="flex gap-2">
@@ -140,35 +132,35 @@ export function ShippingCalculator({
               type="text"
               value={cep}
               onChange={(e) => setCep(formatCep(e.target.value))}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  void calculate()
+                }
+              }}
               placeholder="00000-000"
               inputMode="numeric"
               aria-label="CEP para cálculo de frete"
-              className="min-w-0 flex-1 rounded-full border border-[#eadfe4] bg-white px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15"
+              className="h-12 min-w-0 flex-1 rounded-full border border-[#e3dade] bg-white px-5 text-[15px] text-text-primary placeholder:text-text-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/15"
             />
             <button
               type="button"
               onClick={calculate}
               disabled={loading}
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#1a1014] px-4 text-[12px] font-bold tracking-[0.08em] text-white transition-opacity hover:opacity-90 disabled:opacity-70 sm:px-5"
+              className="h-12 shrink-0 rounded-full bg-[#0d0b0c] px-6 text-[12.5px] font-bold tracking-[0.1em] text-white transition-opacity hover:opacity-90 disabled:opacity-70 sm:px-7"
             >
-              <Calculator className="size-4" aria-hidden />
               {loading ? '...' : 'CALCULAR'}
             </button>
           </div>
-          <p className="flex items-start gap-1.5 text-[12.5px] text-text-muted">
-            <Info className="mt-0.5 size-3.5 shrink-0" aria-hidden />
-            <span>
-              <a
-                href={CEP_LOOKUP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-2 hover:text-brand"
-              >
-                Não sei meu CEP
-              </a>
-              <span> · O prazo de cada modalidade continua o mesmo.</span>
-            </span>
-          </p>
+          <a
+            href={CEP_LOOKUP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-[12px] text-text-muted underline underline-offset-2 hover:text-brand"
+          >
+            Não sei meu CEP
+          </a>
+        </div>
           {error && <Alert type="error">{error}</Alert>}
           {quote && quote.options.length > 0 && (
             <ul className="space-y-2" role="list">
@@ -215,7 +207,6 @@ export function ShippingCalculator({
           {quote && quote.options.some((option) => option.arrivalLabel) ? (
             <p className="text-[11px] leading-relaxed text-text-muted">{ARRIVAL_WINDOW_NOTE}</p>
           ) : null}
-        </div>
       </div>
     )
   }

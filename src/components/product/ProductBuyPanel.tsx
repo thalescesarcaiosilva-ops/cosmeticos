@@ -1,12 +1,15 @@
 'use client'
 
+import { useEffect, useMemo, useState } from 'react'
 import { FavoriteButton } from '@/components/product/FavoriteButton'
 import { ProductBuyTogetherSection } from '@/components/product/ProductBuyTogetherSection'
 import { ProductPricingBlock } from '@/components/product/ProductPricingBlock'
 import { ProductPurchaseBar } from '@/components/product/ProductPurchaseBar'
 import { ProductPurchaseFaq } from '@/components/product/ProductPurchaseFaq'
+import { ProductQuantityPackSelector } from '@/components/product/ProductQuantityPackSelector'
 import { ProductTrustSignals } from '@/components/product/ProductTrustSignals'
 import { ShippingCalculator } from '@/components/shipping/ShippingCalculator'
+import { calcQuantityPackQuote } from '@/lib/products/quantity-packs'
 import type { BuyTogetherBundle, BuyTogetherPrimaryProduct } from '@/lib/products/buy-together'
 import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 import type { BuyTogetherSettings } from '@/types/buy-together-settings'
@@ -60,19 +63,25 @@ export function ProductBuyPanel({
     Boolean(buyTogetherPrimary) &&
     buyTogetherBundles.length > 0
 
+  const maxQty = Math.min(99, Math.max(stock, 0))
+  const [quantity, setQuantity] = useState(1)
+
+  useEffect(() => {
+    setQuantity((current) => {
+      if (maxQty <= 0) return 1
+      return Math.min(Math.max(1, current), maxQty)
+    })
+  }, [maxQty])
+
+  const packTotal = useMemo(
+    () => calcQuantityPackQuote(price, Math.min(quantity, Math.max(maxQty, 1))).total,
+    [price, quantity, maxQty]
+  )
+
   return (
     <div className="space-y-4">
-      <section className="overflow-hidden rounded-3xl border border-[#f3d0dc] bg-white shadow-[0_10px_32px_rgba(211,52,100,0.06)]">
-        {stock > 0 ? (
-          <div className="bg-[#1a1014] px-5 py-4 sm:px-6">
-            <p className="text-[13px] font-bold tracking-[0.16em] text-brand">PRÉ BLACK FRIDAY</p>
-            <p className="mt-1 text-[12.5px] text-[#f6c9d8]">
-              Válido enquanto durarem os estoques
-            </p>
-          </div>
-        ) : null}
-
-        <div className="space-y-5 px-5 py-5 sm:px-6">
+      <section className="overflow-hidden rounded-[1.35rem] border border-[#efe6ea] bg-white shadow-[0_10px_32px_rgba(211,52,100,0.05)]">
+        <div className="space-y-5 px-4 py-5 sm:px-6">
           <header className="flex items-start gap-3">
             <div className="min-w-0 flex-1">
               {brandName ? (
@@ -87,9 +96,29 @@ export function ProductBuyPanel({
             <FavoriteButton
               productId={productId}
               variant="product"
-              className="!size-10 !rounded-full !bg-transparent !text-text-muted !ring-0 hover:!text-brand"
+              className="!size-10 !rounded-full !bg-white !text-[#e11d48] !ring-1 !ring-[#e8dde2] hover:!bg-[#fff4f8] hover:!text-[#e11d48]"
             />
           </header>
+
+          {stock > 0 ? (
+            <div className="flex items-center gap-3 rounded-2xl bg-[#1a1014] px-4 py-3.5">
+              <span
+                className="relative flex size-2.5 shrink-0"
+                aria-hidden
+              >
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#f5d76e] opacity-60" />
+                <span className="relative inline-flex size-2.5 rounded-full bg-[#f5d76e] shadow-[0_0_10px_rgba(245,215,110,0.9)]" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[13px] font-bold tracking-[0.14em] text-[#f5d76e]">
+                  PRÉ BLACK FRIDAY
+                </p>
+                <p className="mt-0.5 text-[12px] text-white/85">
+                  Válido enquanto durarem os estoques
+                </p>
+              </div>
+            </div>
+          ) : null}
 
           <ProductPricingBlock
             price={price}
@@ -99,7 +128,7 @@ export function ProductBuyPanel({
           />
 
           {sizeLabel ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 border-t border-dashed border-[#e8dde2] pt-4">
               <span className="text-sm text-text-secondary">Tamanho</span>
               <span className="pointer-events-none inline-flex size-12 select-none items-center justify-center rounded-full border-2 border-brand bg-white px-1 text-center text-[12px] font-bold leading-tight text-brand">
                 <span className="sr-only">Conteúdo: </span>
@@ -108,18 +137,30 @@ export function ProductBuyPanel({
             </div>
           ) : null}
 
+          {stock > 0 ? (
+            <ProductQuantityPackSelector
+              unitPrice={price}
+              maxQuantity={maxQty}
+              selectedQuantity={quantity}
+              onSelect={setQuantity}
+            />
+          ) : null}
+
           <ProductPurchaseBar
             productId={productId}
             stock={stock}
+            quantity={quantity}
             productName={productName}
-            price={price}
+            price={packTotal}
             imageUrl={imageUrl}
             imageAlt={imageAlt}
           />
+
+          <ProductTrustSignals assurances={assurances} inStock={stock > 0} />
+
+          <ShippingCalculator subtotal={packTotal} variant="product" />
         </div>
       </section>
-
-      <ProductTrustSignals assurances={assurances} inStock={stock > 0} />
 
       {showBuyTogether && buyTogetherSettings && buyTogetherPrimary ? (
         <ProductBuyTogetherSection
@@ -131,8 +172,6 @@ export function ProductBuyPanel({
           compact
         />
       ) : null}
-
-      <ShippingCalculator subtotal={price} variant="product" />
 
       <ProductPurchaseFaq assurances={assurances} />
     </div>

@@ -57,7 +57,10 @@ function DrawerSummary({
 }) {
   const payable = data.merchandiseTotal
   const [deliveryPlace, setDeliveryPlace] = useState<string | null>(null)
+  const quantityDiscountAmount = data.quantityDiscountAmount ?? 0
   const hasBundle = data.bundleDiscountAmount > 0
+  const hasQuantityDiscount = quantityDiscountAmount > 0
+  const hasLineDiscount = hasBundle || hasQuantityDiscount
 
   const pixEnabled = checkoutSettings?.pixEnabled !== false
   const pixDiscount = Number(checkoutSettings?.pixDiscount ?? 0) || 0
@@ -107,11 +110,20 @@ function DrawerSummary({
       </div>
 
       <dl className="space-y-2 text-[13px]">
-        {hasBundle ? (
+        {hasLineDiscount ? (
           <div className="flex justify-between gap-3">
             <dt className="text-text-secondary">Produtos</dt>
             <dd className="tabular-nums text-text-primary">
               {valuePlaceholder ?? formatCurrency(data.subtotal)}
+            </dd>
+          </div>
+        ) : null}
+
+        {hasQuantityDiscount ? (
+          <div className="flex justify-between gap-3 text-[#178a45]">
+            <dt>Desconto por quantidade</dt>
+            <dd className="font-semibold tabular-nums">
+              − {valuePlaceholder ?? formatCurrency(quantityDiscountAmount)}
             </dd>
           </div>
         ) : null}

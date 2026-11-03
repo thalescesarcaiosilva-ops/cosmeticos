@@ -52,11 +52,11 @@ export function ProductTrustSignals({ assurances, inStock }: ProductTrustSignals
   if (items.length === 0) return null
 
   return (
-    <ul className="grid grid-cols-1 gap-3 rounded-[1.35rem] bg-[#f6f3f8] px-4 py-4 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-[#e6dde8]">
+    <ul className="grid grid-cols-1 gap-3 rounded-2xl bg-[#f7f3f4] px-4 py-3.5 sm:grid-cols-3 sm:gap-3">
       {items.map(({ key, label, Icon }) => (
-        <li key={key} className="flex items-center gap-3 sm:px-4 sm:first:pl-1 sm:last:pr-1">
-          <Icon className="size-6 shrink-0 text-[#3b1530]" strokeWidth={1.75} aria-hidden />
-          <span className="text-[13px] font-medium leading-snug text-[#3b1530]">{label}</span>
+        <li key={key} className="flex min-w-0 items-center gap-2.5">
+          <Icon className="size-5 shrink-0 text-text-primary" strokeWidth={1.75} aria-hidden />
+          <span className="text-[12.5px] leading-snug text-text-primary">{label}</span>
         </li>
       ))}
     </ul>

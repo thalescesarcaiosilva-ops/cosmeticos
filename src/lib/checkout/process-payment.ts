@@ -246,7 +246,9 @@ export async function processPixCheckout(params: CheckoutInput) {
       product_id: line.productId,
       quantity: line.quantity,
     })),
-    discountAmount: roundMoney(cart.bundleDiscountAmount + couponDiscount),
+    discountAmount: roundMoney(
+      cart.bundleDiscountAmount + (cart.quantityDiscountAmount ?? 0) + couponDiscount
+    ),
     pixDiscountPercent: checkoutSettings.pixDiscount,
     usedBuyTogether: cart.bundleDiscountAmount > 0,
     userId: params.userId,

@@ -191,6 +191,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const shippingPrice = selectedShipping?.price ?? 0
   const merchandiseTotal = cart?.merchandiseTotal ?? cart?.subtotal ?? 0
   const bundleDiscountAmount = cart?.bundleDiscountAmount ?? 0
+  const quantityDiscountAmount = cart?.quantityDiscountAmount ?? 0
   const pixDiscountPercent = paymentConfig?.pixDiscount ?? 0
   const pixDiscountAmount =
     paymentMethod === 'pix'
@@ -776,6 +777,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     subtotal: cart?.subtotal ?? 0,
     merchandiseTotal,
     bundleDiscountAmount,
+    quantityDiscountAmount,
     loading: cartLoading,
     selectedShipping,
     shippingLoading,

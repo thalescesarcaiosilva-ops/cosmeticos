@@ -4,6 +4,7 @@ import {
   mergeBundleCandidates,
   type BundlePairCandidate,
 } from '@/lib/cart/apply-bundle-discounts'
+import { applyQuantityDiscountsToLines } from '@/lib/cart/apply-quantity-discounts'
 import { createPublicClient } from '@/lib/supabase/public'
 import { getPrimaryProductImage } from '@/lib/products/product-images'
 import type { CartSyncInput } from '@/schemas/cart-schema'
@@ -33,6 +34,7 @@ export async function syncCartItems(input: CartSyncInput): Promise<CartSyncResul
       lines: [],
       subtotal: 0,
       bundleDiscountAmount: 0,
+      quantityDiscountAmount: 0,
       appliedBundles: [],
       merchandiseTotal: 0,
       itemCount: 0,
@@ -129,13 +131,18 @@ export async function syncCartItems(input: CartSyncInput): Promise<CartSyncResul
     lines,
     mergeBundleCandidates(dbCandidates, clientCandidates)
   )
+  const quantityResult = applyQuantityDiscountsToLines(bundleResult.lines)
 
-  const merchandiseTotal = Math.max(subtotal - bundleResult.bundleDiscountAmount, 0)
+  const merchandiseTotal = Math.max(
+    subtotal - bundleResult.bundleDiscountAmount - quantityResult.quantityDiscountAmount,
+    0
+  )
 
   return {
-    lines: bundleResult.lines,
+    lines: quantityResult.lines,
     subtotal,
     bundleDiscountAmount: bundleResult.bundleDiscountAmount,
+    quantityDiscountAmount: quantityResult.quantityDiscountAmount,
     appliedBundles: bundleResult.appliedBundles,
     merchandiseTotal,
     itemCount,

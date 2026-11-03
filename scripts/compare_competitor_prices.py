@@ -115,45 +115,59 @@ def fetch(url: str, headers: dict | None = None, retries: int = 4) -> bytes:
     raise RuntimeError(f"{url}: {last}")
 
 
-def load_our_products() -> list[dict]:
+def load_our_products(force: bool = False) -> list[dict]:
     cache = CACHE / "our-products.json"
-    if cache.exists():
-        return json.loads(cache.read_text(encoding="utf-8"))
+    if cache.exists() and not force:
+        products = json.loads(cache.read_text(encoding="utf-8"))
+        # Cache antigo era truncado pelo limite default do PostgREST (~1000).
+        if len(products) >= 2000:
+            return products
     load_env()
     url = os.environ["NEXT_PUBLIC_SUPABASE_URL"].rstrip("/")
     key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
-    endpoint = (
-        f"{url}/rest/v1/products"
-        "?select=id,name,slug,price,original_price,gtin,sku,brand:brands(name)"
-        "&active=eq.true&order=name.asc"
-    )
-    raw = fetch(
-        endpoint,
-        {
-            "apikey": key,
-            "Authorization": f"Bearer {key}",
-            "Accept": "application/json",
-        },
-    )
-    rows = json.loads(raw.decode("utf-8"))
-    products = []
-    for row in rows:
-        brand = row.get("brand")
-        if isinstance(brand, list):
-            brand = brand[0] if brand else None
-        brand_name = (brand or {}).get("name") if isinstance(brand, dict) else ""
-        products.append(
-            {
-                "id": row["id"],
-                "name": row["name"],
-                "slug": row["slug"],
-                "price": float(row["price"]),
-                "original_price": float(row["original_price"]) if row.get("original_price") else None,
-                "gtin": re.sub(r"\D", "", row.get("gtin") or ""),
-                "sku": row.get("sku") or "",
-                "brand": brand_name or "",
-            }
+    products: list[dict] = []
+    page_size = 1000
+    offset = 0
+    while True:
+        endpoint = (
+            f"{url}/rest/v1/products"
+            "?select=id,name,slug,price,original_price,gtin,sku,brand:brands(name)"
+            f"&active=eq.true&order=name.asc&limit={page_size}&offset={offset}"
         )
+        raw = fetch(
+            endpoint,
+            {
+                "apikey": key,
+                "Authorization": f"Bearer {key}",
+                "Accept": "application/json",
+                "Prefer": "count=exact",
+            },
+        )
+        rows = json.loads(raw.decode("utf-8"))
+        if not rows:
+            break
+        for row in rows:
+            brand = row.get("brand")
+            if isinstance(brand, list):
+                brand = brand[0] if brand else None
+            brand_name = (brand or {}).get("name") if isinstance(brand, dict) else ""
+            products.append(
+                {
+                    "id": row["id"],
+                    "name": row["name"],
+                    "slug": row["slug"],
+                    "price": float(row["price"]),
+                    "original_price": float(row["original_price"]) if row.get("original_price") else None,
+                    "gtin": re.sub(r"\D", "", row.get("gtin") or ""),
+                    "sku": row.get("sku") or "",
+                    "brand": brand_name or "",
+                }
+            )
+        print(f"[ours] page offset={offset} (+{len(rows)}) total {len(products)}", flush=True)
+        if len(rows) < page_size:
+            break
+        offset += page_size
+        time.sleep(0.1)
     CACHE.mkdir(parents=True, exist_ok=True)
     cache.write_text(json.dumps(products, ensure_ascii=False), encoding="utf-8")
     return products

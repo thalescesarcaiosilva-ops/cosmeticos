@@ -62,6 +62,14 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
           {!line.available && (
             <p className="mt-2 text-xs font-medium text-badge-discount">Indisponível</p>
           )}
+          {line.available && (line.quantityDiscountAmount ?? 0) > 0 && (
+            <p className="mt-2 inline-flex rounded-full bg-surface-strong px-2 py-0.5 text-[11px] font-medium text-claret">
+              Desconto por quantidade
+              {line.quantityDiscountPercent
+                ? ` (−${line.quantityDiscountPercent}%)`
+                : ''}
+            </p>
+          )}
           {line.available && (line.bundleDiscountAmount ?? 0) > 0 && (
             <p className="mt-2 inline-flex rounded-full bg-surface-strong px-2 py-0.5 text-[11px] font-medium text-claret">
               Desconto Compre Junto
@@ -95,7 +103,8 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
 
           <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-1.5">
             <div className="text-right">
-              {(line.bundleDiscountAmount ?? 0) > 0 && (
+              {((line.bundleDiscountAmount ?? 0) > 0 ||
+                (line.quantityDiscountAmount ?? 0) > 0) && (
                 <p className="text-xs text-text-muted line-through tabular-nums">
                   {formatCurrency(line.lineTotal)}
                 </p>
