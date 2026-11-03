@@ -4,15 +4,15 @@ import type { ProductCardData } from '@/types/product'
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
-/** Preço riscado só entra na vitrine quando é maior que o de venda e o produto já teve pedido. */
+/** Preço riscado na vitrine quando original_price > preço de venda. */
 export function visibleListPrice(
   price: number,
   originalPrice: number | null | undefined,
-  hasOrder: boolean
+  _hasOrder?: boolean
 ): number | null {
   const sale = Number(price)
   const list = originalPrice == null ? null : Number(originalPrice)
-  if (!hasOrder || list == null || !Number.isFinite(list) || !Number.isFinite(sale) || list <= sale) {
+  if (list == null || !Number.isFinite(list) || !Number.isFinite(sale) || list <= sale) {
     return null
   }
   return list
@@ -57,18 +57,16 @@ export async function maskStorefrontListPrices(
   products: ProductCardData[]
 ): Promise<ProductCardData[]> {
   if (products.length === 0) return products
-  const ordered = await fetchOrderedProductIds(products.map((product) => product.id))
   return products.map((product) => ({
     ...product,
-    originalPrice: visibleListPrice(product.price, product.originalPrice, ordered.has(product.id)),
+    originalPrice: visibleListPrice(product.price, product.originalPrice),
   }))
 }
 
 export async function storefrontListPrice(
-  productId: string,
+  _productId: string,
   price: number,
   originalPrice: number | null
 ): Promise<number | null> {
-  const ordered = await fetchOrderedProductIds([productId])
-  return visibleListPrice(price, originalPrice, ordered.has(productId))
+  return visibleListPrice(price, originalPrice)
 }

@@ -25,8 +25,6 @@ export function ProductPricingBlock({
   const pixPrice = showPixPrice ? calcPixPrice(price, pixDiscount) : price
   const pixSavings = showPixPrice ? Math.max(0, price - pixPrice) : 0
 
-  // Preço de vitrine = preço de catálogo (mesmo valor das opções Compre 1/2/3).
-  // Pix fica como linha secundária factual — evita divergência com o seletor.
   const listPrice = originalPrice != null && originalPrice > price ? originalPrice : null
 
   const installment = calcInstallmentDisplay(price, paymentSettings)
@@ -43,13 +41,20 @@ export function ProductPricingBlock({
         }
       >
         {listPrice != null ? (
-          <p className="mb-1 text-[15px] text-text-muted line-through tabular-nums">
-            {formatCurrency(listPrice)}
+          <p className="mb-1 text-[15px] font-medium text-claret line-through tabular-nums">
+            De {formatCurrency(listPrice)}
           </p>
         ) : null}
-        <span className="text-[34px] font-black leading-none tracking-tight text-brand tabular-nums md:text-[40px]">
-          {formatCurrency(price)}
-        </span>
+        <p className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+          {listPrice != null ? (
+            <span className="text-sm font-bold uppercase tracking-wide text-text-primary">
+              Por
+            </span>
+          ) : null}
+          <span className="text-[34px] font-black leading-none tracking-tight text-brand tabular-nums md:text-[40px]">
+            {formatCurrency(price)}
+          </span>
+        </p>
       </div>
 
       {showPixPrice && pixSavings > 0 ? (

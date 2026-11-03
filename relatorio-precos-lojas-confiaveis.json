@@ -1,0 +1,4641 @@
+{
+  "summary": {
+    "total": 143,
+    "com_match": 143,
+    "sem_match": 0,
+    "acima": 2,
+    "alinhado": 5,
+    "abaixo": 136,
+    "stores": [
+      "carvalho",
+      "epoca",
+      "beleza",
+      "sephora",
+      "mercadolivre"
+    ],
+    "rule": "lowest among Carvalho page + Época + Beleza + Sephora + ML; suggest = floor*0.70 if acima"
+  },
+  "rows": [
+    {
+      "id": "f84104a8-ffa4-426b-9245-0c5ee19a7a3e",
+      "name": "Shampoo NutriOil L’Oréal Professionnel 1,5L",
+      "slug": "shampoo-nutrioil-l-oreal-professionnel-1-5l",
+      "price": 133.49,
+      "original_price": 431.2,
+      "brand": "L'Oréal",
+      "gtin": "7899706204972",
+      "status": "acima",
+      "lowest": 103.46,
+      "lowest_store": "epoca",
+      "lowest_name": "Shampoo L'Oréal Professionnel Serie Expert NutriOil",
+      "lowest_url": "https://www.epocacosmeticos.com.br/l-oreal-professionnel-nutrifier-shampoo-300ml/p",
+      "suggested": 72.42,
+      "gap_pct": 29.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "L’Oréal Professionnel Serie Expert Absolut Repair Omega-9 + Protein – Shampoo 1,5L",
+          "url": "https://drogariacarvalho.com/p/l-oreal-professionnel-serie-expert-absolut-repair-omega-9-protein-shampoo-1-5l",
+          "price": 128.2,
+          "pix": 121.79,
+          "score": 0.917
+        },
+        {
+          "store": "epoca",
+          "name": "Shampoo L'Oréal Professionnel Serie Expert NutriOil",
+          "url": "https://www.epocacosmeticos.com.br/l-oreal-professionnel-nutrifier-shampoo-300ml/p",
+          "price": 103.46,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "331f877f-38b0-433b-bd9e-874379c8ffa5",
+      "name": "Shampoo Antiqueda Ducray Anaphase+ 200ml",
+      "slug": "shampoo-antiqueda-ducray-anaphase-200ml",
+      "price": 46.26,
+      "original_price": 79.27,
+      "brand": "Ducray",
+      "gtin": "3282770075533",
+      "status": "acima",
+      "lowest": 42.0,
+      "lowest_store": "carvalho",
+      "lowest_name": "Shampoo Neosil Attack Antiqueda Refil 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/shampoo-neosil-attack-antiqueda-refil-200ml",
+      "suggested": 29.4,
+      "gap_pct": 10.1,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Neosil Attack Antiqueda Refil 200ml",
+          "url": "https://drogariacarvalho.com/p/shampoo-neosil-attack-antiqueda-refil-200ml",
+          "price": 42.0,
+          "pix": 39.9,
+          "score": 0.817
+        }
+      ]
+    },
+    {
+      "id": "2b654f83-5246-46a7-8713-7ba212169200",
+      "name": "Gel De Limpeza Facial Darrow Actine Oil Control 400g",
+      "slug": "gel-de-limpeza-facial-darrow-actine-oil-control-400g",
+      "price": 39.74,
+      "original_price": 133.85,
+      "brand": "Darrow",
+      "gtin": "3282770391466",
+      "status": "alinhado",
+      "lowest": 37.79,
+      "lowest_store": "epoca",
+      "lowest_name": "Darrow Actine Oil Control Gel de Limpeza Facial",
+      "lowest_url": "https://www.epocacosmeticos.com.br/actine-control-darrow-sabonete-liquido/p",
+      "suggested": null,
+      "gap_pct": 5.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel De Limpeza Facial Darrow Actine Oil Control 400g",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-facial-darrow-actine-oil-control-400g",
+          "price": 59.76,
+          "pix": 56.77,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Darrow Actine Oil Control Gel de Limpeza Facial",
+          "url": "https://www.epocacosmeticos.com.br/actine-control-darrow-sabonete-liquido/p",
+          "price": 37.79,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "ff2e94d7-423d-4481-a1eb-59542ac3c1ef",
+      "name": "Fino Premium Touch Hair Mask - Máscara Capilar 230g",
+      "slug": "fino-premium-touch-hair-mask-mascara-capilar-230g",
+      "price": 83.92,
+      "original_price": 257.92,
+      "brand": "Fino",
+      "gtin": "",
+      "status": "alinhado",
+      "lowest": 83.55,
+      "lowest_store": "carvalho",
+      "lowest_name": "Fino Premium Touch – Máscara Capilar 230g",
+      "lowest_url": "https://drogariacarvalho.com/p/fino-premium-touch-mascara-capilar-230g",
+      "suggested": null,
+      "gap_pct": 0.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Fino Premium Touch – Máscara Capilar 230g",
+          "url": "https://drogariacarvalho.com/p/fino-premium-touch-mascara-capilar-230g",
+          "price": 83.55,
+          "pix": 79.37,
+          "score": 0.75
+        },
+        {
+          "store": "epoca",
+          "name": "Fino Premium Touch Hair Mask - Mascara Capilar 230g",
+          "url": "https://www.epocacosmeticos.com.br/fino-premium-touch-hair-mask---mascara-capilar-230g-117553/p",
+          "price": 186.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "2109a1d7-efdf-402d-8648-ab1c17e72ea3",
+      "name": "Fralda calça MamyPoko Dia & Noite XG 42 Unidades",
+      "slug": "fralda-calca-mamypoko-dia-noite-xg-42-unidades",
+      "price": 52.77,
+      "original_price": 149.46,
+      "brand": "Mamypoko",
+      "gtin": "7898656390469",
+      "status": "alinhado",
+      "lowest": 54.99,
+      "lowest_store": "carvalho",
+      "lowest_name": "Absorvente Always Noite Ultra Suave com Abas 42 Unidades",
+      "lowest_url": "https://drogariacarvalho.com/p/absorvente-always-noite-ultra-suave-com-abas-42-unidades",
+      "suggested": null,
+      "gap_pct": -4.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Absorvente Always Noite Ultra Suave com Abas 42 Unidades",
+          "url": "https://drogariacarvalho.com/p/absorvente-always-noite-ultra-suave-com-abas-42-unidades",
+          "price": 54.99,
+          "pix": 52.24,
+          "score": 0.4
+        }
+      ]
+    },
+    {
+      "id": "168076cb-b86e-449a-bb29-fda4f4066047",
+      "name": "Cerave Gel De Limpeza Acne Control 340g",
+      "slug": "cerave-gel-de-limpeza-acne-control-340g",
+      "price": 41.03,
+      "original_price": 150.68,
+      "brand": "Cerave",
+      "gtin": "7908615086019",
+      "status": "alinhado",
+      "lowest": 43.62,
+      "lowest_store": "carvalho",
+      "lowest_name": "Gel De Limpeza Principia Gl-01 500gr",
+      "lowest_url": "https://drogariacarvalho.com/p/gel-de-limpeza-principia-gl-01-500gr",
+      "suggested": null,
+      "gap_pct": -5.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel De Limpeza Principia Gl-01 500gr",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-principia-gl-01-500gr",
+          "price": 43.62,
+          "pix": 41.44,
+          "score": 0.5
+        },
+        {
+          "store": "epoca",
+          "name": "Cerave Gel De Limpeza Acne Control 140Gr",
+          "url": "https://www.epocacosmeticos.com.br/cerave-gel-de-limpeza-acne-control-140gr-257413/p",
+          "price": 82.5,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "0f3079ef-6a68-4797-b66f-a59187bd5752",
+      "name": "Kérastase Specifique Bain Divalent Shampoo Limpeza Profunda 250ml",
+      "slug": "kerastase-specifique-bain-divalent-shampoo-limpeza-profunda-250ml",
+      "price": 97.73,
+      "original_price": 326.51,
+      "brand": "Kérastase",
+      "gtin": "3474636954766",
+      "status": "alinhado",
+      "lowest": 105.1,
+      "lowest_store": "carvalho",
+      "lowest_name": "Kérastase Blond Absolu Bain Lumiére – Shampoo 250ml",
+      "lowest_url": "https://drogariacarvalho.com/p/kerastase-blond-absolu-bain-lumiere-shampoo-250ml",
+      "suggested": null,
+      "gap_pct": -7.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Kérastase Blond Absolu Bain Lumiére – Shampoo 250ml",
+          "url": "https://drogariacarvalho.com/p/kerastase-blond-absolu-bain-lumiere-shampoo-250ml",
+          "price": 105.1,
+          "pix": 99.84,
+          "score": 0.583
+        },
+        {
+          "store": "epoca",
+          "name": "Kérastase Specifique Bain Divalent Shampoo Limpeza Profunda",
+          "url": "https://www.epocacosmeticos.com.br/kerastase-specifique-bain-divalent-shampoo-limpeza-profunda/p",
+          "price": 236.6,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "9f5c671f-1461-4cd2-ad88-5f08c0cb6b04",
+      "name": "Gel de Limpeza Facial para Pele Oleosa La Roche-Posay - Effaclar Concentrado 300g",
+      "slug": "gel-de-limpeza-facial-para-pele-oleosa-la-roche-posay-effaclar-concentrado-300g",
+      "price": 33.91,
+      "original_price": 143.62,
+      "brand": "La Roche-Posay",
+      "gtin": "7899706155021",
+      "status": "abaixo",
+      "lowest": 37.99,
+      "lowest_store": "carvalho",
+      "lowest_name": "Gel de Limpeza Vult Facial Antioleosidade 300g",
+      "lowest_url": "https://drogariacarvalho.com/p/gel-de-limpeza-vult-facial-antioleosidade-300g",
+      "suggested": null,
+      "gap_pct": -10.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel de Limpeza Vult Facial Antioleosidade 300g",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-vult-facial-antioleosidade-300g",
+          "price": 37.99,
+          "pix": 36.09,
+          "score": 0.579
+        },
+        {
+          "store": "epoca",
+          "name": "Gel de Limpeza Facial para Pele Oleosa La Roche-Posay - Effaclar Concentrado",
+          "url": "https://www.epocacosmeticos.com.br/gel-concentrado-desincrustante-la-roche-posay-limpador-facial/p",
+          "price": 49.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "beae330f-b4c5-45d7-a484-884f6b3fb02c",
+      "name": "Shampoo Redken All Soft 300ml",
+      "slug": "shampoo-redken-all-soft-300ml",
+      "price": 57.98,
+      "original_price": 91.19,
+      "brand": "Redken",
+      "gtin": "3474636919987",
+      "status": "abaixo",
+      "lowest": 65.63,
+      "lowest_store": "carvalho",
+      "lowest_name": "Shampoo Truss Nutri Infusion 300ml",
+      "lowest_url": "https://drogariacarvalho.com/p/shampoo-truss-nutri-infusion-300ml",
+      "suggested": null,
+      "gap_pct": -11.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Truss Nutri Infusion 300ml",
+          "url": "https://drogariacarvalho.com/p/shampoo-truss-nutri-infusion-300ml",
+          "price": 65.63,
+          "pix": 62.35,
+          "score": 0.483
+        },
+        {
+          "store": "epoca",
+          "name": "Shampoo Redken All Soft 300ml",
+          "url": "https://www.epocacosmeticos.com.br/shampoo-redken-all-soft-300ml-312649/p",
+          "price": 152.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "8e3ab4c0-396d-4262-a67b-189cc2098ef7",
+      "name": "Protetor Solar Facial Vichy UV-Age Daily FPS60 40g",
+      "slug": "protetor-solar-facial-vichy-uv-age-daily-fps60-40g",
+      "price": 55.77,
+      "original_price": 89.3,
+      "brand": "Vichy",
+      "gtin": "7899706193993",
+      "status": "abaixo",
+      "lowest": 63.67,
+      "lowest_store": "carvalho",
+      "lowest_name": "Protetor Solar Facial Vichy Idéal Soleil Clarify FPS 60 Média 40g",
+      "lowest_url": "https://drogariacarvalho.com/p/protetor-solar-facial-vichy-ideal-soleil-clarify-fps-60-media-40g",
+      "suggested": null,
+      "gap_pct": -12.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Protetor Solar Facial Vichy Idéal Soleil Clarify FPS 60 Média 40g",
+          "url": "https://drogariacarvalho.com/p/protetor-solar-facial-vichy-ideal-soleil-clarify-fps-60-media-40g",
+          "price": 63.67,
+          "pix": 60.49,
+          "score": 0.75
+        }
+      ]
+    },
+    {
+      "id": "968746ea-d4ab-4638-9862-5dffc18bdee2",
+      "name": "Hidratante Facial Nívea Antissinais Creme 100g",
+      "slug": "hidratante-facial-nivea-antissinais-creme-100g",
+      "price": 15.23,
+      "original_price": 64.12,
+      "brand": "Nivea",
+      "gtin": "2500000753909",
+      "status": "abaixo",
+      "lowest": 17.44,
+      "lowest_store": "carvalho",
+      "lowest_name": "Hidratante Facial Neutrogena Face Care Antissinais Dia Fps22 - 100g",
+      "lowest_url": "https://drogariacarvalho.com/p/hidratante-facial-neutrogena-face-care-antissinais-dia-fps22-100g",
+      "suggested": null,
+      "gap_pct": -12.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Hidratante Facial Neutrogena Face Care Antissinais Dia Fps22 - 100g",
+          "url": "https://drogariacarvalho.com/p/hidratante-facial-neutrogena-face-care-antissinais-dia-fps22-100g",
+          "price": 17.44,
+          "pix": 16.57,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Hidratante Facial Antissinais Nivea 100 G Anti-idade/Antirrugas",
+          "url": "https://www.epocacosmeticos.com.br/creme-hidratante-facial-antissinais-nivea-100-g-anti-idade-antirrugas-195895/p",
+          "price": 32.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "e62cc67c-2676-4f6a-a0ee-55f4a750c458",
+      "name": "Desodorante Roll-On Perspirex 20ml",
+      "slug": "desodorante-roll-on-perspirex-20ml",
+      "price": 57.33,
+      "original_price": 243.71,
+      "brand": "Perspirex",
+      "gtin": "5701943011386",
+      "status": "abaixo",
+      "lowest": 66.35,
+      "lowest_store": "carvalho",
+      "lowest_name": "Antiperspirante Perspirex Original Roll-on 20ml",
+      "lowest_url": "https://drogariacarvalho.com/p/antiperspirante-perspirex-original-roll-on-20ml",
+      "suggested": null,
+      "gap_pct": -13.6,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Antiperspirante Perspirex Original Roll-on 20ml",
+          "url": "https://drogariacarvalho.com/p/antiperspirante-perspirex-original-roll-on-20ml",
+          "price": 66.35,
+          "pix": 63.03,
+          "score": 0.75
+        },
+        {
+          "store": "epoca",
+          "name": "Desodorante Antitranspirante Roll-on Perspirex Strong 20ml",
+          "url": "https://www.epocacosmeticos.com.br/desodorante-antitranspirante-roll-on-perspirex-strong-20ml-135612/p",
+          "price": 103.39,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "4748e739-8715-471f-9ca0-b2495e76ed8d",
+      "name": "Loção Desodorante para os pés Perspirex 100ml",
+      "slug": "locao-desodorante-para-os-pes-perspirex-100ml",
+      "price": 55.96,
+      "original_price": 190.99,
+      "brand": "Perspirex",
+      "gtin": "5701943013281",
+      "status": "abaixo",
+      "lowest": 68.95,
+      "lowest_store": "carvalho",
+      "lowest_name": "Loção para os Pés Antiperspirante Perspirex com 100ml",
+      "lowest_url": "https://drogariacarvalho.com/p/locao-para-os-pes-antiperspirante-perspirex-com-100ml",
+      "suggested": null,
+      "gap_pct": -18.8,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Loção para os Pés Antiperspirante Perspirex com 100ml",
+          "url": "https://drogariacarvalho.com/p/locao-para-os-pes-antiperspirante-perspirex-com-100ml",
+          "price": 68.95,
+          "pix": 65.5,
+          "score": 0.917
+        },
+        {
+          "store": "epoca",
+          "name": "Perspirex Loçao para os Pés 100ml",
+          "url": "https://www.epocacosmeticos.com.br/perspirex-locao-para-os-pes-100ml-248381/p",
+          "price": 155.63,
+          "score": 0.917
+        }
+      ]
+    },
+    {
+      "id": "c048a9c7-118b-49ec-b417-53b09c819bbf",
+      "name": "Fralda Pampers Premium Care Tamanho XXG Com 56 Unidades",
+      "slug": "fralda-pampers-premium-care-tamanho-xxg-com-56-unidades",
+      "price": 65.91,
+      "original_price": 263.3,
+      "brand": "Pampers",
+      "gtin": "7500435132466",
+      "status": "abaixo",
+      "lowest": 81.91,
+      "lowest_store": "carvalho",
+      "lowest_name": "Fralda Baby Bee Free Tamanho Xxg Protecao Natural 56 Unidades",
+      "lowest_url": "https://drogariacarvalho.com/p/fralda-baby-bee-free-tamanho-xxg-protecao-natural-56-unidades",
+      "suggested": null,
+      "gap_pct": -19.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Fralda Baby Bee Free Tamanho Xxg Protecao Natural 56 Unidades",
+          "url": "https://drogariacarvalho.com/p/fralda-baby-bee-free-tamanho-xxg-protecao-natural-56-unidades",
+          "price": 81.91,
+          "pix": 77.81,
+          "score": 0.75
+        },
+        {
+          "store": "epoca",
+          "name": "Fralda Pampers Premium Care XXG 56 Unidades",
+          "url": "https://www.epocacosmeticos.com.br/fralda-pampers-premium-care-xxg-56-unidades-228617/p",
+          "price": 190.8,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "39200055-4bc4-420b-9ecb-5fbaeee81731",
+      "name": "Creme Barriguinha Cream Beleza Brasileira 200g",
+      "slug": "creme-barriguinha-cream-beleza-brasileira-200g",
+      "price": 45.46,
+      "original_price": 179.26,
+      "brand": "Beleza Brasileira",
+      "gtin": "78989702330910",
+      "status": "abaixo",
+      "lowest": 56.99,
+      "lowest_store": "epoca",
+      "lowest_name": "Barriguinha Cream 200g - Beleza Brasileira",
+      "lowest_url": "https://www.epocacosmeticos.com.br/barriguinha-cream-200g---beleza-brasileira-288309/p",
+      "suggested": null,
+      "gap_pct": -20.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Hidratante Beleza Brasileira Barriguinha Cream Antiestrias 200gr",
+          "url": "https://drogariacarvalho.com/p/hidratante-beleza-brasileira-barriguinha-cream-antiestrias-200gr",
+          "price": 76.1,
+          "pix": 72.29,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Barriguinha Cream 200g - Beleza Brasileira",
+          "url": "https://www.epocacosmeticos.com.br/barriguinha-cream-200g---beleza-brasileira-288309/p",
+          "price": 56.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "f73fa57e-44e1-4673-af18-0ce0edce6e5b",
+      "name": "Creme Milagroso Elseve 3 Em 1 500ml Cachos Longos Dos Sonhos",
+      "slug": "creme-milagroso-elseve-3-em-1-500ml-cachos-longos-dos-sonhos",
+      "price": 15.21,
+      "original_price": 66.21,
+      "brand": "Elseve",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 19.45,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Milagroso Elseve 3 em 1 Hidra Hialurônico Hidratação, Nutrição e Reparação 500ml",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-milagroso-elseve-3-em-1-hidra-hialuronico-hidratacao-nutricao-e-reparacao-500ml",
+      "suggested": null,
+      "gap_pct": -21.8,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Milagroso Elseve 3 em 1 Hidra Hialurônico Hidratação, Nutrição e Reparação 500ml",
+          "url": "https://drogariacarvalho.com/p/creme-milagroso-elseve-3-em-1-hidra-hialuronico-hidratacao-nutricao-e-reparacao-500ml",
+          "price": 19.45,
+          "pix": 18.48,
+          "score": 0.5
+        },
+        {
+          "store": "epoca",
+          "name": "CREME MILAGROSO 3 EM 1 ELSEVE CACHOS LONGOS DOS SONHOS 500ML",
+          "url": "https://www.epocacosmeticos.com.br/creme-milagroso-3-em-1-elseve-cachos-longos-dos-sonhos-500ml-168236/p",
+          "price": 47.98,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "85e31408-35be-4e0e-bbf9-bec3c1c395c3",
+      "name": "Sérum Clareador Pigmentbio C Concentrate Bioderma 15ml",
+      "slug": "serum-clareador-pigmentbio-c-concentrate-bioderma-15ml",
+      "price": 91.15,
+      "original_price": 167.53,
+      "brand": "Bioderma",
+      "gtin": "3701129800119",
+      "status": "abaixo",
+      "lowest": 116.54,
+      "lowest_store": "carvalho",
+      "lowest_name": "Skinceuticals Sérum Antioxidante E Antioleosidade Silymarin C F – 15ml",
+      "lowest_url": "https://drogariacarvalho.com/p/skinceuticals-serum-antioxidante-e-antioleosidade-silymarin-c-f-15ml",
+      "suggested": null,
+      "gap_pct": -21.8,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Skinceuticals Sérum Antioxidante E Antioleosidade Silymarin C F – 15ml",
+          "url": "https://drogariacarvalho.com/p/skinceuticals-serum-antioxidante-e-antioleosidade-silymarin-c-f-15ml",
+          "price": 116.54,
+          "pix": 110.71,
+          "score": 0.4
+        },
+        {
+          "store": "epoca",
+          "name": "BIODERMA Sérum Uniformizador Pigmentbio C-Concentrate 15ml",
+          "url": "https://www.epocacosmeticos.com.br/bioderma-serum-uniformizador-pigmentbio-c-concentrate-15ml-288432/p",
+          "price": 192.61,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "0899755f-78b8-4d8d-8f54-9114d1bb86b1",
+      "name": "Darrow Suavié Sabonete Líquido para Pele Sensível 400ml",
+      "slug": "darrow-suavie-sabonete-liquido-para-pele-sensivel-400ml",
+      "price": 44.3,
+      "original_price": 150.64,
+      "brand": "Darrow",
+      "gtin": "3282770144369",
+      "status": "abaixo",
+      "lowest": 57.86,
+      "lowest_store": "epoca",
+      "lowest_name": "Darrow Suavié Sabonete Líquido para Pele Sensível",
+      "lowest_url": "https://www.epocacosmeticos.com.br/sabonete-liquido-para-pele-sensivel-darrow-suavie/p",
+      "suggested": null,
+      "gap_pct": -23.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sabonete Líquido Dermatológico Darrow Suavié Pele Sensível 400ml",
+          "url": "https://drogariacarvalho.com/p/sabonete-liquido-dermatologico-darrow-suavie-pele-sensivel-400ml",
+          "price": 60.67,
+          "pix": 57.64,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Darrow Suavié Sabonete Líquido para Pele Sensível",
+          "url": "https://www.epocacosmeticos.com.br/sabonete-liquido-para-pele-sensivel-darrow-suavie/p",
+          "price": 57.86,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "05832f19-61a7-4b4d-b418-05b949dcb95d",
+      "name": "Hidratante Corporal Bioderma Atoderm Intensive Baume 500ml",
+      "slug": "hidratante-corporal-bioderma-atoderm-intensive-baume-500ml",
+      "price": 79.71,
+      "original_price": 267.55,
+      "brand": "Bioderma",
+      "gtin": "3701129802076",
+      "status": "abaixo",
+      "lowest": 105.81,
+      "lowest_store": "carvalho",
+      "lowest_name": "Loção Hidratante Bioderma Atoderm Intensive Baume 500ml",
+      "lowest_url": "https://drogariacarvalho.com/p/locao-hidratante-bioderma-atoderm-intensive-baume-500ml",
+      "suggested": null,
+      "gap_pct": -24.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Loção Hidratante Bioderma Atoderm Intensive Baume 500ml",
+          "url": "https://drogariacarvalho.com/p/locao-hidratante-bioderma-atoderm-intensive-baume-500ml",
+          "price": 105.81,
+          "pix": 100.52,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Hidratante Corporal Bioderma Atoderm Intensive Baume",
+          "url": "https://www.epocacosmeticos.com.br/atoderm-intensive-baume-bioderma-creme-de-tratamento/p",
+          "price": 133.65,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "a62e5fc7-2a01-46ea-9308-6aaba8c72f76",
+      "name": "Protetor Solar Facial Darrow Actine One FPS 50 sem cor 40g",
+      "slug": "protetor-solar-facial-darrow-actine-one-fps-50-sem-cor-40g",
+      "price": 29.97,
+      "original_price": 50.86,
+      "brand": "Darrow",
+      "gtin": "3282770393989",
+      "status": "abaixo",
+      "lowest": 39.99,
+      "lowest_store": "carvalho",
+      "lowest_name": "Protetor Solar Facial Darrow Actine One Colors FPS 50 Tom 1 40g",
+      "lowest_url": "https://drogariacarvalho.com/p/protetor-solar-facial-darrow-actine-one-colors-fps-50-tom-1-40g",
+      "suggested": null,
+      "gap_pct": -25.1,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Protetor Solar Facial Darrow Actine One Colors FPS 50 Tom 1 40g",
+          "url": "https://drogariacarvalho.com/p/protetor-solar-facial-darrow-actine-one-colors-fps-50-tom-1-40g",
+          "price": 39.99,
+          "pix": 37.99,
+          "score": 0.964
+        },
+        {
+          "store": "epoca",
+          "name": "Protetor Solar Facial Darrow Actine One FPS 50 Sem Cor 40g",
+          "url": "https://www.epocacosmeticos.com.br/protetor-solar-facial-darrow-actine-one-fps-50-sem-cor-40g-153744/p",
+          "price": 69.79,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "4f4a6f7a-0b29-491b-ab8b-8612b6a080fc",
+      "name": "Shampoo Anticaspa Darrow Doctar Sensi 120ml",
+      "slug": "shampoo-anticaspa-darrow-doctar-sensi-120ml",
+      "price": 36.48,
+      "original_price": 61.63,
+      "brand": "Darrow",
+      "gtin": "3282770398090",
+      "status": "abaixo",
+      "lowest": 50.22,
+      "lowest_store": "carvalho",
+      "lowest_name": "Shampoo Oncosmetic Chemo care Revitalizante 120ml",
+      "lowest_url": "https://drogariacarvalho.com/p/shampoo-oncosmetic-chemo-care-revitalizante-120ml",
+      "suggested": null,
+      "gap_pct": -27.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Oncosmetic Chemo care Revitalizante 120ml",
+          "url": "https://drogariacarvalho.com/p/shampoo-oncosmetic-chemo-care-revitalizante-120ml",
+          "price": 50.22,
+          "pix": 47.71,
+          "score": 0.4
+        },
+        {
+          "store": "epoca",
+          "name": "Darrow Doctar Sensi - Shampoo Anticaspa",
+          "url": "https://www.epocacosmeticos.com.br/darrow-doctar-sensi-shampoo-anticaspa/p",
+          "price": 91.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "a1210eae-bc4d-4174-9d1c-f7105324dc1e",
+      "name": "Loção Hidratante Bepantol Derma Restaurador Corporal 400ml",
+      "slug": "locao-hidratante-bepantol-derma-restaurador-corporal-400ml",
+      "price": 39.74,
+      "original_price": 128.88,
+      "brand": "Bepantol",
+      "gtin": "7891106916462",
+      "status": "abaixo",
+      "lowest": 55.5,
+      "lowest_store": "carvalho",
+      "lowest_name": "Loção Corporal Bepantol Derma Hidratante Restaurador Pele Seca 400ml",
+      "lowest_url": "https://drogariacarvalho.com/p/locao-corporal-bepantol-derma-hidratante-restaurador-pele-seca-400ml",
+      "suggested": null,
+      "gap_pct": -28.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Loção Corporal Bepantol Derma Hidratante Restaurador Pele Seca 400ml",
+          "url": "https://drogariacarvalho.com/p/locao-corporal-bepantol-derma-hidratante-restaurador-pele-seca-400ml",
+          "price": 55.5,
+          "pix": 52.72,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Bepantol Derma Loção Corporal Hidratante Restaurador Pele Seca 400ml Bepantol Derma Loção Corporal Hidratante Restaurador 400ml",
+          "url": "https://www.epocacosmeticos.com.br/bepantol-derma-locao-corporal-hidratante-restaurador-pele-seca-400ml-bepantol-derma-locao-corporal-hidratante-restaurador-400ml-178033/p",
+          "price": 93.39,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "553c934a-ac84-438f-9c50-649bf12c2d31",
+      "name": "Kérastase Densifique Bain Densité - Shampoo 250ml",
+      "slug": "kerastase-densifique-bain-densite-shampoo-250ml",
+      "price": 77.44,
+      "original_price": 297.22,
+      "brand": "Kérastase",
+      "gtin": "3474636403912",
+      "status": "abaixo",
+      "lowest": 110.63,
+      "lowest_store": "carvalho",
+      "lowest_name": "Kérastase Densifique Bain Densité – Shampoo de Volume e Densidade 250ml",
+      "lowest_url": "https://drogariacarvalho.com/p/kerastase-densifique-bain-densite-shampoo-de-volume-e-densidade-250ml",
+      "suggested": null,
+      "gap_pct": -30.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Kérastase Densifique Bain Densité – Shampoo de Volume e Densidade 250ml",
+          "url": "https://drogariacarvalho.com/p/kerastase-densifique-bain-densite-shampoo-de-volume-e-densidade-250ml",
+          "price": 110.63,
+          "pix": 105.1,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Kérastase Densifique Shampoo Bain Densité 250 Ml",
+          "url": "https://www.epocacosmeticos.com.br/kerastase-densifique-shampoo-bain-densite-250-ml-249261/p",
+          "price": 237.42,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "ddec3659-78f8-4c5b-85b2-8fd758e8adbf",
+      "name": "Shampoo Darrow Doctar Plus 240ml",
+      "slug": "shampoo-darrow-doctar-plus-240ml",
+      "price": 34.64,
+      "original_price": 73.51,
+      "brand": "Darrow",
+      "gtin": "3282770143942",
+      "status": "abaixo",
+      "lowest": 49.49,
+      "lowest_store": "carvalho",
+      "lowest_name": "Shampoo Anticaspa Darrow Doctar Plus Intensivo 240ml",
+      "lowest_url": "https://drogariacarvalho.com/p/shampoo-anticaspa-darrow-doctar-plus-intensivo-240ml",
+      "suggested": null,
+      "gap_pct": -30.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Anticaspa Darrow Doctar Plus Intensivo 240ml",
+          "url": "https://drogariacarvalho.com/p/shampoo-anticaspa-darrow-doctar-plus-intensivo-240ml",
+          "price": 49.49,
+          "pix": 47.02,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Darrow Doctar Plus Shampoo Anticaspa Intensivo",
+          "url": "https://www.epocacosmeticos.com.br/shampoo-anticaspa-intensivo-darrow-doctar-plus/p",
+          "price": 91.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "f2b19c19-e03a-4da4-a064-51bb11c5b6c3",
+      "name": "Máscara de Cílios Lancôme Monsieur Big 10ml",
+      "slug": "mascara-de-cilios-lancome-monsieur-big-10ml",
+      "price": 91.21,
+      "original_price": 308.08,
+      "brand": "Lancôme",
+      "gtin": "3614271716156",
+      "status": "abaixo",
+      "lowest": 132.54,
+      "lowest_store": "epoca",
+      "lowest_name": "Máscara de Cílios Volume Intenso Lancôme Monsieur Big",
+      "lowest_url": "https://www.epocacosmeticos.com.br/mascara-de-cilios-lancome-monsieur-big/p",
+      "suggested": null,
+      "gap_pct": -31.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Máscara de Cílios Lancôme Monsieur Big 10ml",
+          "url": "https://drogariacarvalho.com/p/mascara-de-cilios-lancome-monsieur-big-10ml",
+          "price": 137.16,
+          "pix": 130.3,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Máscara de Cílios Volume Intenso Lancôme Monsieur Big",
+          "url": "https://www.epocacosmeticos.com.br/mascara-de-cilios-lancome-monsieur-big/p",
+          "price": 132.54,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "5eba858e-7d9a-4990-be1a-c87eeb01f823",
+      "name": "Água Micelar Clareadora Bioderma - Pigmentbio H2O 250ml",
+      "slug": "agua-micelar-clareadora-bioderma-pigmentbio-h2o-250ml",
+      "price": 52.12,
+      "original_price": 173.74,
+      "brand": "Bioderma",
+      "gtin": "3701129800102",
+      "status": "abaixo",
+      "lowest": 78.37,
+      "lowest_store": "carvalho",
+      "lowest_name": "Água Micelar Bioderma Sensibio H2O 250ml",
+      "lowest_url": "https://drogariacarvalho.com/p/agua-micelar-bioderma-sensibio-h2o-250ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Água Micelar Bioderma Sensibio H2O 250ml",
+          "url": "https://drogariacarvalho.com/p/agua-micelar-bioderma-sensibio-h2o-250ml",
+          "price": 78.37,
+          "pix": 74.45,
+          "score": 0.85
+        },
+        {
+          "store": "epoca",
+          "name": "Água Micelar Clareadora Bioderma - Pigmentbio H2O",
+          "url": "https://www.epocacosmeticos.com.br/agua-micelar-bioderma-pigmentbio-h2o/p",
+          "price": 125.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "e4d56336-7ea5-4ce5-b387-96dcdaba8341",
+      "name": "Bioderma Atoderm Crème Ultra Peles Normais e Secas 200ml",
+      "slug": "bioderma-atoderm-creme-ultra-peles-normais-e-secas-200ml",
+      "price": 33.87,
+      "original_price": 132.34,
+      "brand": "Bioderma",
+      "gtin": "3701129805329",
+      "status": "abaixo",
+      "lowest": 50.94,
+      "lowest_store": "carvalho",
+      "lowest_name": "Bioderma Atoderm Crème Ultra Peles Normais e Secas 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/bioderma-atoderm-creme-ultra-peles-normais-e-secas-200ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Bioderma Atoderm Crème Ultra Peles Normais e Secas 200ml",
+          "url": "https://drogariacarvalho.com/p/bioderma-atoderm-creme-ultra-peles-normais-e-secas-200ml",
+          "price": 50.94,
+          "pix": 48.39,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Hidratante Corporal Bioderma - Atoderm Crème Ultra Peles Normais e Secas",
+          "url": "https://www.epocacosmeticos.com.br/creme-hidratante-bioderma-atoderm-creme-ultra/p",
+          "price": 95.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "7c639737-e0b6-440d-88e8-c3544c19d9b5",
+      "name": "Cetrilan Creme para Previnir Assaduras TheraSkin 120g",
+      "slug": "cetrilan-creme-para-previnir-assaduras-theraskin-120g",
+      "price": 27.36,
+      "original_price": 109.71,
+      "brand": "TheraSkin",
+      "gtin": "7897129304606",
+      "status": "abaixo",
+      "lowest": 41.15,
+      "lowest_store": "carvalho",
+      "lowest_name": "Cetrilan Creme para Previnir Assaduras TheraSkin 120g",
+      "lowest_url": "https://drogariacarvalho.com/p/cetrilan-creme-para-previnir-assaduras-theraskin-120g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Cetrilan Creme para Previnir Assaduras TheraSkin 120g",
+          "url": "https://drogariacarvalho.com/p/cetrilan-creme-para-previnir-assaduras-theraskin-120g",
+          "price": 41.15,
+          "pix": 39.09,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme para Prevenção de Assaduras Cetrilan 120g",
+          "url": "https://www.epocacosmeticos.com.br/creme-para-prevencao-de-assaduras-cetrilan-120g-93492/p",
+          "price": 83.92,
+          "score": 0.817
+        }
+      ]
+    },
+    {
+      "id": "97eebd8b-5075-4fb2-a316-c27819187a17",
+      "name": "Creme de Tratamento Novex Super Babosão 1kg",
+      "slug": "creme-de-tratamento-novex-super-babosao-1kg",
+      "price": 15.95,
+      "original_price": 56.44,
+      "brand": "Novex",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 23.99,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme de Tratamento Novex Super Babosão 1kg",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-de-tratamento-novex-super-babosao-1kg",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme de Tratamento Novex Super Babosão 1kg",
+          "url": "https://drogariacarvalho.com/p/creme-de-tratamento-novex-super-babosao-1kg",
+          "price": 23.99,
+          "pix": 22.79,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme de Tratamento Novex Super Babosão Hidratação Poderosa 1kg",
+          "url": "https://www.epocacosmeticos.com.br/creme-de-tratamento-novex-super-babosao-hidratacao-poderosa-1kg-238527/p",
+          "price": 40.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "b151a9ba-36c3-40c2-a5a0-cd358ac1aabe",
+      "name": "Creme de Tratamento Novex Óleo de Coco 1kg",
+      "slug": "creme-de-tratamento-novex-oleo-de-coco-1kg",
+      "price": 15.95,
+      "original_price": 56.44,
+      "brand": "Novex",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 23.99,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme de Tratamento Novex Óleo de Coco 1kg",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-de-tratamento-novex-oleo-de-coco-1kg",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme de Tratamento Novex Óleo de Coco 1kg",
+          "url": "https://drogariacarvalho.com/p/creme-de-tratamento-novex-oleo-de-coco-1kg",
+          "price": 23.99,
+          "pix": 22.79,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme de Tratamento Novex Óleo de Coco Nutrição Poderosa 1kg",
+          "url": "https://www.epocacosmeticos.com.br/creme-de-tratamento-novex-oleo-de-coco-nutricao-poderosa-1kg-238558/p",
+          "price": 40.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "b0301330-e78b-4e65-b0dd-9c77d6492e05",
+      "name": "Creme Facial Cicatricure Antissinais e Antirrugas 50g",
+      "slug": "creme-facial-cicatricure-antissinais-e-antirrugas-50g",
+      "price": 25.99,
+      "original_price": 101.69,
+      "brand": "Cicatricure",
+      "gtin": "7898949409632",
+      "status": "abaixo",
+      "lowest": 39.08,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Facial Cicatricure Antissinais e Antirrugas 50g",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-facial-cicatricure-antissinais-e-antirrugas-50g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Facial Cicatricure Antissinais e Antirrugas 50g",
+          "url": "https://drogariacarvalho.com/p/creme-facial-cicatricure-antissinais-e-antirrugas-50g",
+          "price": 39.08,
+          "pix": 37.13,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Facial Antissinais - Cicatricure Antirrugas  - 50g",
+          "url": "https://www.epocacosmeticos.com.br/creme-facial-antissinais---cicatricure-antirrugas----50g-100439/p",
+          "price": 61.24,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "4bc5ca9f-b64d-4150-97fa-edbfacd37142",
+      "name": "Creme Hidratante Cerave 50g",
+      "slug": "creme-hidratante-cerave-50g",
+      "price": 22.74,
+      "original_price": 80.03,
+      "brand": "Cerave",
+      "gtin": "7899706182980",
+      "status": "abaixo",
+      "lowest": 34.19,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Hidratante Cerave 50g",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-hidratante-cerave-50g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Hidratante Cerave 50g",
+          "url": "https://drogariacarvalho.com/p/creme-hidratante-cerave-50g",
+          "price": 34.19,
+          "pix": 32.48,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Hidratante CeraVe Corpo e Rosto 50g",
+          "url": "https://www.epocacosmeticos.com.br/creme-hidratante-50g-cerave-corpo-e-rosto-195593/p",
+          "price": 57.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "4c166c76-041c-469b-a11d-3b935850150e",
+      "name": "Creme Hidratante Corporal Nivea Men 4 em 1 75g",
+      "slug": "creme-hidratante-corporal-nivea-men-4-em-1-75g",
+      "price": 15.45,
+      "original_price": 53.88,
+      "brand": "Nivea",
+      "gtin": "4005900442659",
+      "status": "abaixo",
+      "lowest": 23.23,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Hidratante Corporal Nivea Men 4 em 1 75g",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-hidratante-corporal-nivea-men-4-em-1-75g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Hidratante Corporal Nivea Men 4 em 1 75g",
+          "url": "https://drogariacarvalho.com/p/creme-hidratante-corporal-nivea-men-4-em-1-75g",
+          "price": 23.23,
+          "pix": 22.07,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Nivea Men 4 Em 1 75g",
+          "url": "https://www.epocacosmeticos.com.br/creme-nivea-men-4-em-1-75g-266014/p",
+          "price": 39.04,
+          "score": 0.583
+        }
+      ]
+    },
+    {
+      "id": "c360772e-91a8-4357-918f-fb11b183ed4d",
+      "name": "Creme Isdinceutics K-Ox Eyes Contorno dos Olhos ISDIN 15g",
+      "slug": "creme-isdinceutics-k-ox-eyes-contorno-dos-olhos-isdin-15g",
+      "price": 104.18,
+      "original_price": 391.0,
+      "brand": "Isdin",
+      "gtin": "8429420113374",
+      "status": "abaixo",
+      "lowest": 156.66,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Isdinceutics K-Ox Eyes Contorno dos Olhos ISDIN 15g",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-isdinceutics-k-ox-eyes-contorno-dos-olhos-isdin-15g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Isdinceutics K-Ox Eyes Contorno dos Olhos ISDIN 15g",
+          "url": "https://drogariacarvalho.com/p/creme-isdinceutics-k-ox-eyes-contorno-dos-olhos-isdin-15g",
+          "price": 156.66,
+          "pix": 148.83,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Anti Idade Para os Olhos Isdinceutics K-OX Eyes Isdin 15g - Efeito Refrescante",
+          "url": "https://www.epocacosmeticos.com.br/creme-anti-idade-para-os-olhos-isdinceutics-k-ox-eyes-isdin-15g---efeito-refrescante-228632/p",
+          "price": 283.33,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "25179d6f-6c89-4a89-a9cf-5e4a7b4effcb",
+      "name": "Creme Reparador para Olhos com Ácido Hialurônico e Ceramidas CeraVe 15 ml",
+      "slug": "creme-reparador-para-olhos-com-acido-hialuronico-e-ceramidas-cerave-15-ml",
+      "price": 52.06,
+      "original_price": 214.59,
+      "brand": "Cerave",
+      "gtin": "7899706192057",
+      "status": "abaixo",
+      "lowest": 78.28,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Reparador para olhos CeraVe 15ml",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-reparador-para-olhos-cerave-15ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Reparador para olhos CeraVe 15ml",
+          "url": "https://drogariacarvalho.com/p/creme-reparador-para-olhos-cerave-15ml",
+          "price": 78.28,
+          "pix": 74.37,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Reparador para Olhos com Ácido Hialurônico e Ceramidas CeraVe",
+          "url": "https://www.epocacosmeticos.com.br/cerave-creme-reparador-para-olhos/p",
+          "price": 108.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "046db1ec-1c42-4f32-9d11-b54650f43e0f",
+      "name": "Delineador Adesivo That Girl & Nathalie Billio Preto Vazado",
+      "slug": "delineador-adesivo-that-girl-nathalie-billio-preto-vazado",
+      "price": 13.23,
+      "original_price": 26.31,
+      "brand": "",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 19.9,
+      "lowest_store": "carvalho",
+      "lowest_name": "Delineador Adesivo That Girl &amp; Nathalie Billio Preto Vazado",
+      "lowest_url": "https://drogariacarvalho.com/p/delineador-adesivo-that-girl-nathalie-billio-preto-vazado",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Delineador Adesivo That Girl &amp; Nathalie Billio Preto Vazado",
+          "url": "https://drogariacarvalho.com/p/delineador-adesivo-that-girl-nathalie-billio-preto-vazado",
+          "price": 19.9,
+          "pix": 18.9,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Delineador Adesivo That Girl & Nathalie Billio",
+          "url": "https://www.epocacosmeticos.com.br/delineador-adesivo-that-girl-e-nathalie-billio/p",
+          "price": 21.94,
+          "score": 0.75
+        }
+      ]
+    },
+    {
+      "id": "6b1c7693-fb84-41f9-99bb-4e45727fa903",
+      "name": "Desodorante Antitranspirante Roll-On Vichy Peles Sensíveis ou Depiladas 48h 50ml",
+      "slug": "desodorante-antitranspirante-roll-on-vichy-peles-sensiveis-ou-depiladas-48h-50ml",
+      "price": 78.12,
+      "original_price": 275.86,
+      "brand": "Vichy",
+      "gtin": "3337871320324",
+      "status": "abaixo",
+      "lowest": 117.47,
+      "lowest_store": "carvalho",
+      "lowest_name": "Desodorante Antitranspirante Roll-On Vichy Peles Sensíveis ou Depiladas 48h 50ml",
+      "lowest_url": "https://drogariacarvalho.com/p/desodorante-antitranspirante-roll-on-vichy-peles-sensiveis-ou-depiladas-48h-50ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Desodorante Antitranspirante Roll-On Vichy Peles Sensíveis ou Depiladas 48h 50ml",
+          "url": "https://drogariacarvalho.com/p/desodorante-antitranspirante-roll-on-vichy-peles-sensiveis-ou-depiladas-48h-50ml",
+          "price": 117.47,
+          "pix": 111.6,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Desodorante 48h Vichy Peles Sensíveis Roll-On 50ml",
+          "url": "https://www.epocacosmeticos.com.br/desodorante-48h-vichy-peles-sensiveis-roll-on-50ml-155114/p",
+          "price": 154.89,
+          "score": 0.964
+        }
+      ]
+    },
+    {
+      "id": "96ed973d-e50f-42b2-9e35-3c5e470ded0a",
+      "name": "Desodorante Vichy Antitranspirante 48h 125ml",
+      "slug": "desodorante-vichy-antitranspirante-48h-125ml",
+      "price": 76.87,
+      "original_price": 288.28,
+      "brand": "Vichy",
+      "gtin": "3337871310592",
+      "status": "abaixo",
+      "lowest": 115.6,
+      "lowest_store": "carvalho",
+      "lowest_name": "Desodorante Vichy Antitranspirante 48h 125ml",
+      "lowest_url": "https://drogariacarvalho.com/p/desodorante-vichy-antitranspirante-48h-125ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Desodorante Vichy Antitranspirante 48h 125ml",
+          "url": "https://drogariacarvalho.com/p/desodorante-vichy-antitranspirante-48h-125ml",
+          "price": 115.6,
+          "pix": 109.82,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Desodorante Antitranspirante 48h Vichy - Desodorante",
+          "url": "https://www.epocacosmeticos.com.br/desodorante-antitranspirante-48h-vichy-desodorante/p",
+          "price": 208.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "a65ecb2c-5461-4710-8a3d-6c2e91711c91",
+      "name": "Gel Creme Bioderma Atoderm Intensive 500ml",
+      "slug": "gel-creme-bioderma-atoderm-intensive-500ml",
+      "price": 70.36,
+      "original_price": 274.9,
+      "brand": "Bioderma",
+      "gtin": "3401399373466",
+      "status": "abaixo",
+      "lowest": 105.81,
+      "lowest_store": "carvalho",
+      "lowest_name": "Loção Hidratante Bioderma Atoderm Intensive Baume 500ml",
+      "lowest_url": "https://drogariacarvalho.com/p/locao-hidratante-bioderma-atoderm-intensive-baume-500ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Loção Hidratante Bioderma Atoderm Intensive Baume 500ml",
+          "url": "https://drogariacarvalho.com/p/locao-hidratante-bioderma-atoderm-intensive-baume-500ml",
+          "price": 105.81,
+          "pix": 100.52,
+          "score": 0.917
+        },
+        {
+          "store": "epoca",
+          "name": "Bioderma Atoderm Intensive Gel-Creme de Hidratação Intensa 500ml (3701129802670)",
+          "url": "https://www.epocacosmeticos.com.br/bioderma-atoderm-intensive-gel-creme-de-hidratacao-intensa-500ml--3701129802670--287885/p",
+          "price": 162.2,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "f5441a66-db53-4f10-a4a1-e20e3a51b0ef",
+      "name": "Hidratante Facial Neutrogena Hydro Boost Water Gel 50g",
+      "slug": "hidratante-facial-neutrogena-hydro-boost-water-gel-50g",
+      "price": 27.3,
+      "original_price": 92.38,
+      "brand": "Neutrogena",
+      "gtin": "17891010882980",
+      "status": "abaixo",
+      "lowest": 41.05,
+      "lowest_store": "carvalho",
+      "lowest_name": "Hidratante Facial Neutrogena Hydro Boost Water Gel 50g",
+      "lowest_url": "https://drogariacarvalho.com/p/hidratante-facial-neutrogena-hydro-boost-water-gel-50g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Hidratante Facial Neutrogena Hydro Boost Water Gel 50g",
+          "url": "https://drogariacarvalho.com/p/hidratante-facial-neutrogena-hydro-boost-water-gel-50g",
+          "price": 41.05,
+          "pix": 39.0,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Hidratante Facial Neutrogena Hydro Boost Water Gel 50g",
+          "url": "https://www.epocacosmeticos.com.br/hidratante-facial-neutrogena-hydro-boost-water-gel-50g-156010/p",
+          "price": 59.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "ad1c3925-2903-4281-9980-fb4fb544de81",
+      "name": "Jacques Janine Professionnel Haircare Hydra - Ampola 45g",
+      "slug": "jacques-janine-professionnel-haircare-hydra-ampola-45g",
+      "price": 6.58,
+      "original_price": 31.6,
+      "brand": "",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 9.9,
+      "lowest_store": "carvalho",
+      "lowest_name": "Jacques Janine Professionnel Haircare Hydra - Ampola 45g",
+      "lowest_url": "https://drogariacarvalho.com/p/jacques-janine-professionnel-haircare-hydra-ampola-45g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Jacques Janine Professionnel Haircare Hydra - Ampola 45g",
+          "url": "https://drogariacarvalho.com/p/jacques-janine-professionnel-haircare-hydra-ampola-45g",
+          "price": 9.9,
+          "pix": 9.4,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Jacques Janine Professionnel Haircare Hydra - Ampola 45g",
+          "url": "https://www.epocacosmeticos.com.br/jacques-janine-professionnel-haircare-hydra---ampola-45g-88067/p",
+          "price": 22.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "58327b22-1fd8-483c-9651-78af0880eadf",
+      "name": "K.pro Ph Balancer - Acidificante Capilar 50g",
+      "slug": "k-pro-ph-balancer-acidificante-capilar-50g",
+      "price": 16.74,
+      "original_price": 56.44,
+      "brand": "",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 25.18,
+      "lowest_store": "carvalho",
+      "lowest_name": "K.pro Ph Balancer - Acidificante Capilar 50g",
+      "lowest_url": "https://drogariacarvalho.com/p/k-pro-ph-balancer-acidificante-capilar-50g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "K.pro Ph Balancer - Acidificante Capilar 50g",
+          "url": "https://drogariacarvalho.com/p/k-pro-ph-balancer-acidificante-capilar-50g",
+          "price": 25.18,
+          "pix": 23.92,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "K.Pro Profissional pH Balancer - Acidificante Capilar 50g",
+          "url": "https://www.epocacosmeticos.com.br/k-pro-profissional-ph-balancer---acidificante-capilar-50g-76578/p",
+          "price": 31.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "6e45a5a6-c008-4c48-8e49-4dd2ad187087",
+      "name": "Hidratante Labial Nivea Amora Shine 48g",
+      "slug": "hidratante-labial-nivea-amora-shine-48g",
+      "price": 11.01,
+      "original_price": 45.53,
+      "brand": "Nivea",
+      "gtin": "4005900453259",
+      "status": "abaixo",
+      "lowest": 16.56,
+      "lowest_store": "carvalho",
+      "lowest_name": "Hidratante Labial Nivea Original Care 48g",
+      "lowest_url": "https://drogariacarvalho.com/p/hidratante-labial-nivea-original-care-48g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Hidratante Labial Nivea Original Care 48g",
+          "url": "https://drogariacarvalho.com/p/hidratante-labial-nivea-original-care-48g",
+          "price": 16.56,
+          "pix": 15.73,
+          "score": 0.75
+        },
+        {
+          "store": "epoca",
+          "name": "Hidratante Protetor Labial Nivea Amora Shine 24h de Hidratação Intensa",
+          "url": "https://www.epocacosmeticos.com.br/hidratante-protetor-labial-nivea-amora-shine-24h-de-hidratacao-intensa-195499/p",
+          "price": 32.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "ea2bbe7c-56df-47fd-9dbf-29840a9b2cfb",
+      "name": "Kit Elseve Reparação Total 5 Shampoo 375ml + Condicionador 170ml",
+      "slug": "kit-elseve-reparacao-total-5-shampoo-375ml-condicionador-170ml",
+      "price": 13.87,
+      "original_price": 46.77,
+      "brand": "Elseve",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 20.86,
+      "lowest_store": "carvalho",
+      "lowest_name": "Kit Elseve Reparação Total 5 Shampoo 375ml + Condicionador 170ml",
+      "lowest_url": "https://drogariacarvalho.com/p/kit-elseve-reparacao-total-5-shampoo-375ml-condicionador-170ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Kit Elseve Reparação Total 5 Shampoo 375ml + Condicionador 170ml",
+          "url": "https://drogariacarvalho.com/p/kit-elseve-reparacao-total-5-shampoo-375ml-condicionador-170ml",
+          "price": 20.86,
+          "pix": 19.82,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "58a72963-5ba2-4a22-9506-5141682431f7",
+      "name": "Óleo Corporal para Estrias Mustela Maternité 105ml",
+      "slug": "oleo-corporal-para-estrias-mustela-maternite-105ml",
+      "price": 66.49,
+      "original_price": 193.8,
+      "brand": "Mustela",
+      "gtin": "2500000753695",
+      "status": "abaixo",
+      "lowest": 99.99,
+      "lowest_store": "carvalho",
+      "lowest_name": "Óleo Corporal para Estrias Mustela Maternité 105ml",
+      "lowest_url": "https://drogariacarvalho.com/p/oleo-corporal-para-estrias-mustela-maternite-105ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Óleo Corporal para Estrias Mustela Maternité 105ml",
+          "url": "https://drogariacarvalho.com/p/oleo-corporal-para-estrias-mustela-maternite-105ml",
+          "price": 99.99,
+          "pix": 94.99,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Óleo para Prevenção de Estrias Mustela Maternité",
+          "url": "https://www.epocacosmeticos.com.br/oleo-para-prevencao-de-estrias-mustela-maternite/p",
+          "price": 135.18,
+          "score": 0.85
+        }
+      ]
+    },
+    {
+      "id": "27df7972-9af5-451f-aa4b-df04ece8b651",
+      "name": "Óleo Capilar L'Oréal Professionnel Absolut Repair 10 em 1 90ml",
+      "slug": "oleo-capilar-l-oreal-professionnel-absolut-repair-10-em-1-90ml",
+      "price": 81.44,
+      "original_price": 135.35,
+      "brand": "L'Oréal",
+      "gtin": "7908785419709",
+      "status": "abaixo",
+      "lowest": 122.46,
+      "lowest_store": "carvalho",
+      "lowest_name": "Óleo Capilar L’Oréal Professionnel Absolut Repair 90ml",
+      "lowest_url": "https://drogariacarvalho.com/p/oleo-capilar-l-oreal-professionnel-absolut-repair-90ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Óleo Capilar L’Oréal Professionnel Absolut Repair 90ml",
+          "url": "https://drogariacarvalho.com/p/oleo-capilar-l-oreal-professionnel-absolut-repair-90ml",
+          "price": 122.46,
+          "pix": 116.34,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "38fa713d-f7e3-4c2c-93bd-1b30b43e842c",
+      "name": "Pomada Reparadora Eucerin Aquaphor Hidratação Intensiva 49g",
+      "slug": "pomada-reparadora-eucerin-aquaphor-hidratacao-intensiva-49g",
+      "price": 26.57,
+      "original_price": 50.18,
+      "brand": "Eucerin",
+      "gtin": "17319470110455",
+      "status": "abaixo",
+      "lowest": 39.95,
+      "lowest_store": "carvalho",
+      "lowest_name": "Pomada Reparadora Intensiva Eucerin Aquaphor 49g",
+      "lowest_url": "https://drogariacarvalho.com/p/pomada-reparadora-intensiva-eucerin-aquaphor-49g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Pomada Reparadora Intensiva Eucerin Aquaphor 49g",
+          "url": "https://drogariacarvalho.com/p/pomada-reparadora-intensiva-eucerin-aquaphor-49g",
+          "price": 39.95,
+          "pix": 37.95,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Pomada Reparadora Eucerin Aquaphor Hidratação Intensiva",
+          "url": "https://www.epocacosmeticos.com.br/creme-reparador-intensivo-eucerin-aquaphor/p",
+          "price": 74.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "1af84780-ac0b-459a-80c1-7869d437396c",
+      "name": "Primer Blur Mágico L'Oréal Paris Revitalift 27g",
+      "slug": "primer-blur-magico-l-oreal-paris-revitalift-27g",
+      "price": 33.87,
+      "original_price": 57.37,
+      "brand": "L'Oréal Paris",
+      "gtin": "7899706112444",
+      "status": "abaixo",
+      "lowest": 50.94,
+      "lowest_store": "carvalho",
+      "lowest_name": "Primer Blur Mágico L’Oréal Paris Revitalift 27g",
+      "lowest_url": "https://drogariacarvalho.com/p/primer-blur-magico-l-oreal-paris-revitalift-27g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Primer Blur Mágico L’Oréal Paris Revitalift 27g",
+          "url": "https://drogariacarvalho.com/p/primer-blur-magico-l-oreal-paris-revitalift-27g",
+          "price": 50.94,
+          "pix": 48.39,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "031c3ed6-364a-4216-8842-ad0cb735d035",
+      "name": "Protetor Solar Facial Vichy Idéal Soleil Clarify FPS 60 Média 40g",
+      "slug": "protetor-solar-facial-vichy-ideal-soleil-clarify-fps-60-media-40g",
+      "price": 42.34,
+      "original_price": 71.75,
+      "brand": "Vichy",
+      "gtin": "7899706161947",
+      "status": "abaixo",
+      "lowest": 63.67,
+      "lowest_store": "carvalho",
+      "lowest_name": "Protetor Solar Facial Vichy Idéal Soleil Clarify FPS 60 Média 40g",
+      "lowest_url": "https://drogariacarvalho.com/p/protetor-solar-facial-vichy-ideal-soleil-clarify-fps-60-media-40g",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Protetor Solar Facial Vichy Idéal Soleil Clarify FPS 60 Média 40g",
+          "url": "https://drogariacarvalho.com/p/protetor-solar-facial-vichy-ideal-soleil-clarify-fps-60-media-40g",
+          "price": 63.67,
+          "pix": 60.49,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Idéal Soleil Clarify FPS 60 Vichy - Protetor Solar - Pele Média - 40g",
+          "url": "https://www.epocacosmeticos.com.br/ideal-soleil-clarify-fps-60-vichy---protetor-solar---pele-media---40g-116313/p",
+          "price": 119.7,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "fa5ff243-135e-4c3a-b597-102a77d4a6e3",
+      "name": "Real Techniques Everyday Essentials Kit de Pincéis Kit",
+      "slug": "real-techniques-everyday-essentials-kit-de-pinceis-kit",
+      "price": 63.85,
+      "original_price": 100.36,
+      "brand": "Real Techniques",
+      "gtin": "0079625017861",
+      "status": "abaixo",
+      "lowest": 96.01,
+      "lowest_store": "carvalho",
+      "lowest_name": "Kit de Pincéis Real Techniques Everyday Essentials",
+      "lowest_url": "https://drogariacarvalho.com/p/kit-de-pinceis-real-techniques-everyday-essentials",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Kit de Pincéis Real Techniques Everyday Essentials",
+          "url": "https://drogariacarvalho.com/p/kit-de-pinceis-real-techniques-everyday-essentials",
+          "price": 96.01,
+          "pix": 91.21,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Real Techniques Everyday Essentials Kit de Pincéis",
+          "url": "https://www.epocacosmeticos.com.br/real-techniques-everyday-essentials-kit-pinceis/p",
+          "price": 149.79,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "74d3c747-5773-4cab-a565-f1dc8b8eecd5",
+      "name": "Sérum Facial Cetaphil Healthy Renew 30ml",
+      "slug": "serum-facial-cetaphil-healthy-renew-30ml",
+      "price": 70.36,
+      "original_price": 118.77,
+      "brand": "Cetaphil",
+      "gtin": "3499320015769",
+      "status": "abaixo",
+      "lowest": 105.81,
+      "lowest_store": "carvalho",
+      "lowest_name": "Sérum Facial Cetaphil Healthy Renew 30ml",
+      "lowest_url": "https://drogariacarvalho.com/p/serum-facial-cetaphil-healthy-renew-30ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sérum Facial Cetaphil Healthy Renew 30ml",
+          "url": "https://drogariacarvalho.com/p/serum-facial-cetaphil-healthy-renew-30ml",
+          "price": 105.81,
+          "pix": 100.52,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Cetaphil Healthy Renew - Sérum Facial 30ml",
+          "url": "https://www.epocacosmeticos.com.br/cetaphil-healthy-renew---serum-facial-30ml-233707/p",
+          "price": 153.0,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "ccafd05f-e7b4-4603-a3f0-9eac89559d26",
+      "name": "Sérum Facial Reparador La Roche-Posay Cicaplast B5 30ml",
+      "slug": "serum-facial-reparador-la-roche-posay-cicaplast-b5-30ml",
+      "price": 84.57,
+      "original_price": 153.38,
+      "brand": "La Roche-Posay",
+      "gtin": "78997062401540",
+      "status": "abaixo",
+      "lowest": 127.17,
+      "lowest_store": "carvalho",
+      "lowest_name": "Sérum Facial Reparador La Roche-Posay Cicaplast B5 30ml",
+      "lowest_url": "https://drogariacarvalho.com/p/serum-facial-reparador-la-roche-posay-cicaplast-b5-30ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sérum Facial Reparador La Roche-Posay Cicaplast B5 30ml",
+          "url": "https://drogariacarvalho.com/p/serum-facial-reparador-la-roche-posay-cicaplast-b5-30ml",
+          "price": 127.17,
+          "pix": 120.81,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Sérum Facial Reparador La Roche-Posay Cicaplast B5",
+          "url": "https://www.epocacosmeticos.com.br/serum-facial-reparador-la-roche-posay-cicaplast-b5/p",
+          "price": 228.92,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "0c8d0c1f-7416-4a35-abe5-d76c0bb39df8",
+      "name": "Sérum Facial Vichy Neovadiol Multicorretor 30ml",
+      "slug": "serum-facial-vichy-neovadiol-multicorretor-30ml",
+      "price": 114.02,
+      "original_price": 188.28,
+      "brand": "Vichy",
+      "gtin": "7899706194983",
+      "status": "abaixo",
+      "lowest": 171.45,
+      "lowest_store": "carvalho",
+      "lowest_name": "Sérum Facial Vichy Neovadiol Multicorretor 30ml",
+      "lowest_url": "https://drogariacarvalho.com/p/serum-facial-vichy-neovadiol-multicorretor-30ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sérum Facial Vichy Neovadiol Multicorretor 30ml",
+          "url": "https://drogariacarvalho.com/p/serum-facial-vichy-neovadiol-multicorretor-30ml",
+          "price": 171.45,
+          "pix": 162.88,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Sérum Facial Vichy Neovadiol Multicorretor 30ml",
+          "url": "https://www.epocacosmeticos.com.br/serum-facial-vichy-neovadiol-multicorretor-30ml-166770/p",
+          "price": 357.1,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "36cf8622-bd17-4fcc-a048-9d0830238453",
+      "name": "Wella Professionals Invigo Nutri-Enrich - Condicionador 200ml",
+      "slug": "wella-professionals-invigo-nutri-enrich-condicionador-200ml",
+      "price": 33.77,
+      "original_price": 66.77,
+      "brand": "Wella",
+      "gtin": "7896235353867",
+      "status": "abaixo",
+      "lowest": 50.78,
+      "lowest_store": "carvalho",
+      "lowest_name": "Wella Professionals Invigo Nutri-Enrich – Condicionador 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/wella-professionals-invigo-nutri-enrich-condicionador-200ml",
+      "suggested": null,
+      "gap_pct": -33.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Invigo Nutri-Enrich – Condicionador 200ml",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-invigo-nutri-enrich-condicionador-200ml",
+          "price": 50.78,
+          "pix": 48.24,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Invigo Nutri-Enrich - Condicionador 200ml",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-nutri-enrich---condicionador-200ml-117277/p",
+          "price": 88.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "4b4d6935-bc33-4bd6-84d3-44329264d433",
+      "name": "Avène Água Termal Spray 300ml",
+      "slug": "avene-agua-termal-spray-300ml",
+      "price": 52.72,
+      "original_price": 183.4,
+      "brand": "Avène",
+      "gtin": "3282779003131",
+      "status": "abaixo",
+      "lowest": 79.79,
+      "lowest_store": "epoca",
+      "lowest_name": "Avène Água Termal Spray",
+      "lowest_url": "https://www.epocacosmeticos.com.br/eau-thermale-avene-agua-termal-a/p",
+      "suggested": null,
+      "gap_pct": -33.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Água Termal Needs Beauty Spray 300ml",
+          "url": "https://drogariacarvalho.com/p/agua-termal-needs-beauty-spray-300ml",
+          "price": 85.99,
+          "pix": 81.69,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Avène Água Termal Spray",
+          "url": "https://www.epocacosmeticos.com.br/eau-thermale-avene-agua-termal-a/p",
+          "price": 79.79,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "84ea030b-2038-449b-9886-d4545b4496a1",
+      "name": "Desodorante Antitranspirante Roll-On Vichy 48h 50ml",
+      "slug": "desodorante-antitranspirante-roll-on-vichy-48h-50ml",
+      "price": 77.52,
+      "original_price": 270.18,
+      "brand": "Vichy",
+      "gtin": "3337871320300",
+      "status": "abaixo",
+      "lowest": 117.47,
+      "lowest_store": "carvalho",
+      "lowest_name": "Desodorante Antitranspirante Roll-On Vichy Peles Sensíveis ou Depiladas 48h 50ml",
+      "lowest_url": "https://drogariacarvalho.com/p/desodorante-antitranspirante-roll-on-vichy-peles-sensiveis-ou-depiladas-48h-50ml",
+      "suggested": null,
+      "gap_pct": -34.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Desodorante Antitranspirante Roll-On Vichy Peles Sensíveis ou Depiladas 48h 50ml",
+          "url": "https://drogariacarvalho.com/p/desodorante-antitranspirante-roll-on-vichy-peles-sensiveis-ou-depiladas-48h-50ml",
+          "price": 117.47,
+          "pix": 111.6,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Desodorante Antitranspirante Vichy 48h Rollon 50ml",
+          "url": "https://www.epocacosmeticos.com.br/desodorante-antitranspirante-vichy-48h-rollon-50ml-177700/p",
+          "price": 167.39,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "537d2fd9-c96f-4068-86e4-53d5f7cafd1c",
+      "name": "Sérum Rejuvenescedor Vichy Liftactiv H.A. Epidermic Filler 30ml",
+      "slug": "serum-rejuvenescedor-vichy-liftactiv-h-a-epidermic-filler-30ml",
+      "price": 115.97,
+      "original_price": 209.64,
+      "brand": "Vichy",
+      "gtin": "7899706187565",
+      "status": "abaixo",
+      "lowest": 176.35,
+      "lowest_store": "carvalho",
+      "lowest_name": "Sérum rejuvenescedor Reviline R Mantecorp 30ml",
+      "lowest_url": "https://drogariacarvalho.com/p/serum-rejuvenescedor-reviline-r-mantecorp-30ml",
+      "suggested": null,
+      "gap_pct": -34.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sérum rejuvenescedor Reviline R Mantecorp 30ml",
+          "url": "https://drogariacarvalho.com/p/serum-rejuvenescedor-reviline-r-mantecorp-30ml",
+          "price": 176.35,
+          "pix": 167.53,
+          "score": 0.55
+        },
+        {
+          "store": "epoca",
+          "name": "Sérum Rejuvenescedor Vichy Liftactiv Supreme H.A. Epidermic Filler",
+          "url": "https://www.epocacosmeticos.com.br/serum-rejuvenescedor-vichy-liftactiv-supreme-ha-epidermic-filler/p",
+          "price": 312.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "0baef714-3703-4627-b218-539d9db4df86",
+      "name": "Gel de Banho Bioderma Atoderm Gel Douche 200ml",
+      "slug": "gel-de-banho-bioderma-atoderm-gel-douche-200ml",
+      "price": 33.22,
+      "original_price": 116.04,
+      "brand": "Bioderma",
+      "gtin": "3401399373237",
+      "status": "abaixo",
+      "lowest": 50.9,
+      "lowest_store": "carvalho",
+      "lowest_name": "Gel de Limpeza Facial Bioderma Sébium Gel Moussant 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/gel-de-limpeza-facial-bioderma-sebium-gel-moussant-200ml",
+      "suggested": null,
+      "gap_pct": -34.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel de Limpeza Facial Bioderma Sébium Gel Moussant 200ml",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-facial-bioderma-sebium-gel-moussant-200ml",
+          "price": 50.9,
+          "pix": 48.36,
+          "score": 0.5
+        },
+        {
+          "store": "epoca",
+          "name": "Gel de Limpeza Suave Bioderma Atoderm Douche 200ml",
+          "url": "https://www.epocacosmeticos.com.br/gel-de-limpeza-suave-bioderma-atoderm-douche-200ml-163147/p",
+          "price": 84.09,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "b8b51efd-9327-4019-911e-1cc9b2f2a16d",
+      "name": "Protetor Solar Facial Dermage – Photoage Water FPS50 40g",
+      "slug": "protetor-solar-facial-dermage-photoage-water-fps50-40g",
+      "price": 35.74,
+      "original_price": 56.4,
+      "brand": "Dermage",
+      "gtin": "7895389157376",
+      "status": "abaixo",
+      "lowest": 54.9,
+      "lowest_store": "carvalho",
+      "lowest_name": "Protetor Solar Facial Needs SOS Acne FPS 70 40g",
+      "lowest_url": "https://drogariacarvalho.com/p/protetor-solar-facial-needs-sos-acne-fps-70-40g",
+      "suggested": null,
+      "gap_pct": -34.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Protetor Solar Facial Needs SOS Acne FPS 70 40g",
+          "url": "https://drogariacarvalho.com/p/protetor-solar-facial-needs-sos-acne-fps-70-40g",
+          "price": 54.9,
+          "pix": 52.15,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Protetor Solar Facial Dermage – Photoage Water FPS50",
+          "url": "https://www.epocacosmeticos.com.br/protetor-solar-facial-dermage-photoage-water-fps50/p",
+          "price": 84.18,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "1ddf159a-130f-425e-a329-79590ab01997",
+      "name": "Protetor Solar Facial La Roche-Posay Anthelios Ultra Cover FPS 60 Cor 3.0 Cobertura e Proteção 30g",
+      "slug": "protetor-solar-facial-la-roche-posay-anthelios-ultra-cover-fps-60-cor-3-0-cobertura-e-protecao-30g",
+      "price": 34.96,
+      "original_price": 132.87,
+      "brand": "La Roche-Posay",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 53.88,
+      "lowest_store": "carvalho",
+      "lowest_name": "Protetor Solar Facial Vichy Hydra Matte Capital Soleil Sem Cor Fps50 30g",
+      "lowest_url": "https://drogariacarvalho.com/p/protetor-solar-facial-vichy-hydra-matte-capital-soleil-sem-cor-fps50-30g",
+      "suggested": null,
+      "gap_pct": -35.1,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Protetor Solar Facial Vichy Hydra Matte Capital Soleil Sem Cor Fps50 30g",
+          "url": "https://drogariacarvalho.com/p/protetor-solar-facial-vichy-hydra-matte-capital-soleil-sem-cor-fps50-30g",
+          "price": 53.88,
+          "pix": 51.19,
+          "score": 0.594
+        },
+        {
+          "store": "epoca",
+          "name": "Protetor Solar Facial La Roche-Posay Anthelios Airlicium Ultra Cover FPS 60 Cor 3.0 30g",
+          "url": "https://www.epocacosmeticos.com.br/protetor-solar-anthelios-airlicium-ultra-cover-fps60-cor-3-0-30g-139773/p",
+          "price": 78.89,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "ffba4b02-02ca-4535-a06d-8a0fb604865a",
+      "name": "Bruna Tavares Bt Wish Eyeshadow Magnific Sombra Liquída 5g",
+      "slug": "bruna-tavares-bt-wish-eyeshadow-magnific-sombra-liquida-5g",
+      "price": 21.88,
+      "original_price": 77.17,
+      "brand": "",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 33.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Bruna Tavares BT Wish Eyeshadow Magnific Sombra Liquída 5g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/bruna-tavares-bt-wish-eyeshadow-magnific-sombra-liquida-5g-236263/p",
+      "suggested": null,
+      "gap_pct": -35.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sombra Liquida Bruna Tavares Bt + Hello Kitty Toffee",
+          "url": "https://drogariacarvalho.com/p/sombra-liquida-bruna-tavares-bt-hello-kitty-toffee",
+          "price": 40.99,
+          "pix": 38.94,
+          "score": 0.571
+        },
+        {
+          "store": "epoca",
+          "name": "Bruna Tavares BT Wish Eyeshadow Magnific Sombra Liquída 5g",
+          "url": "https://www.epocacosmeticos.com.br/bruna-tavares-bt-wish-eyeshadow-magnific-sombra-liquida-5g-236263/p",
+          "price": 33.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "497885e4-b4bb-4d19-8431-9f0aa99f53d4",
+      "name": "Máscara Capilar L'Oréal Professionnel Absolut Repair Molecular 500ml",
+      "slug": "mascara-capilar-l-oreal-professionnel-absolut-repair-molecular-500ml",
+      "price": 83.99,
+      "original_price": 331.03,
+      "brand": "L'Oréal Professionnel",
+      "gtin": "34746372178840",
+      "status": "abaixo",
+      "lowest": 130.63,
+      "lowest_store": "carvalho",
+      "lowest_name": "L’Oréal Professionnel Serie Expert Absolut Repair Golden – Máscara Capilar 500ml",
+      "lowest_url": "https://drogariacarvalho.com/p/l-oreal-professionnel-serie-expert-absolut-repair-golden-mascara-capilar-500ml",
+      "suggested": null,
+      "gap_pct": -35.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "L’Oréal Professionnel Serie Expert Absolut Repair Golden – Máscara Capilar 500ml",
+          "url": "https://drogariacarvalho.com/p/l-oreal-professionnel-serie-expert-absolut-repair-golden-mascara-capilar-500ml",
+          "price": 130.63,
+          "pix": 124.1,
+          "score": 0.917
+        }
+      ]
+    },
+    {
+      "id": "4f619b6f-385a-46fe-97a6-c6b2b3640d9b",
+      "name": "Leave-in Revlon Professional Uniq One150ml",
+      "slug": "leave-in-revlon-professional-uniq-one150ml",
+      "price": 20.82,
+      "original_price": 88.18,
+      "brand": "Revlon Professional",
+      "gtin": "8432225043449",
+      "status": "abaixo",
+      "lowest": 32.5,
+      "lowest_store": "carvalho",
+      "lowest_name": "Leave-in Revlon Uniq One 10 em 1 150ml",
+      "lowest_url": "https://drogariacarvalho.com/p/leave-in-revlon-uniq-one-10-em-1-150ml",
+      "suggested": null,
+      "gap_pct": -35.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Leave-in Revlon Uniq One 10 em 1 150ml",
+          "url": "https://drogariacarvalho.com/p/leave-in-revlon-uniq-one-10-em-1-150ml",
+          "price": 32.5,
+          "pix": 30.88,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Uniq One Coconut Revlon Professional Leave-in 150ml",
+          "url": "https://www.epocacosmeticos.com.br/uniq-one-coconut-revlon-professional-leave-in-150ml-209917/p",
+          "price": 73.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "fa9a2b6f-a8a4-41e7-9bad-4e54b55901d6",
+      "name": "Creme Antiestrias Cicatricure Maternity 250ml",
+      "slug": "creme-antiestrias-cicatricure-maternity-250ml",
+      "price": 26.24,
+      "original_price": 97.94,
+      "brand": "Cicatricure",
+      "gtin": "7898636190911",
+      "status": "abaixo",
+      "lowest": 41.16,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Corporal Antiestrias Para Gestante E Pós Parto Cicatricure Maternity 250ml",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-corporal-antiestrias-para-gestante-e-pos-parto-cicatricure-maternity-250ml",
+      "suggested": null,
+      "gap_pct": -36.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Corporal Antiestrias Para Gestante E Pós Parto Cicatricure Maternity 250ml",
+          "url": "https://drogariacarvalho.com/p/creme-corporal-antiestrias-para-gestante-e-pos-parto-cicatricure-maternity-250ml",
+          "price": 41.16,
+          "pix": 39.1,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "CICATRICURE® MATERNITY CREME ANTIESTRIAS 250ML",
+          "url": "https://www.epocacosmeticos.com.br/cicatricure®-maternity-creme-antiestrias-250ml-141200/p",
+          "price": 86.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "988a7af0-aa30-4607-9036-1b8c9063e9cf",
+      "name": "Avène Cicalfate+ Creme Reparador Facial 20ml",
+      "slug": "avene-cicalfate-creme-reparador-facial-20ml",
+      "price": 14.89,
+      "original_price": 65.88,
+      "brand": "Avène",
+      "gtin": "3282770146172",
+      "status": "abaixo",
+      "lowest": 23.46,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Ultra-reparador Calmante Bioderma Cicabio Crème+ 20ml",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-ultra-reparador-calmante-bioderma-cicabio-creme-20ml",
+      "suggested": null,
+      "gap_pct": -36.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Ultra-reparador Calmante Bioderma Cicabio Crème+ 20ml",
+          "url": "https://drogariacarvalho.com/p/creme-ultra-reparador-calmante-bioderma-cicabio-creme-20ml",
+          "price": 23.46,
+          "pix": 22.29,
+          "score": 0.483
+        }
+      ]
+    },
+    {
+      "id": "6d201371-2649-4b62-8cf1-7869b0e56b4a",
+      "name": "Bioderma Sensibio H2O Água Micelar Calmante 500ml",
+      "slug": "bioderma-sensibio-h2o-agua-micelar-calmante-500ml",
+      "price": 55.52,
+      "original_price": 193.41,
+      "brand": "Bioderma",
+      "gtin": "3701129812105",
+      "status": "abaixo",
+      "lowest": 88.17,
+      "lowest_store": "carvalho",
+      "lowest_name": "Gel de Limpeza Micelar Bioderma Sensibio Gel Moussant 500ml",
+      "lowest_url": "https://drogariacarvalho.com/p/gel-de-limpeza-micelar-bioderma-sensibio-gel-moussant-500ml",
+      "suggested": null,
+      "gap_pct": -37.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel de Limpeza Micelar Bioderma Sensibio Gel Moussant 500ml",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-micelar-bioderma-sensibio-gel-moussant-500ml",
+          "price": 88.17,
+          "pix": 83.76,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Bioderma Sensibio H2O Calmante Água Micelar 500ml (3401345935571)",
+          "url": "https://www.epocacosmeticos.com.br/bioderma-sensibio-h2o-calmante-agua-micelar-500ml--3401345935571--297389/p",
+          "price": 99.57,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "31e66dbc-923c-4b62-9841-c18fac9537df",
+      "name": "Creme Preventivo de Assaduras Bepantol Baby 120g",
+      "slug": "creme-preventivo-de-assaduras-bepantol-baby-120g",
+      "price": 25.41,
+      "original_price": 113.85,
+      "brand": "Bepantol",
+      "gtin": "78911069102480",
+      "status": "abaixo",
+      "lowest": 41.15,
+      "lowest_store": "carvalho",
+      "lowest_name": "Cetrilan Creme para Previnir Assaduras TheraSkin 120g",
+      "lowest_url": "https://drogariacarvalho.com/p/cetrilan-creme-para-previnir-assaduras-theraskin-120g",
+      "suggested": null,
+      "gap_pct": -38.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Cetrilan Creme para Previnir Assaduras TheraSkin 120g",
+          "url": "https://drogariacarvalho.com/p/cetrilan-creme-para-previnir-assaduras-theraskin-120g",
+          "price": 41.15,
+          "pix": 39.09,
+          "score": 0.483
+        },
+        {
+          "store": "epoca",
+          "name": "Bepantol Baby Creme Preventivo de Assaduras 120g",
+          "url": "https://www.epocacosmeticos.com.br/bepantol-baby-creme-preventivo-de-assaduras-120g-95877/p",
+          "price": 75.52,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "fa35bb71-138b-4b26-b69e-73de29ca6748",
+      "name": "Wella Professionals Invigo Nutri-Enrich - Máscara 150ml",
+      "slug": "wella-professionals-invigo-nutri-enrich-mascara-150ml",
+      "price": 32.52,
+      "original_price": 67.47,
+      "brand": "Wella",
+      "gtin": "7896235353713",
+      "status": "abaixo",
+      "lowest": 53.2,
+      "lowest_store": "carvalho",
+      "lowest_name": "Wella Professionals Invigo Nutri-Enrich Frizz Control – Leave-in Antifrizz 150ml",
+      "lowest_url": "https://drogariacarvalho.com/p/wella-professionals-invigo-nutri-enrich-frizz-control-leave-in-antifrizz-150ml",
+      "suggested": null,
+      "gap_pct": -38.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Invigo Nutri-Enrich Frizz Control – Leave-in Antifrizz 150ml",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-invigo-nutri-enrich-frizz-control-leave-in-antifrizz-150ml",
+          "price": 53.2,
+          "pix": 50.54,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Máscara Invigo Nutri-Enrich Wella Professionals - 150ml",
+          "url": "https://www.epocacosmeticos.com.br/mascara-invigo-nutri-enrich-wella-professionals---150ml-94951/p",
+          "price": 110.2,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "23bc44ed-1a1c-432b-a73f-d73c66056e70",
+      "name": "Creme Hidratante Multirrestaurador Bepantol Derma Pele Extrasseca 20g",
+      "slug": "creme-hidratante-multirrestaurador-bepantol-derma-pele-extrasseca-20g",
+      "price": 11.55,
+      "original_price": 38.5,
+      "brand": "Bepantol",
+      "gtin": "7891106907286",
+      "status": "abaixo",
+      "lowest": 19.0,
+      "lowest_store": "carvalho",
+      "lowest_name": "Hidratante Multirrestaurador com Rosa Mosqueta Bepantol Derma 20g",
+      "lowest_url": "https://drogariacarvalho.com/p/hidratante-multirrestaurador-com-rosa-mosqueta-bepantol-derma-20g",
+      "suggested": null,
+      "gap_pct": -39.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Hidratante Multirrestaurador com Rosa Mosqueta Bepantol Derma 20g",
+          "url": "https://drogariacarvalho.com/p/hidratante-multirrestaurador-com-rosa-mosqueta-bepantol-derma-20g",
+          "price": 19.0,
+          "pix": 18.05,
+          "score": 0.85
+        },
+        {
+          "store": "epoca",
+          "name": "Bepantol Derma Hidratante Multirrestaurador  Creme Pele Extrasseca 20g - 7891106907286",
+          "url": "https://www.epocacosmeticos.com.br/bepantol-derma-hidratante-multirrestaurador--creme-pele-extrasseca-20g---7891106907286-294424/p",
+          "price": 24.14,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "c2928e3a-5b9b-4d12-97ea-a141c73a887d",
+      "name": "Protetor Solar L'Oréal Paris Solar Expertise Supreme Protect 4 FPS50 200ml",
+      "slug": "protetor-solar-l-oreal-paris-solar-expertise-supreme-protect-4-fps50-200ml",
+      "price": 29.32,
+      "original_price": 57.08,
+      "brand": "L'Oréal Paris",
+      "gtin": "7899706135818",
+      "status": "abaixo",
+      "lowest": 48.89,
+      "lowest_store": "carvalho",
+      "lowest_name": "Protetor Solar Corporal L’Oréal Paris Solar Expertise Supreme Protect 4 FPS70 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/protetor-solar-corporal-l-oreal-paris-solar-expertise-supreme-protect-4-fps70-200ml",
+      "suggested": null,
+      "gap_pct": -40.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Protetor Solar Corporal L’Oréal Paris Solar Expertise Supreme Protect 4 FPS70 200ml",
+          "url": "https://drogariacarvalho.com/p/protetor-solar-corporal-l-oreal-paris-solar-expertise-supreme-protect-4-fps70-200ml",
+          "price": 48.89,
+          "pix": 46.45,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "4a94ef90-1e6a-48ea-8df6-57b60f5de0ee",
+      "name": "Hidratante Creme Facial Nutritivo 7 em 1 Vult",
+      "slug": "hidratante-creme-facial-nutritivo-7-em-1-vult",
+      "price": 9.97,
+      "original_price": 43.46,
+      "brand": "Vult",
+      "gtin": "7899852020204",
+      "status": "abaixo",
+      "lowest": 16.95,
+      "lowest_store": "carvalho",
+      "lowest_name": "Hidratante Facial Em Gel Nivea Ultraleve 5 Em 1 100g",
+      "lowest_url": "https://drogariacarvalho.com/p/hidratante-facial-em-gel-nivea-ultraleve-5-em-1-100g",
+      "suggested": null,
+      "gap_pct": -41.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Hidratante Facial Em Gel Nivea Ultraleve 5 Em 1 100g",
+          "url": "https://drogariacarvalho.com/p/hidratante-facial-em-gel-nivea-ultraleve-5-em-1-100g",
+          "price": 16.95,
+          "pix": 16.1,
+          "score": 0.667
+        },
+        {
+          "store": "epoca",
+          "name": "Hidratante Creme Facial Nutritivo 7 em 1 Vult",
+          "url": "https://www.epocacosmeticos.com.br/hidratante-creme-facial-nutritivo-7-em-1-vult/p",
+          "price": 31.49,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "606d1537-0c6b-4300-9681-eebebebd6e5f",
+      "name": "Condicionador Vichy Dercos Collagen Repair 17 com 200g",
+      "slug": "condicionador-vichy-dercos-collagen-repair-17-com-200g",
+      "price": 45.46,
+      "original_price": 164.22,
+      "brand": "Vichy",
+      "gtin": "7908966523737",
+      "status": "abaixo",
+      "lowest": 77.78,
+      "lowest_store": "carvalho",
+      "lowest_name": "Condicionador Vichy Dercos Collagen Repair 17 200gr",
+      "lowest_url": "https://drogariacarvalho.com/p/condicionador-vichy-dercos-collagen-repair-17-200gr",
+      "suggested": null,
+      "gap_pct": -41.6,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Condicionador Vichy Dercos Collagen Repair 17 200gr",
+          "url": "https://drogariacarvalho.com/p/condicionador-vichy-dercos-collagen-repair-17-200gr",
+          "price": 77.78,
+          "pix": 73.89,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Condicionador Vichy Dercos Collagen Repair 17 com 200g",
+          "url": "https://www.epocacosmeticos.com.br/condicionador-vichy-dercos-collagen-repair-17-com-200g-193688/p",
+          "price": 165.52,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "136c1753-60a8-475a-92c5-45eef3ae8668",
+      "name": "Shampoo Anticaspa Vichy Dercos DS Cabelos Normais a Oleosos 300g",
+      "slug": "shampoo-anticaspa-vichy-dercos-ds-cabelos-normais-a-oleosos-300g",
+      "price": 48.96,
+      "original_price": 77.05,
+      "brand": "Vichy",
+      "gtin": "7908615087610",
+      "status": "abaixo",
+      "lowest": 84.25,
+      "lowest_store": "carvalho",
+      "lowest_name": "Shampoo Vichy Dercos Oil-Correction 300g",
+      "lowest_url": "https://drogariacarvalho.com/p/shampoo-vichy-dercos-oil-correction-300g",
+      "suggested": null,
+      "gap_pct": -41.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Vichy Dercos Oil-Correction 300g",
+          "url": "https://drogariacarvalho.com/p/shampoo-vichy-dercos-oil-correction-300g",
+          "price": 84.25,
+          "pix": 80.04,
+          "score": 0.583
+        },
+        {
+          "store": "epoca",
+          "name": "Vichy Dercos Anticaspa DS Cabelos Normais a Oleosos 300g",
+          "url": "https://www.epocacosmeticos.com.br/vichy-dercos-anticaspa-ds-cabelos-normais-a-oleosos-300g-187453/p",
+          "price": 149.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "a13f8323-b183-4631-9117-684a2ba2669b",
+      "name": "Sérum Principia Mix-01 30ml",
+      "slug": "serum-principia-mix-01-30ml",
+      "price": 30.88,
+      "original_price": 49.58,
+      "brand": "Principia",
+      "gtin": "602883706477",
+      "status": "abaixo",
+      "lowest": 53.53,
+      "lowest_store": "carvalho",
+      "lowest_name": "Serum Facial Anti-idade Principia Mix-02 30ml",
+      "lowest_url": "https://drogariacarvalho.com/p/serum-facial-anti-idade-principia-mix-02-30ml",
+      "suggested": null,
+      "gap_pct": -42.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Serum Facial Anti-idade Principia Mix-02 30ml",
+          "url": "https://drogariacarvalho.com/p/serum-facial-anti-idade-principia-mix-02-30ml",
+          "price": 53.53,
+          "pix": 50.85,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Sérum Facial Principia Anti-acne Mix-01 - 30ml",
+          "url": "https://www.epocacosmeticos.com.br/serum-facial-principia-anti-acne-mix-01---30ml-145620/p",
+          "price": 74.0,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "3cb04de1-d26b-4e35-966e-cb06b3cde953",
+      "name": "Sabonete Liquido Detox Vitamina C Payot 220ml",
+      "slug": "sabonete-liquido-detox-vitamina-c-payot-220ml",
+      "price": 13.03,
+      "original_price": 22.26,
+      "brand": "Payot",
+      "gtin": "7896609544044",
+      "status": "abaixo",
+      "lowest": 23.46,
+      "lowest_store": "carvalho",
+      "lowest_name": "Sabonete Líquido Hidratante Payot Detox Vitamina C 220ml",
+      "lowest_url": "https://drogariacarvalho.com/p/sabonete-liquido-hidratante-payot-detox-vitamina-c-220ml",
+      "suggested": null,
+      "gap_pct": -44.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sabonete Líquido Hidratante Payot Detox Vitamina C 220ml",
+          "url": "https://drogariacarvalho.com/p/sabonete-liquido-hidratante-payot-detox-vitamina-c-220ml",
+          "price": 23.46,
+          "pix": 22.29,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Payot Detox Vitamina C - Sabonete Líquido 220ml",
+          "url": "https://www.epocacosmeticos.com.br/payot-detox-vitamina-c---sabonete-liquido-220ml-77029/p",
+          "price": 39.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "f73aa141-264f-4525-b92b-6c15f0a6f5cf",
+      "name": "Gel de Banho Profuse Hidradeep Pele Normal a Seca 400ml",
+      "slug": "gel-de-banho-profuse-hidradeep-pele-normal-a-seca-400ml",
+      "price": 40.98,
+      "original_price": 133.57,
+      "brand": "Profuse",
+      "gtin": "7896658033407",
+      "status": "abaixo",
+      "lowest": 74.42,
+      "lowest_store": "carvalho",
+      "lowest_name": "Gel De Limpeza Eucerin Ph5 Pele Seca E Sensível 400ml",
+      "lowest_url": "https://drogariacarvalho.com/p/gel-de-limpeza-eucerin-ph5-pele-seca-e-sensivel-400ml",
+      "suggested": null,
+      "gap_pct": -44.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel De Limpeza Eucerin Ph5 Pele Seca E Sensível 400ml",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-eucerin-ph5-pele-seca-e-sensivel-400ml",
+          "price": 74.42,
+          "pix": 70.7,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Profuse Hidradeep Gel de Banho Pele Normal a Seca 400ml Profuse Hidradeep Gel de Banho 400ml",
+          "url": "https://www.epocacosmeticos.com.br/profuse-hidradeep-gel-de-banho-pele-normal-a-seca-400ml-profuse-hidradeep-gel-de-banho-400ml-162820/p",
+          "price": 96.79,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "8a6fc0f5-58ce-460d-b21a-3ecbe72288e2",
+      "name": "Gel Matte Hidratação Vichy Minéral 89 Sorbet 48h 50ml",
+      "slug": "gel-matte-hidratacao-vichy-mineral-89-sorbet-48h-50ml",
+      "price": 64.5,
+      "original_price": 255.47,
+      "brand": "Vichy",
+      "gtin": "3337875894104",
+      "status": "abaixo",
+      "lowest": 117.47,
+      "lowest_store": "carvalho",
+      "lowest_name": "Desodorante Antitranspirante Roll-On Vichy Peles Sensíveis ou Depiladas 48h 50ml",
+      "lowest_url": "https://drogariacarvalho.com/p/desodorante-antitranspirante-roll-on-vichy-peles-sensiveis-ou-depiladas-48h-50ml",
+      "suggested": null,
+      "gap_pct": -45.1,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Desodorante Antitranspirante Roll-On Vichy Peles Sensíveis ou Depiladas 48h 50ml",
+          "url": "https://drogariacarvalho.com/p/desodorante-antitranspirante-roll-on-vichy-peles-sensiveis-ou-depiladas-48h-50ml",
+          "price": 117.47,
+          "pix": 111.6,
+          "score": 0.417
+        },
+        {
+          "store": "epoca",
+          "name": "Mineral 89 Gel Matte Hidratação 48H Vichy 50ml",
+          "url": "https://www.epocacosmeticos.com.br/mineral-89-gel-matte-hidratacao-48h-vichy-50ml-189440/p",
+          "price": 189.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "ddb7e4e1-96af-4c48-b4ba-a20ca0a4b75a",
+      "name": "Sabonete em Barra Nivea Erva Doce & Óleos 85g",
+      "slug": "sabonete-em-barra-nivea-erva-doce-oleos-85g",
+      "price": 1.08,
+      "original_price": 5.18,
+      "brand": "Nivea",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 1.97,
+      "lowest_store": "carvalho",
+      "lowest_name": "Sabonete Em Barra Nivea Lavanda E Óleos 85g",
+      "lowest_url": "https://drogariacarvalho.com/p/sabonete-em-barra-nivea-lavanda-e-oleos-85g",
+      "suggested": null,
+      "gap_pct": -45.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sabonete Em Barra Nivea Lavanda E Óleos 85g",
+          "url": "https://drogariacarvalho.com/p/sabonete-em-barra-nivea-lavanda-e-oleos-85g",
+          "price": 1.97,
+          "pix": 1.87,
+          "score": 0.85
+        },
+        {
+          "store": "epoca",
+          "name": "Sabonete em Barra NIVEA Erva Doce & Óleos 85g",
+          "url": "https://www.epocacosmeticos.com.br/sabonete-em-barra-nivea-erva-doce---oleos-85g-180377/p",
+          "price": 3.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "682a4503-9583-468d-8a1c-0d8969584319",
+      "name": "Gel de Limpeza Sébium Bioderma Gel Moussant Actif 200ml",
+      "slug": "gel-de-limpeza-sebium-bioderma-gel-moussant-actif-200ml",
+      "price": 27.36,
+      "original_price": 114.46,
+      "brand": "Bioderma",
+      "gtin": "3701129803400",
+      "status": "abaixo",
+      "lowest": 50.9,
+      "lowest_store": "carvalho",
+      "lowest_name": "Gel de Limpeza Facial Bioderma Sébium Gel Moussant 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/gel-de-limpeza-facial-bioderma-sebium-gel-moussant-200ml",
+      "suggested": null,
+      "gap_pct": -46.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel de Limpeza Facial Bioderma Sébium Gel Moussant 200ml",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-facial-bioderma-sebium-gel-moussant-200ml",
+          "price": 50.9,
+          "pix": 48.36,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Sébium Gel Moussant Actif Gel de Limpeza Bioderma 200ml",
+          "url": "https://www.epocacosmeticos.com.br/sebium-gel-moussant-actif-gel-de-limpeza-bioderma-200ml-113452/p",
+          "price": 91.22,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "3583cb7a-04b4-422a-b7dd-8f92f7aaa38f",
+      "name": "Óleo de Rosa Mosqueta Musquée Herbarium 50ml",
+      "slug": "oleo-de-rosa-mosqueta-musquee-herbarium-50ml",
+      "price": 23.09,
+      "original_price": 55.73,
+      "brand": "",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 43.06,
+      "lowest_store": "carvalho",
+      "lowest_name": "Óleo De Rosa Mosqueta Musquee Puro 50ml",
+      "lowest_url": "https://drogariacarvalho.com/p/oleo-de-rosa-mosqueta-musquee-puro-50ml",
+      "suggested": null,
+      "gap_pct": -46.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Óleo De Rosa Mosqueta Musquee Puro 50ml",
+          "url": "https://drogariacarvalho.com/p/oleo-de-rosa-mosqueta-musquee-puro-50ml",
+          "price": 43.06,
+          "pix": 40.91,
+          "score": 0.95
+        },
+        {
+          "store": "epoca",
+          "name": "ÓLEO DE ROSA MOSQUETA MUSQUÉE HERBARIUM 50ML",
+          "url": "https://www.epocacosmeticos.com.br/oleo-de-rosa-mosqueta-musquee-herbarium-50ml-136474/p",
+          "price": 54.53,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "d384ef52-819b-4077-bd54-43221f4797b7",
+      "name": "Granado Pink Esfoliante Pedra Pomes 80g",
+      "slug": "granado-pink-esfoliante-pedra-pomes-80g",
+      "price": 14.97,
+      "original_price": 53.82,
+      "brand": "Granado",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 28.14,
+      "lowest_store": "epoca",
+      "lowest_name": "Granado Pink Esfoliante Pedra Pomes 80g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/granado-pink-esfoliante-pedra-pomes-80g-113731/p",
+      "suggested": null,
+      "gap_pct": -46.8,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Pedra Pomes Needs 1 Unidade",
+          "url": "https://drogariacarvalho.com/p/pedra-pomes-needs-1-unidade",
+          "price": 4.71,
+          "pix": 4.47,
+          "score": 0.5
+        },
+        {
+          "store": "epoca",
+          "name": "Granado Pink Esfoliante Pedra Pomes 80g",
+          "url": "https://www.epocacosmeticos.com.br/granado-pink-esfoliante-pedra-pomes-80g-113731/p",
+          "price": 28.14,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "5115c05f-40c5-405a-8765-23875f074575",
+      "name": "Wella Professionals Fusion - Shampoo 1L",
+      "slug": "wella-professionals-fusion-shampoo-1l",
+      "price": 49.56,
+      "original_price": 141.95,
+      "brand": "Wella",
+      "gtin": "4064666043715",
+      "status": "abaixo",
+      "lowest": 93.53,
+      "lowest_store": "carvalho",
+      "lowest_name": "Wella Professionals Oil Reflections – Shampoo 1L",
+      "lowest_url": "https://drogariacarvalho.com/p/wella-professionals-oil-reflections-shampoo-1l",
+      "suggested": null,
+      "gap_pct": -47.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Oil Reflections – Shampoo 1L",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-oil-reflections-shampoo-1l",
+          "price": 93.53,
+          "pix": 88.85,
+          "score": 0.917
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Fusion - Shampoo 1L",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-fusion---shampoo-1l-179664/p",
+          "price": 209.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "e89e4f7f-5e53-4f9e-bf38-18b96a25329d",
+      "name": "Fortalecedor de Unha Untralnail Base Forte Profuse 7ml",
+      "slug": "fortalecedor-de-unha-untralnail-base-forte-profuse-7ml",
+      "price": 48.22,
+      "original_price": 159.39,
+      "brand": "Profuse",
+      "gtin": "7896658036972",
+      "status": "abaixo",
+      "lowest": 93.5,
+      "lowest_store": "carvalho",
+      "lowest_name": "Untralnail Base Forte Fortalecedor de Unhas Profuse 7Ml",
+      "lowest_url": "https://drogariacarvalho.com/p/untralnail-base-forte-fortalecedor-de-unhas-profuse-7ml",
+      "suggested": null,
+      "gap_pct": -48.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Untralnail Base Forte Fortalecedor de Unhas Profuse 7Ml",
+          "url": "https://drogariacarvalho.com/p/untralnail-base-forte-fortalecedor-de-unhas-profuse-7ml",
+          "price": 93.5,
+          "pix": 88.83,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Untralnail Base Forte Fortalecedor de Unhas Profuse 7ml",
+          "url": "https://www.epocacosmeticos.com.br/untralnail-base-forte-fortalecedor-de-unhas-profuse-7ml-116302/p",
+          "price": 100.72,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "84559004-78bc-4e14-a409-fe7e2d4ec0c9",
+      "name": "Kpro Style Stick Cera em Bastão 30g",
+      "slug": "kpro-style-stick-cera-em-bastao-30g",
+      "price": 37.9,
+      "original_price": 145.98,
+      "brand": "",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 73.97,
+      "lowest_store": "carvalho",
+      "lowest_name": "Cera Fixadora em Bastão - Ricca",
+      "lowest_url": "https://drogariacarvalho.com/p/cera-fixadora-em-bastao-ricca",
+      "suggested": null,
+      "gap_pct": -48.8,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Cera Fixadora em Bastão - Ricca",
+          "url": "https://drogariacarvalho.com/p/cera-fixadora-em-bastao-ricca",
+          "price": 73.97,
+          "pix": 70.27,
+          "score": 0.4
+        },
+        {
+          "store": "epoca",
+          "name": "Cera em Bastão K.Pro Style Stick 30g",
+          "url": "https://www.epocacosmeticos.com.br/cera-em-bastao-k-pro-style-stick-30g-209896/p",
+          "price": 119.9,
+          "score": 0.95
+        }
+      ]
+    },
+    {
+      "id": "8e80922e-98e1-4b80-905f-b6bcfad248b6",
+      "name": "Máscara para Cílios Maybelline Sensacionais Efeito Leque À Prova D’água Preto 9ml",
+      "slug": "mascara-para-cilios-maybelline-sensacionais-efeito-leque-a-prova-d-agua-preto-9ml",
+      "price": 24.23,
+      "original_price": 99.01,
+      "brand": "Maybelline",
+      "gtin": "7899706140911",
+      "status": "abaixo",
+      "lowest": 48.01,
+      "lowest_store": "carvalho",
+      "lowest_name": "Máscara para Cílios Maybelline Sensacionais 9ml",
+      "lowest_url": "https://drogariacarvalho.com/p/mascara-para-cilios-maybelline-sensacionais-9ml",
+      "suggested": null,
+      "gap_pct": -49.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Máscara para Cílios Maybelline Sensacionais 9ml",
+          "url": "https://drogariacarvalho.com/p/mascara-para-cilios-maybelline-sensacionais-9ml",
+          "price": 48.01,
+          "pix": 45.61,
+          "score": 0.536
+        }
+      ]
+    },
+    {
+      "id": "a4538576-83ab-4142-bae2-0cb4dfaa86a2",
+      "name": "Shampoo Kérastase Blond Absolu Bain Lumière 250ml",
+      "slug": "shampoo-kerastase-blond-absolu-bain-lumiere-250ml",
+      "price": 73.57,
+      "original_price": 137.42,
+      "brand": "Kérastase",
+      "gtin": "7899706186285",
+      "status": "abaixo",
+      "lowest": 146.96,
+      "lowest_store": "carvalho",
+      "lowest_name": "Shampoo Kérastase Nutritive Bain Satin 250ml",
+      "lowest_url": "https://drogariacarvalho.com/p/shampoo-kerastase-nutritive-bain-satin-250ml",
+      "suggested": null,
+      "gap_pct": -49.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Kérastase Nutritive Bain Satin 250ml",
+          "url": "https://drogariacarvalho.com/p/shampoo-kerastase-nutritive-bain-satin-250ml",
+          "price": 146.96,
+          "pix": 139.61,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Kérastase Blond Absolu Bain Lumière - Shampoo",
+          "url": "https://www.epocacosmeticos.com.br/kerastase-blond-absolu-bain-lumiere-shampoo/p",
+          "price": 205.11,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "0167e0f7-f159-42dd-89fc-516d76088f43",
+      "name": "Creme Facial Antissinais Nivea Cellular Expert Lift Avançado Dia FPS30 50ml",
+      "slug": "creme-facial-antissinais-nivea-cellular-expert-lift-avancado-dia-fps30-50ml",
+      "price": 31.87,
+      "original_price": 104.31,
+      "brand": "Nivea",
+      "gtin": "4005900929679",
+      "status": "abaixo",
+      "lowest": 66.02,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Facial Loreal Paris Revitalift Laser X3 Dia 50ml",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-facial-loreal-paris-revitalift-laser-x3-dia-50ml",
+      "suggested": null,
+      "gap_pct": -51.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Facial Loreal Paris Revitalift Laser X3 Dia 50ml",
+          "url": "https://drogariacarvalho.com/p/creme-facial-loreal-paris-revitalift-laser-x3-dia-50ml",
+          "price": 66.02,
+          "pix": 62.72,
+          "score": 0.4
+        },
+        {
+          "store": "epoca",
+          "name": "NIVEA Creme Facial Antissinais Cellular Lift Dia FPS 30",
+          "url": "https://www.epocacosmeticos.com.br/creme-facial-nivea-expert-lift-antissinais-avancado-dia/p",
+          "price": 75.59,
+          "score": 0.725
+        }
+      ]
+    },
+    {
+      "id": "0fed3267-8b40-44ed-85ad-c6a4dab04ea0",
+      "name": "Creme Reparador Hidratante Mustela Cicastela 40ml",
+      "slug": "creme-reparador-hidratante-mustela-cicastela-40ml",
+      "price": 33.22,
+      "original_price": 119.18,
+      "brand": "Mustela",
+      "gtin": "3504105033330",
+      "status": "abaixo",
+      "lowest": 68.93,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Hidratante Multirreparador La Roche-posay Cicaplast Baume B5+ 40ml",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-hidratante-multirreparador-la-roche-posay-cicaplast-baume-b5-40ml",
+      "suggested": null,
+      "gap_pct": -51.8,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Hidratante Multirreparador La Roche-posay Cicaplast Baume B5+ 40ml",
+          "url": "https://drogariacarvalho.com/p/creme-hidratante-multirreparador-la-roche-posay-cicaplast-baume-b5-40ml",
+          "price": 68.93,
+          "pix": 65.48,
+          "score": 0.483
+        },
+        {
+          "store": "epoca",
+          "name": "Cicastela Creme Reparador Hidratante Mustela 40ml",
+          "url": "https://www.epocacosmeticos.com.br/cicastela-creme-reparador-hidratante-mustela-40ml-185574/p",
+          "price": 99.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "0571d89f-a67d-47e1-9bc1-61215ab9e958",
+      "name": "Máscara Capilar L’oréal Professionnel Metal Detox 500ml",
+      "slug": "mascara-capilar-l-oreal-professionnel-metal-detox-500ml",
+      "price": 101.04,
+      "original_price": 640.18,
+      "brand": "L'Oréal Professionnel",
+      "gtin": "30163478",
+      "status": "abaixo",
+      "lowest": 213.57,
+      "lowest_store": "carvalho",
+      "lowest_name": "Máscara Capilar L’oréal Professionnel Metal Detox 500ml",
+      "lowest_url": "https://drogariacarvalho.com/p/mascara-capilar-l-oreal-professionnel-metal-detox-500ml",
+      "suggested": null,
+      "gap_pct": -52.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Máscara Capilar L’oréal Professionnel Metal Detox 500ml",
+          "url": "https://drogariacarvalho.com/p/mascara-capilar-l-oreal-professionnel-metal-detox-500ml",
+          "price": 213.57,
+          "pix": 202.89,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "L'Oréal Professionnel Metal Detox - Máscara Capilar 500Ml",
+          "url": "https://www.epocacosmeticos.com.br/l-oreal-professionnel-metal-detox---mascara-capilar-500ml-132411/p",
+          "price": 463.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "f7dabe73-b642-4022-a59f-0a5b877dfb35",
+      "name": "Loção Hidratante ISDIN Ureadin 10 200ml",
+      "slug": "locao-hidratante-isdin-ureadin-10-200ml",
+      "price": 35.77,
+      "original_price": 123.51,
+      "brand": "Isdin",
+      "gtin": "8429420143050",
+      "status": "abaixo",
+      "lowest": 76.42,
+      "lowest_store": "carvalho",
+      "lowest_name": "Loção Hidratante Umiditá Gestante 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/locao-hidratante-umidita-gestante-200ml",
+      "suggested": null,
+      "gap_pct": -53.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Loção Hidratante Umiditá Gestante 200ml",
+          "url": "https://drogariacarvalho.com/p/locao-hidratante-umidita-gestante-200ml",
+          "price": 76.42,
+          "pix": 72.6,
+          "score": 0.817
+        },
+        {
+          "store": "epoca",
+          "name": "Loção Hidratante Isdin - Ureadin Hidratação Intensiva 10 - 200ml",
+          "url": "https://www.epocacosmeticos.com.br/locao-hidratante-isdin---ureadin-hidratacao-intensiva-10---200ml-111788/p",
+          "price": 80.93,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "65713087-3b81-4ca0-8621-511a7f9e9ae2",
+      "name": "Loção Facial Hidratante PM com Ceramidas e Ácido Hialurônico CeraVe 52ml",
+      "slug": "locao-facial-hidratante-pm-com-ceramidas-e-acido-hialuronico-cerave-52ml",
+      "price": 35.18,
+      "original_price": 141.99,
+      "brand": "Cerave",
+      "gtin": "7899706186698",
+      "status": "abaixo",
+      "lowest": 75.7,
+      "lowest_store": "carvalho",
+      "lowest_name": "Loção Hidratante Facial Cerave Pele Normal A Seca Ácido Hialurônico Niacinamida 52ml",
+      "lowest_url": "https://drogariacarvalho.com/p/locao-hidratante-facial-cerave-pele-normal-a-seca-acido-hialuronico-niacinamida-52ml",
+      "suggested": null,
+      "gap_pct": -53.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Loção Hidratante Facial Cerave Pele Normal A Seca Ácido Hialurônico Niacinamida 52ml",
+          "url": "https://drogariacarvalho.com/p/locao-hidratante-facial-cerave-pele-normal-a-seca-acido-hialuronico-niacinamida-52ml",
+          "price": 75.7,
+          "pix": 71.92,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Loção Facial Hidratante PM com Ceramidas e Ácido Hialurônico CeraVe",
+          "url": "https://www.epocacosmeticos.com.br/locao-facial-hidratante-cerave/p",
+          "price": 102.89,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "7da753f3-4463-4323-a3b5-f5f5d1a2a828",
+      "name": "Darrow Actine Gel de Limpeza Facial 400g",
+      "slug": "darrow-actine-gel-de-limpeza-facial-400g",
+      "price": 26.59,
+      "original_price": 102.64,
+      "brand": "Darrow",
+      "gtin": "3282770153507",
+      "status": "abaixo",
+      "lowest": 57.79,
+      "lowest_store": "carvalho",
+      "lowest_name": "Gel de Limpeza Facial Darrow Actine 400g",
+      "lowest_url": "https://drogariacarvalho.com/p/gel-de-limpeza-facial-darrow-actine-400g",
+      "suggested": null,
+      "gap_pct": -54.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel de Limpeza Facial Darrow Actine 400g",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-facial-darrow-actine-400g",
+          "price": 57.79,
+          "pix": 54.9,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "DARROW ACTINE - GEL DE LIMPEZA FACIAL 400G",
+          "url": "https://www.epocacosmeticos.com.br/darrow-actine---gel-de-limpeza-facial-400g-142358/p",
+          "price": 70.68,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "ebd5c7f2-5135-49a4-a04c-24a2d2637000",
+      "name": "Wella Professionals Invigo Nutri-Enrich - Máscara 500ml",
+      "slug": "wella-professionals-invigo-nutri-enrich-mascara-500ml",
+      "price": 55.25,
+      "original_price": 120.3,
+      "brand": "Wella",
+      "gtin": "7896235353706",
+      "status": "abaixo",
+      "lowest": 121.55,
+      "lowest_store": "carvalho",
+      "lowest_name": "Wella Professionals Fusion – Máscara Reparadora 500ml",
+      "lowest_url": "https://drogariacarvalho.com/p/wella-professionals-fusion-mascara-reparadora-500ml",
+      "suggested": null,
+      "gap_pct": -54.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Fusion – Máscara Reparadora 500ml",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-fusion-mascara-reparadora-500ml",
+          "price": 121.55,
+          "pix": 115.47,
+          "score": 0.5
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Invigo Nutri-Enrich - Máscara 500ml",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-nutri-enrich---mascara-500ml-179684/p",
+          "price": 269.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "bf446eb0-1ee3-45d5-a69a-3b1777a014ac",
+      "name": "Bioderma Gel de Limpeza Facial Antioleosidade Sébium Gel Moussant 100ml",
+      "slug": "bioderma-gel-de-limpeza-facial-antioleosidade-sebium-gel-moussant-100ml",
+      "price": 17.35,
+      "original_price": 59.66,
+      "brand": "Bioderma",
+      "gtin": "3401353791220",
+      "status": "abaixo",
+      "lowest": 38.18,
+      "lowest_store": "carvalho",
+      "lowest_name": "Gel De Limpeza Micelar Bioderma Sensibio Gel Moussant 100ml",
+      "lowest_url": "https://drogariacarvalho.com/p/gel-de-limpeza-micelar-bioderma-sensibio-gel-moussant-100ml",
+      "suggested": null,
+      "gap_pct": -54.6,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel De Limpeza Micelar Bioderma Sensibio Gel Moussant 100ml",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-micelar-bioderma-sensibio-gel-moussant-100ml",
+          "price": 38.18,
+          "pix": 36.27,
+          "score": 0.75
+        },
+        {
+          "store": "epoca",
+          "name": "Bioderma Gel de Limpeza Facial Antioleosidade Sébium Gel Moussant",
+          "url": "https://www.epocacosmeticos.com.br/sebium-gel-moussant-bioderma-gel-de-limpeza/p",
+          "price": 43.23,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "1762646f-2f3c-4250-ab55-d361c38582ae",
+      "name": "Máscara Kérastase Nutritive Masquintense 200ml",
+      "slug": "mascara-kerastase-nutritive-masquintense-200ml",
+      "price": 91.57,
+      "original_price": 483.94,
+      "brand": "Kérastase",
+      "gtin": "7908615015293",
+      "status": "abaixo",
+      "lowest": 205.74,
+      "lowest_store": "carvalho",
+      "lowest_name": "Máscara Kérastase Nutritive Masquintense 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/mascara-kerastase-nutritive-masquintense-200ml",
+      "suggested": null,
+      "gap_pct": -55.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Máscara Kérastase Nutritive Masquintense 200ml",
+          "url": "https://drogariacarvalho.com/p/mascara-kerastase-nutritive-masquintense-200ml",
+          "price": 205.74,
+          "pix": 195.45,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Kérastase Nutritive Masquintense Máscara",
+          "url": "https://www.epocacosmeticos.com.br/kerastase-nutritive-masquintense-mascara/p",
+          "price": 350.68,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "7edef49b-a7e0-4c70-bc89-7338aa76281d",
+      "name": "Protetor Solar Corporal L'Oréal Paris Solar Expertise Supreme Protect 4 FPS70 200ml",
+      "slug": "protetor-solar-corporal-l-oreal-paris-solar-expertise-supreme-protect-4-fps70-200ml",
+      "price": 32.52,
+      "original_price": 58.83,
+      "brand": "L'Oréal Paris",
+      "gtin": "7899706135856",
+      "status": "abaixo",
+      "lowest": 78.38,
+      "lowest_store": "carvalho",
+      "lowest_name": "Protetor Solar Corporal La Roche-Posay Anthelios Fluido XL Protect FPS 70 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/protetor-solar-corporal-la-roche-posay-anthelios-fluido-xl-protect-fps-70-200ml",
+      "suggested": null,
+      "gap_pct": -58.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Protetor Solar Corporal La Roche-Posay Anthelios Fluido XL Protect FPS 70 200ml",
+          "url": "https://drogariacarvalho.com/p/protetor-solar-corporal-la-roche-posay-anthelios-fluido-xl-protect-fps-70-200ml",
+          "price": 78.38,
+          "pix": 74.46,
+          "score": 0.721
+        }
+      ]
+    },
+    {
+      "id": "ebe60f2d-9e79-434f-ab8d-d261d9609e8a",
+      "name": "Kit. 06Un - Ov Sucupira 20Ml - (Amazonleve)",
+      "slug": "kit-06un-ov-sucupira-20ml-amazonleve",
+      "price": 13.29,
+      "original_price": 100.95,
+      "brand": "",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 32.48,
+      "lowest_store": "carvalho",
+      "lowest_name": "Kit. 10Un – Ov Sucupira 20Ml – (Amazonleve)",
+      "lowest_url": "https://drogariacarvalho.com/p/kit-10un-ov-sucupira-20ml-amazonleve",
+      "suggested": null,
+      "gap_pct": -59.1,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Kit. 10Un – Ov Sucupira 20Ml – (Amazonleve)",
+          "url": "https://drogariacarvalho.com/p/kit-10un-ov-sucupira-20ml-amazonleve",
+          "price": 32.48,
+          "pix": 30.86,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "802fc2cc-d89c-47c8-ba57-389d861bd5b4",
+      "name": "Condicionador Antiqueda e Fortalecedor Vichy Dercos Energy+ 200ml",
+      "slug": "condicionador-antiqueda-e-fortalecedor-vichy-dercos-energy-200ml",
+      "price": 25.92,
+      "original_price": 193.43,
+      "brand": "Vichy",
+      "gtin": "7899706254434",
+      "status": "abaixo",
+      "lowest": 63.68,
+      "lowest_store": "carvalho",
+      "lowest_name": "Shampoo Vichy Dercos Energy+ Refil 200ml",
+      "lowest_url": "https://drogariacarvalho.com/p/shampoo-vichy-dercos-energy-refil-200ml",
+      "suggested": null,
+      "gap_pct": -59.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Vichy Dercos Energy+ Refil 200ml",
+          "url": "https://drogariacarvalho.com/p/shampoo-vichy-dercos-energy-refil-200ml",
+          "price": 63.68,
+          "pix": 60.5,
+          "score": 0.65
+        }
+      ]
+    },
+    {
+      "id": "b7bf52dd-04bf-4858-a961-dc2d5718df30",
+      "name": "Cicatricure Gel Cicatrizes e Estrias 60g",
+      "slug": "cicatricure-gel-cicatrizes-e-estrias-60g",
+      "price": 26.05,
+      "original_price": 86.93,
+      "brand": "Cicatricure",
+      "gtin": "7898949409762",
+      "status": "abaixo",
+      "lowest": 64.19,
+      "lowest_store": "epoca",
+      "lowest_name": "CICATRICURE GEL CICATRIZES E ESTRIAS 60G",
+      "lowest_url": "https://www.epocacosmeticos.com.br/cicatricure-gel-cicatrizes-e-estrias-60g-137123/p",
+      "suggested": null,
+      "gap_pct": -59.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel Renovador Puriance Profuse 60g",
+          "url": "https://drogariacarvalho.com/p/gel-renovador-puriance-profuse-60g",
+          "price": 68.58,
+          "pix": 65.15,
+          "score": 0.483
+        },
+        {
+          "store": "epoca",
+          "name": "CICATRICURE GEL CICATRIZES E ESTRIAS 60G",
+          "url": "https://www.epocacosmeticos.com.br/cicatricure-gel-cicatrizes-e-estrias-60g-137123/p",
+          "price": 64.19,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "3bac1f32-e5a1-488f-a7ce-a34233477f77",
+      "name": "Máscara capilar Joico Moisture Recovery Balm 250ml",
+      "slug": "mascara-capilar-joico-moisture-recovery-balm-250ml",
+      "price": 56.52,
+      "original_price": 299.32,
+      "brand": "Joico",
+      "gtin": "0074469513982",
+      "status": "abaixo",
+      "lowest": 142.06,
+      "lowest_store": "carvalho",
+      "lowest_name": "Máscara capilar Joico Moisture Recovery Balm 250ml",
+      "lowest_url": "https://drogariacarvalho.com/p/mascara-capilar-joico-moisture-recovery-balm-250ml",
+      "suggested": null,
+      "gap_pct": -60.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Máscara capilar Joico Moisture Recovery Balm 250ml",
+          "url": "https://drogariacarvalho.com/p/mascara-capilar-joico-moisture-recovery-balm-250ml",
+          "price": 142.06,
+          "pix": 134.96,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Máscara de Hidratação Profunda Joico Moisture Recovery Balm 250ml",
+          "url": "https://www.epocacosmeticos.com.br/mascara-de-hidratacao-profunda-joico-moisture-recovery-balm-250ml-230905/p",
+          "price": 216.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "85fe6a50-a793-4591-8545-d631c1dba616",
+      "name": "Wella Professionals Oil Reflections Shampoo 250ml",
+      "slug": "wella-professionals-oil-reflections-shampoo-250ml",
+      "price": 18.35,
+      "original_price": 56.65,
+      "brand": "Wella",
+      "gtin": "4064666043623",
+      "status": "abaixo",
+      "lowest": 46.07,
+      "lowest_store": "carvalho",
+      "lowest_name": "Wella Professionals Enrich – Shampoo 250ml",
+      "lowest_url": "https://drogariacarvalho.com/p/wella-professionals-enrich-shampoo-250ml",
+      "suggested": null,
+      "gap_pct": -60.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Enrich – Shampoo 250ml",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-enrich-shampoo-250ml",
+          "price": 46.07,
+          "pix": 43.77,
+          "score": 0.75
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Oil Reflections Shampoo 250ml",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-oil-reflections-shampoo-250ml-237014/p",
+          "price": 89.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "05c4954b-64df-4e24-acf1-38daa09404e9",
+      "name": "Creme Rejuvenescedor Facial Cicatricure Gold Lift Noturno 50g",
+      "slug": "creme-rejuvenescedor-facial-cicatricure-gold-lift-noturno-50g",
+      "price": 46.26,
+      "original_price": 166.66,
+      "brand": "Cicatricure",
+      "gtin": "7898636191994",
+      "status": "abaixo",
+      "lowest": 120.77,
+      "lowest_store": "epoca",
+      "lowest_name": "Creme Rejuvenescedor Facial Cicatricure - Gold Lift Noturno - 50g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/creme-rejuvenescedor-facial-cicatricure---gold-lift-noturno---50g-248590/p",
+      "suggested": null,
+      "gap_pct": -61.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Facial Cicatricure Antissinais e Antirrugas 50g",
+          "url": "https://drogariacarvalho.com/p/creme-facial-cicatricure-antissinais-e-antirrugas-50g",
+          "price": 39.08,
+          "pix": 37.13,
+          "score": 0.45
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Rejuvenescedor Facial Cicatricure - Gold Lift Noturno - 50g",
+          "url": "https://www.epocacosmeticos.com.br/creme-rejuvenescedor-facial-cicatricure---gold-lift-noturno---50g-248590/p",
+          "price": 120.77,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "22285153-6189-43f5-ae99-a46a9560549a",
+      "name": "Máscara Redken Extreme Strength Builder Plus 500ml",
+      "slug": "mascara-redken-extreme-strength-builder-plus-500ml",
+      "price": 58.19,
+      "original_price": 344.97,
+      "brand": "Redken",
+      "gtin": "7899706192859",
+      "status": "abaixo",
+      "lowest": 154.79,
+      "lowest_store": "carvalho",
+      "lowest_name": "Máscara Redken Extreme Strength Builder Plus 500ml",
+      "lowest_url": "https://drogariacarvalho.com/p/mascara-redken-extreme-strength-builder-plus-500ml",
+      "suggested": null,
+      "gap_pct": -62.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Máscara Redken Extreme Strength Builder Plus 500ml",
+          "url": "https://drogariacarvalho.com/p/mascara-redken-extreme-strength-builder-plus-500ml",
+          "price": 154.79,
+          "pix": 147.05,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Máscara Capilar Redken Extreme Strength Builder Plus 500ml",
+          "url": "https://www.epocacosmeticos.com.br/redken-extreme-strength-builder-plus---mascara-capilar-500ml-114038/p",
+          "price": 209.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "4a7ca338-bed6-487f-9c0d-1331b51bb829",
+      "name": "Creme Para Pés Eucerin Urea Repair Plus 100ml",
+      "slug": "creme-para-pes-eucerin-urea-repair-plus-100ml",
+      "price": 19.94,
+      "original_price": 142.76,
+      "brand": "Eucerin",
+      "gtin": "04005805526027",
+      "status": "abaixo",
+      "lowest": 54.09,
+      "lowest_store": "carvalho",
+      "lowest_name": "Eucerin Urea Repair Creme para Pés Pele Seca e Extremamente Seca 100Ml (7804955001180)",
+      "lowest_url": "https://drogariacarvalho.com/p/eucerin-urea-repair-creme-para-pes-pele-seca-e-extremamente-seca-100ml-7804955001180",
+      "suggested": null,
+      "gap_pct": -63.1,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Eucerin Urea Repair Creme para Pés Pele Seca e Extremamente Seca 100Ml (7804955001180)",
+          "url": "https://drogariacarvalho.com/p/eucerin-urea-repair-creme-para-pes-pele-seca-e-extremamente-seca-100ml-7804955001180",
+          "price": 54.09,
+          "pix": 51.39,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "EUCERIN Creme Hidratante para Pés Urea Repair Plus Hidratação Intensiva",
+          "url": "https://www.epocacosmeticos.com.br/creme-para-os-pe-10-ureia-eucerin-creme-para-os-pes/p",
+          "price": 103.45,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "50f0f935-f324-48e7-8713-3c846d7ef06a",
+      "name": "Creme Hidratante Dermon com 20g",
+      "slug": "creme-hidratante-dermon-com-20g",
+      "price": 26.26,
+      "original_price": 98.67,
+      "brand": "",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 71.5,
+      "lowest_store": "epoca",
+      "lowest_name": "Dermon Creme Hidratante Genom 20g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/dermon-creme-hidratante-genom-20g-185961/p",
+      "suggested": null,
+      "gap_pct": -63.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Dermon 20g",
+          "url": "https://drogariacarvalho.com/p/creme-dermon-20g",
+          "price": 26.72,
+          "pix": 25.38,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Dermon Creme Hidratante Genom 20g",
+          "url": "https://www.epocacosmeticos.com.br/dermon-creme-hidratante-genom-20g-185961/p",
+          "price": 71.5,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "9d646b9c-95ef-4c25-88a1-4f18d88fa220",
+      "name": "Theracne Sabonete Barra Theraskin 80g",
+      "slug": "theracne-sabonete-barra-theraskin-80g",
+      "price": 28.01,
+      "original_price": 51.52,
+      "brand": "TheraSkin",
+      "gtin": "7896658020520",
+      "status": "abaixo",
+      "lowest": 76.89,
+      "lowest_store": "epoca",
+      "lowest_name": "Theracne Theraskin - Sabonete em Barra",
+      "lowest_url": "https://www.epocacosmeticos.com.br/theracne-theraskin-sabonete-em-barra/p",
+      "suggested": null,
+      "gap_pct": -63.6,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sabonete Em Barra Cloy Red Fruits Com 6 Unidades De 80g Cada",
+          "url": "https://drogariacarvalho.com/p/sabonete-em-barra-cloy-red-fruits-com-6-unidades-de-80g-cada",
+          "price": 9.63,
+          "pix": 9.15,
+          "score": 0.817
+        },
+        {
+          "store": "epoca",
+          "name": "Theracne Theraskin - Sabonete em Barra",
+          "url": "https://www.epocacosmeticos.com.br/theracne-theraskin-sabonete-em-barra/p",
+          "price": 76.89,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "c5b5b8bd-b8fc-404d-a8dc-c83468dfdf57",
+      "name": "Creme Hidratante Creamy Intensive Cream 40g",
+      "slug": "creme-hidratante-creamy-intensive-cream-40g",
+      "price": 40.59,
+      "original_price": 165.46,
+      "brand": "Creamy",
+      "gtin": "7896186300835",
+      "status": "abaixo",
+      "lowest": 119.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Creamy Intensive Repair Cream - Creme Hidratante Reparador 40G",
+      "lowest_url": "https://www.epocacosmeticos.com.br/creamy-intensive-repair-cream---creme-hidratante-reparador-40g-240402/p",
+      "suggested": null,
+      "gap_pct": -66.1,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Hidratante Bepantol Derma Multirrestaurador Pele Extrasseca 40g",
+          "url": "https://drogariacarvalho.com/p/creme-hidratante-bepantol-derma-multirrestaurador-pele-extrasseca-40g",
+          "price": 39.46,
+          "pix": 37.49,
+          "score": 0.483
+        },
+        {
+          "store": "epoca",
+          "name": "Creamy Intensive Repair Cream - Creme Hidratante Reparador 40G",
+          "url": "https://www.epocacosmeticos.com.br/creamy-intensive-repair-cream---creme-hidratante-reparador-40g-240402/p",
+          "price": 119.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "78ac5545-2818-47aa-9fe3-a91801a5f8bf",
+      "name": "Creme Hidratante Corporal Fisiogel Hipoalergênico 450g",
+      "slug": "creme-hidratante-corporal-fisiogel-hipoalergenico-450g",
+      "price": 14.97,
+      "original_price": 93.63,
+      "brand": "Fisiogel",
+      "gtin": "78960261726220",
+      "status": "abaixo",
+      "lowest": 44.95,
+      "lowest_store": "carvalho",
+      "lowest_name": "Hidratante Corporal Mantecorp Epidrat Corpo Intensivo Peles Secas com 450g",
+      "lowest_url": "https://drogariacarvalho.com/p/hidratante-corporal-mantecorp-epidrat-corpo-intensivo-peles-secas-com-450g",
+      "suggested": null,
+      "gap_pct": -66.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Hidratante Corporal Mantecorp Epidrat Corpo Intensivo Peles Secas com 450g",
+          "url": "https://drogariacarvalho.com/p/hidratante-corporal-mantecorp-epidrat-corpo-intensivo-peles-secas-com-450g",
+          "price": 44.95,
+          "pix": 42.7,
+          "score": 0.817
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Hidratante Corporal Fisiogel Hipoalergênico 450g",
+          "url": "https://www.epocacosmeticos.com.br/creme-hidratante-corporal-fisiogel-hipoalergenico-450g-155767/p",
+          "price": 65.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "235daf72-d9e5-4dac-9fa9-a72d9d5d2e49",
+      "name": "Shampoo Antiqueda Darrow Doctar Force 400ml",
+      "slug": "shampoo-antiqueda-darrow-doctar-force-400ml",
+      "price": 24.94,
+      "original_price": 84.9,
+      "brand": "Darrow",
+      "gtin": "3282770153538",
+      "status": "abaixo",
+      "lowest": 77.84,
+      "lowest_store": "carvalho",
+      "lowest_name": "Shampoo Neosil Attack Antiqueda 400ml",
+      "lowest_url": "https://drogariacarvalho.com/p/shampoo-neosil-attack-antiqueda-400ml",
+      "suggested": null,
+      "gap_pct": -68.0,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Neosil Attack Antiqueda 400ml",
+          "url": "https://drogariacarvalho.com/p/shampoo-neosil-attack-antiqueda-400ml",
+          "price": 77.84,
+          "pix": 73.95,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Darrow Doctar Force Shampoo Antiqueda 400ml",
+          "url": "https://www.epocacosmeticos.com.br/darrow-doctar-force-shampoo-antiqueda-400ml-186893/p",
+          "price": 179.5,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "0eb7510c-5e51-4098-a16c-0b8b44343dee",
+      "name": "Fralda Pampers Premium Care XG 60 unidades",
+      "slug": "fralda-pampers-premium-care-xg-60-unidades",
+      "price": 68.34,
+      "original_price": 296.23,
+      "brand": "Pampers",
+      "gtin": "7500435132459",
+      "status": "abaixo",
+      "lowest": 214.66,
+      "lowest_store": "epoca",
+      "lowest_name": "Fralda Pampers Premium Care XG 60 Unidades",
+      "lowest_url": "https://www.epocacosmeticos.com.br/fralda-pampers-premium-care-xg-60-unidades-136120/p",
+      "suggested": null,
+      "gap_pct": -68.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Fralda Pampers Pants Com 66 Tamanho Xg",
+          "url": "https://drogariacarvalho.com/p/fralda-pampers-pants-com-66-tamanho-xg",
+          "price": 66.46,
+          "pix": 63.14,
+          "score": 0.433
+        },
+        {
+          "store": "epoca",
+          "name": "Fralda Pampers Premium Care XG 60 Unidades",
+          "url": "https://www.epocacosmeticos.com.br/fralda-pampers-premium-care-xg-60-unidades-136120/p",
+          "price": 214.66,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "f96c8bb4-2826-4db2-a7a2-70845037766a",
+      "name": "Cicatricure - Gel para Estrias E Cicatrizes - 30g",
+      "slug": "cicatricure-gel-para-estrias-e-cicatrizes-30g",
+      "price": 11.86,
+      "original_price": 43.28,
+      "brand": "",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 37.54,
+      "lowest_store": "carvalho",
+      "lowest_name": "Cicatricure - Gel para Estrias E Cicatrizes - 30g",
+      "lowest_url": "https://drogariacarvalho.com/p/cicatricure-gel-para-estrias-e-cicatrizes-30g",
+      "suggested": null,
+      "gap_pct": -68.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Cicatricure - Gel para Estrias E Cicatrizes - 30g",
+          "url": "https://drogariacarvalho.com/p/cicatricure-gel-para-estrias-e-cicatrizes-30g",
+          "price": 37.54,
+          "pix": 35.66,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "07fde8d7-2efd-4238-a3cb-48ceed9911e4",
+      "name": "Creme para Área dos Olhos La Roche-Posay Hyalu B5 15ml",
+      "slug": "creme-para-area-dos-olhos-la-roche-posay-hyalu-b5-15ml",
+      "price": 104.24,
+      "original_price": 413.86,
+      "brand": "La Roche-Posay",
+      "gtin": "3337875613668",
+      "status": "abaixo",
+      "lowest": 329.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Sérum Reparador para Área dos Olhos La Roche Posay - Hyalu B5 Eye",
+      "lowest_url": "https://www.epocacosmeticos.com.br/serum-reparador-para-area-dos-olhos-la-roche-posay-hyalu-b5-eye/p",
+      "suggested": null,
+      "gap_pct": -68.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Hidratante Clinique All About Eyes Área dos Olhos 15ml",
+          "url": "https://drogariacarvalho.com/p/creme-hidratante-clinique-all-about-eyes-area-dos-olhos-15ml",
+          "price": 359.0,
+          "pix": 341.05,
+          "score": 0.817
+        },
+        {
+          "store": "epoca",
+          "name": "Sérum Reparador para Área dos Olhos La Roche Posay - Hyalu B5 Eye",
+          "url": "https://www.epocacosmeticos.com.br/serum-reparador-para-area-dos-olhos-la-roche-posay-hyalu-b5-eye/p",
+          "price": 329.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "16cc70a3-3472-44a9-a0bf-b10dc916964d",
+      "name": "Hidratante Corporal Nutriol Darrow Sem Perfume 400ml",
+      "slug": "hidratante-corporal-nutriol-darrow-sem-perfume-400ml",
+      "price": 42.35,
+      "original_price": 185.61,
+      "brand": "Darrow",
+      "gtin": "3282770390070",
+      "status": "abaixo",
+      "lowest": 134.5,
+      "lowest_store": "epoca",
+      "lowest_name": "Nutriol Loção Hidratante Sem Perfume 400ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/nutriol-locao-hidratante-sem-perfume-400ml-189959/p",
+      "suggested": null,
+      "gap_pct": -68.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Hidratante Corporal Neutrogena Hydro Boost Cream 400ml",
+          "url": "https://drogariacarvalho.com/p/hidratante-corporal-neutrogena-hydro-boost-cream-400ml",
+          "price": 39.19,
+          "pix": 37.23,
+          "score": 0.55
+        },
+        {
+          "store": "epoca",
+          "name": "Nutriol Loção Hidratante Sem Perfume 400ml",
+          "url": "https://www.epocacosmeticos.com.br/nutriol-locao-hidratante-sem-perfume-400ml-189959/p",
+          "price": 134.5,
+          "score": 0.95
+        }
+      ]
+    },
+    {
+      "id": "b969a006-9c02-4e10-b5c7-e8f417e1746b",
+      "name": "Adcos Glowfirm Blush Stick Fps 90 Coral Rosé 6G",
+      "slug": "adcos-glowfirm-blush-stick-fps-90-coral-rose-6g",
+      "price": 43.71,
+      "original_price": 191.67,
+      "brand": "ADCOS",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 139.0,
+      "lowest_store": "epoca",
+      "lowest_name": "Blush Stick ADCOS Glowfirm FPS90 6g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/blush-stick-adcos-glowfirm-fps90-6g/p",
+      "suggested": null,
+      "gap_pct": -68.6,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Blush em Bastão Adcos Glowfirm FPS 90 6g - Fúcsia",
+          "url": "https://drogariacarvalho.com/p/blush-em-bastao-adcos-glowfirm-fps-90-6g-fucsia",
+          "price": 179.0,
+          "pix": 170.05,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Blush Stick ADCOS Glowfirm FPS90 6g",
+          "url": "https://www.epocacosmeticos.com.br/blush-stick-adcos-glowfirm-fps90-6g/p",
+          "price": 139.0,
+          "score": 0.85
+        }
+      ]
+    },
+    {
+      "id": "b09c8767-cd47-4d3f-8d6d-80b6af5faf00",
+      "name": "Creme Hidratante Isdin Ureadin 20 com 50g",
+      "slug": "creme-hidratante-isdin-ureadin-20-com-50g",
+      "price": 15.05,
+      "original_price": 142.2,
+      "brand": "Isdin",
+      "gtin": "7896422506564",
+      "status": "abaixo",
+      "lowest": 49.99,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Modelador Hidratante Orgânica Acqua For Men 50g",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-modelador-hidratante-organica-acqua-for-men-50g",
+      "suggested": null,
+      "gap_pct": -69.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Modelador Hidratante Orgânica Acqua For Men 50g",
+          "url": "https://drogariacarvalho.com/p/creme-modelador-hidratante-organica-acqua-for-men-50g",
+          "price": 49.99,
+          "pix": 47.49,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Hidratante Ureadin 20 50G",
+          "url": "https://www.epocacosmeticos.com.br/hidratante-ureadin-20-50g-136428/p",
+          "price": 103.04,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "3aac2f7b-0421-4e9c-811f-609fc9871f4e",
+      "name": "Creme Facial Nivea Anti-manchas Cellular Luminous Fps 50 40ml",
+      "slug": "creme-facial-nivea-anti-manchas-cellular-luminous-fps-50-40ml",
+      "price": 35.01,
+      "original_price": 146.49,
+      "brand": "Nivea",
+      "gtin": "04005805328553",
+      "status": "abaixo",
+      "lowest": 117.52,
+      "lowest_store": "epoca",
+      "lowest_name": "Creme Facial Anti-manchas Nivea Luminous 630º FPS50 - 40ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/creme-facial-anti-manchas-nivea-luminous-630º-fps50---40ml-137167/p",
+      "suggested": null,
+      "gap_pct": -70.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Nivea Sun Protetor Solar Facial Seco Antissinais Fps70 40ml",
+          "url": "https://drogariacarvalho.com/p/nivea-sun-protetor-solar-facial-seco-antissinais-fps70-40ml",
+          "price": 30.36,
+          "pix": 28.84,
+          "score": 0.45
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Facial Anti-manchas Nivea Luminous 630º FPS50 - 40ml",
+          "url": "https://www.epocacosmeticos.com.br/creme-facial-anti-manchas-nivea-luminous-630º-fps50---40ml-137167/p",
+          "price": 117.52,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "9b893ab0-80c9-467c-a84a-1ef64173f83e",
+      "name": "Máscara Capilar Eudora Siàge Volume Imediato 250g",
+      "slug": "mascara-capilar-eudora-siage-volume-imediato-250g",
+      "price": 53.86,
+      "original_price": 252.4,
+      "brand": "Eudora",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 182.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Eudora Siage Mascara Volume Imediato 250G",
+      "lowest_url": "https://www.epocacosmeticos.com.br/eudora-siage-mascara-volume-imediato-250g-294009/p",
+      "suggested": null,
+      "gap_pct": -70.6,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Máscara Capilar Siàge Hair-Plastia da Eudora 250g",
+          "url": "https://drogariacarvalho.com/p/mascara-capilar-siage-hair-plastia-da-eudora-250g",
+          "price": 41.15,
+          "pix": 39.09,
+          "score": 0.583
+        },
+        {
+          "store": "epoca",
+          "name": "Eudora Siage Mascara Volume Imediato 250G",
+          "url": "https://www.epocacosmeticos.com.br/eudora-siage-mascara-volume-imediato-250g-294009/p",
+          "price": 182.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "934df987-8713-4298-8d08-075e36176f6e",
+      "name": "Gel Lavante Mustela Suave com Abacate Orgânico 750ml",
+      "slug": "gel-lavante-mustela-suave-com-abacate-organico-750ml",
+      "price": 37.79,
+      "original_price": 179.26,
+      "brand": "Mustela",
+      "gtin": "3504105035471",
+      "status": "abaixo",
+      "lowest": 129.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Mustela Gel Lavante Suave com Abacate Orgânico 750ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/mustela-gel-lavante-suave-com-abacate-organico-750ml-219591/p",
+      "suggested": null,
+      "gap_pct": -70.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel Para Limpeza Simple Suave 350gr",
+          "url": "https://drogariacarvalho.com/p/gel-para-limpeza-simple-suave-350gr",
+          "price": 33.2,
+          "pix": 31.54,
+          "score": 0.4
+        },
+        {
+          "store": "epoca",
+          "name": "Mustela Gel Lavante Suave com Abacate Orgânico 750ml",
+          "url": "https://www.epocacosmeticos.com.br/mustela-gel-lavante-suave-com-abacate-organico-750ml-219591/p",
+          "price": 129.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "c1801e4c-5ea3-41ba-8a59-0fabfa5f70cf",
+      "name": "Gel-Creme Hidratante Nutrel Suavizante Balm Profuse 50g",
+      "slug": "gel-creme-hidratante-nutrel-suavizante-balm-profuse-50g",
+      "price": 12.42,
+      "original_price": 122.79,
+      "brand": "Profuse",
+      "gtin": "7896658030451",
+      "status": "abaixo",
+      "lowest": 44.2,
+      "lowest_store": "carvalho",
+      "lowest_name": "Gel Creme Hidratante Profuse Nutrel Balm Peles Sensíveis 50g",
+      "lowest_url": "https://drogariacarvalho.com/p/gel-creme-hidratante-profuse-nutrel-balm-peles-sensiveis-50g",
+      "suggested": null,
+      "gap_pct": -71.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel Creme Hidratante Profuse Nutrel Balm Peles Sensíveis 50g",
+          "url": "https://drogariacarvalho.com/p/gel-creme-hidratante-profuse-nutrel-balm-peles-sensiveis-50g",
+          "price": 44.2,
+          "pix": 41.99,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Gel Creme Hidratante Suavizante Balm Profuse Nutrel 50g",
+          "url": "https://www.epocacosmeticos.com.br/profuse-gel-creme-hidratante-nutrel-suavizante-balm-50g-136116/p",
+          "price": 88.98,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "84648753-aeac-42eb-9221-341e760e05a2",
+      "name": "Máscara Capilar Condicionante Braé Stages Nutrition 200g",
+      "slug": "mascara-capilar-condicionante-brae-stages-nutrition-200g",
+      "price": 14.66,
+      "original_price": 137.86,
+      "brand": "Braé",
+      "gtin": "7898667822300",
+      "status": "abaixo",
+      "lowest": 52.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Braé Stages Nutrition - Máscara Capilar 200g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/brae-stages-nutrition---mascara-capilar-200g-89963/p",
+      "suggested": null,
+      "gap_pct": -72.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Máscara Capilar Condicionante Braé Stages Nutrition 200g",
+          "url": "https://drogariacarvalho.com/p/mascara-capilar-condicionante-brae-stages-nutrition-200g",
+          "price": 68.99,
+          "pix": 65.54,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Braé Stages Nutrition - Máscara Capilar 200g",
+          "url": "https://www.epocacosmeticos.com.br/brae-stages-nutrition---mascara-capilar-200g-89963/p",
+          "price": 52.9,
+          "score": 0.917
+        }
+      ]
+    },
+    {
+      "id": "196c62a7-ca67-4bbd-82f3-5fa68fa93466",
+      "name": "Creme Hidratante Bepantol Derma creme 40g",
+      "slug": "creme-hidratante-bepantol-derma-creme-40g",
+      "price": 10.85,
+      "original_price": 96.46,
+      "brand": "Bepantol",
+      "gtin": "7891106911733",
+      "status": "abaixo",
+      "lowest": 39.46,
+      "lowest_store": "carvalho",
+      "lowest_name": "Creme Hidratante Bepantol Derma Multirrestaurador Pele Extrasseca 40g",
+      "lowest_url": "https://drogariacarvalho.com/p/creme-hidratante-bepantol-derma-multirrestaurador-pele-extrasseca-40g",
+      "suggested": null,
+      "gap_pct": -72.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Hidratante Bepantol Derma Multirrestaurador Pele Extrasseca 40g",
+          "url": "https://drogariacarvalho.com/p/creme-hidratante-bepantol-derma-multirrestaurador-pele-extrasseca-40g",
+          "price": 39.46,
+          "pix": 37.49,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Hidratante Multirrestaurador Pele Extrasseca Bepantol Derma 40g",
+          "url": "https://www.epocacosmeticos.com.br/creme-hidratante-multirrestaurador-pele-extrasseca-bepantol-derma-40g-221666/p",
+          "price": 51.09,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "9a70afc3-38ec-4c1a-a6dd-942b95e03776",
+      "name": "Creme Rejuvenescedor Facial Cicatricure Gold Lift Diurno 50g",
+      "slug": "creme-rejuvenescedor-facial-cicatricure-gold-lift-diurno-50g",
+      "price": 46.26,
+      "original_price": 149.98,
+      "brand": "Cicatricure",
+      "gtin": "7898636192007",
+      "status": "abaixo",
+      "lowest": 168.0,
+      "lowest_store": "epoca",
+      "lowest_name": "Creme Rejuvenescedor Facial Cicatricure - Gold Lift Diurno FPS 30 - 50g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/creme-rejuvenescedor-facial-cicatricure---gold-lift-diurno-fps-30---50g-186067/p",
+      "suggested": null,
+      "gap_pct": -72.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Facial Cicatricure Antissinais e Antirrugas 50g",
+          "url": "https://drogariacarvalho.com/p/creme-facial-cicatricure-antissinais-e-antirrugas-50g",
+          "price": 39.08,
+          "pix": 37.13,
+          "score": 0.45
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Rejuvenescedor Facial Cicatricure - Gold Lift Diurno FPS 30 - 50g",
+          "url": "https://www.epocacosmeticos.com.br/creme-rejuvenescedor-facial-cicatricure---gold-lift-diurno-fps-30---50g-186067/p",
+          "price": 168.0,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "98ea344e-efaa-4234-a19c-9a8d36e61fb8",
+      "name": "Vichy Dercos Kera-Solutions - Shampoo 300ml",
+      "slug": "vichy-dercos-kera-solutions-shampoo-300ml",
+      "price": 23.26,
+      "original_price": 109.66,
+      "brand": "Vichy",
+      "gtin": "3337875673907",
+      "status": "abaixo",
+      "lowest": 85.56,
+      "lowest_store": "carvalho",
+      "lowest_name": "Shampoo Vichy Dercos Collagen Repair 17 200gr",
+      "lowest_url": "https://drogariacarvalho.com/p/shampoo-vichy-dercos-collagen-repair-17-200gr",
+      "suggested": null,
+      "gap_pct": -72.8,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Vichy Dercos Collagen Repair 17 200gr",
+          "url": "https://drogariacarvalho.com/p/shampoo-vichy-dercos-collagen-repair-17-200gr",
+          "price": 85.56,
+          "pix": 81.28,
+          "score": 0.6
+        },
+        {
+          "store": "epoca",
+          "name": "VICHY DERCOS KERA-SOLUTIONS SHAMPOO 300ML",
+          "url": "https://www.epocacosmeticos.com.br/vichy-dercos-kera-solutions-shampoo-300ml-136989/p",
+          "price": 195.28,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "96e21f27-9b10-43a8-abec-08705ee98b9c",
+      "name": "Sérum Facial Bioderma Sensibio Defensive Pele Sensível 30ml",
+      "slug": "serum-facial-bioderma-sensibio-defensive-pele-sensivel-30ml",
+      "price": 41.02,
+      "original_price": 153.43,
+      "brand": "Bioderma",
+      "gtin": "3701129804995",
+      "status": "abaixo",
+      "lowest": 155.45,
+      "lowest_store": "carvalho",
+      "lowest_name": "Sérum Facial Anti-Rugas La Roche Posay Pure Vitamin C12 Oil Control Vitamina C para Pele Oleosa 30ml",
+      "lowest_url": "https://drogariacarvalho.com/p/serum-facial-anti-rugas-la-roche-posay-pure-vitamin-c12-oil-control-vitamina-c-para-pele-oleosa-30ml",
+      "suggested": null,
+      "gap_pct": -73.6,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Sérum Facial Anti-Rugas La Roche Posay Pure Vitamin C12 Oil Control Vitamina C para Pele Oleosa 30ml",
+          "url": "https://drogariacarvalho.com/p/serum-facial-anti-rugas-la-roche-posay-pure-vitamin-c12-oil-control-vitamina-c-para-pele-oleosa-30ml",
+          "price": 155.45,
+          "pix": 147.68,
+          "score": 0.65
+        },
+        {
+          "store": "epoca",
+          "name": "Sérum Facial Anti-Idade Bioderma Sensibio Defensive 30ml",
+          "url": "https://www.epocacosmeticos.com.br/serum-facial-anti-idade-bioderma-sensibio-defensive-30ml-185839/p",
+          "price": 239.5,
+          "score": 0.917
+        }
+      ]
+    },
+    {
+      "id": "33805ad3-eb0a-4a78-b5f0-de1dd11bda20",
+      "name": "Wella Professionals Oil Reflections - Condicionador 200ml",
+      "slug": "wella-professionals-oil-reflections-condicionador-200ml",
+      "price": 33.45,
+      "original_price": 72.41,
+      "brand": "Wella",
+      "gtin": "7896235353881",
+      "status": "abaixo",
+      "lowest": 129.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Wella Professionals Oil Reflections - Condicionador 200ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/wella-professionals-oil-reflections---condicionador-200ml-73613/p",
+      "suggested": null,
+      "gap_pct": -74.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Invigo Nutri-Enrich – Condicionador 200ml",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-invigo-nutri-enrich-condicionador-200ml",
+          "price": 50.78,
+          "pix": 48.24,
+          "score": 0.75
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Oil Reflections - Condicionador 200ml",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-oil-reflections---condicionador-200ml-73613/p",
+          "price": 129.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "9d21f88f-fba3-472a-b1af-2568fedcea97",
+      "name": "L’Oréal Professionnel Inforcer - Máscara Capilar 250g",
+      "slug": "l-oreal-professionnel-inforcer-mascara-capilar-250g",
+      "price": 47.98,
+      "original_price": 191.78,
+      "brand": "L'Oréal Professionnel",
+      "gtin": "3474636975280",
+      "status": "abaixo",
+      "lowest": 190.9,
+      "lowest_store": "carvalho",
+      "lowest_name": "Máscara de Cabelo Fortalecedora L&#x27;Oréal Professionnel Inforcer Cabelos Danificados 250g",
+      "lowest_url": "https://drogariacarvalho.com/p/mascara-de-cabelo-fortalecedora-l-oreal-professionnel-inforcer-cabelos-danificados-250g",
+      "suggested": null,
+      "gap_pct": -74.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Máscara de Cabelo Fortalecedora L&#x27;Oréal Professionnel Inforcer Cabelos Danificados 250g",
+          "url": "https://drogariacarvalho.com/p/mascara-de-cabelo-fortalecedora-l-oreal-professionnel-inforcer-cabelos-danificados-250g",
+          "price": 190.9,
+          "pix": 181.36,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Inforcer L'Oréal Professionnel Mascara 250G",
+          "url": "https://www.epocacosmeticos.com.br/inforcer-l-oreal-professionnel-mascara-250g-281611/p",
+          "price": 229.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "6f3c0338-67f8-4e19-af29-5dbd41cc7aff",
+      "name": "Wella Professionals Fusion - Condicionador 200ml",
+      "slug": "wella-professionals-fusion-condicionador-200ml",
+      "price": 38.19,
+      "original_price": 69.38,
+      "brand": "Wella",
+      "gtin": "7896235353874",
+      "status": "abaixo",
+      "lowest": 159.95,
+      "lowest_store": "epoca",
+      "lowest_name": "Wella Professionals Fusion - Condicionador 200ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/wella-professionals-fusion---condicionador-200ml-83204/p",
+      "suggested": null,
+      "gap_pct": -76.1,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Oil Reflections Luminous Instant – Condicionador 200ml",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-oil-reflections-luminous-instant-condicionador-200ml",
+          "price": 50.3,
+          "pix": 47.79,
+          "score": 0.917
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Fusion - Condicionador 200ml",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-fusion---condicionador-200ml-83204/p",
+          "price": 159.95,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "41a05cc9-6237-413e-865f-ec898afce540",
+      "name": "Wella Professionals Invigo Nutri-Enrich - Condicionador 1L",
+      "slug": "wella-professionals-invigo-nutri-enrich-condicionador-1l",
+      "price": 50.2,
+      "original_price": 84.02,
+      "brand": "Wella",
+      "gtin": "7896235353690",
+      "status": "abaixo",
+      "lowest": 219.99,
+      "lowest_store": "epoca",
+      "lowest_name": "Wella Professionals Invigo Nutri-Enrich - Condicionador 1L",
+      "lowest_url": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-nutri-enrich---condicionador-1l-179665/p",
+      "suggested": null,
+      "gap_pct": -77.2,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Invigo Color Brilliance – Condicionador 1L",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-invigo-color-brilliance-condicionador-1l",
+          "price": 76.67,
+          "pix": 72.84,
+          "score": 0.85
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Invigo Nutri-Enrich - Condicionador 1L",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-invigo-nutri-enrich---condicionador-1l-179665/p",
+          "price": 219.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "c6c2fe65-ebf7-4ffe-badd-17a9205590d6",
+      "name": "Creme Hidratante Revitalizante Cedraflon para Pernas 150ml",
+      "slug": "creme-hidratante-revitalizante-cedraflon-para-pernas-150ml",
+      "price": 15.29,
+      "original_price": 207.81,
+      "brand": "Cedraflon",
+      "gtin": "7898029550063",
+      "status": "abaixo",
+      "lowest": 67.45,
+      "lowest_store": "carvalho",
+      "lowest_name": "Cedraflon Creme Revitalizante para Pernas – 150Ml",
+      "lowest_url": "https://drogariacarvalho.com/p/cedraflon-creme-revitalizante-para-pernas-150ml",
+      "suggested": null,
+      "gap_pct": -77.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Cedraflon Creme Revitalizante para Pernas – 150Ml",
+          "url": "https://drogariacarvalho.com/p/cedraflon-creme-revitalizante-para-pernas-150ml",
+          "price": 67.45,
+          "pix": 64.08,
+          "score": 0.917
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Hidratante Revitalizante Cedraflon para Pernas 150ml",
+          "url": "https://www.epocacosmeticos.com.br/creme-hidratante-revitalizante-cedraflon-para-pernas-150ml-154155/p",
+          "price": 150.59,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "1fbcd34f-a51b-46fd-9916-3e425263896c",
+      "name": "Esmalte Top Coat Dailus Efeito Gel 8ml - Top Glass",
+      "slug": "esmalte-top-coat-dailus-efeito-gel-8ml-top-glass",
+      "price": 9.97,
+      "original_price": 60.58,
+      "brand": "Dailus",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 43.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Dailus Esmalte Top Coat Glass Efeito Gel 8Ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/dailus-esmalte-top-coat-glass-efeito-gel-8ml-248973/p",
+      "suggested": null,
+      "gap_pct": -77.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Esmalte Top Coat Colorama Salva Unhas Efeito Gel Brilho Diamante 8ml",
+          "url": "https://drogariacarvalho.com/p/esmalte-top-coat-colorama-salva-unhas-efeito-gel-brilho-diamante-8ml",
+          "price": 14.99,
+          "pix": 14.24,
+          "score": 0.983
+        },
+        {
+          "store": "epoca",
+          "name": "Dailus Esmalte Top Coat Glass Efeito Gel 8Ml",
+          "url": "https://www.epocacosmeticos.com.br/dailus-esmalte-top-coat-glass-efeito-gel-8ml-248973/p",
+          "price": 43.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "88f4320c-f812-4068-ad5b-0b60547d0fe2",
+      "name": "Shampoo L’Oréal Professionnel Metal Detox 300ml",
+      "slug": "shampoo-l-oreal-professionnel-metal-detox-300ml",
+      "price": 53.35,
+      "original_price": 124.02,
+      "brand": "L'Oréal Professionnel",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 237.8,
+      "lowest_store": "epoca",
+      "lowest_name": "Shampoo L'Oréal Professionnel Metal Detox 300ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/shampoo-l-oreal-professionnel-metal-detox-300ml-111507/p",
+      "suggested": null,
+      "gap_pct": -77.6,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo NutriOil L’Oréal Professionnel 300ml",
+          "url": "https://drogariacarvalho.com/p/shampoo-nutrioil-l-oreal-professionnel-300ml",
+          "price": 66.62,
+          "pix": 63.29,
+          "score": 0.583
+        },
+        {
+          "store": "epoca",
+          "name": "Shampoo L'Oréal Professionnel Metal Detox 300ml",
+          "url": "https://www.epocacosmeticos.com.br/shampoo-l-oreal-professionnel-metal-detox-300ml-111507/p",
+          "price": 237.8,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "205dd714-8d62-4046-ab91-188098871fbb",
+      "name": "Wella Professionals Fusion - Condicionador 1L",
+      "slug": "wella-professionals-fusion-condicionador-1l",
+      "price": 55.25,
+      "original_price": 113.3,
+      "brand": "Wella",
+      "gtin": "7896235353720",
+      "status": "abaixo",
+      "lowest": 271.5,
+      "lowest_store": "epoca",
+      "lowest_name": "Wella Professionals Fusion - Condicionador 1L",
+      "lowest_url": "https://www.epocacosmeticos.com.br/wella-professionals-fusion---condicionador-1l-83203/p",
+      "suggested": null,
+      "gap_pct": -79.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Invigo Color Brilliance – Condicionador 1L",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-invigo-color-brilliance-condicionador-1l",
+          "price": 76.67,
+          "pix": 72.84,
+          "score": 0.917
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Fusion - Condicionador 1L",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-fusion---condicionador-1l-83203/p",
+          "price": 271.5,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "e2d254ac-2b1f-42e1-a2dd-05e8975ccf63",
+      "name": "Loção Hidratante ISDIN Ureadin 10 400ml",
+      "slug": "locao-hidratante-isdin-ureadin-10-400ml",
+      "price": 31.49,
+      "original_price": 147.19,
+      "brand": "Isdin",
+      "gtin": "8429420157552",
+      "status": "abaixo",
+      "lowest": 159.52,
+      "lowest_store": "epoca",
+      "lowest_name": "Loção Hidratante Corporal Isdin Ureadin Rx10 com 400ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/locao-hidratante-corporal-isdin-ureadin-rx10-com-400ml-245721/p",
+      "suggested": null,
+      "gap_pct": -80.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Ureadin 10 Loção 400ml",
+          "url": "https://drogariacarvalho.com/p/ureadin-10-locao-400ml",
+          "price": 55.37,
+          "pix": 52.6,
+          "score": 0.817
+        },
+        {
+          "store": "epoca",
+          "name": "Loção Hidratante Corporal Isdin Ureadin Rx10 com 400ml",
+          "url": "https://www.epocacosmeticos.com.br/locao-hidratante-corporal-isdin-ureadin-rx10-com-400ml-245721/p",
+          "price": 159.52,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "cdee736b-2ef9-4887-aade-19611c533b9c",
+      "name": "Protetor Solar SkinCeuticals - UV Oil Defense FPS 80 40g",
+      "slug": "protetor-solar-skinceuticals-uv-oil-defense-fps-80-40g",
+      "price": 41.98,
+      "original_price": 118.97,
+      "brand": "Skinceuticals",
+      "gtin": "7899706162128",
+      "status": "abaixo",
+      "lowest": 213.19,
+      "lowest_store": "epoca",
+      "lowest_name": "Protetor Solar Facial SkinCeuticals Oil Defense FPS 80 40g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/protetor-solar-facial-skinceuticals-oil-defense-fps-80-40g-187502/p",
+      "suggested": null,
+      "gap_pct": -80.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "SkinCeuticals UV Oil Defense FPS 80 – Protetor Solar com Cor 40g",
+          "url": "https://drogariacarvalho.com/p/skinceuticals-uv-oil-defense-fps-80-protetor-solar-com-cor-40g",
+          "price": 83.55,
+          "pix": 79.37,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Protetor Solar Facial SkinCeuticals Oil Defense FPS 80 40g",
+          "url": "https://www.epocacosmeticos.com.br/protetor-solar-facial-skinceuticals-oil-defense-fps-80-40g-187502/p",
+          "price": 213.19,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "31e22d13-10df-41ae-a665-f7a0dc47f51a",
+      "name": "Gel de Limpeza Facial Avène Cleanance Intense 300g",
+      "slug": "gel-de-limpeza-facial-avene-cleanance-intense-300g",
+      "price": 19.37,
+      "original_price": 151.66,
+      "brand": "Avène",
+      "gtin": "3282770139235",
+      "status": "abaixo",
+      "lowest": 109.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Gel de Limpeza Facial Avéne Cleanance Intense - 300g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/gel-de-limpeza-facial-avene-cleanance-intense---300g-185495/p",
+      "suggested": null,
+      "gap_pct": -82.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Gel De Limpeza Facial Avéne Cleanance Intense – 300G",
+          "url": "https://drogariacarvalho.com/p/gel-de-limpeza-facial-avene-cleanance-intense-300g",
+          "price": 29.13,
+          "pix": 27.67,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Gel de Limpeza Facial Avéne Cleanance Intense - 300g",
+          "url": "https://www.epocacosmeticos.com.br/gel-de-limpeza-facial-avene-cleanance-intense---300g-185495/p",
+          "price": 109.9,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "8e45dc5b-580c-4a51-8252-4d327f581704",
+      "name": "Bioderma Pigmentbio Sensitive Areas Kit com 2 Unidades",
+      "slug": "bioderma-pigmentbio-sensitive-areas-kit-com-2-unidades",
+      "price": 48.65,
+      "original_price": 212.31,
+      "brand": "Bioderma",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 278.0,
+      "lowest_store": "carvalho",
+      "lowest_name": "Bioderma Pigmentbio Sensitive Areas Kit com 2 Unidades",
+      "lowest_url": "https://drogariacarvalho.com/p/bioderma-pigmentbio-sensitive-areas-kit-com-2-unidades",
+      "suggested": null,
+      "gap_pct": -82.5,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Bioderma Pigmentbio Sensitive Areas Kit com 2 Unidades",
+          "url": "https://drogariacarvalho.com/p/bioderma-pigmentbio-sensitive-areas-kit-com-2-unidades",
+          "price": 278.0,
+          "pix": 264.1,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Bioderma Pigmentbio Sensitive Areas Kit com 2 unidades",
+          "url": "https://www.epocacosmeticos.com.br/bioderma-pigmentbio-sensitive-areas-kit-com-2-unidades/p",
+          "price": 316.88,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "8d60b6d6-1af4-413b-8d1b-81ce95e09850",
+      "name": "Fino Premium Touch Hair Oil Serum Airy Smooth - Serum Capilar 70ml",
+      "slug": "fino-premium-touch-hair-oil-serum-airy-smooth-serum-capilar-70ml",
+      "price": 30.1,
+      "original_price": 275.99,
+      "brand": "Fino",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 173.9,
+      "lowest_store": "carvalho",
+      "lowest_name": "Fino Premium Touch Hair Oil Serum Airy Smooth - Serum Capilar 70ml",
+      "lowest_url": "https://drogariacarvalho.com/p/fino-premium-touch-hair-oil-serum-airy-smooth-serum-capilar-70ml",
+      "suggested": null,
+      "gap_pct": -82.7,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Fino Premium Touch Hair Oil Serum Airy Smooth - Serum Capilar 70ml",
+          "url": "https://drogariacarvalho.com/p/fino-premium-touch-hair-oil-serum-airy-smooth-serum-capilar-70ml",
+          "price": 173.9,
+          "pix": 165.21,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Fino Premium Touch Hair Oil Serum Airy Smooth - Sérum Capilar 70ml",
+          "url": "https://www.epocacosmeticos.com.br/fino-premium-touch-hair-oil-serum-airy-smooth---serum-capilar-70ml-266334/p",
+          "price": 199.99,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "f1c9e8be-275e-4575-b9f0-f0b5d7e76856",
+      "name": "Shampoo Vichy Dercos Psolution Queratorregulador 200g",
+      "slug": "shampoo-vichy-dercos-psolution-queratorregulador-200g",
+      "price": 31.49,
+      "original_price": 113.83,
+      "brand": "Vichy",
+      "gtin": "3337875787222",
+      "status": "abaixo",
+      "lowest": 195.47,
+      "lowest_store": "epoca",
+      "lowest_name": "Vichy Dercos Psolution Shampoo Queratorregulador 200g",
+      "lowest_url": "https://www.epocacosmeticos.com.br/vichy-dercos-psolution-shampoo-queratorregulador-200g-112950/p",
+      "suggested": null,
+      "gap_pct": -83.9,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Shampoo Vichy Dercos PSolution Queratorregulador Tratamento para Psoríase e Descamação 200g",
+          "url": "https://drogariacarvalho.com/p/shampoo-vichy-dercos-psolution-queratorregulador-tratamento-para-psoriase-e-descamacao-200g",
+          "price": 44.98,
+          "pix": 42.73,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Vichy Dercos Psolution Shampoo Queratorregulador 200g",
+          "url": "https://www.epocacosmeticos.com.br/vichy-dercos-psolution-shampoo-queratorregulador-200g-112950/p",
+          "price": 195.47,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "56ee3a99-a692-4219-aaf1-e3cc9b883cdb",
+      "name": "Kit Sabonete em Barra Nivea Creme Care 90g com 6 unidades",
+      "slug": "kit-sabonete-em-barra-nivea-creme-care-90g-com-6-unidades",
+      "price": 13.08,
+      "original_price": 42.77,
+      "brand": "Nivea",
+      "gtin": "40059007013670",
+      "status": "abaixo",
+      "lowest": 83.7,
+      "lowest_store": "epoca",
+      "lowest_name": "Kit 3 Sabonete Barra Nivea Creme Care 6 unidades 90g Cada",
+      "lowest_url": "https://www.epocacosmeticos.com.br/kit-3-sabonete-barra-nivea-creme-care-6-unidades-90g-cada-282630/p",
+      "suggested": null,
+      "gap_pct": -84.4,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Kit Sabonete Dove Original em Barra 90g 6 unidades",
+          "url": "https://drogariacarvalho.com/p/kit-sabonete-dove-original-em-barra-90g-6-unidades",
+          "price": 29.99,
+          "pix": 28.49,
+          "score": 0.817
+        },
+        {
+          "store": "epoca",
+          "name": "Kit 3 Sabonete Barra Nivea Creme Care 6 unidades 90g Cada",
+          "url": "https://www.epocacosmeticos.com.br/kit-3-sabonete-barra-nivea-creme-care-6-unidades-90g-cada-282630/p",
+          "price": 83.7,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "1c5c5930-5f8e-44b6-ae85-97fc09e081b6",
+      "name": "Óleo Capilar Braé Revival Gorgeous Shine 60ml",
+      "slug": "oleo-capilar-brae-revival-gorgeous-shine-60ml",
+      "price": 13.94,
+      "original_price": 144.96,
+      "brand": "Braé",
+      "gtin": "",
+      "status": "abaixo",
+      "lowest": 96.99,
+      "lowest_store": "carvalho",
+      "lowest_name": "Óleo Capilar Multifuncional Hidratei 60ml",
+      "lowest_url": "https://drogariacarvalho.com/p/oleo-capilar-multifuncional-hidratei-60ml",
+      "suggested": null,
+      "gap_pct": -85.6,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Óleo Capilar Multifuncional Hidratei 60ml",
+          "url": "https://drogariacarvalho.com/p/oleo-capilar-multifuncional-hidratei-60ml",
+          "price": 96.99,
+          "pix": 92.14,
+          "score": 0.4
+        },
+        {
+          "store": "epoca",
+          "name": "Braé Revival Gorgeous Shine - Óleo Capilar 60ml",
+          "url": "https://www.epocacosmeticos.com.br/brae-revival-gorgeous-shine---oleo-capilar-60ml-98874/p",
+          "price": 172.0,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "b2962245-93db-4e1e-8a59-dcc059dbbb1c",
+      "name": "Wella Professionals Fusion - Máscara Capilar 150ml",
+      "slug": "wella-professionals-fusion-mascara-capilar-150ml",
+      "price": 20.6,
+      "original_price": 72.5,
+      "brand": "Wella",
+      "gtin": "7896235353737",
+      "status": "abaixo",
+      "lowest": 168.78,
+      "lowest_store": "epoca",
+      "lowest_name": "Wella Professionals Fusion - Máscara Capilar 150ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/wella-professionals-fusion---mascara-capilar-150ml-83399/p",
+      "suggested": null,
+      "gap_pct": -87.8,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Brilliance Fine to Normal Hair – Máscara Capilar 150ml",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-brilliance-fine-to-normal-hair-mascara-capilar-150ml",
+          "price": 58.42,
+          "pix": 55.5,
+          "score": 0.75
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Fusion - Máscara Capilar 150ml",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-fusion---mascara-capilar-150ml-83399/p",
+          "price": 168.78,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "7ffe51f4-1f2e-4a5e-9247-7373a68563d1",
+      "name": "Creme para Estrias Mustela Maternité 250ml",
+      "slug": "creme-para-estrias-mustela-maternite-250ml",
+      "price": 29.26,
+      "original_price": 224.75,
+      "brand": "Mustela",
+      "gtin": "7898928257148",
+      "status": "abaixo",
+      "lowest": 261.87,
+      "lowest_store": "epoca",
+      "lowest_name": "Creme Para Estrias Mustela Maternité 250Ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/creme-para-estrias-mustela-maternite-250ml-113647/p",
+      "suggested": null,
+      "gap_pct": -88.8,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Creme Prevenção de Estrias Mustela Maternité 250ml",
+          "url": "https://drogariacarvalho.com/p/creme-prevencao-de-estrias-mustela-maternite-250ml",
+          "price": 44.0,
+          "pix": 41.8,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Creme Para Estrias Mustela Maternité 250Ml",
+          "url": "https://www.epocacosmeticos.com.br/creme-para-estrias-mustela-maternite-250ml-113647/p",
+          "price": 261.87,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "6ad44ebe-28b1-4b20-a955-0a3d3d498fc3",
+      "name": "Wella Professionals Oil Reflections Shampoo 1L",
+      "slug": "wella-professionals-oil-reflections-shampoo-1l",
+      "price": 62.19,
+      "original_price": 146.01,
+      "brand": "Wella",
+      "gtin": "7896235353751",
+      "status": "abaixo",
+      "lowest": 581.9,
+      "lowest_store": "epoca",
+      "lowest_name": "Wella Professionals Oil Reflections Shampoo 1L + Máscara 500g + Óleo Reflections 100ml",
+      "lowest_url": "https://www.epocacosmeticos.com.br/wella-professionals-oil-reflections-shampoo-1l---mascara-500g---oleo-reflections-100ml-98820/p",
+      "suggested": null,
+      "gap_pct": -89.3,
+      "offers": [
+        {
+          "store": "carvalho",
+          "name": "Wella Professionals Oil Reflections – Shampoo 1L",
+          "url": "https://drogariacarvalho.com/p/wella-professionals-oil-reflections-shampoo-1l",
+          "price": 93.53,
+          "pix": 88.85,
+          "score": 1.0
+        },
+        {
+          "store": "epoca",
+          "name": "Wella Professionals Oil Reflections Shampoo 1L + Máscara 500g + Óleo Reflections 100ml",
+          "url": "https://www.epocacosmeticos.com.br/wella-professionals-oil-reflections-shampoo-1l---mascara-500g---oleo-reflections-100ml-98820/p",
+          "price": 581.9,
+          "score": 1.0
+        }
+      ]
+    }
+  ]
+}

@@ -68,13 +68,20 @@ export function ProductCard({ product, installment }: ProductCardProps) {
 
         <div className="mt-auto flex items-end justify-between gap-2 pt-1">
           <div className="min-w-0 flex-1 space-y-0.5">
-            {hasDiscount && (
-              <p className="text-xs text-text-muted line-through">
-                {formatCurrency(product.originalPrice!)}
+            {hasDiscount ? (
+              <p className="text-xs font-medium text-claret line-through tabular-nums">
+                De {formatCurrency(product.originalPrice!)}
               </p>
-            )}
-            <p className="text-base font-bold text-brand md:text-lg ">
-              {formatCurrency(product.price)}
+            ) : null}
+            <p className="flex flex-wrap items-baseline gap-x-1.5">
+              {hasDiscount ? (
+                <span className="text-[11px] font-bold uppercase tracking-wide text-text-primary">
+                  Por
+                </span>
+              ) : null}
+              <span className="text-base font-bold text-brand tabular-nums md:text-lg">
+                {formatCurrency(product.price)}
+              </span>
             </p>
             <InstallmentLine display={installment ?? null} />
           </div>
