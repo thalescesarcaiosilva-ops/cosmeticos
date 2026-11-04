@@ -40,11 +40,8 @@ export function ProductGallery({ images, productName, discountPercent }: Product
     <div>
       <div className="relative min-w-0">
         <div className="relative aspect-square overflow-hidden rounded-3xl border border-[#f3d0dc]">
-          <span className="absolute left-4 top-4 z-10 rounded-lg bg-[#1a1014] px-3 py-1.5 text-[11px] font-bold tracking-[0.08em] text-white">
-            PRÉ BLACK FRIDAY
-          </span>
           {discountPercent != null && (
-            <span className="absolute left-4 top-12 z-10 rounded-full border border-claret bg-surface px-2.5 py-1 text-[12px] font-bold text-claret">
+            <span className="absolute left-4 top-4 z-10 rounded-full border border-claret bg-surface px-2.5 py-1 text-[12px] font-bold text-claret">
               -{discountPercent}%
             </span>
           )}

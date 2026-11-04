@@ -32,9 +32,7 @@ export function CheckoutTopBar({ storeName, logo }: CheckoutTopBarProps) {
         </p>
       </div>
       <div className="bg-[#1a1014] px-4 py-2 text-center text-[12px] font-semibold tracking-wide text-white">
-        <span className="text-brand">PRÉ BLACK FRIDAY</span>
-        <span className="text-white/50"> · </span>
-        <span>{FREE_SHIPPING_LABEL}</span>
+        {FREE_SHIPPING_LABEL}
       </div>
     </header>
   )

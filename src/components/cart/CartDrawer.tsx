@@ -313,10 +313,9 @@ export function CartDrawer() {
         }`}
       >
         {/* Cabeçalho */}
-        <div className="flex shrink-0 items-center justify-between bg-[#1a1014] px-4 py-4 text-white">
+        <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-4">
           <div>
-            <p className="text-[11px] font-bold tracking-[0.14em] text-brand">PRÉ BLACK FRIDAY</p>
-            <h2 className="mt-1 flex items-center gap-2 text-base font-bold">
+            <h2 className="flex items-center gap-2 text-base font-bold text-text-primary">
               <ShoppingBag className="size-5" />
               Meu carrinho
               {itemCount > 0 && (
@@ -331,7 +330,7 @@ export function CartDrawer() {
             type="button"
             onClick={closeCartDrawer}
             aria-label="Fechar carrinho"
-            className="flex size-9 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+            className="flex size-9 items-center justify-center rounded-full text-text-secondary transition-colors hover:bg-surface-muted hover:text-text-primary"
           >
             <X className="size-5" />
           </button>

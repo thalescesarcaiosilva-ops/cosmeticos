@@ -96,26 +96,6 @@ export function ProductBuyPanel({
             />
           </header>
 
-          {stock > 0 ? (
-            <div className="flex items-center gap-3 rounded-2xl bg-[#1a1014] px-4 py-3.5">
-              <span
-                className="relative flex size-2.5 shrink-0"
-                aria-hidden
-              >
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#f5d76e] opacity-60" />
-                <span className="relative inline-flex size-2.5 rounded-full bg-[#f5d76e] shadow-[0_0_10px_rgba(245,215,110,0.9)]" />
-              </span>
-              <div className="min-w-0">
-                <p className="text-[13px] font-bold tracking-[0.14em] text-[#f5d76e]">
-                  PRÉ BLACK FRIDAY
-                </p>
-                <p className="mt-0.5 text-[12px] text-white/85">
-                  Válido enquanto durarem os estoques
-                </p>
-              </div>
-            </div>
-          ) : null}
-
           <ProductPricingBlock
             price={price}
             originalPrice={originalPrice}

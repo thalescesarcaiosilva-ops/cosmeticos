@@ -13,14 +13,9 @@ type TopBarProps = {
 
 function CampaignCluster() {
   return (
-    <div className="flex max-w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-1 sm:gap-3 md:justify-end">
-      <span className="inline-flex items-center rounded-full bg-brand px-3 py-1 text-[10px] font-bold tracking-[0.08em] text-white sm:px-3.5 sm:text-[11px]">
-        PRÉ BLACK FRIDAY
-      </span>
-      <p className="text-center text-[11px] font-semibold text-white sm:whitespace-nowrap sm:text-[12px]">
-        {FREE_SHIPPING_LABEL}
-      </p>
-    </div>
+    <p className="text-center text-[11px] font-semibold text-white sm:whitespace-nowrap sm:text-[12px]">
+      {FREE_SHIPPING_LABEL}
+    </p>
   )
 }
 
