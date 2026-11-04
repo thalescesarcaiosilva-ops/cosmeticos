@@ -49,15 +49,6 @@ export function CartSummary({
             </dd>
           </div>
 
-          {(data.quantityDiscountAmount ?? 0) > 0 && (
-            <div className="flex justify-between gap-4 text-claret">
-              <dt>Desconto por quantidade</dt>
-              <dd className="font-semibold tabular-nums">
-                − {loading ? '…' : formatCurrency(data.quantityDiscountAmount ?? 0)}
-              </dd>
-            </div>
-          )}
-
           {data.bundleDiscountAmount > 0 && (
             <div className="flex justify-between gap-4 text-claret">
               <dt>Desconto Compre Junto</dt>

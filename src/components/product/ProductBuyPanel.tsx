@@ -1,15 +1,14 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { QuantityControl } from '@/components/cart/QuantityControl'
 import { FavoriteButton } from '@/components/product/FavoriteButton'
 import { ProductBuyTogetherSection } from '@/components/product/ProductBuyTogetherSection'
 import { ProductPricingBlock } from '@/components/product/ProductPricingBlock'
 import { ProductPurchaseBar } from '@/components/product/ProductPurchaseBar'
 import { ProductPurchaseFaq } from '@/components/product/ProductPurchaseFaq'
-import { ProductQuantityPackSelector } from '@/components/product/ProductQuantityPackSelector'
 import { ProductTrustSignals } from '@/components/product/ProductTrustSignals'
 import { ShippingCalculator } from '@/components/shipping/ShippingCalculator'
-import { calcQuantityPackQuote } from '@/lib/products/quantity-packs'
 import type { BuyTogetherBundle, BuyTogetherPrimaryProduct } from '@/lib/products/buy-together'
 import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 import type { BuyTogetherSettings } from '@/types/buy-together-settings'
@@ -73,10 +72,7 @@ export function ProductBuyPanel({
     })
   }, [maxQty])
 
-  const packTotal = useMemo(
-    () => calcQuantityPackQuote(price, Math.min(quantity, Math.max(maxQty, 1))).total,
-    [price, quantity, maxQty]
-  )
+  const lineTotal = Math.round(price * Math.min(quantity, Math.max(maxQty, 1)) * 100) / 100
 
   return (
     <div className="space-y-4">
@@ -138,12 +134,15 @@ export function ProductBuyPanel({
           ) : null}
 
           {stock > 0 ? (
-            <ProductQuantityPackSelector
-              unitPrice={price}
-              maxQuantity={maxQty}
-              selectedQuantity={quantity}
-              onSelect={setQuantity}
-            />
+            <div className="flex items-center gap-3 border-t border-dashed border-[#e8dde2] pt-4">
+              <span className="text-sm text-text-secondary">Quantidade</span>
+              <QuantityControl
+                value={quantity}
+                max={maxQty}
+                onChange={setQuantity}
+                label={productName}
+              />
+            </div>
           ) : null}
 
           <ProductPurchaseBar
@@ -151,14 +150,14 @@ export function ProductBuyPanel({
             stock={stock}
             quantity={quantity}
             productName={productName}
-            price={packTotal}
+            price={lineTotal}
             imageUrl={imageUrl}
             imageAlt={imageAlt}
           />
 
           <ProductTrustSignals assurances={assurances} inStock={stock > 0} />
 
-          <ShippingCalculator subtotal={packTotal} variant="product" />
+          <ShippingCalculator subtotal={lineTotal} variant="product" />
         </div>
       </section>
 

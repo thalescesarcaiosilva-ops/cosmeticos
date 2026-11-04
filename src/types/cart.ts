@@ -41,7 +41,7 @@ export type CartSyncResult = {
   lines: ValidatedCartLine[]
   subtotal: number
   bundleDiscountAmount: number
-  /** Desconto por quantidade na mesma linha (2/3+ unidades). */
+  /** Mantido por compatibilidade; desconto por quantidade (2/3) foi desativado. */
   quantityDiscountAmount: number
   appliedBundles: AppliedCartBundle[]
   /** Subtotal após descontos de quantidade e Compre Junto. */

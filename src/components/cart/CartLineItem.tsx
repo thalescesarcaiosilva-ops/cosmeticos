@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { QuantityControl } from '@/components/cart/QuantityControl'
 import { IconTrash } from '@/components/icons/DotIcons'
-import { QUANTITY_PACK_TIERS } from '@/lib/products/quantity-packs'
 import { formatCurrency } from '@/lib/products/format'
 import { useCart } from '@/providers/CartProvider'
 import type { ValidatedCartLine } from '@/types/cart'
@@ -15,44 +14,12 @@ type CartLineItemProps = {
   updating?: boolean
 }
 
-function QuantityDiscountProgress({ percent }: { percent: number }) {
-  const maxPercent = Math.max(...QUANTITY_PACK_TIERS.map((t) => t.discountPercent), 0)
-  const filled = QUANTITY_PACK_TIERS.filter((t) => t.discountPercent > 0 && percent >= t.discountPercent)
-    .length
-  const totalSteps = QUANTITY_PACK_TIERS.filter((t) => t.discountPercent > 0).length
-  const atMax = maxPercent > 0 && percent >= maxPercent
-
-  return (
-    <div className="mt-3 rounded-lg bg-[#e8f5e9] px-3 py-2.5">
-      <p className="text-[12px] font-semibold text-[#2e7d32]">
-        {atMax
-          ? `Desconto máximo aplicado: ${percent}% OFF`
-          : `Desconto por quantidade: ${percent}% OFF`}
-      </p>
-      <div className="mt-2 flex gap-1.5" aria-hidden>
-        {Array.from({ length: totalSteps }, (_, i) => (
-          <span
-            key={i}
-            className={`h-1.5 flex-1 rounded-full ${
-              i < filled ? 'bg-[#2e7d32]' : 'bg-[#c8e6c9]'
-            }`}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export function CartLineItem({ line, updating = false }: CartLineItemProps) {
   const { setQuantity, removeItem } = useCart()
   const [removing, setRemoving] = useState(false)
 
-  const qtyDiscount = line.quantityDiscountAmount ?? 0
-  const qtyPercent = line.quantityDiscountPercent ?? 0
   const bundleDiscount = line.bundleDiscountAmount ?? 0
-  const hasQtyDiscount = line.available && qtyDiscount > 0 && qtyPercent > 0
   const hasBundleDiscount = line.available && bundleDiscount > 0
-  const hasAnyDiscount = hasQtyDiscount || hasBundleDiscount
   const displayTotal = line.displayLineTotal ?? line.lineTotal
   const savings = Math.max(0, line.lineTotal - displayTotal)
 
@@ -100,7 +67,7 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
               {!line.available && (
                 <p className="mt-2 text-xs font-medium text-badge-discount">Indisponível</p>
               )}
-              {hasBundleDiscount && !hasQtyDiscount && (
+              {hasBundleDiscount && (
                 <p className="mt-2 inline-flex rounded-full bg-surface-strong px-2 py-0.5 text-[11px] font-medium text-claret">
                   Desconto Compre Junto
                 </p>
@@ -142,18 +109,11 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
             )}
 
             <div className="ml-auto text-right">
-              {hasAnyDiscount ? (
+              {hasBundleDiscount ? (
                 <>
-                  <div className="flex items-center justify-end gap-2">
-                    <p className="text-sm text-text-muted line-through tabular-nums">
-                      {formatCurrency(line.lineTotal)}
-                    </p>
-                    {hasQtyDiscount ? (
-                      <span className="rounded-md bg-coffee px-1.5 py-0.5 text-[11px] font-bold text-[#FFC107]">
-                        {qtyPercent}% OFF
-                      </span>
-                    ) : null}
-                  </div>
+                  <p className="text-sm text-text-muted line-through tabular-nums">
+                    {formatCurrency(line.lineTotal)}
+                  </p>
                   <p className="mt-0.5 text-lg font-black leading-none text-brand tabular-nums sm:text-xl">
                     {formatCurrency(displayTotal)}
                   </p>
@@ -172,8 +132,6 @@ export function CartLineItem({ line, updating = false }: CartLineItemProps) {
           </div>
         </div>
       </div>
-
-      {hasQtyDiscount ? <QuantityDiscountProgress percent={qtyPercent} /> : null}
     </li>
   )
 }
