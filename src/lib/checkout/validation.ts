@@ -105,6 +105,14 @@ export function mapCheckoutApiError(error: string | null, message?: string | nul
   if (!error && !message) return 'Não foi possível concluir o pagamento. Tente novamente.'
 
   const code = (error ?? '').toUpperCase()
+  const detail = typeof message === 'string' ? message.trim() : ''
+
+  // Motivo específico da operadora (PayoutBR refusedReason) — prioriza a mensagem da API
+  // para orientar troca de cartão / Pix sem perder a venda.
+  if (code === 'CARD_REFUSED' && detail) {
+    return detail
+  }
+
   const map: Record<string, string> = {
     EMPTY_CART: 'Seu carrinho está vazio ou expirou.',
     INSUFFICIENT_STOCK: 'Um ou mais produtos não têm estoque suficiente.',
@@ -116,16 +124,17 @@ export function mapCheckoutApiError(error: string | null, message?: string | nul
     CARD_DISABLED: 'Pagamento com cartão está temporariamente indisponível.',
     CARD_UNAVAILABLE:
       'Pagamento com cartão indisponível no momento. Por favor, finalize a compra com Pix.',
-    CARD_REFUSED: 'Pagamento recusado pela operadora. Tente outro cartão ou use Pix.',
-    INVALID_CARD_TOKEN: 'Não foi possível validar o cartão. Tente novamente.',
+    CARD_REFUSED:
+      'Pagamento recusado pela operadora. Tente outro cartão ou finalize com Pix para não perder a compra.',
+    INVALID_CARD_TOKEN: 'Não foi possível validar o cartão. Confira os dados e tente novamente.',
     INVALID_INSTALLMENTS: 'Selecione uma opção de parcelamento válida.',
     INVALID_CPF: 'CPF inválido. Confira os números digitados.',
     ALLOWPAY_LINK_FAILED: 'Não foi possível vincular o pagamento ao pedido. Tente novamente.',
     PAYOUTBR_LINK_FAILED: 'Não foi possível vincular o pagamento ao pedido. Tente novamente.',
     PAYMENT_PROVIDER_ERROR:
-      'Erro no processamento do pagamento. Tente novamente em instantes.',
-    VALIDATION_ERROR: message ?? 'Verifique os dados informados.',
+      'Erro no processamento do pagamento. Tente novamente em instantes ou finalize com Pix.',
+    VALIDATION_ERROR: detail || 'Verifique os dados informados.',
   }
 
-  return map[code] ?? message ?? error ?? 'Erro inesperado. Tente novamente.'
+  return map[code] ?? (detail || error || 'Erro inesperado. Tente novamente.')
 }

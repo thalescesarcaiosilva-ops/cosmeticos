@@ -19,6 +19,11 @@ import {
   isPayoutBrPaidStatus,
   PayoutBrError,
 } from '@/lib/payoutbr/client'
+import {
+  DEFAULT_CARD_REFUSED_MESSAGE,
+  formatPayoutBrCardRefusedMessage,
+  formatPayoutBrProviderClientMessage,
+} from '@/lib/payoutbr/refused-reason'
 import { getSiteUrl } from '@/lib/seo/site-url'
 import { createAdminClient } from '@/lib/supabase/admin'
 import {
@@ -504,10 +509,11 @@ export async function processCardCheckout(params: CardCheckoutInput) {
 
     if (isPayoutBrFailedStatus(transaction.status)) {
       await cancelCheckoutOrder(order.id)
-      const reason =
-        transaction.refusedReason?.description?.trim() ||
-        'Pagamento recusado pela operadora. Tente outro cartão ou use Pix.'
-      throw new CheckoutError(reason, 'CARD_REFUSED')
+      throw new CheckoutError(
+        formatPayoutBrCardRefusedMessage(transaction.refusedReason) ||
+          DEFAULT_CARD_REFUSED_MESSAGE,
+        'CARD_REFUSED'
+      )
     }
 
     return {
@@ -527,6 +533,14 @@ export async function processCardCheckout(params: CardCheckoutInput) {
       throw e
     }
     await cancelCheckoutOrder(order.id).catch(() => undefined)
+    if (e instanceof PayoutBrError) {
+      const mapped = formatPayoutBrProviderClientMessage({
+        message: e.message,
+        status: e.status,
+        details: e.details,
+      })
+      throw new CheckoutError(mapped.message, mapped.code)
+    }
     throw e
   }
 }

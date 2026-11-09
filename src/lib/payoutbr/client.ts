@@ -1,3 +1,8 @@
+import {
+  parsePayoutBrRefusedReason,
+  type PayoutBrRefusedReason,
+} from '@/lib/payoutbr/refused-reason'
+
 const DEFAULT_API_URL = 'https://api.payoutbr.com.br/v1'
 
 export type PayoutBrTransactionStatus =
@@ -57,6 +62,8 @@ export type CreatePayoutBrCardTransactionInput = {
   ip?: string | null
 }
 
+export type { PayoutBrRefusedReason }
+
 export type PayoutBrTransaction = {
   id: number
   amount: number
@@ -66,7 +73,7 @@ export type PayoutBrTransaction = {
   secureId?: string | null
   secureUrl?: string | null
   paidAt?: string | null
-  refusedReason?: { description?: string | null } | null
+  refusedReason?: PayoutBrRefusedReason | null
   metadata?: string | null
 }
 
@@ -198,7 +205,7 @@ export async function createPayoutBrCardTransaction(
     secureId: typeof raw.secureId === 'string' ? raw.secureId : null,
     secureUrl: typeof raw.secureUrl === 'string' ? raw.secureUrl : null,
     paidAt: typeof raw.paidAt === 'string' ? raw.paidAt : null,
-    refusedReason: raw.refusedReason ?? null,
+    refusedReason: parsePayoutBrRefusedReason(raw.refusedReason) ?? null,
     metadata: typeof raw.metadata === 'string' ? raw.metadata : null,
   }
 }
@@ -222,7 +229,7 @@ export async function getPayoutBrTransaction(transactionId: number): Promise<Pay
     secureId: typeof raw.secureId === 'string' ? raw.secureId : null,
     secureUrl: typeof raw.secureUrl === 'string' ? raw.secureUrl : null,
     paidAt: typeof raw.paidAt === 'string' ? raw.paidAt : null,
-    refusedReason: raw.refusedReason ?? null,
+    refusedReason: parsePayoutBrRefusedReason(raw.refusedReason) ?? null,
     metadata: typeof raw.metadata === 'string' ? raw.metadata : null,
   }
 }

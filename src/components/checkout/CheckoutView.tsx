@@ -738,6 +738,11 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
 
       if (error || !data?.orderId) {
         setSubmitError(mapCheckoutApiError(error, message))
+        // Mantém carrinho e formulário: cliente pode trocar cartão ou ir para Pix.
+        document.getElementById('checkout-payment')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        })
         return
       }
 
@@ -750,6 +755,10 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Não foi possível processar o cartão'
       setSubmitError(msg)
+      document.getElementById('checkout-payment')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
     } finally {
       setSubmitting(false)
     }
@@ -1305,6 +1314,8 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
               status={stepStatus(3)}
             >
               <div className="space-y-4">
+                {submitError ? <Alert type="error">{submitError}</Alert> : null}
+
                 {paymentConfig?.pixDiscount ? (
                   <div className="flex flex-wrap items-center gap-2 rounded-md border border-brand/25 bg-brand/5 px-4 py-3">
                     <PixDiscountBadge percent={paymentConfig.pixDiscount} />

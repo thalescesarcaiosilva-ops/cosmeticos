@@ -64,16 +64,19 @@ export async function POST(request: Request) {
     )
   } catch (e) {
     if (e instanceof CheckoutError) {
-      const status = e.code === 'CARD_REFUSED' ? 402 : 400
+      const status =
+        e.code === 'CARD_REFUSED' ? 402 : e.code === 'PAYMENT_PROVIDER_ERROR' ? 503 : 400
       return jsonError(e.message, status, e.code)
     }
     if (e instanceof PayoutBrError) {
+      // processCardCheckout já mapeia PayoutBrError → CheckoutError; este fallback
+      // cobre falhas fora do fluxo (ex.: config) sem vazar detalhe interno.
       return jsonError(
-        'Pagamento com cartão indisponível no momento. Tente novamente ou use Pix.',
+        'Pagamento com cartão indisponível no momento. Tente novamente ou finalize com Pix.',
         503,
         'PAYMENT_PROVIDER_ERROR'
       )
     }
-    return jsonError('Não foi possível processar o cartão', 500)
+    return jsonError('Não foi possível processar o cartão. Tente outro cartão ou Pix.', 500)
   }
 }
