@@ -197,7 +197,8 @@ export function FooterConfigForm() {
           onChange={(e) => setForm({ ...form, footer_payment_text: e.target.value })}
         />
         <p className="mt-1 text-xs text-text-muted">
-          Use {'{count}'} para o número de parcelas sem juros
+          Use {'{count}'} para o número de parcelas sem juros (hoje 1x). Ex.: “Pague no Pix ou
+          em até 12x com juros no cartão”.
         </p>
       </Card>
 

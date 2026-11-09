@@ -142,8 +142,8 @@ export function PaymentDetailsTrigger({
                     Cartão de crédito
                   </h3>
                   <p className="text-xs text-text-muted">
-                    Em até {paymentSettings.maxInstallments}x
-                    {paymentSettings.interestFreeInstallments > 0
+                    Em até {paymentSettings.maxInstallments}x com juros
+                    {paymentSettings.interestFreeInstallments > 1
                       ? ` · até ${paymentSettings.interestFreeInstallments}x sem juros`
                       : null}
                   </p>

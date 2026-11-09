@@ -72,7 +72,7 @@ const DEFAULTS: Omit<FooterSettings, '_footerColumnsAvailable'> = {
   phone_area_code: '',
   phone_number: '',
   phone_href: '',
-  installment_interest_free: 5,
+  installment_interest_free: 1,
 }
 
 function mapFooterSettings(row: Record<string, unknown>): FooterSettings {

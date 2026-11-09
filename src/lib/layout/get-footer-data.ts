@@ -131,7 +131,7 @@ const loadFooterData = cacheStorefrontQuery(
     socialRows.map(mapSocial).filter((s): s is SocialLink => s !== null)
   )
 
-  const installmentFree = settings.installment_interest_free ?? 5
+  const installmentFree = settings.installment_interest_free ?? 1
 
   const phoneDisplay = storeProfile
     ? formatPhoneDisplay(storeProfile.phone_area_code, storeProfile.phone_number)
