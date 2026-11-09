@@ -34,6 +34,16 @@ export const checkoutBaseSchema = z.object({
 
 export const checkoutPixSchema = checkoutBaseSchema
 
+export const checkoutCardSchema = checkoutBaseSchema.extend({
+  card_hash: z
+    .string()
+    .trim()
+    .min(20, 'Token do cartão inválido')
+    .max(4000, 'Token do cartão inválido'),
+  installments: z.number().int().min(1).max(24),
+})
+
 export type CheckoutCustomerInput = z.infer<typeof checkoutCustomerSchema>
 export type CheckoutShippingAddressInput = z.infer<typeof checkoutShippingAddressSchema>
 export type CheckoutPixInput = z.infer<typeof checkoutPixSchema>
+export type CheckoutCardInput = z.infer<typeof checkoutCardSchema>

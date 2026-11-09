@@ -9,7 +9,10 @@ import { CheckoutPolicyNotice } from '@/components/checkout/CheckoutPolicyNotice
 import { CheckoutStepCard } from '@/components/checkout/CheckoutStepCard'
 import { PaymentMethodsImage } from '@/components/payment/PaymentMethodsImage'
 import { CheckoutPixPanel } from '@/components/checkout/CheckoutPixPanel'
-import { CardUnavailablePanel } from '@/components/checkout/CardUnavailablePanel'
+import {
+  CheckoutCardPanel,
+  type CheckoutCardFormValues,
+} from '@/components/checkout/CheckoutCardPanel'
 import { CheckoutStepper } from '@/components/checkout/CheckoutStepper'
 import { CheckoutTopBar } from '@/components/checkout/CheckoutTopBar'
 import { PixDiscountBadge } from '@/components/product/PixDiscountBadge'
@@ -46,6 +49,8 @@ import {
   validateCheckoutIdentification,
   type FieldErrors,
 } from '@/lib/checkout/validation'
+import { tokenizePayoutBrCard } from '@/lib/payoutbr/browser'
+import { buildInstallmentTable, type InstallmentTableRow } from '@/lib/payment/installment-table'
 import { formatCurrency } from '@/lib/products/format'
 import { useCartSync } from '@/hooks/useCartSync'
 import { useCart } from '@/providers/CartProvider'
@@ -165,10 +170,22 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const [submitting, setSubmitting] = useState(false)
 
   const [paymentConfig, setPaymentConfig] = useState<CheckoutPaymentSettings | null>(null)
+  const [installmentSettings, setInstallmentSettings] = useState<PaymentSettings | null>(null)
+  const [payoutbrPublicKey, setPayoutbrPublicKey] = useState<string | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodChoice>('pix')
   const [step, setStep] = useState<CheckoutStep>(1)
   const [scrollToId, setScrollToId] = useState<string | null>(null)
   const [cpf, setCpf] = useState('')
+  const [cardForm, setCardForm] = useState<CheckoutCardFormValues>({
+    holderName: '',
+    number: '',
+    expiry: '',
+    cvv: '',
+    installments: 1,
+  })
+  const [cardFieldErrors, setCardFieldErrors] = useState<
+    Partial<Record<keyof CheckoutCardFormValues, string>>
+  >({})
   const [pixResult, setPixResult] = useState<{
     orderId: string
     total: number
@@ -196,8 +213,29 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     paymentMethod === 'pix'
       ? calcPixDiscountAmount(merchandiseTotal, shippingPrice, pixDiscountPercent)
       : 0
-  const total = Math.max(merchandiseTotal + shippingPrice - pixDiscountAmount, 0)
-  const pixPayLabel = `Pagar com Pix - ${formatCurrency(total)}`
+  const baseTotal = Math.max(merchandiseTotal + shippingPrice - pixDiscountAmount, 0)
+  const cardEnabled =
+    paymentConfig?.cardEnabled !== false && Boolean(payoutbrPublicKey?.trim())
+  const installmentOptions = useMemo<InstallmentTableRow[]>(() => {
+    if (!installmentSettings || baseTotal <= 0 || paymentMethod !== 'card') return []
+    return buildInstallmentTable(baseTotal, installmentSettings)
+  }, [baseTotal, installmentSettings, paymentMethod])
+  const resolvedInstallments =
+    installmentOptions.find((row) => row.count === cardForm.installments)?.count ??
+    installmentOptions[0]?.count ??
+    1
+  const cardFormResolved: CheckoutCardFormValues =
+    cardForm.installments === resolvedInstallments
+      ? cardForm
+      : { ...cardForm, installments: resolvedInstallments }
+  const selectedInstallment =
+    installmentOptions.find((row) => row.count === resolvedInstallments) ?? null
+  const total =
+    paymentMethod === 'card' && selectedInstallment ? selectedInstallment.total : baseTotal
+  const pixPayLabel = `Pagar com Pix - ${formatCurrency(baseTotal)}`
+  const cardPayLabel = selectedInstallment
+    ? `Pagar ${selectedInstallment.label} - ${formatCurrency(selectedInstallment.total)}`
+    : `Pagar com cartão - ${formatCurrency(baseTotal)}`
 
   useEffect(() => {
     if (!scrollToId) return
@@ -253,12 +291,21 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       const { data } = await fetchApi<{
         checkout: CheckoutPaymentSettings
         installments: PaymentSettings
+        payoutbrPublicKey?: string | null
       }>('/api/checkout/config')
 
       if (data?.checkout) {
         setPaymentConfig(data.checkout)
-        // Sempre inicia no Pix: é o único método processável no momento.
         setPaymentMethod('pix')
+      }
+      if (data?.installments) {
+        setInstallmentSettings(data.installments)
+      }
+      if (typeof data?.payoutbrPublicKey === 'string' && data.payoutbrPublicKey.trim()) {
+        setPayoutbrPublicKey(data.payoutbrPublicKey.trim())
+      } else {
+        const fromEnv = process.env.NEXT_PUBLIC_PAYOUTBR_PUBLIC_KEY?.trim()
+        setPayoutbrPublicKey(fromEnv || null)
       }
     }
 
@@ -590,6 +637,124 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     })
   }
 
+  function validateCardForm(): boolean {
+    const errors: Partial<Record<keyof CheckoutCardFormValues, string>> = {}
+    const holder = cardForm.holderName.trim()
+    const number = onlyDigits(cardForm.number)
+    const expiryDigits = onlyDigits(cardForm.expiry)
+    const cvv = onlyDigits(cardForm.cvv)
+
+    if (holder.split(/\s+/).filter(Boolean).length < 2) {
+      errors.holderName = 'Informe nome e sobrenome como no cartão'
+    }
+    if (number.length < 13 || number.length > 19) {
+      errors.number = 'Número do cartão inválido'
+    }
+    if (expiryDigits.length !== 4) {
+      errors.expiry = 'Informe a validade no formato MM/AA'
+    } else {
+      const month = Number(expiryDigits.slice(0, 2))
+      const year = Number(`20${expiryDigits.slice(2)}`)
+      const now = new Date()
+      const exp = new Date(year, month, 0)
+      if (month < 1 || month > 12 || exp < new Date(now.getFullYear(), now.getMonth(), 1)) {
+        errors.expiry = 'Validade do cartão expirada ou inválida'
+      }
+    }
+    if (cvv.length < 3 || cvv.length > 4) {
+      errors.cvv = 'CVV inválido'
+    }
+    if (
+      installmentOptions.length > 0 &&
+      !installmentOptions.some((row) => row.count === resolvedInstallments)
+    ) {
+      errors.installments = 'Selecione uma opção de parcelamento'
+    }
+
+    setCardFieldErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
+  async function handleCardPayment() {
+    setSubmitError(null)
+    setCpfError(null)
+    setCardFieldErrors({})
+
+    if (!cardEnabled) {
+      setSubmitError('Pagamento com cartão indisponível no momento. Use Pix.')
+      return
+    }
+
+    if (!selectedShippingId || availableLines.length === 0) {
+      setSubmitError('Complete seus dados e selecione o frete antes de pagar')
+      return
+    }
+
+    const cpfResult = validateCheckoutCpf(cpf)
+    if (!cpfResult.ok) {
+      setCpfError(cpfResult.message)
+      return
+    }
+
+    if (!validateCardForm()) {
+      setSubmitError('Revise os dados do cartão')
+      return
+    }
+
+    if (!payoutbrPublicKey) {
+      setSubmitError('Pagamento com cartão indisponível no momento. Use Pix.')
+      return
+    }
+
+    setSubmitting(true)
+
+    try {
+      const expiryDigits = onlyDigits(cardForm.expiry)
+      const cardHash = await tokenizePayoutBrCard({
+        publicKey: payoutbrPublicKey,
+        card: {
+          number: onlyDigits(cardForm.number),
+          holderName: cardForm.holderName.trim(),
+          expMonth: Number(expiryDigits.slice(0, 2)),
+          expYear: Number(`20${expiryDigits.slice(2)}`),
+          cvv: onlyDigits(cardForm.cvv),
+        },
+      })
+
+      const { data, error, message } = await fetchApi<{
+        orderId: string
+        guestAccessToken?: string | null
+        total: number
+        discountAmount: number
+        status: 'paid' | 'waiting_payment'
+      }>('/api/checkout/card', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...buildCheckoutPayload(),
+          card_hash: cardHash,
+          installments: resolvedInstallments,
+        }),
+      })
+
+      if (error || !data?.orderId) {
+        setSubmitError(mapCheckoutApiError(error, message))
+        return
+      }
+
+      if (data.guestAccessToken) {
+        storeGuestOrderToken(data.orderId, data.guestAccessToken)
+      }
+
+      clearCart()
+      router.push(`/pedido/${data.orderId}/obrigado${guestOrderQuery(data.orderId)}`)
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Não foi possível processar o cartão'
+      setSubmitError(msg)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   /**
    * Deixa o Pix atual como está (segue válido e pagável pelo link salvo)
    * e libera a tela de checkout para um pedido novo — ex.: o cliente quer
@@ -677,7 +842,7 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
     if (pixResult) return
 
     if (paymentMethod === 'card') {
-      setSubmitError('Pagamento com cartão indisponível. Selecione Pix para concluir.')
+      await handleCardPayment()
       return
     }
 
@@ -765,9 +930,10 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
               submitting ||
               restoringPix ||
               availableLines.length === 0 ||
-              paymentMethod === 'card' ||
-              paymentConfig?.pixEnabled === false,
-            finalizeLabel: paymentMethod === 'pix' ? pixPayLabel : 'Finalizar pedido',
+              (paymentMethod === 'pix'
+                ? paymentConfig?.pixEnabled === false
+                : !cardEnabled),
+            finalizeLabel: paymentMethod === 'pix' ? pixPayLabel : cardPayLabel,
             finalizeLoading: submitting,
           }
 
@@ -1235,42 +1401,58 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                       </div>
                     )}
 
-                    <div
-                      className={`rounded-2xl border transition-colors ${
-                        paymentMethod === 'card' ? 'border-amber-400' : 'border-[#f3d0dc]'
-                      }`}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod('card')}
-                        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
+                    {cardEnabled && (
+                      <div
+                        className={`rounded-2xl border transition-colors ${
+                          paymentMethod === 'card' ? 'border-brand' : 'border-[#f3d0dc]'
+                        }`}
                       >
-                        <span className="flex min-w-0 items-center gap-2">
-                          <span
-                            className={`size-4 shrink-0 rounded-full border ${
-                              paymentMethod === 'card'
-                                ? 'border-amber-500 bg-amber-500'
-                                : 'border-[#e7d5dc] bg-white'
-                            }`}
-                            aria-hidden
-                          />
-                          <span className="min-w-0">
-                            <span className="block text-sm font-semibold text-text-primary">
-                              Cartão de crédito
-                            </span>
-                            <span className="mt-0.5 block text-xs font-medium text-text-muted">
-                              Indisponível no momento
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPaymentMethod('card')
+                            setCardFieldErrors({})
+                            setSubmitError(null)
+                          }}
+                          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
+                        >
+                          <span className="flex min-w-0 items-center gap-2">
+                            <span
+                              className={`size-4 shrink-0 rounded-full border ${
+                                paymentMethod === 'card'
+                                  ? 'border-brand bg-brand shadow-[inset_0_0_0_3px_white]'
+                                  : 'border-[#e7d5dc] bg-white'
+                              }`}
+                              aria-hidden
+                            />
+                            <span className="min-w-0">
+                              <span className="block text-sm font-semibold text-text-primary">
+                                Cartão de crédito
+                              </span>
+                              <span className="mt-0.5 block text-xs font-medium text-text-muted">
+                                Em até 12x com juros
+                              </span>
                             </span>
                           </span>
-                        </span>
-                        <CreditCard className="size-5 shrink-0 text-text-muted" aria-hidden />
-                      </button>
-                      {paymentMethod === 'card' && (
-                        <div className="border-t border-[#f3d0dc] px-4 pb-4 pt-3">
-                          <CardUnavailablePanel onUsePix={() => setPaymentMethod('pix')} />
-                        </div>
-                      )}
-                    </div>
+                          <CreditCard className="size-5 shrink-0 text-text-muted" aria-hidden />
+                        </button>
+                        {paymentMethod === 'card' && (
+                          <div className="border-t border-[#f3d0dc] px-4 pb-4 pt-3">
+                            <CheckoutCardPanel
+                              baseTotal={baseTotal}
+                              installmentOptions={installmentOptions}
+                              values={cardFormResolved}
+                              errors={cardFieldErrors}
+                              disabled={submitting}
+                              onChange={(next) => {
+                                setCardForm(next)
+                                setCardFieldErrors({})
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -1360,12 +1542,13 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                       submitting ||
                       restoringPix ||
                       availableLines.length === 0 ||
-                      paymentMethod === 'card' ||
-                      paymentConfig?.pixEnabled === false
+                      (paymentMethod === 'pix'
+                        ? paymentConfig?.pixEnabled === false
+                        : !cardEnabled)
                     }
                     onClick={() => void handleFinalizeOrder()}
                   >
-                    {paymentMethod === 'pix' ? pixPayLabel : 'Finalizar pedido'}
+                    {paymentMethod === 'pix' ? pixPayLabel : cardPayLabel}
                   </Button>
                   <p className="text-center text-[12px] text-text-muted">
                     Compra segura · Seus dados estão protegidos

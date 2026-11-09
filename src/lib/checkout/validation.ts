@@ -116,8 +116,12 @@ export function mapCheckoutApiError(error: string | null, message?: string | nul
     CARD_DISABLED: 'Pagamento com cartão está temporariamente indisponível.',
     CARD_UNAVAILABLE:
       'Pagamento com cartão indisponível no momento. Por favor, finalize a compra com Pix.',
+    CARD_REFUSED: 'Pagamento recusado pela operadora. Tente outro cartão ou use Pix.',
+    INVALID_CARD_TOKEN: 'Não foi possível validar o cartão. Tente novamente.',
+    INVALID_INSTALLMENTS: 'Selecione uma opção de parcelamento válida.',
     INVALID_CPF: 'CPF inválido. Confira os números digitados.',
     ALLOWPAY_LINK_FAILED: 'Não foi possível vincular o pagamento ao pedido. Tente novamente.',
+    PAYOUTBR_LINK_FAILED: 'Não foi possível vincular o pagamento ao pedido. Tente novamente.',
     PAYMENT_PROVIDER_ERROR:
       'Erro no processamento do pagamento. Tente novamente em instantes.',
     VALIDATION_ERROR: message ?? 'Verifique os dados informados.',

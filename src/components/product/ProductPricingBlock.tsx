@@ -1,6 +1,8 @@
 'use client'
 
 import { CreditCard } from 'lucide-react'
+import { PaymentDetailsTrigger } from '@/components/payment/PaymentDetailsModal'
+import { PixIcon } from '@/components/product/PixDiscountBadge'
 import { formatCurrency } from '@/lib/products/format'
 import { calcInstallmentDisplay } from '@/lib/payment/installments'
 import { calcPixPrice } from '@/lib/payment/product-payment-summary'
@@ -30,6 +32,7 @@ export function ProductPricingBlock({
   const installment = calcInstallmentDisplay(price, paymentSettings)
   const cardEnabled = checkoutSettings.cardEnabled !== false
   const showInstallments = cardEnabled && installment != null && installment.count > 1
+  const showPaymentPopup = pixEnabled || showInstallments
 
   return (
     <div className="space-y-2">
@@ -47,9 +50,7 @@ export function ProductPricingBlock({
         ) : null}
         <p className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           {listPrice != null ? (
-            <span className="text-sm font-bold uppercase tracking-wide text-text-primary">
-              Por
-            </span>
+            <span className="text-sm font-bold uppercase tracking-wide text-text-primary">Por</span>
           ) : null}
           <span className="text-[34px] font-black leading-none tracking-tight text-brand tabular-nums md:text-[40px]">
             {formatCurrency(price)}
@@ -58,12 +59,15 @@ export function ProductPricingBlock({
       </div>
 
       {showPixPrice && pixSavings > 0 ? (
-        <p className="text-[13px] text-text-secondary">
-          No Pix:{' '}
-          <span className="font-semibold text-text-primary tabular-nums">
-            {formatCurrency(pixPrice)}
+        <p className="flex items-center gap-1.5 text-[13px] text-text-secondary">
+          <PixIcon className="size-3.5 shrink-0 text-[#178a45]" />
+          <span>
+            No Pix:{' '}
+            <span className="font-semibold text-text-primary tabular-nums">
+              {formatCurrency(pixPrice)}
+            </span>
+            <span className="text-text-muted"> (−{pixDiscount}%)</span>
           </span>
-          <span className="text-text-muted"> (−{pixDiscount}%)</span>
         </p>
       ) : null}
 
@@ -81,6 +85,23 @@ export function ProductPricingBlock({
             ) : null}
           </span>
         </p>
+      ) : null}
+
+      {showPaymentPopup ? (
+        <PaymentDetailsTrigger
+          price={price}
+          paymentSettings={paymentSettings}
+          checkoutSettings={checkoutSettings}
+          layout="product"
+          triggerContent={
+            <span className="mt-1 inline-flex items-center gap-1 text-[13px] font-semibold text-brand underline-offset-2 group-hover:underline">
+              Ver formas de pagamento
+              <span aria-hidden className="text-base leading-none">
+                ›
+              </span>
+            </span>
+          }
+        />
       ) : null}
     </div>
   )

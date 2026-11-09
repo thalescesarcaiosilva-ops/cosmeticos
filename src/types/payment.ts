@@ -40,10 +40,23 @@ export type InstallmentDisplay = {
 
 export const DEFAULT_PAYMENT_SETTINGS: PaymentSettings = {
   maxInstallments: 12,
-  interestFreeInstallments: 5,
+  interestFreeInstallments: 1,
   minInstallmentValue: 5,
   monthlyInterestRate: 0,
-  installmentInterestRates: {},
+  /** Taxas totais (%) por parcela — alinhadas à tabela PayoutBR (repasse no cartão). */
+  installmentInterestRates: {
+    2: 24.15,
+    3: 25.63,
+    4: 26,
+    5: 26.85,
+    6: 27.42,
+    7: 27.5,
+    8: 29.5,
+    9: 28.4,
+    10: 36,
+    11: 37,
+    12: 38,
+  },
   installmentTextInterestFree: '{count}x de {value} sem juros',
   installmentTextWithInterest: '{count}x de {value} com juros',
   paymentMethods: [],

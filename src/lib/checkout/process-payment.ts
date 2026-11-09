@@ -9,7 +9,16 @@ import {
   createCheckoutOrder,
 } from '@/lib/checkout/create-order'
 import { assertOrderAccess, OrderAccessError } from '@/lib/checkout/order-access'
-import { getCheckoutPaymentSettings } from '@/lib/payment/queries'
+import { calcInstallmentTotal } from '@/lib/payment/installment-rates'
+import { buildInstallmentTable } from '@/lib/payment/installment-table'
+import { getCheckoutPaymentSettings, getPaymentSettings } from '@/lib/payment/queries'
+import {
+  createPayoutBrCardTransaction,
+  getPayoutBrTransaction,
+  isPayoutBrFailedStatus,
+  isPayoutBrPaidStatus,
+  PayoutBrError,
+} from '@/lib/payoutbr/client'
 import { getSiteUrl } from '@/lib/seo/site-url'
 import { createAdminClient } from '@/lib/supabase/admin'
 import {
@@ -40,6 +49,12 @@ type CheckoutInput = {
   userId?: string | null
   addressId?: string | null
   couponCode?: string | null
+}
+
+type CardCheckoutInput = CheckoutInput & {
+  cardHash: string
+  installments: number
+  clientIp?: string | null
 }
 
 function onlyDigits(value: string): string {
@@ -87,6 +102,32 @@ async function attachPixTransactionToOrder(params: {
   if (error) {
     await cancelCheckoutOrder(params.orderId)
     throw new CheckoutError('Falha ao vincular pagamento ao pedido', 'VENO_LINK_FAILED')
+  }
+}
+
+async function attachCardTransactionToOrder(params: {
+  orderId: string
+  transactionId: number
+  secureId?: string | null
+  customerDocument: string
+  chargedTotal: number
+}) {
+  const admin = createAdminClient()
+  const { error } = await admin
+    .from('orders')
+    .update({
+      payout_transaction_id: params.transactionId,
+      payout_secure_id: params.secureId ?? null,
+      payment_method: 'credit_card',
+      customer_document: onlyDigits(params.customerDocument),
+      total: params.chargedTotal,
+    })
+    .eq('id', params.orderId)
+    .eq('status', 'pending')
+
+  if (error) {
+    await cancelCheckoutOrder(params.orderId)
+    throw new CheckoutError('Falha ao vincular pagamento ao pedido', 'PAYOUTBR_LINK_FAILED')
   }
 }
 
@@ -326,6 +367,170 @@ export async function processPixCheckout(params: CheckoutInput) {
   }
 }
 
+export async function processCardCheckout(params: CardCheckoutInput) {
+  const siteUrl = getSiteUrl()
+  if (!siteUrl) throw new CheckoutError('NEXT_PUBLIC_SITE_URL não configurada', 'SITE_URL_MISSING')
+
+  const checkoutSettings = await getCheckoutPaymentSettings()
+  if (!checkoutSettings.cardEnabled) {
+    throw new CheckoutError('Pagamento com cartão indisponível', 'CARD_DISABLED')
+  }
+
+  const document = onlyDigits(params.document)
+  if (!isValidCpf(document)) {
+    throw new CheckoutError('CPF inválido', 'INVALID_CPF')
+  }
+
+  const cardHash = params.cardHash.trim()
+  if (cardHash.length < 20) {
+    throw new CheckoutError('Token do cartão inválido', 'INVALID_CARD_TOKEN')
+  }
+
+  const { cart, availableLines } = await prepareCheckoutCart(params.items, params.bundlePairs)
+
+  let couponCode: string | null = null
+  let couponDiscount = 0
+  const requestedCoupon = params.couponCode?.trim() ?? ''
+  if (requestedCoupon) {
+    const coupon = await resolveActiveCoupon(requestedCoupon, cart.merchandiseTotal)
+    if (!coupon) {
+      throw new CheckoutError('Cupom inválido', 'INVALID_COUPON')
+    }
+    couponCode = coupon.code
+    couponDiscount = coupon.discountAmount
+  }
+
+  const order = await createCheckoutOrder({
+    shippingMethodId: params.shippingMethodId,
+    items: availableLines.map((line) => ({
+      product_id: line.productId,
+      quantity: line.quantity,
+    })),
+    discountAmount: roundMoney(
+      cart.bundleDiscountAmount + (cart.quantityDiscountAmount ?? 0) + couponDiscount
+    ),
+    pixDiscountPercent: 0,
+    usedBuyTogether: cart.bundleDiscountAmount > 0,
+    userId: params.userId,
+    addressId: params.addressId,
+    customer: params.customer,
+    shippingAddress: params.shippingAddress,
+    document: params.document,
+  })
+
+  if (couponCode) {
+    await createAdminClient().from('orders').update({ coupon_code: couponCode }).eq('id', order.id)
+  }
+
+  try {
+    const paymentSettings = await getPaymentSettings()
+    const installmentOptions = buildInstallmentTable(order.total, paymentSettings)
+    const selected = installmentOptions.find((row) => row.count === params.installments)
+    if (!selected) {
+      throw new CheckoutError('Número de parcelas inválido para este valor', 'INVALID_INSTALLMENTS')
+    }
+
+    const { total: chargedTotal } = calcInstallmentTotal(
+      order.total,
+      params.installments,
+      paymentSettings
+    )
+    const amountCents = toCents(chargedTotal)
+    const addr = params.shippingAddress
+
+    const transaction = await createPayoutBrCardTransaction({
+      amount: amountCents,
+      installments: params.installments,
+      cardHash,
+      customer: {
+        name: params.customer.name,
+        email: params.customer.email,
+        phone: onlyDigits(params.customer.phone),
+        document: { number: document, type: 'cpf' },
+        externalRef: order.id,
+      },
+      items: [
+        {
+          title: buildPixDescription(availableLines).slice(0, 120) || 'Pedido loja',
+          unitPrice: amountCents,
+          quantity: 1,
+          tangible: true,
+          externalRef: order.id,
+        },
+      ],
+      shipping: {
+        fee: toCents(order.shipping_price),
+        address: {
+          street: addr.street,
+          streetNumber: addr.number,
+          complement: addr.complement || null,
+          zipCode: onlyDigits(addr.zip_code),
+          neighborhood: addr.neighborhood,
+          city: addr.city,
+          state: addr.state.toUpperCase(),
+          country: 'br',
+        },
+      },
+      postbackUrl: `${siteUrl}/api/webhooks/payoutbr`,
+      metadata: order.id,
+      ip: params.clientIp ?? null,
+    })
+
+    await attachCardTransactionToOrder({
+      orderId: order.id,
+      transactionId: transaction.id,
+      secureId: transaction.secureId,
+      customerDocument: params.document,
+      chargedTotal,
+    })
+
+    if (isPayoutBrPaidStatus(transaction.status)) {
+      await confirmCheckoutPayment({
+        orderId: order.id,
+        paymentMethod: 'credit_card',
+        payoutTransactionId: transaction.id,
+      })
+
+      return {
+        orderId: order.id,
+        guestAccessToken: order.guest_access_token,
+        total: chargedTotal,
+        discountAmount: order.discount_amount,
+        transactionId: transaction.id,
+        installments: params.installments,
+        status: 'paid' as const,
+      }
+    }
+
+    if (isPayoutBrFailedStatus(transaction.status)) {
+      await cancelCheckoutOrder(order.id)
+      const reason =
+        transaction.refusedReason?.description?.trim() ||
+        'Pagamento recusado pela operadora. Tente outro cartão ou use Pix.'
+      throw new CheckoutError(reason, 'CARD_REFUSED')
+    }
+
+    return {
+      orderId: order.id,
+      guestAccessToken: order.guest_access_token,
+      total: chargedTotal,
+      discountAmount: order.discount_amount,
+      transactionId: transaction.id,
+      installments: params.installments,
+      status: 'waiting_payment' as const,
+    }
+  } catch (e) {
+    if (e instanceof CheckoutError) {
+      if (e.code !== 'CARD_REFUSED') {
+        await cancelCheckoutOrder(order.id).catch(() => undefined)
+      }
+      throw e
+    }
+    await cancelCheckoutOrder(order.id).catch(() => undefined)
+    throw e
+  }
+}
+
 export async function getOrderPaymentStatus(params: {
   orderId: string
   userId?: string | null
@@ -348,7 +553,7 @@ export async function getOrderPaymentStatus(params: {
   const { data: order, error } = await admin
     .from('orders')
     .select(
-      'id, status, payment_status, payment_method, total, discount_amount, pix_qr_code, pix_expiration, veno_deposit_id, allowpay_txid'
+      'id, status, payment_status, payment_method, total, discount_amount, pix_qr_code, pix_expiration, veno_deposit_id, allowpay_txid, payout_transaction_id'
     )
     .eq('id', params.orderId)
     .maybeSingle()
@@ -370,6 +575,55 @@ export async function getOrderPaymentStatus(params: {
 
   if (order.status === 'confirmed' || order.payment_status === 'paid') {
     return { ...baseResult, status: 'paid' as const }
+  }
+
+  if (order.payment_method === 'credit_card') {
+    const payoutTransactionId =
+      typeof order.payout_transaction_id === 'number'
+        ? order.payout_transaction_id
+        : Number(order.payout_transaction_id)
+
+    if (!Number.isFinite(payoutTransactionId) || payoutTransactionId <= 0) {
+      return { ...baseResult, status: 'pending' as const }
+    }
+
+    let transactionStatus: string | null = null
+    try {
+      const transaction = await getPayoutBrTransaction(payoutTransactionId)
+      transactionStatus = transaction.status ?? null
+    } catch (e) {
+      if (!(e instanceof PayoutBrError)) throw e
+      return { ...baseResult, status: 'pending' as const, transactionStatus: null }
+    }
+
+    if (isPayoutBrPaidStatus(transactionStatus)) {
+      if (order.status === 'pending') {
+        await confirmCheckoutPayment({
+          orderId: order.id,
+          paymentMethod: 'credit_card',
+          payoutTransactionId,
+        })
+      }
+      return {
+        ...baseResult,
+        status: 'paid' as const,
+        paymentStatus: 'paid',
+        orderStatus: 'confirmed',
+        transactionStatus,
+      }
+    }
+
+    if (isPayoutBrFailedStatus(transactionStatus) && order.status === 'pending') {
+      await cancelCheckoutOrder(order.id)
+      return {
+        ...baseResult,
+        status: 'pending' as const,
+        orderStatus: 'cancelled',
+        transactionStatus,
+      }
+    }
+
+    return { ...baseResult, status: 'pending' as const, transactionStatus }
   }
 
   const depositId = order.veno_deposit_id as string | null
@@ -415,4 +669,4 @@ export async function getOrderPaymentStatus(params: {
   return { ...baseResult, status: 'pending' as const, transactionStatus }
 }
 
-export { VenoError }
+export { VenoError, PayoutBrError }

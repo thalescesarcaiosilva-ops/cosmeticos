@@ -108,13 +108,14 @@ export async function cancelCheckoutOrder(orderId: string): Promise<void> {
 export async function confirmCheckoutPayment(params: {
   orderId: string
   paymentMethod?: string | null
+  payoutTransactionId?: number | null
 }): Promise<void> {
   const admin = createAdminClient()
   await admin.rpc('confirm_order_payment', {
     p_order_id: params.orderId,
     p_payment_method: params.paymentMethod ?? null,
-    // A Veno usa deposit id em orders.veno_deposit_id (txid também em allowpay_txid por compat).
-    p_payout_transaction_id: null,
+    // Cartão (PayoutBR): grava payout_transaction_id. Pix (Veno) deixa null.
+    p_payout_transaction_id: params.payoutTransactionId ?? null,
   })
 
   const { data: order } = await admin
@@ -211,7 +212,9 @@ export async function findOrderById(orderId: string) {
   const admin = createAdminClient()
   const { data } = await admin
     .from('orders')
-    .select('id, status, payment_status, user_id, allowpay_txid, veno_deposit_id')
+    .select(
+      'id, status, payment_status, user_id, allowpay_txid, veno_deposit_id, payout_transaction_id, payout_secure_id'
+    )
     .eq('id', orderId)
     .maybeSingle()
   return data
@@ -221,7 +224,9 @@ export async function findOrderByAllowpayTxid(txid: string) {
   const admin = createAdminClient()
   const { data } = await admin
     .from('orders')
-    .select('id, status, payment_status, user_id, allowpay_txid, veno_deposit_id')
+    .select(
+      'id, status, payment_status, user_id, allowpay_txid, veno_deposit_id, payout_transaction_id, payout_secure_id'
+    )
     .eq('allowpay_txid', txid)
     .maybeSingle()
   return data
@@ -231,8 +236,34 @@ export async function findOrderByVenoDepositId(depositId: string) {
   const admin = createAdminClient()
   const { data } = await admin
     .from('orders')
-    .select('id, status, payment_status, user_id, allowpay_txid, veno_deposit_id')
+    .select(
+      'id, status, payment_status, user_id, allowpay_txid, veno_deposit_id, payout_transaction_id, payout_secure_id'
+    )
     .eq('veno_deposit_id', depositId)
+    .maybeSingle()
+  return data
+}
+
+export async function findOrderByPayoutTransactionId(transactionId: number) {
+  const admin = createAdminClient()
+  const { data } = await admin
+    .from('orders')
+    .select(
+      'id, status, payment_status, user_id, allowpay_txid, veno_deposit_id, payout_transaction_id, payout_secure_id'
+    )
+    .eq('payout_transaction_id', transactionId)
+    .maybeSingle()
+  return data
+}
+
+export async function findOrderByPayoutSecureId(secureId: string) {
+  const admin = createAdminClient()
+  const { data } = await admin
+    .from('orders')
+    .select(
+      'id, status, payment_status, user_id, allowpay_txid, veno_deposit_id, payout_transaction_id, payout_secure_id'
+    )
+    .eq('payout_secure_id', secureId)
     .maybeSingle()
   return data
 }

@@ -17,7 +17,11 @@ export async function fetchApi<T>(
     const json = (await res.json()) as ApiSuccess<T> | ApiFailure
 
     if ('error' in json && json.error) {
-      return { data: null, error: json.message, message: null }
+      return {
+        data: null,
+        error: json.code ?? json.message,
+        message: json.message ?? null,
+      }
     }
 
     const success = json as ApiSuccess<T>

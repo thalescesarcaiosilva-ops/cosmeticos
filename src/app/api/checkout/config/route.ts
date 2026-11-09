@@ -1,6 +1,7 @@
 import { jsonSuccess } from '@/lib/api/response'
 import { getCheckoutPaymentSettings, getPaymentSettings } from '@/lib/payment/queries'
 import { buildInstallmentTable } from '@/lib/payment/installment-table'
+import { getPayoutBrPublicKey } from '@/lib/payoutbr/client'
 
 export async function GET() {
   const [checkoutSettings, paymentSettings] = await Promise.all([
@@ -11,6 +12,7 @@ export async function GET() {
   return jsonSuccess({
     checkout: checkoutSettings,
     installments: paymentSettings,
+    payoutbrPublicKey: getPayoutBrPublicKey(),
   })
 }
 
