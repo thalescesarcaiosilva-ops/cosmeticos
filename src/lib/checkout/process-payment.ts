@@ -14,6 +14,7 @@ import { buildInstallmentTable } from '@/lib/payment/installment-table'
 import { getCheckoutPaymentSettings, getPaymentSettings } from '@/lib/payment/queries'
 import {
   createPayoutBrCardTransaction,
+  getPayoutBrPostbackUrl,
   getPayoutBrTransaction,
   isPayoutBrFailedStatus,
   isPayoutBrPaidStatus,
@@ -373,8 +374,12 @@ export async function processPixCheckout(params: CheckoutInput) {
 }
 
 export async function processCardCheckout(params: CardCheckoutInput) {
-  const siteUrl = getSiteUrl()
-  if (!siteUrl) throw new CheckoutError('NEXT_PUBLIC_SITE_URL não configurada', 'SITE_URL_MISSING')
+  let postbackUrl: string
+  try {
+    postbackUrl = getPayoutBrPostbackUrl()
+  } catch {
+    throw new CheckoutError('NEXT_PUBLIC_SITE_URL não configurada', 'SITE_URL_MISSING')
+  }
 
   const checkoutSettings = await getCheckoutPaymentSettings()
   if (!checkoutSettings.cardEnabled) {
@@ -476,7 +481,7 @@ export async function processCardCheckout(params: CardCheckoutInput) {
           country: 'br',
         },
       },
-      postbackUrl: `${siteUrl}/api/webhooks/payoutbr`,
+      postbackUrl,
       metadata: order.id,
       ip: params.clientIp ?? null,
     })

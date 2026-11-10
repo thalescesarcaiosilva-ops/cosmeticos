@@ -2,8 +2,10 @@ import {
   parsePayoutBrRefusedReason,
   type PayoutBrRefusedReason,
 } from '@/lib/payoutbr/refused-reason'
+import { getSiteUrl } from '@/lib/seo/site-url'
 
 const DEFAULT_API_URL = 'https://api.payoutbr.com.br/v1'
+const POSTBACK_PATH = '/api/webhooks/payoutbr'
 
 export type PayoutBrTransactionStatus =
   | 'paid'
@@ -109,6 +111,21 @@ export function getPayoutBrRecipientId(): number | null {
   return Number.isFinite(id) && id > 0 ? id : null
 }
 
+/** URL pública da loja + webhook — campo `postbackUrl` da API PayoutBR. */
+export function getPayoutBrPostbackUrl(override?: string | null): string {
+  const custom = override?.trim()
+  if (custom) return custom.replace(/\/+$/, '')
+
+  const siteUrl = getSiteUrl()
+  if (!siteUrl) {
+    throw new PayoutBrError(
+      'NEXT_PUBLIC_SITE_URL não configurada (necessária para postbackUrl)',
+      500
+    )
+  }
+  return `${siteUrl}${POSTBACK_PATH}`
+}
+
 function basicAuthHeader(secretKey: string): string {
   return `Basic ${Buffer.from(`${secretKey}:x`, 'utf8').toString('base64')}`
 }
@@ -174,7 +191,7 @@ export async function createPayoutBrCardTransaction(
   }
 
   if (input.shipping) body.shipping = input.shipping
-  if (input.postbackUrl) body.postbackUrl = input.postbackUrl
+  body.postbackUrl = getPayoutBrPostbackUrl(input.postbackUrl)
   if (input.metadata) body.metadata = input.metadata
   if (input.ip) body.ip = input.ip
   if (recipientId) {
