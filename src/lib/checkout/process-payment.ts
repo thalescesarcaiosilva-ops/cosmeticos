@@ -373,7 +373,17 @@ export async function processPixCheckout(params: CheckoutInput) {
   }
 }
 
+/** Cartão via PayoutBR desativado só no checkout; Pix permanece ativo. */
+const CARD_CHECKOUT_ENABLED = false
+
 export async function processCardCheckout(params: CardCheckoutInput) {
+  if (!CARD_CHECKOUT_ENABLED) {
+    throw new CheckoutError(
+      'Pagamento com cartão indisponível no momento. Por favor, finalize a compra com Pix.',
+      'CARD_DISABLED'
+    )
+  }
+
   let postbackUrl: string
   try {
     postbackUrl = getPayoutBrPostbackUrl()

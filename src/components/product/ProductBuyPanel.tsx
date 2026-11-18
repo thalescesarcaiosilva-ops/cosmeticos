@@ -14,14 +14,6 @@ import type { CheckoutPaymentSettings, PaymentSettings } from '@/types/payment'
 import type { BuyTogetherSettings } from '@/types/buy-together-settings'
 import type { ProductPurchaseAssurances } from '@/types/product-assurances'
 
-function formatSizeLabel(label: string) {
-  return label
-    .trim()
-    .replace(/\bml\b/gi, 'mL')
-    .replace(/\bkg\b/gi, 'kg')
-    .replace(/\bg\b/gi, 'g')
-}
-
 type ProductBuyPanelProps = {
   productId: string
   productName: string
@@ -106,9 +98,9 @@ export function ProductBuyPanel({
           {sizeLabel ? (
             <div className="flex items-center gap-3 border-t border-dashed border-[#e8dde2] pt-4">
               <span className="text-sm text-text-secondary">Tamanho</span>
-              <span className="pointer-events-none inline-flex size-12 select-none items-center justify-center rounded-full border-2 border-brand bg-white px-1 text-center text-[12px] font-bold leading-tight text-brand">
+              <span className="pointer-events-none inline-flex size-12 select-none items-center justify-center rounded-full border-2 border-[#2563eb] bg-white px-1 text-center text-[12px] font-bold leading-tight text-[#2563eb]">
                 <span className="sr-only">Conteúdo: </span>
-                {formatSizeLabel(sizeLabel)}
+                {sizeLabel.trim()}
               </span>
             </div>
           ) : null}

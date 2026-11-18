@@ -13,6 +13,7 @@ import {
   CheckoutCardPanel,
   type CheckoutCardFormValues,
 } from '@/components/checkout/CheckoutCardPanel'
+import { CardUnavailablePanel } from '@/components/checkout/CardUnavailablePanel'
 import { CheckoutStepper } from '@/components/checkout/CheckoutStepper'
 import { CheckoutTopBar } from '@/components/checkout/CheckoutTopBar'
 import { PixDiscountBadge } from '@/components/product/PixDiscountBadge'
@@ -214,12 +215,18 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
       ? calcPixDiscountAmount(merchandiseTotal, shippingPrice, pixDiscountPercent)
       : 0
   const baseTotal = Math.max(merchandiseTotal + shippingPrice - pixDiscountAmount, 0)
+  // Cartão via PayoutBR desativado só no checkout — outras páginas seguem com parcelamento normal.
+  const cardCheckoutEnabled = false
   const cardEnabled =
-    paymentConfig?.cardEnabled !== false && Boolean(payoutbrPublicKey?.trim())
+    cardCheckoutEnabled &&
+    paymentConfig?.cardEnabled !== false &&
+    Boolean(payoutbrPublicKey?.trim())
   const installmentOptions = useMemo<InstallmentTableRow[]>(() => {
-    if (!installmentSettings || baseTotal <= 0 || paymentMethod !== 'card') return []
+    if (!cardEnabled || !installmentSettings || baseTotal <= 0 || paymentMethod !== 'card') {
+      return []
+    }
     return buildInstallmentTable(baseTotal, installmentSettings)
-  }, [baseTotal, installmentSettings, paymentMethod])
+  }, [baseTotal, cardEnabled, installmentSettings, paymentMethod])
   const resolvedInstallments =
     installmentOptions.find((row) => row.count === cardForm.installments)?.count ??
     installmentOptions[0]?.count ??
@@ -233,9 +240,6 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
   const total =
     paymentMethod === 'card' && selectedInstallment ? selectedInstallment.total : baseTotal
   const pixPayLabel = `Pagar com Pix - ${formatCurrency(baseTotal)}`
-  const cardPayLabel = selectedInstallment
-    ? `Pagar ${selectedInstallment.label} - ${formatCurrency(selectedInstallment.total)}`
-    : `Pagar com cartão - ${formatCurrency(baseTotal)}`
 
   useEffect(() => {
     if (!scrollToId) return
@@ -939,10 +943,9 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
               submitting ||
               restoringPix ||
               availableLines.length === 0 ||
-              (paymentMethod === 'pix'
-                ? paymentConfig?.pixEnabled === false
-                : !cardEnabled),
-            finalizeLabel: paymentMethod === 'pix' ? pixPayLabel : cardPayLabel,
+              paymentMethod === 'card' ||
+              paymentConfig?.pixEnabled === false,
+            finalizeLabel: paymentMethod === 'pix' ? pixPayLabel : 'Finalizar pedido',
             finalizeLoading: submitting,
           }
 
@@ -1412,43 +1415,49 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                       </div>
                     )}
 
-                    {cardEnabled && (
-                      <div
-                        className={`rounded-2xl border transition-colors ${
-                          paymentMethod === 'card' ? 'border-brand' : 'border-[#f3d0dc]'
-                        }`}
+                    <div
+                      className={`rounded-2xl border transition-colors ${
+                        paymentMethod === 'card'
+                          ? cardEnabled
+                            ? 'border-brand'
+                            : 'border-amber-400'
+                          : 'border-[#f3d0dc]'
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPaymentMethod('card')
+                          setCardFieldErrors({})
+                          setSubmitError(null)
+                        }}
+                        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
                       >
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setPaymentMethod('card')
-                            setCardFieldErrors({})
-                            setSubmitError(null)
-                          }}
-                          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
-                        >
-                          <span className="flex min-w-0 items-center gap-2">
-                            <span
-                              className={`size-4 shrink-0 rounded-full border ${
-                                paymentMethod === 'card'
+                        <span className="flex min-w-0 items-center gap-2">
+                          <span
+                            className={`size-4 shrink-0 rounded-full border ${
+                              paymentMethod === 'card'
+                                ? cardEnabled
                                   ? 'border-brand bg-brand shadow-[inset_0_0_0_3px_white]'
-                                  : 'border-[#e7d5dc] bg-white'
-                              }`}
-                              aria-hidden
-                            />
-                            <span className="min-w-0">
-                              <span className="block text-sm font-semibold text-text-primary">
-                                Cartão de crédito
-                              </span>
-                              <span className="mt-0.5 block text-xs font-medium text-text-muted">
-                                Em até 12x com juros
-                              </span>
+                                  : 'border-amber-500 bg-amber-500'
+                                : 'border-[#e7d5dc] bg-white'
+                            }`}
+                            aria-hidden
+                          />
+                          <span className="min-w-0">
+                            <span className="block text-sm font-semibold text-text-primary">
+                              Cartão de crédito
+                            </span>
+                            <span className="mt-0.5 block text-xs font-medium text-text-muted">
+                              {cardEnabled ? 'Em até 12x com juros' : 'Indisponível no momento'}
                             </span>
                           </span>
-                          <CreditCard className="size-5 shrink-0 text-text-muted" aria-hidden />
-                        </button>
-                        {paymentMethod === 'card' && (
-                          <div className="border-t border-[#f3d0dc] px-4 pb-4 pt-3">
+                        </span>
+                        <CreditCard className="size-5 shrink-0 text-text-muted" aria-hidden />
+                      </button>
+                      {paymentMethod === 'card' && (
+                        <div className="border-t border-[#f3d0dc] px-4 pb-4 pt-3">
+                          {cardEnabled ? (
                             <CheckoutCardPanel
                               baseTotal={baseTotal}
                               installmentOptions={installmentOptions}
@@ -1460,10 +1469,12 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                                 setCardFieldErrors({})
                               }}
                             />
-                          </div>
-                        )}
-                      </div>
-                    )}
+                          ) : (
+                            <CardUnavailablePanel onUsePix={() => setPaymentMethod('pix')} />
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
 
@@ -1553,13 +1564,12 @@ export function CheckoutView({ storeName, logo }: CheckoutViewProps) {
                       submitting ||
                       restoringPix ||
                       availableLines.length === 0 ||
-                      (paymentMethod === 'pix'
-                        ? paymentConfig?.pixEnabled === false
-                        : !cardEnabled)
+                      paymentMethod === 'card' ||
+                      paymentConfig?.pixEnabled === false
                     }
                     onClick={() => void handleFinalizeOrder()}
                   >
-                    {paymentMethod === 'pix' ? pixPayLabel : cardPayLabel}
+                    {paymentMethod === 'pix' ? pixPayLabel : 'Finalizar pedido'}
                   </Button>
                   <p className="text-center text-[12px] text-text-muted">
                     Compra segura · Seus dados estão protegidos
